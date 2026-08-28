@@ -12,7 +12,11 @@
     "typecheck": "pnpm --filter \"./packages/**\" run typecheck",
     "lint": "eslint packages/*/src/**/*.ts",
     "format": "prettier --write \"packages/*/src/**/*.{ts,tsx}\" \"examples/**/*.{ts,tsx,vue,html,css}\"",
-    "clean": "pnpm --filter \"./packages/**\" run clean"
+    "clean": "pnpm --filter \"./packages/**\" run clean",
+    "release": "node scripts/release.js patch",
+    "release:patch": "node scripts/release.js patch",
+    "release:minor": "node scripts/release.js minor",
+    "release:major": "node scripts/release.js major"
   },
   "devDependencies": {
     "@types/node": "^22.13.0",
