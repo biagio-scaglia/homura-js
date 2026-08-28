@@ -1,6 +1,6 @@
 {
   "name": "@homura-js/vanilla",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Vanilla JavaScript and DOM helpers for HomuraJS",
   "type": "module",
   "main": "./dist/index.cjs",
