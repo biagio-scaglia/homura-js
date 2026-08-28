@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HomuraJS — Interactive DevTools Live Studio</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-dark: #07040d;
+      --bg-card: rgba(20, 12, 36, 0.78);
+      --bg-card-hover: rgba(32, 18, 56, 0.9);
+      --border: rgba(168, 85, 247, 0.22);
+      --border-accent: rgba(168, 85, 247, 0.55);
+      --text: #f3e8ff;
+      --text-muted: #a89bc4;
+      --accent: #a855f7;
+      --accent-glow: rgba(168, 85, 247, 0.35);
+      --accent-grad: linear-gradient(135deg, #a855f7, #6366f1);
+      --green: #4ade80;
+      --amber: #fbbf24;
+      --red: #f87171;
+      --font: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-mono: 'Fira Code', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(120, 40, 200, 0.22), transparent),
+        radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.12), transparent);
+      color: var(--text);
+      font-family: var(--font);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Lucide Icon Utility */
+    .icon {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      display: inline-block;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+    .icon-sm { width: 14px; height: 14px; }
+    .icon-lg { width: 22px; height: 22px; }
+
+    /* Header */
+    header {
+      border-bottom: 1px solid var(--border);
+      background: rgba(10, 6, 18, 0.88);
+      backdrop-filter: blur(16px);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-logo {
+      color: var(--accent);
+      filter: drop-shadow(0 0 8px var(--accent-glow));
+    }
+
+    .brand-title {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      background: var(--accent-grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .badge-live {
+      background: rgba(34, 197, 94, 0.12);
+      color: var(--green);
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-pulse {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    /* Buttons */
+    .btn {
+      background: rgba(30, 18, 52, 0.85);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      text-decoration: none;
+      user-select: none;
+    }
+
+    .btn:hover {
+      border-color: var(--accent);
+      background: rgba(45, 25, 80, 0.95);
+      box-shadow: 0 0 14px var(--accent-glow);
+      transform: translateY(-1px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-primary {
+      background: var(--accent-grad);
+      border-color: transparent;
+      color: #fff;
+      font-weight: 700;
+      box-shadow: 0 0 16px rgba(168, 85, 247, 0.35);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
+    }
+
+    /* Studio Layout */
+    .studio-container {
+      flex: 1;
+      padding: 24px;
+      max-width: 1440px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 1080px) {
+      .studio-container {
+        grid-template-columns: 1fr;
+        padding: 16px;
+        gap: 16px;
+      }
+    }
+
+    .app-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .card-title-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .branch-badge {
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Action Toolbar Controls */
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 840px) {
+      .controls-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* Kanban Board Layout */
+    .kanban-board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .kanban-board {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .kanban-col {
+      background: rgba(14, 8, 25, 0.65);
+      border: 1px solid rgba(168, 85, 247, 0.18);
+      border-radius: 10px;
+      padding: 14px;
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .col-header {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .col-header-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .col-count {
+      background: rgba(168, 85, 247, 0.2);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 999px;
+    }
+
+    .task-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .task-card {
+      background: rgba(28, 16, 48, 0.85);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 13px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .task-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(168, 85, 247, 0.25);
+      background: rgba(38, 22, 64, 0.95);
+    }
+
+    .task-card-title {
+      font-weight: 600;
+      line-height: 1.4;
+      color: #faf5ff;
+    }
+
+    .task-card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .tag-priority {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 700;
+      font-size: 10.5px;
+      letter-spacing: 0.5px;
+    }
+    .tag-priority-high { color: var(--red); }
+    .tag-priority-med { color: var(--amber); }
+    .tag-priority-low { color: var(--green); }
+
+    .tag-assignee {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: #c4b5fd;
+    }
+
+    /* Side Panel */
+    .side-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .history-log {
+      max-height: 240px;
+      overflow-y: auto;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      background: rgba(10, 5, 20, 0.85);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .log-item {
+      padding: 6px 8px;
+      border-radius: 6px;
+      background: rgba(168, 85, 247, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-left: 2px solid var(--accent);
+    }
+
+    .log-action { color: #d8b4fe; font-weight: 600; }
+    .log-time { color: #71717a; font-size: 10px; }
+
+    .shortcut-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 12.5px;
+    }
+
+    .shortcut-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .shortcut-row-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text);
+    }
+
+    kbd {
+      background: rgba(40, 25, 70, 0.9);
+      border: 1px solid var(--border);
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #e9d5ff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(25, 12, 45, 0.95);
+      border: 1px solid var(--accent);
+      color: #f3e8ff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.8);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 9999;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+  <script type="module" crossorigin src="/homura-js/assets/demo-C1iZX43O.js"></script>
+  <link rel="modulepreload" crossorigin href="/homura-js/assets/homura-BDYZmBD4.js">
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="brand" title="Back to Documentation">
+      <svg class="brand-logo icon-lg" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+      <div>
+        <div class="brand-title">HOMURAJS LIVE STUDIO</div>
+        <div style="font-size: 11px; color: var(--text-muted);">Interactive Time-Travel &amp; DevTools Playground</div>
+      </div>
+    </a>
+
+    <div class="header-actions">
+      <div class="badge-live">
+        <span class="badge-pulse"></span>
+        <span>DevTools Attached</span>
+      </div>
+
+      <button class="btn btn-primary" id="btn-toggle-devtools" title="Toggle HomuraJS DevTools (Alt+H)">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+        <span>Toggle DevTools</span>
+      </button>
+
+      <a href="index.html" class="btn" title="Back to documentation">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        <span>Docs</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="studio-container">
+    <!-- Left Column: Kanban Board Application -->
+    <div class="app-card">
+      <div class="card-title">
+        <div class="card-title-left">
+          <svg class="icon icon-accent" style="color: var(--accent);" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+          <span>CyberFlow Kanban — Live State Engine</span>
+        </div>
+        <div class="branch-badge">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><path d="M6 21V9a9 9 0 0 0 9 9"></path></svg>
+          <span id="active-branch-label">main</span>
+        </div>
+      </div>
+
+      <!-- Action Toolbar Controls with Lucide Icons -->
+      <div class="controls-grid">
+        <button class="btn btn-primary" id="btn-add-task">
+          <svg class="icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          <span>Add Task</span>
+        </button>
+
+        <button class="btn" id="btn-batch-tx">
+          <svg class="icon" style="color: var(--amber);" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          <span>Transaction</span>
+        </button>
+
+        <button class="btn" id="btn-undo">
+          <svg class="icon" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+          <span>Undo</span>
+        </button>
+
+        <button class="btn" id="btn-redo">
+          <svg class="icon" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+          <span>Redo</span>
+        </button>
+
+        <button class="btn" id="btn-fork">
+          <svg class="icon" style="color: var(--accent);" viewBox="0 0 24 24"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><path d="M6 21V9a9 9 0 0 0 9 9"></path></svg>
+          <span>Fork Branch</span>
+        </button>
+
+        <button class="btn" id="btn-merge">
+          <svg class="icon" style="color: #c084fc;" viewBox="0 0 24 24"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><path d="M6 21V9a9 9 0 0 0 9 9"></path></svg>
+          <span>3-Way Merge</span>
+        </button>
+
+        <button class="btn" id="btn-snap">
+          <svg class="icon" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+          <span>Snapshot</span>
+        </button>
+
+        <button class="btn" id="btn-replay">
+          <svg class="icon" style="color: var(--green);" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          <span>Replay (2x)</span>
+        </button>
+      </div>
+
+      <!-- Live Kanban Board -->
+      <div class="kanban-board">
+        <!-- To Do -->
+        <div class="kanban-col" id="col-todo">
+          <div class="col-header">
+            <div class="col-header-left">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              <span>To Do</span>
+            </div>
+            <span class="col-count" id="count-todo">0</span>
+          </div>
+          <div class="task-list" id="list-todo"></div>
+        </div>
+
+        <!-- In Progress -->
+        <div class="kanban-col" id="col-progress">
+          <div class="col-header">
+            <div class="col-header-left">
+              <svg class="icon icon-sm" style="color: var(--amber);" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              <span>In Progress</span>
+            </div>
+            <span class="col-count" id="count-progress">0</span>
+          </div>
+          <div class="task-list" id="list-progress"></div>
+        </div>
+
+        <!-- Done -->
+        <div class="kanban-col" id="col-done">
+          <div class="col-header">
+            <div class="col-header-left">
+              <svg class="icon icon-sm" style="color: var(--green);" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              <span>Done</span>
+            </div>
+            <span class="col-count" id="count-done">0</span>
+          </div>
+          <div class="task-list" id="list-done"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Live Event Stream & Diagnostic Shortcuts -->
+    <div class="side-panel">
+      <div class="app-card">
+        <div class="card-title">
+          <div class="card-title-left">
+            <svg class="icon" style="color: var(--accent);" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+            <span>DAG Event Stream</span>
+          </div>
+          <span style="font-size: 11px; color: var(--text-muted);" id="event-count">0 events</span>
+        </div>
+        <div class="history-log" id="event-log">
+          <div class="log-item">
+            <span class="log-action">init:engine</span>
+            <span class="log-time">ready</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="app-card">
+        <div class="card-title">
+          <div class="card-title-left">
+            <svg class="icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect><line x1="6" y1="8" x2="6" y2="8"></line><line x1="10" y1="8" x2="10" y2="8"></line><line x1="14" y1="8" x2="14" y2="8"></line><line x1="18" y1="8" x2="18" y2="8"></line><line x1="6" y1="12" x2="6" y2="12"></line><line x1="10" y1="12" x2="10" y2="12"></line><line x1="14" y1="12" x2="14" y2="12"></line><line x1="18" y1="12" x2="18" y2="12"></line><line x1="8" y1="16" x2="16" y2="16"></line></svg>
+            <span>DevTools Shortcuts</span>
+          </div>
+        </div>
+        <div class="shortcut-list">
+          <div class="shortcut-row">
+            <div class="shortcut-row-left">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line></svg>
+              <span>Toggle DevTools</span>
+            </div>
+            <kbd>Alt + H</kbd>
+          </div>
+          <div class="shortcut-row">
+            <div class="shortcut-row-left">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              <span>Step Undo / Redo</span>
+            </div>
+            <div><kbd>Alt + ←</kbd> <kbd>Alt + →</kbd></div>
+          </div>
+          <div class="shortcut-row">
+            <div class="shortcut-row-left">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="11 17 6 12 11 7"></polyline><polyline points="18 17 13 12 18 7"></polyline></svg>
+              <span>Rewind / FF (5x)</span>
+            </div>
+            <div><kbd>Shift + ←</kbd> <kbd>Shift + →</kbd></div>
+          </div>
+          <div class="shortcut-row">
+            <div class="shortcut-row-left">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              <span>Minimize Panel</span>
+            </div>
+            <kbd>Esc</kbd>
+          </div>
+        </div>
+      </div>
+
+      <div class="app-card">
+        <div class="card-title">
+          <div class="card-title-left">
+            <svg class="icon" style="color: #60a5fa;" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+            <span>Session Bug Reporting</span>
+          </div>
+        </div>
+        <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.4;">
+          Export the entire historical DAG graph as a <code>.homura</code> report file to reproduce bugs deterministically.
+        </p>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-primary" style="flex: 1; justify-content: center;" id="btn-export-session">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            <span>Export</span>
+          </button>
+          <button class="btn" style="flex: 1; justify-content: center;" id="btn-import-session">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            <span>Import</span>
+          </button>
+        </div>
+        <input type="file" id="file-input-session" accept=".json,.homura" style="display: none;" />
+      </div>
+    </div>
+  </main>
+
+  <div class="toast" id="toast">Notification</div>
+
+</body>
+</html>
