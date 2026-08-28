@@ -5,10 +5,11 @@
 
 **"Git for application state"**
 
-[![CI Tests](https://img.shields.io/badge/tests-38%2F38%20passed-7c3aed)](https://github.com/biagio-scaglia/homura-js)
+[![CI Tests](https://img.shields.io/badge/tests-44%2F44%20passed-7c3aed)](https://github.com/biagio-scaglia/homura-js)
+[![Version](https://img.shields.io/badge/version-v1.1.0-9333ea)](https://www.npmjs.com/package/@biagioscaglia/homurajs)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict%20Mode-581c87)](https://www.typescriptlang.org/)
 [![License](https://img.shields.io/badge/license-MIT-3b0764)](LICENSE)
-[![NPM Organization](https://img.shields.io/badge/npm-%40homura--js-a855f7)](https://www.npmjs.com/settings/homura-js/packages)
+[![NPM](https://img.shields.io/badge/npm-%40biagioscaglia%2Fhomurajs-a855f7)](https://www.npmjs.com/package/@biagioscaglia/homurajs)
 
 </div>
 
@@ -208,7 +209,92 @@ homura.deleteSnapshot(checkpoint.id);
 
 ---
 
-## 9. Motore di Diff Strutturale
+## 9. Transazioni Atomiche e Batching (`transaction`)
+
+Nei form complessi o negli editor grafici, l'applicazione di mutazioni multiple su più proprietà rischia di generare passaggi intermedi inutili nella cronologia. HomuraJS fornisce `transaction()` per consolidare tutte le modifiche in un **singolo commit atomico**:
+
+```ts
+// Raggruppa 3 modifiche in 1 singolo nodo di cronologia
+homura.transaction(draft => {
+  draft.user.name = "Biagio";
+  draft.user.age = 21;
+  draft.user.role = "developer";
+}, { label: "Aggiornamento Profilo Completo" });
+
+// Risultato nella cronologia:
+// Initial -> Aggiornamento Profilo Completo (anziché 3 nodi separati)
+// Con un singolo homura.undo() si torna all'istante iniziale.
+```
+
+---
+
+## 10. Replay Engine Temporale e Bug Report
+
+HomuraJS include un motore di riproduzione automatizzata sequenziale della cronologia passo-passo, ideale per live debugging, test QA ed esportazione di sessioni:
+
+```ts
+// Riproduzione controllata della timeline a velocita 2x
+await homura.replay({
+  from: "login-node",
+  to: "checkout-node",
+  speed: 2,
+  stepDelayMs: 300,
+  onStep: (entry, step, total) => {
+    console.log(`[Replay] Avanzamento ${step}/${total}: "${entry.label}"`);
+  }
+});
+
+// Esportazione bug report per riproduzione istantanea su un'altra macchina
+const bugReport = homura.export();
+// Salva in un file "bug-report.homura" per il team di sviluppo
+```
+
+---
+
+## 11. Fusione e Confronto tra Rami (`merge` & `compare`)
+
+Come in Git, HomuraJS permette di confrontare due rami paralleli, identificare il loro antenato comune (*Lowest Common Ancestor - LCA*) e fonderli:
+
+```ts
+// Confronta il ramo principale con un ramo sperimentale
+const comparison = homura.compare('main', 'experimental-feature');
+console.log(comparison.commonAncestorId); // ID del nodo di bivio
+console.log(comparison.aheadCount);       // Commit in anticipo
+console.log(comparison.diff);             // Differenze strutturali
+
+// Fonde il ramo sperimentale nel ramo attivo
+homura.merge('experimental-feature', {
+  label: "Merge experimental-feature into main"
+});
+```
+
+---
+
+## 12. Compattazione del Grafo (`compact`) e Storage Enterprise (IndexedDB)
+
+Per prevenire l'eccessivo consumo di RAM o spazio su disco in sessioni prolungate, `compact()` rimuove i nodi intermedi ridondanti preservando sempre snapshot e capi dei rami:
+
+```ts
+import { createHomura, createIndexedDBAdapter } from '@biagioscaglia/homurajs';
+
+// Persistenza ad alte prestazioni su browser tramite IndexedDB
+const homura = createHomura({
+  initialState: { canvas: [] },
+  persistence: {
+    adapter: createIndexedDBAdapter({ dbName: 'homura_app', storeName: 'state_history' }),
+    autoSave: true,
+    debounceMs: 200
+  }
+});
+
+// Compatta la cronologia a 100 nodi massimi, preservando tutti gli snapshot
+const nodiEliminati = homura.compact({ maxEntries: 100, preserveSnapshots: true });
+console.log(`Eliminati ${nodiEliminati} nodi intermedi non essenziali.`);
+```
+
+---
+
+## 13. Motore di Diff Strutturale
 
 HomuraJS include un motore di calcolo delle differenze ricorsivo e puro. Il motore confronta oggetti, array e valori primitivi, identificando le modifiche esatte con il percorso semantico:
 
@@ -426,6 +512,8 @@ mountDevTools(homura, { position: 'floating' });
 * `getState(): T` — Restituisce lo stato immutabile corrente.
 * `setState(nextState: T, options?: StateUpdateOptions): HistoryEntry<T>` — Imposta direttamente il nuovo stato.
 * `update(updater: StateUpdater<T>, options?: StateUpdateOptions): HistoryEntry<T>` — Esegue una mutazione tramite bozza Copy-On-Write.
+* `transaction(fn: (draft: T) => void, options?: StateUpdateOptions): HistoryEntry<T>` — Raggruppa mutazioni multiple in un unico commit di cronologia atomico.
+* `replay(options?: ReplayOptions<T>): Promise<void>` — Riproduce la cronologia passo-passo con velocita e hook configurabili.
 * `undo(): HistoryEntry<T> | null` — Torna al nodo genitore nella cronologia.
 * `redo(): HistoryEntry<T> | null` — Avanza al nodo figlio successivo nel ramo attivo.
 * `rewind(steps: number): HistoryEntry<T> | null` — Retrocede di N passi.
@@ -442,12 +530,15 @@ mountDevTools(homura, { position: 'floating' });
 * `createBranch(name: string, fromEntryId?: string): Branch` — Crea un nuovo ramo esplicito.
 * `switchBranch(branchId: string): HistoryEntry<T>` — Passa a un altro ramo.
 * `deleteBranch(branchId: string): void` — Elimina un ramo.
+* `merge(sourceBranchId: string, options?: BranchMergeOptions): HistoryEntry<T>` — Fonde un ramo nel ramo attivo.
+* `compare(branchA: string, branchB: string): BranchComparison` — Confronta due rami calcolando antenato comune (*LCA*) e diff.
+* `compact(options?: CompactionOptions): number` — Pota i nodi intermedi non essenziali preservando gli snapshot.
 * `diff(entryOrStateA, entryOrStateB?): DiffChange[]` — Calcola le differenze strutturali tra due stati o nodi.
-* `export(): SerializedHomura<T>` — Esporta l'intero grafo in formato serializzabile.
+* `export(): SerializedHomura<T>` — Esporta l'intero grafo in formato serializzabile (file report .homura).
 * `import(data: SerializedHomura<T>): void` — Importa e reidrata un grafo salvato.
 * `pruneHistory(maxEntries?: number): number` — Pota i nodi piu vecchi per ottimizzare l'uso della memoria.
 * `use(middleware: HomuraMiddleware<T>): void` — Registra una funzione middleware.
-* `on(event, listener): HomuraUnsubscribe` — Sottoscrive un listener agli eventi.
+* `on(event, listener): HomuraUnsubscribe` — Sottoscrive un listener a un evento specifico o a tutti gli eventi (`on('*')`).
 * `save(): Promise<void>` — Salva lo stato tramite l'adattatore configurato.
 * `load(): Promise<boolean>` — Carica lo stato dall'adattatore.
 

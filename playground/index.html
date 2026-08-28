@@ -99,7 +99,7 @@
   <header>
     <div class="brand">
       <span style="color: var(--accent);">HOMURAJS</span>
-      <span class="badge">v1.0.0</span>
+      <span class="badge">v1.1.0</span>
       <span style="font-size: 12px; font-weight: 400; color: #c4b5fd;">State and History Playground</span>
     </div>
     <div style="display: flex; gap: 8px;">
@@ -126,6 +126,16 @@
       </div>
 
       <div class="card">
+        <h3 style="margin-bottom: 12px; font-size: 15px;">v1.1.0 Advanced State &amp; History Features</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <button class="btn btn-primary" id="btn-transaction">Atomic Transaction Batch</button>
+          <button class="btn btn-primary" id="btn-replay" style="background: #9333ea;">▶ Replay Timeline (2x)</button>
+          <button class="btn" id="btn-compare-merge">Compare &amp; Merge Branch</button>
+          <button class="btn" id="btn-compact">Compact History (Prune Nodes)</button>
+        </div>
+      </div>
+
+      <div class="card">
         <h3 style="margin-bottom: 12px; font-size: 15px;">Time-Travel Actions</h3>
         <div style="display: flex; flex-wrap: wrap; gap: 8px;">
           <button class="btn" id="btn-undo">Undo 1 Step</button>
@@ -137,7 +147,7 @@
       </div>
 
       <div class="card">
-        <h3 style="margin-bottom: 12px; font-size: 15px;">Branching Simulator</h3>
+        <h3 style="margin-bottom: 12px; font-size: 15px;">Branching Simulator ("Git for State")</h3>
         <p style="color: #c4b5fd; font-size: 13px; margin-bottom: 12px;">
           Click "Fork Alternative Timeline" after rewinding. Homura will create a new branch without discarding previous history.
         </p>
