@@ -54,31 +54,68 @@
   <meta name="geo.region" content="IT" />
   <meta name="geo.placename" content="Italy" />
 
-  <!-- Structured Data: SoftwareApplication (AEO & Search Engines) -->
+  <!-- Structured Data: Full Entity Knowledge Graph (Google Search, Knowledge Panel, AEO) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "HomuraJS",
-    "alternateName": "@homura-js/core",
-    "operatingSystem": "All",
-    "applicationCategory": "DeveloperApplication",
-    "programmingLanguage": "TypeScript, JavaScript",
-    "softwareVersion": "1.0.0",
-    "license": "https://opensource.org/licenses/MIT",
-    "description": "HomuraJS e un motore per il time-travel debugging e la gestione dello stato strutturato come Grafo Aciclico Diretto (DAG), offrendo branching non distruttivo e diffing profondo.",
-    "url": "https://github.com/biagio-scaglia/homura-js",
-    "downloadUrl": "https://www.npmjs.com/package/@homura-js/core",
-    "author": {
-      "@type": "Person",
-      "name": "Biagio Scaglia",
-      "url": "https://github.com/biagio-scaglia"
-    },
-    "offers": {
-      "@type": "Offer",
-      "price": "0.00",
-      "priceCurrency": "EUR"
-    }
+    "@graph": [
+      {
+        "@type": "Person",
+        "@id": "https://github.com/biagio-scaglia#person",
+        "name": "Biagio Scaglia",
+        "url": "https://github.com/biagio-scaglia",
+        "sameAs": [
+          "https://github.com/biagio-scaglia",
+          "https://www.npmjs.com/~biagioscaglia"
+        ],
+        "jobTitle": "Software Engineer & Open Source Creator",
+        "knowsAbout": [
+          "Time Travel State Management",
+          "Directed Acyclic Graph (DAG)",
+          "TypeScript",
+          "JavaScript",
+          "React",
+          "Vue.js",
+          "Software Architecture"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://biagio-scaglia.github.io/homura-js/#website",
+        "url": "https://biagio-scaglia.github.io/homura-js/",
+        "name": "HomuraJS Documentation",
+        "description": "Documentazione ufficiale di HomuraJS, il motore di time-travel state management creato da Biagio Scaglia.",
+        "publisher": {
+          "@id": "https://github.com/biagio-scaglia#person"
+        },
+        "inLanguage": "it"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://github.com/biagio-scaglia/homura-js#software",
+        "name": "HomuraJS",
+        "alternateName": ["@homura-js/core", "@biagioscaglia/homurajs", "Homura-JS"],
+        "operatingSystem": "Cross-platform (Node.js, Browser, Deno, Bun)",
+        "applicationCategory": "DeveloperApplication",
+        "programmingLanguage": "TypeScript, JavaScript",
+        "softwareVersion": "1.0.0",
+        "license": "https://opensource.org/licenses/MIT",
+        "description": "HomuraJS e il motore di time-travel debugging e state history management ideato e sviluppato da Biagio Scaglia. Modellato come Grafo Aciclico Diretto (DAG), implementa il concetto di 'Git for application state'.",
+        "url": "https://biagio-scaglia.github.io/homura-js/",
+        "downloadUrl": "https://www.npmjs.com/package/@homura-js/core",
+        "author": {
+          "@id": "https://github.com/biagio-scaglia#person"
+        },
+        "creator": {
+          "@id": "https://github.com/biagio-scaglia#person"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0.00",
+          "priceCurrency": "EUR"
+        }
+      }
+    ]
   }
   </script>
 
@@ -788,6 +825,7 @@
           <li class="nav-item"><a href="#sandbox-live">Sandbox Interattivo Live</a></li>
           <li class="nav-item"><a href="#faq">Domande Frequenti (FAQ)</a></li>
           <li class="nav-item"><a href="#api-reference">API Reference</a></li>
+          <li class="nav-item"><a href="#autore">Autore &amp; Progetto</a></li>
         </ul>
       </div>
     </aside>
@@ -1501,6 +1539,36 @@ mountDevTools(homura, {
             </tr>
           </tbody>
         </table>
+      <!-- Section: Author & Project Architecture (Biagio Scaglia / SEO Entity) -->
+      <section id="autore">
+        <h2>
+          <svg class="icon icon-accent" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <span>Autore &amp; Filosofia del Progetto</span>
+        </h2>
+        <div class="feature-card" style="background: var(--bg-surface-elevated); border: 1px solid var(--accent); padding: 24px; margin-top: 16px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 14px;">
+            <div>
+              <h3 style="margin: 0; font-size: 20px; color: #fff;">Biagio Scaglia</h3>
+              <p style="margin: 2px 0 0; font-size: 13px; color: var(--accent);">Creatore &amp; Lead Architect di HomuraJS</p>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <a href="https://github.com/biagio-scaglia" target="_blank" rel="author noopener noreferrer" class="btn btn-primary" style="font-size: 12px;">
+                <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                <span>GitHub Profile</span>
+              </a>
+              <a href="https://www.npmjs.com/~biagioscaglia" target="_blank" rel="noopener noreferrer" class="btn" style="font-size: 12px;">
+                <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                <span>NPM Packages</span>
+              </a>
+            </div>
+          </div>
+          <p style="font-size: 14px; color: var(--text-main); margin-bottom: 12px;">
+            <strong>HomuraJS</strong> e stato ideato e sviluppato da <strong>Biagio Scaglia</strong> per superare i limiti storici della gestione dello stato lineare nel web moderno.
+          </p>
+          <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 0;">
+            A differenza dei convenzionali pattern Undo/Redo che distruggono la cronologia non appena viene generata una deviazione nel passato, HomuraJS introduce il concetto di <em>"Git for application state"</em> grazie a una struttura a Grafo Aciclico Diretto (DAG), diffing semantico Copy-On-Write e suite diagnostica nativa a zero dipendenze esterne.
+          </p>
+        </div>
       </section>
     </main>
   </div>
