@@ -1,5 +1,5 @@
 {
-  "name": "homura-js",
+  "name": "@homura-js/homura",
   "version": "1.0.0",
   "description": "HomuraJS — Time Travel State & History Engine for JavaScript (Git for application state)",
   "type": "module",
