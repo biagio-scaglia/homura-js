@@ -1,6 +1,104 @@
-import { Branch, HistoryEntry, SerializedHomura } from './types';
+import { Branch, HistoryEntry, SerializedHomura, BranchMergeOptions } from './types';
 import { HomuraHistoryError } from './errors';
 import { deepClone } from './immutability';
+
+/**
+ * Resolves a collision between target (ours) and source (theirs) property values.
+ */
+function resolveMergeConflictValue(
+  oursVal: any,
+  theirsVal: any,
+  baseVal: any,
+  path: (string | number)[],
+  options: BranchMergeOptions
+): any {
+  if (options.resolveConflict) {
+    return options.resolveConflict({ path, ours: oursVal, theirs: theirsVal, base: baseVal });
+  }
+  if (options.strategy === 'ours') {
+    return deepClone(oursVal);
+  }
+  return deepClone(theirsVal); // default 'theirs'
+}
+
+/**
+ * 3-way recursive object & state merger.
+ */
+function threeWayMerge<T>(
+  ours: T,
+  theirs: T,
+  base: T | undefined,
+  path: (string | number)[],
+  options: BranchMergeOptions
+): T {
+  if (ours === theirs) return deepClone(ours);
+
+  if (
+    typeof ours !== 'object' ||
+    ours === null ||
+    typeof theirs !== 'object' ||
+    theirs === null
+  ) {
+    const oursChanged = base !== undefined ? ours !== base : true;
+    const theirsChanged = base !== undefined ? theirs !== base : true;
+    if (theirsChanged && !oursChanged) return deepClone(theirs);
+    if (oursChanged && !theirsChanged) return deepClone(ours);
+    return resolveMergeConflictValue(ours, theirs, base, path, options);
+  }
+
+  if (Array.isArray(ours) && Array.isArray(theirs)) {
+    if (JSON.stringify(ours) === JSON.stringify(theirs)) return deepClone(ours);
+    return resolveMergeConflictValue(ours, theirs, base, path, options);
+  }
+
+  const result: Record<string, any> = {};
+  const allKeys = new Set([...Object.keys(ours as object), ...Object.keys(theirs as object)]);
+  const baseObj = typeof base === 'object' && base !== null ? (base as Record<string, any>) : {};
+  const oursObj = ours as Record<string, any>;
+  const theirsObj = theirs as Record<string, any>;
+
+  for (const key of allKeys) {
+    const currentPath = [...path, key];
+    const hasOurs = Object.prototype.hasOwnProperty.call(oursObj, key);
+    const hasTheirs = Object.prototype.hasOwnProperty.call(theirsObj, key);
+    const hasBase = Object.prototype.hasOwnProperty.call(baseObj, key);
+
+    const valOurs = oursObj[key];
+    const valTheirs = theirsObj[key];
+    const valBase = baseObj[key];
+
+    if (!hasTheirs && hasOurs) {
+      if (hasBase && valBase === valOurs) {
+        continue;
+      }
+      result[key] = deepClone(valOurs);
+    } else if (!hasOurs && hasTheirs) {
+      if (hasBase && valBase === valTheirs) {
+        continue;
+      }
+      result[key] = deepClone(valTheirs);
+    } else if (hasOurs && hasTheirs) {
+      if (valOurs === valTheirs) {
+        result[key] = deepClone(valOurs);
+      } else if (hasBase && valOurs === valBase) {
+        result[key] = deepClone(valTheirs);
+      } else if (hasBase && valTheirs === valBase) {
+        result[key] = deepClone(valOurs);
+      } else if (
+        typeof valOurs === 'object' &&
+        valOurs !== null &&
+        typeof valTheirs === 'object' &&
+        valTheirs !== null
+      ) {
+        result[key] = threeWayMerge(valOurs, valTheirs, valBase, currentPath, options);
+      } else {
+        result[key] = resolveMergeConflictValue(valOurs, valTheirs, valBase, currentPath, options);
+      }
+    }
+  }
+
+  return result as T;
+}
 
 /**
  * Generates a unique, collision-resistant ID.
@@ -618,11 +716,11 @@ export class HistoryGraph<T> {
   }
 
   /**
-   * Merges a source branch into the current active branch.
+   * Merges a source branch into the current active branch using 3-way merge conflict strategies.
    */
   public mergeBranch(
     sourceBranchId: string,
-    options: { label?: string; metadata?: Record<string, unknown>; strategy?: 'fast-forward' | 'three-way' } = {}
+    options: BranchMergeOptions = {}
   ): HistoryEntry<T> {
     const targetBranch = this.getCurrentBranch();
     const sourceBranch = this.branches.get(sourceBranchId);
@@ -637,6 +735,20 @@ export class HistoryGraph<T> {
     const targetHead = this.entries.get(targetBranch.headEntryId)!;
     const sourceHead = this.entries.get(sourceBranch.headEntryId)!;
 
+    // Find Lowest Common Ancestor
+    const comparison = this.compareBranches(targetBranch.id, sourceBranch.id);
+    const baseEntry = comparison.commonAncestorId ? this.entries.get(comparison.commonAncestorId) : undefined;
+    const baseState = baseEntry?.state;
+
+    // Compute merged state using 3-way merge algorithm
+    const mergedState = threeWayMerge(
+      targetHead.state,
+      sourceHead.state,
+      baseState,
+      [],
+      options
+    );
+
     const label = options.label ?? `Merge branch '${sourceBranch.name}' into '${targetBranch.name}'`;
     const metadata = {
       ...options.metadata,
@@ -644,7 +756,9 @@ export class HistoryGraph<T> {
         sourceBranchId: sourceBranch.id,
         targetBranchId: targetBranch.id,
         sourceHeadId: sourceHead.id,
-        targetHeadId: targetHead.id
+        targetHeadId: targetHead.id,
+        commonAncestorId: comparison.commonAncestorId,
+        strategy: options.strategy ?? 'theirs'
       }
     };
 
@@ -657,7 +771,7 @@ export class HistoryGraph<T> {
       branchId: targetBranch.id,
       timestamp: Date.now(),
       label,
-      state: deepClone(sourceHead.state),
+      state: mergedState,
       metadata
     };
 

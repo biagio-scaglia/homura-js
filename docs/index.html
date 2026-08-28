@@ -1418,13 +1418,23 @@ homura.switchBranch(branches[0].id);</code></pre>
           </div>
           <pre><code>// 1. Compare two parallel branches
 const comparison = homura.compare("main", "experimental-feature");
-console.log(comparison.commonAncestorId); // Divergence point in graph
+console.log(comparison.commonAncestorId); // Divergence point in DAG graph
 console.log(comparison.aheadCount);       // Commits ahead
 console.log(comparison.diff);             // Deep recursive delta
 
-// 2. Merge experimental branch into active branch
+// 2. 3-Way Merge with automatic conflict resolution strategy ('theirs' | 'ours')
 homura.merge("experimental-feature", {
+  strategy: 'theirs', // Source branch values override conflicts (default)
   label: "Merge experimental feature into main"
+});
+
+// 3. 3-Way Merge with custom granular conflict resolver
+homura.merge("experimental-feature", {
+  strategy: 'manual',
+  resolveConflict: ({ path, ours, theirs, base }) => {
+    console.log(`Conflict on ${path.join('.')}: ours=${ours}, theirs=${theirs}`);
+    return theirs; // return desired resolved value
+  }
 });</code></pre>
         </div>
       </section>
@@ -1622,6 +1632,43 @@ await homura.save();
 // Manual load
 await homura.load();</code></pre>
         </div>
+
+        <h3 style="font-size: 15px; margin: 20px 0 8px 0;">Custom Persistence Adapter API (SQLite, Cloud, Electron, Filesystem)</h3>
+        <p>Implement the lightweight <code>PersistenceAdapter&lt;T&gt;</code> interface to connect HomuraJS to any custom storage engine:</p>
+        <div class="code-container">
+          <div class="code-header">
+            <span class="code-header-title">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <span>CustomCloudAdapter.ts</span>
+            </span>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre><code>import { PersistenceAdapter, SerializedHomura } from '@biagioscaglia/homurajs';
+
+export class CustomCloudAdapter&lt;T&gt; implements PersistenceAdapter&lt;T&gt; {
+  constructor(private endpoint: string) {}
+
+  async save(data: SerializedHomura&lt;T&gt;): Promise&lt;void&gt; {
+    await fetch(this.endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  }
+
+  async load(): Promise&lt;SerializedHomura&lt;T&gt; | null&gt; {
+    const res = await fetch(this.endpoint);
+    return res.ok ? await res.json() : null;
+  }
+
+  async clear(): Promise&lt;void&gt; {
+    await fetch(this.endpoint, { method: 'DELETE' });
+  }
+}</code></pre>
+        </div>
       </section>
 
       <!-- Section: React Integration -->
@@ -1665,6 +1712,35 @@ export function Counter() {
       &lt;HomuraDevTools homura={homura} position="floating" /&gt;
     &lt;/div&gt;
   );
+}</code></pre>
+        </div>
+
+        <h3 style="font-size: 15px; margin: 20px 0 8px 0;">SSR Hydration &amp; React Server Components (Next.js / Remix)</h3>
+        <p>Because <code>useHomura</code> is built on React 18's official <code>useSyncExternalStore</code>, server-side rendering is 100% hydration-safe with zero tearing or hydration mismatch:</p>
+        <div class="code-container">
+          <div class="code-header">
+            <span class="code-header-title">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <span>ssr-store.ts</span>
+            </span>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre><code>// Client components in Next.js App Router ('use client')
+'use client';
+
+import { useHomura } from '@homura-js/react';
+import { createHomura } from '@biagioscaglia/homurajs';
+
+export const homura = createHomura({
+  initialState: { user: null, cart: [] }
+});
+
+export function CartWidget() {
+  const { state: cart } = useHomura(homura, s => s.cart);
+  return &lt;div&gt;Items in Cart: {cart.length}&lt;/div&gt;;
 }</code></pre>
         </div>
       </section>
@@ -2066,6 +2142,9 @@ mountDevTools(homura, {
             </tbody>
           </table>
         </div>
+        <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 10px;">
+          * Up to 460x lower measured memory footprint in our reproducible benchmark configuration (zero-copy structural sharing DAG vs naive full-state cloning stack). You can reproduce all benchmark suites locally at any time by running <code>pnpm run bench</code>.
+        </p>
       </section>
 
       <!-- Section: Real-World Use Cases -->

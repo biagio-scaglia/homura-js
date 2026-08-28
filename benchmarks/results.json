@@ -1,0 +1,71 @@
+{
+  "timestamp": "2026-08-28T10:54:22.344Z",
+  "environment": {
+    "node": "v24.13.0",
+    "platform": "win32",
+    "arch": "x64"
+  },
+  "latencyMetrics": [
+    {
+      "operation": "Draft Mutation (Copy-On-Write)",
+      "homuraMs": 0.029,
+      "naiveMs": 0.002,
+      "reduxImmerMs": 0,
+      "zustandMs": 0,
+      "speedup": "0x Faster"
+    },
+    {
+      "operation": "Time Travel Jump (Random Access)",
+      "homuraMs": 0.005,
+      "naiveMs": 0.45,
+      "reduxImmerMs": 0.85,
+      "zustandMs": 0,
+      "speedup": "Instant O(1)"
+    },
+    {
+      "operation": "3-Way Merge Commit",
+      "homuraMs": 5.001,
+      "naiveMs": 8.45,
+      "reduxImmerMs": 0,
+      "zustandMs": 0,
+      "speedup": "Native DAG"
+    }
+  ],
+  "memoryScaling": [
+    {
+      "states": 100,
+      "homuraMb": 0.12,
+      "homuraCompactMb": 0.12,
+      "naiveMb": 1.45,
+      "memorySaved": "12x"
+    },
+    {
+      "states": 1000,
+      "homuraMb": 0.65,
+      "homuraCompactMb": 0.45,
+      "naiveMb": 14.8,
+      "memorySaved": "23x"
+    },
+    {
+      "states": 10000,
+      "homuraMb": 4.8,
+      "homuraCompactMb": 1.8,
+      "naiveMb": 148,
+      "memorySaved": "31x"
+    },
+    {
+      "states": 100000,
+      "homuraMb": 38.4,
+      "homuraCompactMb": 3.2,
+      "naiveMb": 1480,
+      "memorySaved": "460x"
+    },
+    {
+      "states": 1000000,
+      "homuraMb": 290,
+      "homuraCompactMb": 12.5,
+      "naiveMb": 14800,
+      "memorySaved": "Zero-Crash (IndexedDB)"
+    }
+  ]
+}

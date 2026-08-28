@@ -22,6 +22,7 @@ export type {
   ReplayOptions,
   BranchMergeOptions,
   BranchComparison,
+  MergeConflict,
   CompactionOptions
 } from './types';
 

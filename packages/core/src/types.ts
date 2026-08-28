@@ -163,6 +163,20 @@ export interface ReplayOptions<T> {
 }
 
 /**
+ * Context passed to manual merge conflict resolvers.
+ */
+export interface MergeConflict<V = unknown> {
+  /** Dot/array path to the conflicting property */
+  path: (string | number)[];
+  /** Conflicting value in current (target/ours) branch */
+  ours: V;
+  /** Conflicting value in source (theirs) branch */
+  theirs: V;
+  /** Value at the Lowest Common Ancestor (base) entry, if found */
+  base?: V;
+}
+
+/**
  * Options for merging two branches.
  */
 export interface BranchMergeOptions {
@@ -170,8 +184,19 @@ export interface BranchMergeOptions {
   label?: string;
   /** Metadata to attach to merge commit */
   metadata?: Record<string, unknown>;
-  /** Merge strategy (fast-forward or three-way merge commit) */
-  strategy?: 'fast-forward' | 'three-way';
+  /**
+   * Conflict resolution strategy:
+   * - 'theirs': Source branch values override active branch on conflicts (default)
+   * - 'ours': Active branch retains its values on conflicts
+   * - 'manual': Custom resolver callback is invoked for each field conflict
+   * - 'three-way': Standard 3-way merge
+   * - 'fast-forward': Fast-forward if ancestor
+   */
+  strategy?: 'theirs' | 'ours' | 'manual' | 'three-way' | 'fast-forward';
+  /**
+   * Custom conflict resolver function when strategy is 'manual' or to override specific collisions.
+   */
+  resolveConflict?: (conflict: MergeConflict) => any;
 }
 
 /**

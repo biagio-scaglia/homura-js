@@ -96,11 +96,35 @@ export function mountDevTools<T>(
     }
   }
 
-  // Keyboard shortcut listener: Alt + H or Ctrl + Shift + H
+  // Keyboard shortcut listener: Alt+H (toggle), Escape (close), and Arrow time-travel controls
   const keyHandler = (e: KeyboardEvent) => {
+    // Ignore keystrokes in active input fields
+    const activeTag = (document.activeElement?.tagName || '').toLowerCase();
+    if (activeTag === 'input' || activeTag === 'textarea') return;
+
     if ((e.altKey && e.code === 'KeyH') || (e.ctrlKey && e.shiftKey && e.code === 'KeyH')) {
       e.preventDefault();
       toggle();
+      return;
+    }
+
+    if (floatingWrapper && !floatingWrapper.classList.contains('minimized')) {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        close();
+      } else if (e.shiftKey && e.key === 'ArrowLeft') {
+        e.preventDefault();
+        homura.rewind(5);
+      } else if (e.shiftKey && e.key === 'ArrowRight') {
+        e.preventDefault();
+        homura.fastForward(5);
+      } else if (e.altKey && e.key === 'ArrowLeft') {
+        e.preventDefault();
+        homura.undo();
+      } else if (e.altKey && e.key === 'ArrowRight') {
+        e.preventDefault();
+        homura.redo();
+      }
     }
   };
 
