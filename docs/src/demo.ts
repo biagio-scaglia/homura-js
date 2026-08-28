@@ -51,8 +51,8 @@ const toastEl = document.getElementById('toast')!;
 
 let totalEvents = 0;
 
-function showToast(msg: string) {
-  toastEl.textContent = msg;
+function showToast(msg: string, iconSvg: string = '') {
+  toastEl.innerHTML = iconSvg ? `${iconSvg} <span>${msg}</span>` : msg;
   toastEl.classList.add('show');
   setTimeout(() => toastEl.classList.remove('show'), 2200);
 }
@@ -82,8 +82,14 @@ function renderBoard() {
     card.innerHTML = `
       <div class="task-card-title">${task.title}</div>
       <div class="task-card-meta">
-        <span class="${priorityClass}">● ${task.priority.toUpperCase()}</span>
-        <span>👤 ${task.assignee}</span>
+        <span class="tag-priority ${priorityClass}">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+          <span>${task.priority.toUpperCase()}</span>
+        </span>
+        <span class="tag-assignee">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <span>${task.assignee}</span>
+        </span>
       </div>
     `;
 
@@ -170,19 +176,19 @@ document.getElementById('btn-batch-tx')?.addEventListener('click', () => {
     });
   }, { label: 'Atomic Transaction: Sprint 4 Sprint Tasks' });
 
-  showToast('⚡ Atomic transaction committed (3 tasks in 1 node)!');
+  showToast('Atomic transaction committed (3 tasks in 1 node)!');
 });
 
 // 3. Undo / Redo
 document.getElementById('btn-undo')?.addEventListener('click', () => {
   const res = homura.undo();
-  if (res) showToast(`⏪ Undone to: ${res.label}`);
+  if (res) showToast(`Undone to: ${res.label}`);
   else showToast('No further undo history in this branch');
 });
 
 document.getElementById('btn-redo')?.addEventListener('click', () => {
   const res = homura.redo();
-  if (res) showToast(`⏩ Redone to: ${res.label}`);
+  if (res) showToast(`Redone to: ${res.label}`);
   else showToast('Already at newest state in this branch');
 });
 
@@ -203,7 +209,7 @@ document.getElementById('btn-fork')?.addEventListener('click', () => {
     });
   }, { label: `Initialize ${name}` });
 
-  showToast(`🌿 Forked & switched to "${name}"`);
+  showToast(`Forked & switched to "${name}"`);
 });
 
 // 5. 3-Way Merge
@@ -222,7 +228,7 @@ document.getElementById('btn-merge')?.addEventListener('click', () => {
     label: `Merge branch '${other.name}' into '${current.name}'`
   });
 
-  showToast(`🔀 Merged '${other.name}' into '${current.name}'!`);
+  showToast(`Merged '${other.name}' into '${current.name}'!`);
 });
 
 // 6. Snapshot
@@ -230,20 +236,20 @@ document.getElementById('btn-snap')?.addEventListener('click', () => {
   const snap = homura.snapshot(`Milestone Checkpoint #${Date.now().toString(36)}`, {
     taskCount: homura.getState().tasks.length
   });
-  showToast(`📸 Snapshot "${snap.name}" captured!`);
+  showToast(`Snapshot "${snap.name}" captured!`);
 });
 
 // 7. Time-Travel Replay
 document.getElementById('btn-replay')?.addEventListener('click', async () => {
-  showToast('🎬 Starting step-by-step history replay (2x speed)...');
+  showToast('Starting step-by-step history replay (2x speed)...');
   await homura.replay({
     speed: 2,
     onStep: (entry: HistoryEntry<KanbanState>, idx: number, total: number) => {
-      showToast(`🎬 Replaying step [${idx + 1}/${total}]: ${entry.label}`);
+      showToast(`Replaying step [${idx + 1}/${total}]: ${entry.label}`);
       renderBoard();
     }
   });
-  showToast('✅ Replay finished!');
+  showToast('Replay finished!');
 });
 
 // Toggle DevTools button
@@ -261,7 +267,7 @@ document.getElementById('btn-export-session')?.addEventListener('click', () => {
   a.download = `homura-session-${Date.now()}.homura`;
   a.click();
   URL.revokeObjectURL(url);
-  showToast('💾 Exported session file (.homura)!');
+  showToast('Exported session file (.homura)!');
 });
 
 // Import session
@@ -278,21 +284,20 @@ fileInput.addEventListener('change', async () => {
     const data = JSON.parse(text);
     homura.import(data);
     renderBoard();
-    showToast('📂 Session successfully imported and restored!');
+    showToast('Session successfully imported and restored!');
   } catch (err) {
-    showToast('❌ Invalid .homura session file');
+    showToast('Invalid .homura session file');
   }
   fileInput.value = '';
 });
 
 // Wildcard DAG event listener to stream real-time events to the UI
-homura.on('*', (eventName, eventData: any) => {
+homura.on('*', (eventName, _eventData: any) => {
   totalEvents++;
   eventCountEl.textContent = `${totalEvents} events`;
 
   const item = document.createElement('div');
   item.className = 'log-item';
-  const label = eventData?.entry?.label || eventData?.action || (typeof eventData === 'object' ? Object.keys(eventData).join(',') : '');
   
   item.innerHTML = `
     <span class="log-action">${eventName}</span>
