@@ -43,6 +43,36 @@ btnLangToggle?.addEventListener('click', () => {
   showToast(nextLang === 'en' ? 'Language switched to English' : 'Lingua impostata su Italiano');
 });
 
+// Mobile Drawer Hamburger Menu
+const btnMenuToggle = document.getElementById('btn-menu-toggle');
+const docsSidebar = document.getElementById('docs-sidebar');
+const sidebarBackdrop = document.getElementById('sidebar-backdrop');
+
+function closeMobileSidebar(): void {
+  docsSidebar?.classList.remove('open');
+  sidebarBackdrop?.classList.remove('open');
+}
+
+btnMenuToggle?.addEventListener('click', () => {
+  const isOpen = docsSidebar?.classList.toggle('open');
+  if (isOpen) {
+    sidebarBackdrop?.classList.add('open');
+  } else {
+    sidebarBackdrop?.classList.remove('open');
+  }
+});
+
+sidebarBackdrop?.addEventListener('click', closeMobileSidebar);
+
+// Close sidebar on link click on mobile
+document.querySelectorAll('.nav-item a').forEach(link => {
+  link.addEventListener('click', () => {
+    if (window.innerWidth <= 960) {
+      closeMobileSidebar();
+    }
+  });
+});
+
 // 3. Toast Notification Helper
 const toast = document.getElementById('toast')!;
 const toastText = document.getElementById('toast-text') || toast;
