@@ -102,16 +102,16 @@ document.querySelectorAll('.code-copy-btn').forEach(btn => {
 
 // Quick install copy in header
 document.getElementById('btn-copy-install')?.addEventListener('click', () => {
-  navigator.clipboard.writeText('npm install @homura-js/core');
-  showToast(t('toast.cmd_copied', 'Command "npm install @homura-js/core" copied'));
+  navigator.clipboard.writeText('npm install homurajs');
+  showToast(t('toast.cmd_copied', 'Command "npm install homurajs" copied'));
 });
 
 // 5. Package Manager Tabs
 const installCommands: Record<string, string> = {
-  npm: 'npm install @homura-js/core',
-  pnpm: 'pnpm add @homura-js/core',
-  yarn: 'yarn add @homura-js/core',
-  bun: 'bun add @homura-js/core'
+  npm: 'npm install homurajs',
+  pnpm: 'pnpm add homurajs',
+  yarn: 'yarn add homurajs',
+  bun: 'bun add homurajs'
 };
 
 const installCmdEl = document.getElementById('install-cmd');
