@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -26,8 +26,6 @@ jobs:
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -43,6 +41,10 @@ jobs:
           pnpm --filter "./packages/**" run build
           pnpm --filter "@homura-js/docs" run build
 
+      - name: Copy .nojekyll to dist
+        run: touch docs/dist/.nojekyll
+
+      # 1. Deploy via native GitHub Pages Action
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
@@ -54,3 +56,11 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      # 2. Deploy to gh-pages branch (fallback in case branch source is selected in Settings)
+      - name: Deploy to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/dist
+          publish_branch: gh-pages
