@@ -73,6 +73,10 @@ document.querySelectorAll('.nav-item a').forEach(link => {
   });
 });
 
+export function t(key: string, defaultText: string = ''): string {
+  return translations[key]?.[currentLang] ?? defaultText;
+}
+
 // 3. Toast Notification Helper
 const toast = document.getElementById('toast')!;
 const toastText = document.getElementById('toast-text') || toast;
@@ -91,7 +95,7 @@ document.querySelectorAll('.code-copy-btn').forEach(btn => {
     const pre = btn.closest('.code-container')?.querySelector('pre code');
     if (pre) {
       navigator.clipboard.writeText(pre.textContent || '');
-      showToast(translations['toast.copied'][currentLang]);
+      showToast(t('toast.copied', 'Copied to clipboard'));
     }
   });
 });
@@ -99,7 +103,7 @@ document.querySelectorAll('.code-copy-btn').forEach(btn => {
 // Quick install copy in header
 document.getElementById('btn-copy-install')?.addEventListener('click', () => {
   navigator.clipboard.writeText('npm install @homura-js/core');
-  showToast(translations['toast.cmd_copied'][currentLang]);
+  showToast(t('toast.cmd_copied', 'Command "npm install @homura-js/core" copied'));
 });
 
 // 5. Package Manager Tabs
