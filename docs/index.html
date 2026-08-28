@@ -243,14 +243,15 @@
     .icon-sm { width: 13px; height: 13px; }
     .icon-accent { stroke: var(--accent); }
 
-    /* Header */
+    /* Header — Fixed at Top */
     header {
-      position: sticky;
+      position: fixed;
       top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
       z-index: 100;
-      background: rgba(12, 8, 20, 0.92);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      background: #0c0814;
       border-bottom: 1px solid var(--border);
       height: 56px;
       display: flex;
@@ -388,6 +389,7 @@
       display: flex;
       width: 100%;
       min-height: calc(100vh - 56px);
+      margin-top: 56px;
       position: relative;
     }
 
@@ -413,7 +415,7 @@
       bottom: 0;
       height: calc(100vh - 56px);
       overflow-y: auto;
-      background: var(--bg-surface);
+      background: #0c0814;
       border-right: 1px solid var(--border);
       display: flex;
       flex-direction: column;
