@@ -138,6 +138,18 @@ importers:
         specifier: workspace:*
         version: link:../core
 
+  packages/homura-js:
+    dependencies:
+      '@homura-js/core':
+        specifier: workspace:*
+        version: link:../core
+      '@homura-js/devtools':
+        specifier: workspace:*
+        version: link:../devtools
+      '@homura-js/vanilla':
+        specifier: workspace:*
+        version: link:../vanilla
+
   packages/react:
     dependencies:
       '@homura-js/core':
