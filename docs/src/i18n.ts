@@ -134,12 +134,12 @@ export const translations: TranslationDictionary = {
 
   // Overview Section
   'overview.title': {
-    en: 'HomuraJS',
-    it: 'HomuraJS'
+    en: 'HomuraJS — Version Control for Application State',
+    it: 'HomuraJS — Version Control per lo Stato Applicativo'
   },
   'overview.lead': {
-    en: 'High-performance time-travel debugging and state history management engine for JavaScript and TypeScript. A Directed Acyclic Graph (DAG) architecture conceived as "Git for application state".',
-    it: 'Motore di time-travel debugging e state history management ad alte prestazioni per JavaScript e TypeScript. Un\'architettura a Grafo Aciclico Diretto (DAG) concepita come "Git for application state".'
+    en: 'State → History → Branches → Time Travel → Diff / Replay → Debug. A high-performance Directed Acyclic Graph (DAG) state versioning engine for JavaScript and TypeScript ("Git for application state").',
+    it: 'State → History → Branches → Time Travel → Diff / Replay → Debug. Motore ad alte prestazioni basato su Grafi Aciclici Diretti (DAG) per il versioning dello stato in JavaScript e TypeScript ("Git per lo stato dell\'applicazione").'
   },
   'overview.tldr_title': {
     en: 'Direct Answer / TL;DR',
@@ -570,12 +570,20 @@ export const translations: TranslationDictionary = {
     it: 'Benchmark & Prestazioni'
   },
   'benchmarks.title': {
-    en: 'Performance Benchmarks',
-    it: 'Benchmark & Metriche di Efficienza'
+    en: 'Performance Benchmarks & Memory Profiling',
+    it: 'Benchmark di Prestazioni & Profiling Memoria'
   },
   'benchmarks.lead': {
     en: 'Engineered for sub-millisecond execution times and zero-copy memory efficiency using structural sharing:',
     it: 'Progettato per tempi di esecuzione sub-millisecondo ed efficienza di memoria zero-copy grazie allo structural sharing:'
+  },
+  'benchmarks.comp_lead': {
+    en: 'Direct head-to-head comparison across core state management architectures (10,000 updates):',
+    it: 'Confronto diretto testa a testa tra le principali architetture di state management (10.000 update):'
+  },
+  'benchmarks.mem_lead': {
+    en: 'Memory footprint scaling with zero-copy structural sharing vs linear deep-cloning (from 100 to 1,000,000 states):',
+    it: 'Impronta di memoria scalabile con structural sharing zero-copy vs deep-cloning lineare (da 100 a 1.000.000 di stati):'
   },
   'benchmarks.th_operation': {
     en: 'Operation (10,000 Nodes)',
