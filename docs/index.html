@@ -1,12 +1,132 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="it" prefix="og: https://ogp.me/ns#">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HomuraJS — Documentazione Ufficiale</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- Primary SEO Metadata -->
+  <title>HomuraJS — Motore di Time Travel State & DAG History per JavaScript</title>
+  <meta name="title" content="HomuraJS — Motore di Time Travel State & DAG History per JavaScript" />
+  <meta name="description" content="HomuraJS e il motore open source per il time-travel debugging e la gestione dello stato ad albero (DAG) in JavaScript e TypeScript. Git per lo stato dell'applicazione con branching non distruttivo, diff strutturale e DevTools." />
+  <meta name="keywords" content="HomuraJS, time travel state, javascript state management, typescript state machine, DAG history graph, git for state, undo redo javascript, react time travel, vue state history, structural diff engine, state snapshots, immutability proxy" />
+  <meta name="author" content="Biagio Scaglia" />
+  <meta name="creator" content="Biagio Scaglia" />
+  <meta name="publisher" content="Biagio Scaglia" />
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+  <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large" />
+  <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large" />
+  <link rel="canonical" href="https://github.com/biagio-scaglia/homura-js" />
+
+  <!-- Multilingual & Alternate Links (GEO / SEO) -->
+  <link rel="alternate" hreflang="it" href="https://github.com/biagio-scaglia/homura-js" />
+  <link rel="alternate" hreflang="en" href="https://github.com/biagio-scaglia/homura-js" />
+  <link rel="alternate" hreflang="x-default" href="https://github.com/biagio-scaglia/homura-js" />
+
+  <!-- Open Graph / Facebook (SEO / Social) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://github.com/biagio-scaglia/homura-js" />
+  <meta property="og:site_name" content="HomuraJS" />
+  <meta property="og:title" content="HomuraJS — Git for Application State in JavaScript" />
+  <meta property="og:description" content="Motore avanzato di time-travel state basato su Grafi Aciclici Diretti (DAG). Branching non distruttivo, diff strutturale e DevTools diagnostici." />
+  <meta property="og:image" content="https://raw.githubusercontent.com/biagio-scaglia/homura-js/main/assets/homura-banner.png" />
+  <meta property="og:image:alt" content="HomuraJS Time Travel Engine Architecture" />
+  <meta property="og:locale" content="it_IT" />
+  <meta property="og:locale:alternate" content="en_US" />
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://github.com/biagio-scaglia/homura-js" />
+  <meta name="twitter:title" content="HomuraJS — Time Travel State & History Engine" />
+  <meta name="twitter:description" content="Gestione dello stato ad albero DAG con viaggi nel tempo e branching non distruttivo per React, Vue e Vanilla JS." />
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/biagio-scaglia/homura-js/main/assets/homura-banner.png" />
+
+  <!-- Dublin Core Metadata (GEO & Academic Engines) -->
+  <meta name="DC.title" content="HomuraJS State and History Engine" />
+  <meta name="DC.creator" content="Biagio Scaglia" />
+  <meta name="DC.subject" content="Computer Software, State Management, Time Travel Debugging, JavaScript, TypeScript" />
+  <meta name="DC.description" content="Time Travel State and History Engine modeled as a Directed Acyclic Graph." />
+  <meta name="DC.publisher" content="Biagio Scaglia" />
+  <meta name="DC.format" content="text/html" />
+  <meta name="DC.language" content="it" />
+  <meta name="geo.region" content="IT" />
+  <meta name="geo.placename" content="Italy" />
+
+  <!-- Structured Data: SoftwareApplication (AEO & Search Engines) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "HomuraJS",
+    "alternateName": "@homura-js/core",
+    "operatingSystem": "All",
+    "applicationCategory": "DeveloperApplication",
+    "programmingLanguage": "TypeScript, JavaScript",
+    "softwareVersion": "1.0.0",
+    "license": "https://opensource.org/licenses/MIT",
+    "description": "HomuraJS e un motore per il time-travel debugging e la gestione dello stato strutturato come Grafo Aciclico Diretto (DAG), offrendo branching non distruttivo e diffing profondo.",
+    "url": "https://github.com/biagio-scaglia/homura-js",
+    "downloadUrl": "https://www.npmjs.com/package/@homura-js/core",
+    "author": {
+      "@type": "Person",
+      "name": "Biagio Scaglia",
+      "url": "https://github.com/biagio-scaglia"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0.00",
+      "priceCurrency": "EUR"
+    }
+  }
+  </script>
+
+  <!-- Structured Data: FAQPage (AEO for Perplexity, SearchGPT, Gemini, Claude, Google SGE) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Che cos'e HomuraJS?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "HomuraJS e una libreria JavaScript/TypeScript per il time-travel debugging e la gestione della cronologia dello stato basata su Grafi Aciclici Diretti (DAG), concepita come 'Git per lo stato dell'applicazione'."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "In cosa differisce HomuraJS da un normale sistema Undo/Redo?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "I sistemi standard di Undo/Redo usano uno stack lineare che distrugge permanentemente gli stati futuri quando si torna indietro e si applica una nuova modifica. HomuraJS crea rami paralleli (Branching) senza mai eliminare la cronologia passata o futura."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Quali framework UI supporta HomuraJS?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "HomuraJS e framework-agnostic nel core (@homura-js/core) e include pacchetti dedicati con integrazioni native per React 18+ (@homura-js/react), Vue 3 (@homura-js/vue) e Vanilla JavaScript (@homura-js/vanilla)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Come si installa HomuraJS?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "E possibile installare il core tramite 'npm install @homura-js/core' oppure installare il meta-package '@biagioscaglia/homurajs'."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
     :root {
       --bg-base: #060408;
@@ -27,7 +147,7 @@
       --text-main: #f3e8ff;
       --text-muted: #c4b5fd;
       --text-subtle: #7c6f9e;
-      --sidebar-width: 280px;
+      --sidebar-width: 290px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -37,25 +157,42 @@
       background-color: var(--bg-base);
       color: var(--text-main);
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      line-height: 1.6;
+      line-height: 1.65;
       display: flex;
       flex-direction: column;
       min-height: 100vh;
     }
+
+    /* Vector SVG Icons */
+    .icon {
+      width: 16px;
+      height: 16px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      display: inline-block;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+    .icon-lg { width: 20px; height: 20px; }
+    .icon-sm { width: 14px; height: 14px; }
+    .icon-accent { stroke: var(--accent); }
 
     /* Header */
     header {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(12, 8, 20, 0.85);
+      background: rgba(12, 8, 20, 0.9);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
       height: 64px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 24px;
+      padding: 0 28px;
     }
 
     .brand {
@@ -92,15 +229,28 @@
       gap: 12px;
     }
 
+    .search-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-icon-inside {
+      position: absolute;
+      left: 10px;
+      color: var(--text-subtle);
+      pointer-events: none;
+    }
+
     .search-input {
       background: var(--bg-surface-elevated);
       border: 1px solid var(--border);
       color: var(--text-main);
-      padding: 6px 14px;
+      padding: 6px 12px 6px 32px;
       border-radius: 6px;
       font-family: inherit;
       font-size: 13px;
-      width: 220px;
+      width: 230px;
       outline: none;
       transition: all 0.2s;
     }
@@ -108,6 +258,7 @@
     .search-input:focus {
       border-color: var(--accent);
       box-shadow: 0 0 10px var(--accent-glow);
+      width: 270px;
     }
 
     .btn {
@@ -122,7 +273,7 @@
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       text-decoration: none;
       transition: all 0.15s ease;
     }
@@ -164,7 +315,7 @@
       background: var(--bg-surface);
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 24px;
     }
 
     .nav-group-title {
@@ -175,6 +326,9 @@
       color: var(--accent);
       margin-bottom: 8px;
       padding-left: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .nav-list {
@@ -185,8 +339,10 @@
     }
 
     .nav-item a {
-      display: block;
-      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
       color: var(--text-muted);
       text-decoration: none;
       font-size: 13px;
@@ -210,8 +366,8 @@
     .docs-content {
       flex: 1;
       min-width: 0;
-      padding: 40px 48px 80px;
-      max-width: 960px;
+      padding: 40px 54px 90px;
+      max-width: 980px;
     }
 
     /* Typography */
@@ -243,6 +399,9 @@
       margin-bottom: 16px;
       padding-bottom: 8px;
       border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     h3 {
@@ -251,6 +410,9 @@
       color: var(--violet-light);
       margin-top: 28px;
       margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     p, li {
@@ -268,6 +430,27 @@
 
     strong { color: #fff; }
 
+    /* Direct Answer Box (AEO Optimization) */
+    .answer-box {
+      background: rgba(168, 85, 247, 0.08);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 20px 0 28px;
+    }
+
+    .answer-box-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--violet-light);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     /* Code Blocks */
     .code-container {
       background: var(--bg-code);
@@ -280,7 +463,7 @@
     .code-header {
       background: var(--bg-surface-elevated);
       border-bottom: 1px solid var(--border);
-      padding: 6px 14px;
+      padding: 7px 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -289,14 +472,24 @@
       font-family: 'JetBrains Mono', monospace;
     }
 
+    .code-header-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     .code-copy-btn {
       background: transparent;
       border: 1px solid transparent;
       color: var(--text-muted);
       font-size: 11px;
+      font-family: inherit;
       padding: 3px 8px;
       border-radius: 4px;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
       transition: all 0.15s;
     }
 
@@ -350,6 +543,9 @@
       font-weight: 600;
       padding: 8px 14px;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
       transition: all 0.15s;
     }
 
@@ -362,7 +558,7 @@
     /* Cards & Grids */
     .feature-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
       gap: 16px;
       margin: 24px 0;
     }
@@ -380,11 +576,17 @@
       transform: translateY(-2px);
     }
 
+    .feature-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
     .feature-title {
       font-size: 15px;
       font-weight: 700;
       color: #fff;
-      margin-bottom: 8px;
     }
 
     .feature-desc {
@@ -400,7 +602,7 @@
       border: 1px solid var(--accent);
       box-shadow: 0 0 24px var(--accent-glow);
       border-radius: 12px;
-      padding: 20px;
+      padding: 22px;
       margin: 32px 0;
     }
 
@@ -428,7 +630,7 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 12.5px;
       color: var(--text-main);
-      max-height: 200px;
+      max-height: 220px;
       overflow-y: auto;
     }
 
@@ -474,34 +676,60 @@
       transition: all 0.25s ease;
       z-index: 1000;
       pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .toast.show {
       opacity: 1;
       transform: translateY(0);
     }
+
+    footer {
+      border-top: 1px solid var(--border);
+      background: var(--bg-surface);
+      padding: 30px 24px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-subtle);
+    }
   </style>
 </head>
 <body>
   <!-- Global Header -->
   <header>
-    <a href="#" class="brand">
+    <a href="#" class="brand" title="HomuraJS Homepage">
+      <!-- Shield Logo SVG -->
+      <svg class="icon icon-lg icon-accent" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
       <span class="brand-title">HOMURAJS</span>
       <span class="version-tag">v1.0.0</span>
     </a>
 
     <div class="header-actions">
-      <input type="text" class="search-input" id="search-bar" placeholder="Cerca nella documentazione..." />
-      <button class="btn btn-primary" id="btn-copy-install">Copia Installazione</button>
-      <a href="https://github.com/biagio-scaglia/homura-js" target="_blank" class="btn">GitHub</a>
+      <div class="search-wrapper">
+        <svg class="icon search-icon-inside" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" class="search-input" id="search-bar" placeholder="Cerca nella documentazione..." aria-label="Cerca nella documentazione" />
+      </div>
+      <button class="btn btn-primary" id="btn-copy-install">
+        <svg class="icon" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        <span>Copia Installazione</span>
+      </button>
+      <a href="https://github.com/biagio-scaglia/homura-js" target="_blank" rel="noopener noreferrer" class="btn" title="GitHub Repository">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+        <span>GitHub</span>
+      </a>
     </div>
   </header>
 
   <div class="docs-layout">
     <!-- Navigation Sidebar -->
-    <aside class="docs-sidebar">
+    <aside class="docs-sidebar" aria-label="Navigazione documentazione">
       <div>
-        <div class="nav-group-title">Introduzione</div>
+        <div class="nav-group-title">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          <span>Introduzione</span>
+        </div>
         <ul class="nav-list">
           <li class="nav-item active"><a href="#panoramica">Panoramica</a></li>
           <li class="nav-item"><a href="#perche-homura">Perche HomuraJS</a></li>
@@ -511,7 +739,10 @@
       </div>
 
       <div>
-        <div class="nav-group-title">Concetti Fondamentali</div>
+        <div class="nav-group-title">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+          <span>Concetti Fondamentali</span>
+        </div>
         <ul class="nav-list">
           <li class="nav-item"><a href="#state-engine">Gestione Stato & Immutabilita</a></li>
           <li class="nav-item"><a href="#dag-graph">Grafo DAG & Branching</a></li>
@@ -522,7 +753,10 @@
       </div>
 
       <div>
-        <div class="nav-group-title">Funzionalita Avanzate</div>
+        <div class="nav-group-title">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+          <span>Funzionalita Avanzate</span>
+        </div>
         <ul class="nav-list">
           <li class="nav-item"><a href="#persistenza">Persistenza & Storage</a></li>
           <li class="nav-item"><a href="#middleware">Middleware & Pipeline</a></li>
@@ -531,7 +765,10 @@
       </div>
 
       <div>
-        <div class="nav-group-title">Integrazioni UI</div>
+        <div class="nav-group-title">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+          <span>Integrazioni UI</span>
+        </div>
         <ul class="nav-list">
           <li class="nav-item"><a href="#react">React 18+</a></li>
           <li class="nav-item"><a href="#vue">Vue 3</a></li>
@@ -540,10 +777,14 @@
       </div>
 
       <div>
-        <div class="nav-group-title">Strumenti & Diagnostica</div>
+        <div class="nav-group-title">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <span>Strumenti & Diagnostica</span>
+        </div>
         <ul class="nav-list">
           <li class="nav-item"><a href="#devtools">DevTools Integrati</a></li>
           <li class="nav-item"><a href="#sandbox-live">Sandbox Interattivo Live</a></li>
+          <li class="nav-item"><a href="#faq">Domande Frequenti (FAQ)</a></li>
           <li class="nav-item"><a href="#api-reference">API Reference</a></li>
         </ul>
       </div>
@@ -559,21 +800,44 @@
           Un'architettura a Grafo Aciclico Diretto (DAG) concepita come <strong>"Git for application state"</strong>.
         </p>
 
+        <!-- AEO Direct Answer Summary -->
+        <div class="answer-box">
+          <div class="answer-box-title">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Risposta Diretta / TL;DR</span>
+          </div>
+          <p style="margin: 0; font-size: 13.5px; color: #f3e8ff;">
+            <strong>HomuraJS</strong> e una libreria TypeScript zero-dependency che registra l'evoluzione dello stato come grafo ad albero immutabile. Consente di retrocedere nel tempo (rewind), avanzare (fast-forward), creare rami paralleli (branching) senza mai distruggere la cronologia passata/futura, confrontare due stati con diff semantico profondo e ispezionarli con DevTools integrati.
+          </p>
+        </div>
+
         <div class="feature-grid">
           <div class="feature-card">
-            <div class="feature-title">Grafo DAG Non Distruttivo</div>
+            <div class="feature-header">
+              <svg class="icon icon-accent" viewBox="0 0 24 24"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><path d="M6 21V9a9 9 0 0 0 9 9"></path></svg>
+              <div class="feature-title">Grafo DAG Non Distruttivo</div>
+            </div>
             <p class="feature-desc">Ogni mutazione diverge in un ramo senza mai cancellare le linee temporali storiche precedenti.</p>
           </div>
           <div class="feature-card">
-            <div class="feature-title">Proxy Draft Immutabile</div>
+            <div class="feature-header">
+              <svg class="icon icon-accent" viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+              <div class="feature-title">Proxy Draft Immutabile</div>
+            </div>
             <p class="feature-desc">Modifica diretta tramite sintassi ergonomica con Copy-On-Write puro a zero dipendenze.</p>
           </div>
           <div class="feature-card">
-            <div class="feature-title">Diffing Strutturale Profondo</div>
+            <div class="feature-header">
+              <svg class="icon icon-accent" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+              <div class="feature-title">Diffing Strutturale Profondo</div>
+            </div>
             <p class="feature-desc">Algoritmo di confronto ricorsivo con tracciamento esatto dei percorsi semantici dot-path.</p>
           </div>
           <div class="feature-card">
-            <div class="feature-title">DevTools Completi</div>
+            <div class="feature-header">
+              <svg class="icon icon-accent" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+              <div class="feature-title">DevTools Completi</div>
+            </div>
             <p class="feature-desc">Visualizzatore di timeline, ispettore dello stato ad albero, comparatore diff e scrubber temporale.</p>
           </div>
         </div>
@@ -581,7 +845,10 @@
 
       <!-- Section: Why Homura -->
       <section id="perche-homura">
-        <h2>Perche HomuraJS?</h2>
+        <h2>
+          <svg class="icon icon-accent" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+          <span>Perche HomuraJS?</span>
+        </h2>
         <p>
           Nei gestori di stato tradizionali, la cronologia e gestita come uno stack lineare piatto. Quando si retrocede indietro nel tempo ed avviene una nuova modifica, <strong>tutti gli stati futuri vengono distrutti in modo irreversibile</strong>.
         </p>
@@ -592,20 +859,41 @@
 
       <!-- Section: Installation -->
       <section id="installazione">
-        <h2>Installazione</h2>
+        <h2>
+          <svg class="icon icon-accent" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          <span>Installazione</span>
+        </h2>
         <p>Seleziona il tuo gestore di pacchetti preferito:</p>
 
         <div class="tab-bar">
-          <button class="tab-btn active" data-tab="npm">npm</button>
-          <button class="tab-btn" data-tab="pnpm">pnpm</button>
-          <button class="tab-btn" data-tab="yarn">yarn</button>
-          <button class="tab-btn" data-tab="bun">bun</button>
+          <button class="tab-btn active" data-tab="npm">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+            <span>npm</span>
+          </button>
+          <button class="tab-btn" data-tab="pnpm">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+            <span>pnpm</span>
+          </button>
+          <button class="tab-btn" data-tab="yarn">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+            <span>yarn</span>
+          </button>
+          <button class="tab-btn" data-tab="bun">
+            <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+            <span>bun</span>
+          </button>
         </div>
 
         <div class="code-container" id="install-code-box">
           <div class="code-header">
-            <span>Terminal</span>
-            <button class="code-copy-btn">Copia</button>
+            <span class="code-header-title">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+              <span>Terminal</span>
+            </span>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copia</span>
+            </button>
           </div>
           <pre><code id="install-cmd">npm install @homura-js/core</code></pre>
         </div>
@@ -614,16 +902,28 @@
         <p>Per integrare HomuraJS nel tuo framework UI preferito:</p>
         <div class="code-container">
           <div class="code-header">
-            <span>React 18+</span>
-            <button class="code-copy-btn">Copia</button>
+            <span class="code-header-title">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              <span>React 18+</span>
+            </span>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copia</span>
+            </button>
           </div>
           <pre><code>npm install @homura-js/core @homura-js/react @homura-js/devtools</code></pre>
         </div>
 
         <div class="code-container">
           <div class="code-header">
-            <span>Vue 3</span>
-            <button class="code-copy-btn">Copia</button>
+            <span class="code-header-title">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              <span>Vue 3</span>
+            </span>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copia</span>
+            </button>
           </div>
           <pre><code>npm install @homura-js/core @homura-js/vue @homura-js/devtools</code></pre>
         </div>
@@ -631,13 +931,22 @@
 
       <!-- Section: Quickstart -->
       <section id="quickstart">
-        <h2>Guida Rapida</h2>
+        <h2>
+          <svg class="icon icon-accent" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          <span>Guida Rapida</span>
+        </h2>
         <p>Inizializza un'istanza ed esegui mutazioni controllate nel tempo in poche righe:</p>
 
         <div class="code-container">
           <div class="code-header">
-            <span>quickstart.ts</span>
-            <button class="code-copy-btn">Copia</button>
+            <span class="code-header-title">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <span>quickstart.ts</span>
+            </span>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copia</span>
+            </button>
           </div>
           <pre><code>import { createHomura } from '@homura-js/core';
 
@@ -661,7 +970,10 @@ console.log(homura.getState()); // { contatore: 10, utente: 'Homura' }</code></p
 
       <!-- Section: State Engine -->
       <section id="state-engine">
-        <h2>Gestione dello Stato & Immutabilita</h2>
+        <h2>
+          <svg class="icon icon-accent" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+          <span>Gestione dello Stato & Immutabilita</span>
+        </h2>
         <p>
           HomuraJS garantisce l'immutabilita tramite Proxy Drafts basati su Copy-On-Write. 
           All'interno della funzione <code>update(draft => ...)</code> puoi modificare le proprieta direttamente: il motore applichera le modifiche solo ai percorsi toccati, condividendo la struttura immutata con lo stato precedente.
@@ -669,8 +981,14 @@ console.log(homura.getState()); // { contatore: 10, utente: 'Homura' }</code></p
 
         <div class="code-container">
           <div class="code-header">
-            <span>mutations.ts</span>
-            <button class="code-copy-btn">Copia</button>
+            <span class="code-header-title">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <span>mutations.ts</span>
+            </span>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copia</span>
+            </button>
           </div>
           <pre><code>// Modifica bozza diretta
 homura.update(draft => {
@@ -691,14 +1009,20 @@ homura.setState({ contatore: 100, utente: 'Homura' }, { label: 'Reset Totale' })
 
       <!-- Section: DAG & Branching -->
       <section id="dag-graph">
-        <h2>Grafo DAG & Branching ("Git for State")</h2>
+        <h2>
+          <svg class="icon icon-accent" viewBox="0 0 24 24"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><path d="M6 21V9a9 9 0 0 0 9 9"></path></svg>
+          <span>Grafo DAG & Branching ("Git for State")</span>
+        </h2>
         <p>
           Ogni operazione produce un oggetto <code>HistoryEntry&lt;T&gt;</code> indicizzato nel grafo:
         </p>
 
         <div class="code-container">
           <div class="code-header">
-            <span>types.ts</span>
+            <span class="code-header-title">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <span>types.ts</span>
+            </span>
           </div>
           <pre><code>interface HistoryEntry&lt;T&gt; {
   id: string;
@@ -718,8 +1042,14 @@ homura.setState({ contatore: 100, utente: 'Homura' }, { label: 'Reset Totale' })
 
         <div class="code-container">
           <div class="code-header">
-            <span>branching.ts</span>
-            <button class="code-copy-btn">Copia</button>
+            <span class="code-header-title">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <span>branching.ts</span>
+            </span>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copia</span>
+            </button>
           </div>
           <pre><code>// Retrocede a uno stato passato
 homura.jumpTo("nodo-passato-id");
@@ -739,7 +1069,10 @@ homura.switchBranch(rami[0].id);</code></pre>
 
       <!-- Section: Time Travel -->
       <section id="time-travel">
-        <h2>Navigazione Temporale</h2>
+        <h2>
+          <svg class="icon icon-accent" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          <span>Navigazione Temporale</span>
+        </h2>
         <p>Comandi deterministici per viaggiare lungo la cronologia:</p>
 
         <table>
@@ -776,15 +1109,24 @@ homura.switchBranch(rami[0].id);</code></pre>
 
       <!-- Section: Snapshots -->
       <section id="snapshots">
-        <h2>Snapshot & Milestone</h2>
+        <h2>
+          <svg class="icon icon-accent" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+          <span>Snapshot & Milestone</span>
+        </h2>
         <p>
           Crea segnalibri persistenti per salvare pietre miliari dell'applicazione e ripristinarle istantaneamente:
         </p>
 
         <div class="code-container">
           <div class="code-header">
-            <span>snapshots.ts</span>
-            <button class="code-copy-btn">Copia</button>
+            <span class="code-header-title">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <span>snapshots.ts</span>
+            </span>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copia</span>
+            </button>
           </div>
           <pre><code>// Creazione snapshot
 const snap = homura.snapshot('Punto di Controllo Boss', { stage: 3 });
@@ -802,15 +1144,24 @@ homura.deleteSnapshot(snap.id);</code></pre>
 
       <!-- Section: Diff Engine -->
       <section id="diff-engine">
-        <h2>Motore di Diff Strutturale</h2>
+        <h2>
+          <svg class="icon icon-accent" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+          <span>Motore di Diff Strutturale</span>
+        </h2>
         <p>
           Il motore pure-function identifica le differenze semantiche esatte tra due stati:
         </p>
 
         <div class="code-container">
           <div class="code-header">
-            <span>diff.ts</span>
-            <button class="code-copy-btn">Copia</button>
+            <span class="code-header-title">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <span>diff.ts</span>
+            </span>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copia</span>
+            </button>
           </div>
           <pre><code>import { diffStates } from '@homura-js/core';
 
@@ -829,15 +1180,24 @@ console.log(diff);
 
       <!-- Section: Persistence -->
       <section id="persistenza">
-        <h2>Persistenza dei Dati</h2>
+        <h2>
+          <svg class="icon icon-accent" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+          <span>Persistenza dei Dati</span>
+        </h2>
         <p>
           Adattatori pronti all'uso per salvare l'intero grafo in LocalStorage o in memoria con debouncing:
         </p>
 
         <div class="code-container">
           <div class="code-header">
-            <span>persistence.ts</span>
-            <button class="code-copy-btn">Copia</button>
+            <span class="code-header-title">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <span>persistence.ts</span>
+            </span>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copia</span>
+            </button>
           </div>
           <pre><code>import { createHomura, LocalStorageAdapter } from '@homura-js/core';
 
@@ -860,15 +1220,24 @@ await homura.load();</code></pre>
 
       <!-- Section: React Integration -->
       <section id="react">
-        <h2>Integrazione React 18+</h2>
+        <h2>
+          <svg class="icon icon-accent" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(30 12 12)"></ellipse><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(90 12 12)"></ellipse><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(150 12 12)"></ellipse></svg>
+          <span>Integrazione React 18+</span>
+        </h2>
         <p>
           L'hook <code>useHomura</code> sfrutta le API native <code>useSyncExternalStore</code> garantendo assenza di tearing e rendering ottimale tramite selettori:
         </p>
 
         <div class="code-container">
           <div class="code-header">
-            <span>Contatore.tsx</span>
-            <button class="code-copy-btn">Copia</button>
+            <span class="code-header-title">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <span>Contatore.tsx</span>
+            </span>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copia</span>
+            </button>
           </div>
           <pre><code>import { useHomura, HomuraDevTools } from '@homura-js/react';
 import { homura } from './store';
@@ -896,11 +1265,20 @@ export function Contatore() {
 
       <!-- Section: Vue Integration -->
       <section id="vue">
-        <h2>Integrazione Vue 3</h2>
+        <h2>
+          <svg class="icon icon-accent" viewBox="0 0 24 24"><polygon points="12 2 2 22 22 22 12 2"></polygon></svg>
+          <span>Integrazione Vue 3</span>
+        </h2>
         <div class="code-container">
           <div class="code-header">
-            <span>Contatore.vue</span>
-            <button class="code-copy-btn">Copia</button>
+            <span class="code-header-title">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <span>Contatore.vue</span>
+            </span>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copia</span>
+            </button>
           </div>
           <pre><code>&lt;template&gt;
   &lt;div&gt;
@@ -925,15 +1303,24 @@ function incrementa() {
 
       <!-- Section: DevTools -->
       <section id="devtools">
-        <h2>DevTools Diagnostici Integrati</h2>
+        <h2>
+          <svg class="icon icon-accent" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <span>DevTools Diagnostici Integrati</span>
+        </h2>
         <p>
           Il pacchetto <code>@homura-js/devtools</code> offre un pannello grafico moderno a zero dipendenze esterne:
         </p>
 
         <div class="code-container">
           <div class="code-header">
-            <span>mountDevtools.ts</span>
-            <button class="code-copy-btn">Copia</button>
+            <span class="code-header-title">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <span>mountDevtools.ts</span>
+            </span>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copia</span>
+            </button>
           </div>
           <pre><code>import { mountDevTools } from '@homura-js/devtools';
 
@@ -948,24 +1335,48 @@ mountDevTools(homura, {
 
       <!-- Section: Interactive Live Sandbox -->
       <section id="sandbox-live">
-        <h2>Sandbox Interattivo Live</h2>
+        <h2>
+          <svg class="icon icon-accent" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          <span>Sandbox Interattivo Live</span>
+        </h2>
         <p>
           Interagisci direttamente con un'istanza reale di HomuraJS integrata in questa pagina:
         </p>
 
         <div class="sandbox-container">
           <div class="sandbox-header">
-            <span style="font-weight: 700; color: #fff;">HOMURA ENGINE SANDBOX</span>
+            <span style="font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px;">
+              <svg class="icon icon-accent" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+              <span>HOMURA ENGINE SANDBOX</span>
+            </span>
             <span id="sb-status" style="font-size: 12px; color: var(--accent);">Pronto</span>
           </div>
 
           <div class="sandbox-controls">
-            <button class="btn btn-primary" id="sb-btn-inc">+10 Contatore</button>
-            <button class="btn btn-primary" id="sb-btn-user">Cambia Utente</button>
-            <button class="btn" id="sb-btn-undo">Undo</button>
-            <button class="btn" id="sb-btn-redo">Redo</button>
-            <button class="btn" id="sb-btn-fork" style="border-color: var(--violet-light);">Fork Ramo</button>
-            <button class="btn" id="sb-btn-snap">Snapshot</button>
+            <button class="btn btn-primary" id="sb-btn-inc">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>+10 Contatore</span>
+            </button>
+            <button class="btn btn-primary" id="sb-btn-user">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <span>Cambia Utente</span>
+            </button>
+            <button class="btn" id="sb-btn-undo">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+              <span>Undo</span>
+            </button>
+            <button class="btn" id="sb-btn-redo">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+              <span>Redo</span>
+            </button>
+            <button class="btn" id="sb-btn-fork" style="border-color: var(--violet-light);">
+              <svg class="icon icon-sm icon-accent" viewBox="0 0 24 24"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><path d="M6 21V9a9 9 0 0 0 9 9"></path></svg>
+              <span>Fork Ramo</span>
+            </button>
+            <button class="btn" id="sb-btn-snap">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+              <span>Snapshot</span>
+            </button>
           </div>
 
           <div style="margin-bottom: 8px; font-size: 12px; font-weight: 600; color: var(--text-muted);">
@@ -974,11 +1385,135 @@ mountDevTools(homura, {
           <div class="sandbox-output" id="sb-state-display">Inizializzazione...</div>
         </div>
       </section>
+
+      <!-- Section: FAQ (AEO & AI Search Engines) -->
+      <section id="faq">
+        <h2>
+          <svg class="icon icon-accent" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          <span>Domande Frequenti (FAQ)</span>
+        </h2>
+        <div class="answer-box">
+          <div class="answer-box-title">Che cos'e HomuraJS?</div>
+          <p style="margin: 0; font-size: 13.5px;">
+            HomuraJS e una libreria JavaScript/TypeScript per il time-travel debugging e la gestione della cronologia dello stato basata su Grafi Aciclici Diretti (DAG), concepita come 'Git per lo stato dell'applicazione'.
+          </p>
+        </div>
+
+        <div class="answer-box">
+          <div class="answer-box-title">In cosa differisce HomuraJS da un normale sistema Undo/Redo?</div>
+          <p style="margin: 0; font-size: 13.5px;">
+            I sistemi standard di Undo/Redo usano uno stack lineare che distrugge permanentemente gli stati futuri quando si torna indietro e si applica una nuova modifica. HomuraJS crea rami paralleli (Branching) senza mai eliminare la cronologia passata o futura.
+          </p>
+        </div>
+
+        <div class="answer-box">
+          <div class="answer-box-title">Quali framework UI supporta HomuraJS?</div>
+          <p style="margin: 0; font-size: 13.5px;">
+            HomuraJS e framework-agnostic nel core (<code>@homura-js/core</code>) e include pacchetti dedicati con integrazioni native per React 18+ (<code>@homura-js/react</code>), Vue 3 (<code>@homura-js/vue</code>) e Vanilla JavaScript (<code>@homura-js/vanilla</code>).
+          </p>
+        </div>
+
+        <div class="answer-box">
+          <div class="answer-box-title">Come si installa HomuraJS?</div>
+          <p style="margin: 0; font-size: 13.5px;">
+            E possibile installare il core tramite <code>npm install @homura-js/core</code> oppure installare il meta-package unificato <code>npm install @biagioscaglia/homurajs</code>.
+          </p>
+        </div>
+      </section>
+
+      <!-- Section: API Reference -->
+      <section id="api-reference">
+        <h2>
+          <svg class="icon icon-accent" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+          <span>Riferimento Completo delle API</span>
+        </h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Metodo</th>
+              <th>Parametri</th>
+              <th>Ritorno</th>
+              <th>Descrizione</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>getState()</code></td>
+              <td>-</td>
+              <td><code>T</code></td>
+              <td>Restituisce l'albero di stato immutabile corrente.</td>
+            </tr>
+            <tr>
+              <td><code>update(updater, options?)</code></td>
+              <td><code>(draft: T) => void</code>, <code>StateUpdateOptions</code></td>
+              <td><code>HistoryEntry&lt;T&gt;</code></td>
+              <td>Esegue una modifica bozza Copy-On-Write.</td>
+            </tr>
+            <tr>
+              <td><code>undo()</code></td>
+              <td>-</td>
+              <td><code>HistoryEntry&lt;T&gt; | null</code></td>
+              <td>Retrocede al nodo genitore nella timeline.</td>
+            </tr>
+            <tr>
+              <td><code>redo()</code></td>
+              <td>-</td>
+              <td><code>HistoryEntry&lt;T&gt; | null</code></td>
+              <td>Avanza al nodo figlio nel ramo attivo.</td>
+            </tr>
+            <tr>
+              <td><code>rewind(steps)</code></td>
+              <td><code>number</code></td>
+              <td><code>HistoryEntry&lt;T&gt; | null</code></td>
+              <td>Retrocede velocemente di N passi.</td>
+            </tr>
+            <tr>
+              <td><code>fastForward(steps)</code></td>
+              <td><code>number</code></td>
+              <td><code>HistoryEntry&lt;T&gt; | null</code></td>
+              <td>Avanza velocemente di N passi.</td>
+            </tr>
+            <tr>
+              <td><code>jumpTo(entryId)</code></td>
+              <td><code>string</code></td>
+              <td><code>HistoryEntry&lt;T&gt;</code></td>
+              <td>Salta a qualsiasi nodo del grafo DAG.</td>
+            </tr>
+            <tr>
+              <td><code>snapshot(name?, metadata?)</code></td>
+              <td><code>string</code>, <code>Record&lt;string, unknown&gt;</code></td>
+              <td><code>Snapshot&lt;T&gt;</code></td>
+              <td>Crea un segnalibro immutabile dello stato.</td>
+            </tr>
+            <tr>
+              <td><code>restore(snapshotId)</code></td>
+              <td><code>string</code></td>
+              <td><code>HistoryEntry&lt;T&gt;</code></td>
+              <td>Ripristina lo stato memorizzato nello snapshot.</td>
+            </tr>
+            <tr>
+              <td><code>diff(entryA, entryB?)</code></td>
+              <td><code>HistoryEntry | T</code>, <code>HistoryEntry | T</code></td>
+              <td><code>DiffChange[]</code></td>
+              <td>Calcola il diff ricorsivo strutturale profondo.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
     </main>
   </div>
 
+  <!-- Global Footer -->
+  <footer>
+    <div>HomuraJS &copy; 2026 Biagio Scaglia &amp; HomuraJS Team. Distribuito sotto licenza MIT.</div>
+    <div style="margin-top: 6px; font-size: 12px;">Architettura Time Travel State basata su Grafi Aciclici Diretti (DAG) per JavaScript e TypeScript.</div>
+  </footer>
+
   <!-- Copy Notification Toast -->
-  <div class="toast" id="toast">Copiato negli appunti</div>
+  <div class="toast" id="toast">
+    <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    <span id="toast-text">Copiato negli appunti</span>
+  </div>
 
   <script type="module" src="./src/main.ts"></script>
 </body>
