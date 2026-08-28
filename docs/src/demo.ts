@@ -30,11 +30,11 @@ const homura = createHomura<KanbanState>({
   maxHistory: 500
 });
 
-// Mount embedded diagnostic DevTools in floating mode, open by default
+// Mount embedded diagnostic DevTools in floating mode
 const devtools = mountDevTools(homura, {
   position: 'floating',
   theme: 'dark',
-  defaultOpen: true
+  defaultOpen: false
 });
 
 // DOM Elements

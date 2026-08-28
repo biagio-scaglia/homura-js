@@ -26,9 +26,9 @@ export class BranchManagerView {
     const currentBranchId = snapshot.currentBranch.id;
 
     this.element.innerHTML = `
-      <div style="display: flex; gap: 8px; margin-bottom: 16px;">
-        <input type="text" class="homura-search-input hm-branch-input" placeholder="New branch name (e.g. experiment-quest)..." />
-        <button class="hm-btn hm-btn-primary hm-btn-create-branch">Create Branch</button>
+      <div style="display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap;">
+        <input type="text" class="homura-search-input hm-branch-input" style="flex: 1; min-width: 140px;" placeholder="New branch name..." />
+        <button class="hm-btn hm-btn-primary hm-btn-create-branch" style="white-space: nowrap;">Create Branch</button>
       </div>
       <div class="homura-branches-list" style="display: flex; flex-direction: column; gap: 8px;"></div>
     `;

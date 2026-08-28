@@ -25,9 +25,9 @@ export class SnapshotsView {
     const snapshots = snapshot.snapshots;
 
     this.element.innerHTML = `
-      <div style="display: flex; gap: 8px; margin-bottom: 16px;">
-        <input type="text" class="homura-search-input hm-snap-input" placeholder="Snapshot label (e.g. Before Boss Battle)..." />
-        <button class="hm-btn hm-btn-primary hm-btn-take-snap">Capture Snapshot</button>
+      <div style="display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap;">
+        <input type="text" class="homura-search-input hm-snap-input" style="flex: 1; min-width: 140px;" placeholder="Snapshot label..." />
+        <button class="hm-btn hm-btn-primary hm-btn-take-snap" style="white-space: nowrap;">Capture</button>
       </div>
       <div class="homura-snapshots-list" style="display: flex; flex-direction: column; gap: 8px;"></div>
     `;

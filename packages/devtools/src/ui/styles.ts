@@ -113,17 +113,18 @@ export const devtoolsStyles = `
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 900px;
-  max-width: calc(100vw - 40px);
-  height: 600px;
-  max-height: calc(100vh - 40px);
+  width: min(840px, calc(100vw - 32px));
+  height: min(480px, calc(100vh - 80px));
+  min-width: 320px;
+  min-height: 280px;
   border-radius: var(--hm-radius-lg);
   box-shadow: var(--hm-shadow-lg);
   z-index: 999999;
   overflow: hidden;
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+  resize: both;
 }
 
 .homura-floating-container.minimized {
@@ -256,8 +257,8 @@ export const devtoolsStyles = `
 }
 
 .homura-sidebar {
-  width: 320px;
-  min-width: 260px;
+  width: clamp(210px, 30%, 270px);
+  min-width: 190px;
   border-right: 1px solid var(--hm-border);
   display: flex;
   flex-direction: column;
@@ -267,6 +268,7 @@ export const devtoolsStyles = `
 
 .homura-content-area {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   background: var(--hm-bg-base);
