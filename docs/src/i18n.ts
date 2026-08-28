@@ -306,6 +306,62 @@ export const translations: TranslationDictionary = {
     it: 'Il motore pure-function identifica le differenze semantiche esatte tra due stati:'
   },
 
+  // Transaction
+  'nav.transaction': {
+    en: 'Transactions & Batching',
+    it: 'Transazioni & Batching'
+  },
+  'transaction.title': {
+    en: 'Atomic Transactions & Batching',
+    it: 'Transazioni Atomiche & Batching'
+  },
+  'transaction.p1': {
+    en: 'Combine multiple state updates into a single atomic history commit instead of cluttering your timeline with intermediate states:',
+    it: 'Raggruppa piu modifiche dello stato in un unico commit di cronologia atomico anziche intasare la timeline con stati intermedi:'
+  },
+
+  // Replay Engine
+  'nav.replay': {
+    en: 'Replay Engine & Bug Reports',
+    it: 'Replay Engine & Bug Report'
+  },
+  'replay.title': {
+    en: 'Timeline Replay Engine & Bug Reports',
+    it: 'Timeline Replay Engine & Bug Report'
+  },
+  'replay.p1': {
+    en: 'Step-by-step automated time-travel replay engine for live debugging, QA testing, and exporting reproducible session bug reports:',
+    it: 'Motore di riproduzione automatica passo-passo per live debugging, QA testing ed esportazione di bug report di sessione riproducibili:'
+  },
+
+  // Branch Management (Merge & Compare)
+  'nav.branch_mgmt': {
+    en: 'Branch Merge & Compare',
+    it: 'Branch Merge & Compare'
+  },
+  'branch_mgmt.title': {
+    en: 'Branch Merging & Comparison ("Git for State")',
+    it: 'Merge e Confronto tra Rami ("Git for State")'
+  },
+  'branch_mgmt.p1': {
+    en: 'Compare parallel branches to discover divergence points (Lowest Common Ancestor), diffs, and merge alternative feature timelines:',
+    it: 'Confronta rami paralleli per scoprire punti di divergenza (LCA), differenze strutturali e unisci linee temporali alternative:'
+  },
+
+  // Compaction & IndexedDB
+  'nav.compaction': {
+    en: 'Compaction & IndexedDB',
+    it: 'Compattazione & IndexedDB'
+  },
+  'compaction.title': {
+    en: 'History Compaction & Enterprise Storage',
+    it: 'Compattazione Cronologia & Storage Enterprise'
+  },
+  'compaction.p1': {
+    en: 'Keep your memory footprint optimal with intelligent graph compaction and high-capacity storage backends like IndexedDB:',
+    it: 'Mantieni l\'impronta di memoria ottimale grazie alla compattazione intelligente del grafo e agli storage backend ad alta capacita come IndexedDB:'
+  },
+
   // Persistence
   'persistence.title': {
     en: 'Data Persistence & Storage',

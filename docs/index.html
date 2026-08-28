@@ -774,9 +774,14 @@
 
     .sandbox-controls {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-      gap: 6px;
-      margin-bottom: 12px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    @media (max-width: 900px) {
+      .sandbox-controls {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
 
     .sandbox-output {
@@ -988,10 +993,14 @@
         </div>
         <ul class="nav-list">
           <li class="nav-item"><a href="#state-engine" data-i18n="nav.state_engine">State Engine &amp; Immutability</a></li>
+          <li class="nav-item"><a href="#transazioni" data-i18n="nav.transaction">Transactions &amp; Batching</a></li>
+          <li class="nav-item"><a href="#replay-engine" data-i18n="nav.replay">Replay Engine &amp; Reports</a></li>
           <li class="nav-item"><a href="#dag-graph" data-i18n="nav.dag_graph">DAG Graph &amp; Branching</a></li>
+          <li class="nav-item"><a href="#branch-mgmt" data-i18n="nav.branch_mgmt">Branch Merge &amp; Compare</a></li>
           <li class="nav-item"><a href="#time-travel" data-i18n="nav.time_travel">Time Travel Navigation</a></li>
           <li class="nav-item"><a href="#snapshots" data-i18n="nav.snapshots">Snapshots &amp; Milestones</a></li>
           <li class="nav-item"><a href="#diff-engine" data-i18n="nav.diff_engine">Structural Diff Engine</a></li>
+          <li class="nav-item"><a href="#compattazione" data-i18n="nav.compaction">Compaction &amp; Storage</a></li>
         </ul>
       </div>
 
@@ -1252,6 +1261,80 @@ homura.setState({ counter: 100, user: 'Homura' }, { label: 'Total Reset' });</co
         </div>
       </section>
 
+      <!-- Section: Atomic Transactions & Batching -->
+      <section id="transazioni">
+        <h2>
+          <svg class="icon icon-accent" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
+          <span data-i18n="transaction.title">Atomic Transactions &amp; Batching</span>
+        </h2>
+        <p data-i18n="transaction.p1">
+          Combine multiple state updates into a single atomic history commit instead of cluttering your timeline with intermediate states:
+        </p>
+
+        <div class="code-container">
+          <div class="code-header">
+            <span class="code-header-title">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <span>transactions.ts</span>
+            </span>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre><code>// 1. Batch multiple mutations atomically
+homura.transaction((draft) =&gt; {
+  draft.name = "Biagio";
+  draft.age = 21;
+  draft.role = "developer";
+}, { label: "Update Profile" });
+
+// Result: Exactly 1 single history commit node created!
+// Calling homura.undo() reverts all 3 fields in one single step.</code></pre>
+        </div>
+      </section>
+
+      <!-- Section: Replay Engine & Bug Reports -->
+      <section id="replay-engine">
+        <h2>
+          <svg class="icon icon-accent" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+          <span data-i18n="replay.title">Timeline Replay Engine &amp; Bug Reports</span>
+        </h2>
+        <p data-i18n="replay.p1">
+          Step-by-step automated time-travel replay engine for live debugging, QA testing, and exporting reproducible session bug reports:
+        </p>
+
+        <div class="code-container">
+          <div class="code-header">
+            <span class="code-header-title">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <span>replay-and-export.ts</span>
+            </span>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre><code>// 1. Replay timeline sequentially with speed multiplier
+await homura.replay({
+  from: "login-checkpoint",
+  to: "checkout-entry",
+  speed: 2, // 2x speed
+  onStep: (entry, step, total) =&gt; {
+    console.log(`[Replay] Step ${step}/${total}: ${entry.label}`);
+  }
+});
+
+// 2. Export full reproducible state history report
+const bugReport = homura.export();
+// Save to "bug-report.homura" file for instant developer reproduction!
+
+// 3. Developer imports bug report on another machine
+homura.import(bugReport);
+homura.jumpTo("crash-state");</code></pre>
+        </div>
+      </section>
+
       <!-- Section: DAG & Branching -->
       <section id="dag-graph">
         <h2>
@@ -1309,6 +1392,40 @@ const branches = homura.getBranches();
 
 // Switch between parallel branches
 homura.switchBranch(branches[0].id);</code></pre>
+        </div>
+      </section>
+
+      <!-- Section: Branch Merging & Comparison -->
+      <section id="branch-mgmt">
+        <h2>
+          <svg class="icon icon-accent" viewBox="0 0 24 24"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><path d="M6 21V9a9 9 0 0 0 9 9"></path></svg>
+          <span data-i18n="branch_mgmt.title">Branch Merging &amp; Comparison ("Git for State")</span>
+        </h2>
+        <p data-i18n="branch_mgmt.p1">
+          Compare parallel branches to discover divergence points (Lowest Common Ancestor), diffs, and merge alternative feature timelines:
+        </p>
+
+        <div class="code-container">
+          <div class="code-header">
+            <span class="code-header-title">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <span>branch-merge.ts</span>
+            </span>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre><code>// 1. Compare two parallel branches
+const comparison = homura.compare("main", "experimental-feature");
+console.log(comparison.commonAncestorId); // Divergence point in graph
+console.log(comparison.aheadCount);       // Commits ahead
+console.log(comparison.diff);             // Deep recursive delta
+
+// 2. Merge experimental branch into active branch
+homura.merge("experimental-feature", {
+  label: "Merge experimental feature into main"
+});</code></pre>
         </div>
       </section>
 
@@ -1422,6 +1539,48 @@ console.log(diff);
 //   { path: ['hero', 'weapon'], type: 'changed', oldValue: 'Sword', newValue: 'Magic Sword' },
 //   { path: ['inventory', 1], type: 'added', value: 'Shield' }
 // ]</code></pre>
+        </div>
+      </section>
+
+      <!-- Section: Compaction & Storage -->
+      <section id="compattazione">
+        <h2>
+          <svg class="icon icon-accent" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+          <span data-i18n="compaction.title">History Compaction &amp; Enterprise Storage</span>
+        </h2>
+        <p data-i18n="compaction.p1">
+          Keep your memory footprint optimal with intelligent graph compaction and high-capacity storage backends like IndexedDB:
+        </p>
+
+        <div class="code-container">
+          <div class="code-header">
+            <span class="code-header-title">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <span>compaction-and-storage.ts</span>
+            </span>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre><code>import { createHomura, createIndexedDBAdapter } from '@biagioscaglia/homurajs';
+
+// 1. Enterprise IndexedDB persistence for large browser applications
+const homura = createHomura({
+  initialState: { documents: [] },
+  persistence: {
+    adapter: createIndexedDBAdapter({ dbName: 'my_app_db', storeName: 'history_store' }),
+    autoSave: true,
+    debounceMs: 150
+  }
+});
+
+// 2. Compact history graph down to 100 entries, preserving checkpoints
+const prunedCount = homura.compact({
+  maxEntries: 100,
+  preserveSnapshots: true
+});
+console.log(`Pruned ${prunedCount} intermediate non-essential nodes`);</code></pre>
         </div>
       </section>
 
@@ -1616,7 +1775,7 @@ mountDevTools(homura, {
               <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
               <span data-i18n="sandbox.btn_redo">Redo</span>
             </button>
-            <button class="btn" id="sb-btn-fork" style="border-color: var(--violet-light);">
+            <button class="btn" id="sb-btn-fork">
               <svg class="icon icon-sm icon-accent" viewBox="0 0 24 24"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><path d="M6 21V9a9 9 0 0 0 9 9"></path></svg>
               <span data-i18n="sandbox.btn_fork">Fork Branch</span>
             </button>
@@ -1624,11 +1783,11 @@ mountDevTools(homura, {
               <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
               <span data-i18n="sandbox.btn_snap">Snapshot</span>
             </button>
-            <button class="btn" id="sb-btn-transaction" style="border-color: var(--cyan); color: var(--cyan);">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
-              <span data-i18n="sandbox.btn_transaction">Transaction Batch</span>
+            <button class="btn" id="sb-btn-transaction">
+              <svg class="icon icon-sm icon-accent" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
+              <span data-i18n="sandbox.btn_transaction">Transaction</span>
             </button>
-            <button class="btn btn-primary" id="sb-btn-replay" style="background: #9333ea; border-color: var(--accent);">
+            <button class="btn btn-primary" id="sb-btn-replay">
               <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
               <span data-i18n="sandbox.btn_replay">▶ Replay (2x)</span>
             </button>
