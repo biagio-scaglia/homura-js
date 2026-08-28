@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HomuraJS — Interactive State Machine & Time Travel Playground</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090d16;
+      --surface: #101624;
+      --border: rgba(255, 255, 255, 0.08);
+      --accent: #ff4757;
+      --cyan: #00d2d3;
+      --purple: #a855f7;
+      --green: #2ed573;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: #f1f5f9;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      padding: 16px 24px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+    }
+    .badge {
+      background: rgba(255, 71, 87, 0.15);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .main-layout {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      height: calc(100vh - 65px);
+    }
+    .playground-pane {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      overflow-y: auto;
+      gap: 16px;
+    }
+    .devtools-pane {
+      flex: 1.2;
+      border-left: 1px solid var(--border);
+      height: 100%;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .btn {
+      background: #1e293b;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 7px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .btn:hover { background: #334155; }
+    .btn-primary { background: var(--accent); border-color: var(--accent); }
+    .btn-primary:hover { background: #ff6b81; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <span style="color: var(--accent);">🔥 HOMURAJS</span>
+      <span class="badge">v1.0.0</span>
+      <span style="font-size: 12px; font-weight: 400; color: #94a3b8;">Interactive State & History Playground</span>
+    </div>
+    <div style="display: flex; gap: 8px;">
+      <a href="https://github.com/biagio-scaglia/homura-js" target="_blank" class="btn" style="text-decoration: none;">GitHub Repo</a>
+    </div>
+  </header>
+
+  <div class="main-layout">
+    <!-- Left Pane: Interactive State Controls -->
+    <div class="playground-pane">
+      <div class="card">
+        <h3 style="margin-bottom: 12px; font-size: 15px;">State Sandbox</h3>
+        <p style="color: #94a3b8; font-size: 13px; margin-bottom: 16px;">
+          Execute updates on the Homura engine below. Notice how every state mutation is recorded in the Directed Acyclic Graph on the right, allowing non-destructive time travel, branch forks, and structural diffing.
+        </p>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px;">
+          <button class="btn btn-primary" id="btn-add-user">+ Add User</button>
+          <button class="btn btn-primary" id="btn-rename-user">Rename Active User</button>
+          <button class="btn btn-primary" id="btn-add-task">+ Push Todo Task</button>
+          <button class="btn" id="btn-toggle-task">Toggle Task Complete</button>
+          <button class="btn" id="btn-toggle-theme">Toggle Theme</button>
+          <button class="btn" id="btn-inc-metric">+ Increment Metric</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-bottom: 12px; font-size: 15px;">Time-Travel Actions</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <button class="btn" id="btn-undo">◀ Undo 1 Step</button>
+          <button class="btn" id="btn-redo">Redo 1 Step ▶</button>
+          <button class="btn" id="btn-rewind-3">⏪ Rewind 3 Steps</button>
+          <button class="btn" id="btn-fast-forward-3">⏩ Fast-Forward 3 Steps</button>
+          <button class="btn" id="btn-snapshot" style="color: var(--purple);">📷 Take Snapshot</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-bottom: 12px; font-size: 15px;">Branching Simulator</h3>
+        <p style="color: #94a3b8; font-size: 13px; margin-bottom: 12px;">
+          Click "Fork Alternative Timeline" after rewinding. Homura will create a new branch without discarding previous history!
+        </p>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn" id="btn-fork" style="background: rgba(168, 85, 247, 0.2); border-color: var(--purple); color: #c084fc;">🔀 Fork Alternative Timeline</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Pane: Full Embedded DevTools -->
+    <div class="devtools-pane" id="devtools-container"></div>
+  </div>
+
+  <script type="module" src="./src/main.ts"></script>
+</body>
+</html>

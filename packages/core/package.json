@@ -1,0 +1,54 @@
+{
+  "name": "@homura-js/core",
+  "version": "1.0.0",
+  "description": "Core Time Travel State & History Engine for JavaScript (Git for application state)",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/biagio-scaglia/homura-js.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://github.com/biagio-scaglia/homura-js/issues"
+  },
+  "homepage": "https://github.com/biagio-scaglia/homura-js#readme",
+  "keywords": [
+    "state",
+    "time-travel",
+    "history",
+    "undo",
+    "redo",
+    "branching",
+    "diff",
+    "snapshots",
+    "git-for-state",
+    "devtools",
+    "homura"
+  ],
+  "author": "Biagio Scaglia",
+  "license": "MIT"
+}

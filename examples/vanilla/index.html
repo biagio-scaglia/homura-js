@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HomuraJS — Vanilla JS Example</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #0d1117;
+      color: #f1f5f9;
+      font-family: 'Inter', sans-serif;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .card {
+      background: #161b22;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 24px;
+      width: 100%;
+      max-width: 500px;
+    }
+    .btn {
+      background: #21262d;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      margin: 4px;
+    }
+    .btn:hover { background: #30363d; }
+    .btn-accent { background: #ff4757; border-color: #ff4757; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2 style="margin-bottom: 16px;">HomuraJS Vanilla State</h2>
+    <div style="font-size: 24px; font-weight: 700; margin-bottom: 16px;">
+      Count: <span id="count-display" style="color: #00d2d3;">0</span>
+    </div>
+    <div style="margin-bottom: 16px;">
+      User: <span id="user-display" style="color: #2ed573;">Guest</span>
+    </div>
+    <div>
+      <button class="btn btn-accent" id="btn-inc">+1 Count</button>
+      <button class="btn btn-accent" id="btn-dec">-1 Count</button>
+      <button class="btn" id="btn-user">Change User</button>
+      <button class="btn" id="btn-undo">Undo</button>
+      <button class="btn" id="btn-redo">Redo</button>
+    </div>
+  </div>
+
+  <script type="module" src="./src/main.ts"></script>
+</body>
+</html>

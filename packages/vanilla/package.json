@@ -1,0 +1,53 @@
+{
+  "name": "@homura-js/vanilla",
+  "version": "1.0.0",
+  "description": "Vanilla JavaScript and DOM helpers for HomuraJS",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/biagio-scaglia/homura-js.git",
+    "directory": "packages/vanilla"
+  },
+  "bugs": {
+    "url": "https://github.com/biagio-scaglia/homura-js/issues"
+  },
+  "homepage": "https://github.com/biagio-scaglia/homura-js#readme",
+  "dependencies": {
+    "@homura-js/core": "workspace:*",
+    "@homura-js/devtools": "workspace:*"
+  },
+  "keywords": [
+    "vanillajs",
+    "dom",
+    "time-travel",
+    "state",
+    "history",
+    "homura"
+  ],
+  "author": "Biagio Scaglia",
+  "license": "MIT"
+}

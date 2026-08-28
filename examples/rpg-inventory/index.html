@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HomuraJS — RPG Inventory & Time Machine Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090c10;
+      --card-bg: rgba(22, 27, 34, 0.85);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --accent: #ff4757;
+      --accent-glow: rgba(255, 71, 87, 0.4);
+      --gold: #ffd32a;
+      --cyan: #00d2d3;
+      --purple: #a855f7;
+      --green: #2ed573;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: radial-gradient(circle at 50% 0%, #1a162b 0%, #090c10 70%);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px;
+    }
+
+    .rpg-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .rpg-title {
+      font-family: 'Cinzel', serif;
+      font-size: 32px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #fff 20%, var(--accent) 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 0.1em;
+    }
+
+    .rpg-subtitle {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    .time-travel-hud {
+      width: 100%;
+      max-width: 1100px;
+      background: var(--card-bg);
+      border: 1px solid var(--accent);
+      box-shadow: 0 0 20px rgba(255, 71, 87, 0.15);
+      border-radius: 12px;
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      backdrop-filter: blur(12px);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .hud-section {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .rpg-grid {
+      width: 100%;
+      max-width: 1100px;
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 860px) {
+      .rpg-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .rpg-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 18px;
+      backdrop-filter: blur(10px);
+    }
+
+    .card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 8px;
+    }
+
+    /* Player stats */
+    .stat-row {
+      margin-bottom: 12px;
+    }
+
+    .stat-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-bottom: 4px;
+      color: var(--muted);
+    }
+
+    .stat-bar-bg {
+      width: 100%;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .stat-bar-fill {
+      height: 100%;
+      transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .hp-fill { background: linear-gradient(90deg, #ff4757, #ff6b81); box-shadow: 0 0 10px var(--accent-glow); }
+    .mp-fill { background: linear-gradient(90deg, #00d2d3, #54a0ff); box-shadow: 0 0 10px var(--cyan); }
+    .exp-fill { background: linear-gradient(90deg, #a855f7, #c084fc); }
+
+    .gold-badge {
+      font-family: 'Cinzel', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Equipment */
+    .equipment-slots {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .equip-slot {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px dashed rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12.5px;
+    }
+
+    .equip-slot.equipped {
+      border: 1px solid var(--purple);
+      background: rgba(168, 85, 247, 0.1);
+    }
+
+    /* Inventory Items */
+    .inventory-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .inv-item-card {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+      transition: all 0.2s ease;
+    }
+
+    .inv-item-card:hover {
+      border-color: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+    }
+
+    .inv-item-name {
+      font-weight: 600;
+      font-size: 12.5px;
+      color: #fff;
+    }
+
+    .inv-item-qty {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* Action Buttons */
+    .action-btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--card-border);
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 8px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .btn-danger {
+      background: rgba(255, 71, 87, 0.2);
+      border-color: var(--accent);
+      color: #ff6b81;
+    }
+
+    .btn-danger:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-success {
+      background: rgba(46, 213, 115, 0.2);
+      border-color: var(--green);
+      color: #2ed573;
+    }
+
+    .btn-success:hover {
+      background: var(--green);
+      color: #000;
+    }
+
+    .btn-gold {
+      background: rgba(255, 211, 42, 0.15);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .btn-gold:hover {
+      background: var(--gold);
+      color: #000;
+    }
+
+    /* Embedded DevTools Section */
+    .devtools-section {
+      width: 100%;
+      max-width: 1100px;
+      height: 520px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+  </style>
+</head>
+<body>
+  <div class="rpg-header">
+    <h1 class="rpg-title">HOMURA TIME TRAVEL ENGINE</h1>
+    <p class="rpg-subtitle">Deterministic DAG State Machine • Non-Destructive Branching • Zero-Copy State Time Travel</p>
+  </div>
+
+  <!-- Time Travel Quick HUD -->
+  <div class="time-travel-hud">
+    <div class="hud-section">
+      <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--accent); letter-spacing: 0.1em;">Time Machine</span>
+      <button class="btn btn-danger" id="hud-undo">◀ Undo</button>
+      <button class="btn" id="hud-redo">Redo ▶</button>
+      <button class="btn" id="hud-rewind-5">-5 Steps</button>
+      <button class="btn" id="hud-ff-5">+5 Steps</button>
+    </div>
+
+    <div class="hud-section">
+      <span style="font-size: 12px; color: var(--muted);" id="hud-status">Current: Initial state</span>
+      <span class="homura-branch-badge" id="hud-branch">main</span>
+      <button class="btn btn-gold" id="hud-snapshot">📷 Snapshot</button>
+    </div>
+  </div>
+
+  <!-- RPG Game Interface -->
+  <div class="rpg-grid">
+    <!-- Left Column: Hero Status & Equipment -->
+    <div class="rpg-card">
+      <div class="card-title">
+        <span id="hero-name">Homura (Chronos Knight)</span>
+        <span style="font-size: 12px; color: var(--cyan);" id="hero-level">Lv. 5</span>
+      </div>
+
+      <!-- Stats -->
+      <div class="stat-row">
+        <div class="stat-label">
+          <span>HP</span>
+          <span id="hp-val">80 / 100</span>
+        </div>
+        <div class="stat-bar-bg">
+          <div class="stat-bar-fill hp-fill" id="hp-bar" style="width: 80%;"></div>
+        </div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-label">
+          <span>Mana</span>
+          <span id="mp-val">45 / 50</span>
+        </div>
+        <div class="stat-bar-bg">
+          <div class="stat-bar-fill mp-fill" id="mp-bar" style="width: 90%;"></div>
+        </div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-label">
+          <span>EXP</span>
+          <span id="exp-val">340 / 500</span>
+        </div>
+        <div class="stat-bar-bg">
+          <div class="stat-bar-fill exp-fill" id="exp-bar" style="width: 68%;"></div>
+        </div>
+      </div>
+
+      <div style="margin-top: 14px; display: flex; align-items: center; justify-content: space-between;">
+        <span style="font-size: 12px; color: var(--muted);">Treasury:</span>
+        <div class="gold-badge">
+          <span>🪙</span>
+          <span id="gold-val">1250 G</span>
+        </div>
+      </div>
+
+      <!-- Equipment -->
+      <div class="card-title" style="margin-top: 20px; font-size: 14px;">Equipped Gear</div>
+      <div class="equipment-slots">
+        <div class="equip-slot equipped" id="slot-weapon">
+          <span style="color: var(--muted);">Weapon</span>
+          <span style="font-weight: 600; color: #fff;" id="equip-weapon-name">Rune Sword (+15 ATK)</span>
+          <button class="btn" style="padding: 2px 6px; font-size: 10px;" id="btn-unequip-weapon">Unequip</button>
+        </div>
+        <div class="equip-slot" id="slot-armor">
+          <span style="color: var(--muted);">Armor</span>
+          <span style="font-weight: 600; color: var(--muted);" id="equip-armor-name">(Empty)</span>
+          <button class="btn" style="padding: 2px 6px; font-size: 10px; display: none;" id="btn-unequip-armor">Unequip</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Inventory & Action Hub -->
+    <div class="rpg-card">
+      <div class="card-title">
+        <span>Backpack Inventory</span>
+        <span style="font-size: 11px; color: var(--muted);" id="inv-count">3 items</span>
+      </div>
+
+      <div class="inventory-grid" id="inventory-container"></div>
+
+      <div class="card-title" style="margin-top: 18px; font-size: 14px;">Battle & Encounter Actions</div>
+      <div class="action-btn-group">
+        <button class="btn btn-danger" id="action-damage">💥 Take 25 Damage</button>
+        <button class="btn btn-success" id="action-heal">💚 Use Potion (+30 HP)</button>
+        <button class="btn" id="action-spell">✨ Cast Time Spell (-15 MP, +80 EXP)</button>
+        <button class="btn btn-gold" id="action-loot">🎁 Find Dungeon Chest (+250 G)</button>
+      </div>
+
+      <div class="card-title" style="margin-top: 18px; font-size: 14px;">Merchant Emporium</div>
+      <div class="action-btn-group">
+        <button class="btn" id="shop-buy-potion">🛒 Buy Potion (-50 G)</button>
+        <button class="btn" id="shop-buy-ether">🛒 Buy Ether (-80 G)</button>
+        <button class="btn" id="shop-buy-excalibur">🗡️ Buy Excalibur Sword (-500 G)</button>
+        <button class="btn" id="shop-buy-shield">🛡️ Buy Dragon Armor (-350 G)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Embedded DevTools Window -->
+  <div class="devtools-section" id="devtools-mount"></div>
+
+  <script type="module" src="./src/main.ts"></script>
+</body>
+</html>

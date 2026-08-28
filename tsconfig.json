@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@homura-js/core": ["packages/core/src/index.ts"],
+      "@homura-js/devtools": ["packages/devtools/src/index.ts"],
+      "@homura-js/react": ["packages/react/src/index.ts"],
+      "@homura-js/vue": ["packages/vue/src/index.ts"],
+      "@homura-js/vanilla": ["packages/vanilla/src/index.ts"],
+      "@homurajs/core": ["packages/core/src/index.ts"],
+      "@homurajs/devtools": ["packages/devtools/src/index.ts"],
+      "@homurajs/react": ["packages/react/src/index.ts"],
+      "@homurajs/vue": ["packages/vue/src/index.ts"],
+      "@homurajs/vanilla": ["packages/vanilla/src/index.ts"]
+    }
+  },
+  "include": ["packages/*/src/**/*", "packages/*/tests/**/*", "examples/**/*"]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "@homurajs/example-vanilla",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@homura-js/core": "workspace:*",
+    "@homura-js/devtools": "workspace:*",
+    "@homura-js/vanilla": "workspace:*"
+  },
+  "devDependencies": {
+    "vite": "^6.1.0",
+    "typescript": "^5.7.3"
+  }
+}

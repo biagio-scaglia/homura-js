@@ -1,0 +1,31 @@
+{
+  "name": "homurajs-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Time Travel State & History Engine for JavaScript (Git for application state)",
+  "type": "module",
+  "scripts": {
+    "build": "pnpm --filter \"./packages/**\" run build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "pnpm --filter \"./packages/**\" run typecheck",
+    "lint": "eslint packages/*/src/**/*.ts",
+    "format": "prettier --write \"packages/*/src/**/*.{ts,tsx}\" \"examples/**/*.{ts,tsx,vue,html,css}\"",
+    "clean": "pnpm --filter \"./packages/**\" run clean"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.0",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "eslint": "^9.20.1",
+    "prettier": "^3.5.1",
+    "tsup": "^8.3.6",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.5",
+    "jsdom": "^26.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

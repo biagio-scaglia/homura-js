@@ -1,0 +1,60 @@
+{
+  "name": "@homura-js/vue",
+  "version": "1.0.0",
+  "description": "Vue 3 Composition API & Plugin Integration for HomuraJS",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/biagio-scaglia/homura-js.git",
+    "directory": "packages/vue"
+  },
+  "bugs": {
+    "url": "https://github.com/biagio-scaglia/homura-js/issues"
+  },
+  "homepage": "https://github.com/biagio-scaglia/homura-js#readme",
+  "dependencies": {
+    "@homura-js/core": "workspace:*",
+    "@homura-js/devtools": "workspace:*"
+  },
+  "peerDependencies": {
+    "vue": "^3.3.0"
+  },
+  "devDependencies": {
+    "vue": "^3.5.13"
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "composition-api",
+    "time-travel",
+    "state",
+    "history",
+    "homura"
+  ],
+  "author": "Biagio Scaglia",
+  "license": "MIT"
+}
