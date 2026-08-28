@@ -21,6 +21,38 @@ export const translations: TranslationDictionary = {
     en: 'Copy Install',
     it: 'Copia Installazione'
   },
+  'header.live_studio': {
+    en: 'Live Studio',
+    it: 'Live Studio'
+  },
+  'demo.mobile_warning_badge': {
+    en: 'Desktop & Tablet Experience',
+    it: 'Esperienza Desktop & Tablet'
+  },
+  'demo.mobile_warning_title': {
+    en: 'Desktop or Tablet Recommended',
+    it: 'Esperienza Desktop o Tablet Consigliata'
+  },
+  'demo.mobile_warning_desc': {
+    en: 'HomuraJS Interactive Live Studio & DevTools are optimized for larger screens to inspect real-time DAG history graphs, multi-column Kanban states, and side-by-side time travel diffs. Please visit this page on a desktop or tablet for the optimal experience.',
+    it: "L'Interactive Live Studio e le DevTools di HomuraJS sono progettati per schermi ampi (Desktop o Tablet) per visualizzare l'albero di cronologia DAG a nodi, la lavagna Kanban interattiva e i diff strutturali in tempo reale. Per un'esperienza ottimale, ti consigliamo di accedere da computer desktop o tablet."
+  },
+  'demo.mobile_btn_back': {
+    en: 'Back to Documentation',
+    it: 'Torna alla Documentazione'
+  },
+  'demo.mobile_btn_force': {
+    en: 'Continue to Demo anyway (not recommended)',
+    it: 'Visualizza comunque la demo (non consigliato)'
+  },
+  'demo.mobile_tip': {
+    en: '💡 Tip: Open this link on a PC or tablet for full interactive control and keyboard shortcuts (Alt+H).',
+    it: '💡 Suggerimento: apri questo link su PC o tablet per un controllo completo con scorciatoie da tastiera (Alt+H).'
+  },
+  'demo.force_toast': {
+    en: '⚠️ Mobile preview mode enabled. For the best experience, use desktop or tablet.',
+    it: "⚠️ Modalità mobile attivata. Per un'esperienza completa usa desktop o tablet."
+  },
   'toast.copied': {
     en: 'Copied to clipboard',
     it: 'Copiato negli appunti'
@@ -133,8 +165,12 @@ export const translations: TranslationDictionary = {
   },
 
   // Overview Section
+  'overview.goth_motto': {
+    en: 'Chronos in Ramis Aeternis • Non-Destructive DAG State Engine',
+    it: 'Chronos in Ramis Aeternis • Motore di Stato DAG Non Distruttivo'
+  },
   'overview.title': {
-    en: 'HomuraJS — Version Control for Application State',
+    en: 'HomuraJS — Git for Application State',
     it: 'HomuraJS — Version Control per lo Stato Applicativo'
   },
   'overview.lead': {

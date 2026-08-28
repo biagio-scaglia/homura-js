@@ -1,5 +1,6 @@
 import { createHomura, HistoryEntry } from '@homura-js/core';
 import { mountDevTools } from '@homura-js/devtools';
+import { translations, Language } from './i18n';
 
 interface Task {
   id: string;
@@ -313,5 +314,41 @@ homura.on('*', (eventName, _eventData: any) => {
   renderBoard();
 });
 
+// Language & i18n initialization
+const currentLang: Language = (localStorage.getItem('homura_docs_lang') as Language) || 'en';
+document.documentElement.lang = currentLang;
+document.querySelectorAll<HTMLElement>('[data-i18n]').forEach(el => {
+  const key = el.getAttribute('data-i18n');
+  if (key && translations[key] && translations[key][currentLang]) {
+    el.textContent = translations[key][currentLang];
+  }
+});
+
+// Mobile Warning force proceed handler
+document.getElementById('btn-mobile-force')?.addEventListener('click', () => {
+  document.body.classList.add('force-studio');
+  const warningScreen = document.getElementById('mobile-warning-screen');
+  if (warningScreen) {
+    warningScreen.style.display = 'none';
+  }
+  const toastMsg =
+    translations['demo.force_toast']?.[currentLang] ||
+    (currentLang === 'it'
+      ? "⚠️ Modalità mobile attivata. Per un'esperienza completa usa desktop o tablet."
+      : '⚠️ Mobile preview mode enabled. For the best experience, use desktop or tablet.');
+  showToast(toastMsg);
+});
+
 // Initial render
 renderBoard();
+
+// If loaded on a mobile or small viewport screen, show a contextual warning toast
+if (window.innerWidth <= 1024 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+  setTimeout(() => {
+    const alertMsg =
+      currentLang === 'it'
+        ? '⚠️ Esperienza consigliata da computer Desktop o Tablet.'
+        : '⚠️ HomuraJS Studio is best experienced on Desktop or Tablet.';
+    showToast(alertMsg);
+  }, 400);
+}
