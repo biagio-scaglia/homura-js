@@ -1,6 +1,6 @@
 {
   "name": "@homura-js/vue",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Vue 3 Composition API & Plugin Integration for HomuraJS",
   "type": "module",
   "main": "./dist/index.cjs",
