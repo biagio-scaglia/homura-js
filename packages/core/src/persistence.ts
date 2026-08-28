@@ -85,6 +85,118 @@ export class LocalStorageAdapter<T> implements PersistenceAdapter<T> {
 }
 
 /**
+ * IndexedDB persistence adapter for large-scale enterprise web applications.
+ */
+export class IndexedDBAdapter<T> implements PersistenceAdapter<T> {
+  private dbName: string;
+  private storeName: string;
+  private key: string;
+
+  constructor(options: { dbName?: string; storeName?: string; key?: string } = {}) {
+    this.dbName = options.dbName ?? 'homura_db';
+    this.storeName = options.storeName ?? 'homura_store';
+    this.key = options.key ?? 'active_state';
+  }
+
+  private isAvailable(): boolean {
+    return (
+      typeof window !== 'undefined' &&
+      typeof window.indexedDB !== 'undefined'
+    );
+  }
+
+  private getDB(): Promise<IDBDatabase> {
+    return new Promise((resolve, reject) => {
+      if (!this.isAvailable()) {
+        return reject(new HomuraPersistenceError('IndexedDB is not supported in this environment'));
+      }
+      const request = indexedDB.open(this.dbName, 1);
+      request.onupgradeneeded = () => {
+        const db = request.result;
+        if (!db.objectStoreNames.contains(this.storeName)) {
+          db.createObjectStore(this.storeName);
+        }
+      };
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(new HomuraPersistenceError('Failed to open IndexedDB database', request.error));
+    });
+  }
+
+  public async save(data: SerializedHomura<T>): Promise<void> {
+    if (!this.isAvailable()) return;
+    try {
+      const db = await this.getDB();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(this.storeName, 'readwrite');
+        const store = tx.objectStore(this.storeName);
+        const req = store.put(data, this.key);
+        req.onsuccess = () => resolve();
+        req.onerror = () => reject(new HomuraPersistenceError(`Failed to save to IndexedDB [${this.dbName}]`, req.error));
+      });
+    } catch (err) {
+      throw new HomuraPersistenceError(`IndexedDB save failed for key "${this.key}"`, err);
+    }
+  }
+
+  public async load(): Promise<SerializedHomura<T> | null> {
+    if (!this.isAvailable()) return null;
+    try {
+      const db = await this.getDB();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(this.storeName, 'readonly');
+        const store = tx.objectStore(this.storeName);
+        const req = store.get(this.key);
+        req.onsuccess = () => resolve(req.result ?? null);
+        req.onerror = () => reject(new HomuraPersistenceError(`Failed to load from IndexedDB [${this.dbName}]`, req.error));
+      });
+    } catch (err) {
+      throw new HomuraPersistenceError(`IndexedDB load failed for key "${this.key}"`, err);
+    }
+  }
+
+  public async clear(): Promise<void> {
+    if (!this.isAvailable()) return;
+    try {
+      const db = await this.getDB();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(this.storeName, 'readwrite');
+        const store = tx.objectStore(this.storeName);
+        const req = store.delete(this.key);
+        req.onsuccess = () => resolve();
+        req.onerror = () => reject(new HomuraPersistenceError(`Failed to clear IndexedDB [${this.dbName}]`, req.error));
+      });
+    } catch (err) {
+      throw new HomuraPersistenceError(`IndexedDB clear failed for key "${this.key}"`, err);
+    }
+  }
+}
+
+/**
+ * Factory helper to create a LocalStorage persistence adapter.
+ */
+export function createLocalStorageAdapter<T>(key?: string): LocalStorageAdapter<T> {
+  return new LocalStorageAdapter<T>(key);
+}
+
+/**
+ * Factory helper to create an IndexedDB persistence adapter.
+ */
+export function createIndexedDBAdapter<T>(options?: {
+  dbName?: string;
+  storeName?: string;
+  key?: string;
+}): IndexedDBAdapter<T> {
+  return new IndexedDBAdapter<T>(options);
+}
+
+/**
+ * Factory helper to create an in-memory persistence adapter.
+ */
+export function createMemoryAdapter<T>(): MemoryAdapter<T> {
+  return new MemoryAdapter<T>();
+}
+
+/**
  * Persistence controller with optional debounced auto-save.
  */
 export class PersistenceController<T> {

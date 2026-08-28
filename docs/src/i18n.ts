@@ -373,7 +373,15 @@ export const translations: TranslationDictionary = {
   },
   'sandbox.btn_snap': {
     en: 'Snapshot',
-    it: 'Snapshot'
+    it: 'Segnalibro'
+  },
+  'sandbox.btn_transaction': {
+    en: 'Transaction Batch',
+    it: 'Transazione Batch'
+  },
+  'sandbox.btn_replay': {
+    en: '▶ Replay (2x)',
+    it: '▶ Replay (2x)'
   },
   'sandbox.state_label': {
     en: 'Live State Output:',
@@ -474,6 +482,26 @@ export const translations: TranslationDictionary = {
   'api.restore_desc': {
     en: 'Restores the state stored in the snapshot checkpoint.',
     it: 'Ripristina lo stato memorizzato nello snapshot.'
+  },
+  'api.transaction_desc': {
+    en: 'Batches multiple mutations into a single atomic history commit.',
+    it: 'Raggruppa piu modifiche in un unico commit atomico di cronologia.'
+  },
+  'api.replay_desc': {
+    en: 'Replays timeline history step-by-step with configurable speed and hooks.',
+    it: 'Riproduce la cronologia passo-passo con velocita e hook configurabili.'
+  },
+  'api.merge_desc': {
+    en: 'Merges another branch timeline into the current active branch.',
+    it: 'Fonde la cronologia di un altro ramo nel ramo attivo corrente.'
+  },
+  'api.compare_desc': {
+    en: 'Compares two branches calculating common ancestor and structural diff.',
+    it: 'Confronta due rami calcolando antenato comune e diff strutturale.'
+  },
+  'api.compact_desc': {
+    en: 'Compacts history by pruning non-essential nodes to save RAM/disk.',
+    it: 'Compatta la cronologia eliminando i nodi intermedi non essenziali per risparmiare memoria.'
   },
   'api.diff_desc': {
     en: 'Calculates the deep recursive structural delta diff.',

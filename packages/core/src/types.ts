@@ -147,6 +147,64 @@ export type HomuraMiddleware<T> = (
 ) => void | Promise<void>;
 
 /**
+ * Replay engine options for automated time-travel playback.
+ */
+export interface ReplayOptions<T> {
+  /** Entry ID to start replay from (defaults to branch root or oldest entry) */
+  from?: string;
+  /** Entry ID to end replay at (defaults to current entry or branch head) */
+  to?: string;
+  /** Playback speed multiplier (1 = 1x, 2 = 2x, 5 = 5x, etc., default: 1) */
+  speed?: number;
+  /** Base delay between steps in milliseconds (default: 300ms) */
+  stepDelayMs?: number;
+  /** Callback fired before each state transition during replay */
+  onStep?: (entry: HistoryEntry<T>, stepIndex: number, totalSteps: number) => void;
+}
+
+/**
+ * Options for merging two branches.
+ */
+export interface BranchMergeOptions {
+  /** Custom label for the merge commit */
+  label?: string;
+  /** Metadata to attach to merge commit */
+  metadata?: Record<string, unknown>;
+  /** Merge strategy (fast-forward or three-way merge commit) */
+  strategy?: 'fast-forward' | 'three-way';
+}
+
+/**
+ * Result of comparing two branches in the DAG.
+ */
+export interface BranchComparison {
+  /** Source branch ID */
+  branchA: string;
+  /** Target branch ID */
+  branchB: string;
+  /** Common ancestor entry ID in the DAG (if any) */
+  commonAncestorId: string | null;
+  /** Number of entries branchA has ahead of common ancestor */
+  aheadCount: number;
+  /** Number of entries branchB has ahead of common ancestor */
+  behindCount: number;
+  /** Deep structural diff changes between both heads */
+  diff: DiffChange[];
+}
+
+/**
+ * Options for history compaction and memory optimization.
+ */
+export interface CompactionOptions {
+  /** Target maximum number of entries to retain */
+  maxEntries?: number;
+  /** Whether to preserve entries referenced by snapshots (default: true) */
+  preserveSnapshots?: boolean;
+  /** Whether to preserve branch head entries (default: true) */
+  retainBranchHeads?: boolean;
+}
+
+/**
  * Typed Homura event map.
  */
 export interface HomuraEventMap<T> {
@@ -194,11 +252,41 @@ export interface HomuraEventMap<T> {
   'branch:delete': {
     branchId: string;
   };
+  'branch:merge': {
+    sourceBranchId: string;
+    targetBranchId: string;
+    entry: HistoryEntry<T>;
+  };
+  'transaction:commit': {
+    entry: HistoryEntry<T>;
+    label: string;
+  };
+  'replay:start': {
+    fromEntryId: string;
+    toEntryId: string;
+    totalSteps: number;
+  };
+  'replay:step': {
+    entry: HistoryEntry<T>;
+    stepIndex: number;
+    totalSteps: number;
+  };
+  'replay:end': {
+    finalEntry: HistoryEntry<T>;
+  };
+  'history:compact': {
+    prunedCount: number;
+    remainingCount: number;
+  };
 }
 
-export type HomuraEventName = keyof HomuraEventMap<any>;
+export type HomuraEventName = keyof HomuraEventMap<any> | '*';
 export type HomuraListener<T, K extends keyof HomuraEventMap<T>> = (
   event: HomuraEventMap<T>[K]
+) => void;
+export type HomuraWildcardListener<T> = (
+  eventName: keyof HomuraEventMap<T>,
+  eventData: HomuraEventMap<T>[keyof HomuraEventMap<T>]
 ) => void;
 export type HomuraUnsubscribe = () => void;
 
@@ -260,6 +348,12 @@ export interface Homura<T> {
   /** Updates state via draft or returned state and commits */
   update(updater: StateUpdater<T>, options?: StateUpdateOptions): HistoryEntry<T>;
 
+  /** Batches multiple state updates into a single atomic history entry */
+  transaction<R = void>(
+    fn: (draft: T) => R,
+    options?: StateUpdateOptions
+  ): HistoryEntry<T>;
+
   /** Commits current state with a custom label & metadata */
   commit(label: string, metadata?: Record<string, unknown>): HistoryEntry<T>;
 
@@ -277,6 +371,9 @@ export interface Homura<T> {
 
   /** Jumps directly to any history entry by ID */
   jumpTo(entryId: string): HistoryEntry<T>;
+
+  /** Replays timeline history sequentially with configurable speed */
+  replay(options?: ReplayOptions<T>): Promise<void>;
 
   /** Creates a snapshot at the current entry */
   snapshot(name?: string, metadata?: Record<string, unknown>): Snapshot<T>;
@@ -311,6 +408,12 @@ export interface Homura<T> {
   /** Switches active branch to another branch */
   switchBranch(branchId: string): HistoryEntry<T>;
 
+  /** Merges another branch into the current active branch */
+  merge(sourceBranchId: string, options?: BranchMergeOptions): HistoryEntry<T>;
+
+  /** Compares two branches returning diff and common ancestor */
+  compare(branchOrEntryA: string, branchOrEntryB: string): BranchComparison;
+
   /** Deletes a branch */
   deleteBranch(branchId: string): void;
 
@@ -320,11 +423,14 @@ export interface Homura<T> {
     entryOrStateB?: HistoryEntry<T> | T | string
   ): DiffChange[];
 
-  /** Exports complete serialized state graph */
+  /** Exports complete serialized state graph (can be saved to bug-report.homura) */
   export(): SerializedHomura<T>;
 
   /** Imports and replaces state graph from serialized payload */
   import(data: SerializedHomura<T>): void;
+
+  /** Compacts and optimizes history graph by pruning non-essential nodes */
+  compact(options?: CompactionOptions): number;
 
   /** Prunes old history entries to fit within max entries */
   pruneHistory(maxEntries?: number): number;
@@ -333,6 +439,12 @@ export interface Homura<T> {
   on<K extends keyof HomuraEventMap<T>>(
     event: K,
     listener: HomuraListener<T, K>
+  ): HomuraUnsubscribe;
+
+  /** Subscribes to all Homura events via wildcard */
+  on(
+    event: '*',
+    listener: HomuraWildcardListener<T>
   ): HomuraUnsubscribe;
 
   /** Registers middleware */

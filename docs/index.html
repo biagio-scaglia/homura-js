@@ -1624,6 +1624,14 @@ mountDevTools(homura, {
               <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
               <span data-i18n="sandbox.btn_snap">Snapshot</span>
             </button>
+            <button class="btn" id="sb-btn-transaction" style="border-color: var(--cyan); color: var(--cyan);">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
+              <span data-i18n="sandbox.btn_transaction">Transaction Batch</span>
+            </button>
+            <button class="btn btn-primary" id="sb-btn-replay" style="background: #9333ea; border-color: var(--accent);">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              <span data-i18n="sandbox.btn_replay">▶ Replay (2x)</span>
+            </button>
           </div>
 
           <div style="margin-bottom: 8px; font-size: 12px; font-weight: 600; color: var(--text-muted);" data-i18n="sandbox.state_label">
@@ -1738,6 +1746,36 @@ mountDevTools(homura, {
                 <td><code>string</code></td>
                 <td><code>HistoryEntry&lt;T&gt;</code></td>
                 <td data-i18n="api.restore_desc">Restores the state stored in the snapshot checkpoint.</td>
+              </tr>
+              <tr>
+                <td><code>transaction(fn, options?)</code></td>
+                <td><code>(draft: T) =&gt; void</code></td>
+                <td><code>HistoryEntry&lt;T&gt;</code></td>
+                <td data-i18n="api.transaction_desc">Batches multiple mutations into a single atomic history commit.</td>
+              </tr>
+              <tr>
+                <td><code>replay(options?)</code></td>
+                <td><code>ReplayOptions&lt;T&gt;</code></td>
+                <td><code>Promise&lt;void&gt;</code></td>
+                <td data-i18n="api.replay_desc">Replays timeline history step-by-step with configurable speed and hooks.</td>
+              </tr>
+              <tr>
+                <td><code>merge(branchId, options?)</code></td>
+                <td><code>string</code>, <code>BranchMergeOptions</code></td>
+                <td><code>HistoryEntry&lt;T&gt;</code></td>
+                <td data-i18n="api.merge_desc">Merges another branch timeline into the current active branch.</td>
+              </tr>
+              <tr>
+                <td><code>compare(branchA, branchB)</code></td>
+                <td><code>string</code>, <code>string</code></td>
+                <td><code>BranchComparison</code></td>
+                <td data-i18n="api.compare_desc">Compares two branches calculating common ancestor and structural diff.</td>
+              </tr>
+              <tr>
+                <td><code>compact(options?)</code></td>
+                <td><code>CompactionOptions</code></td>
+                <td><code>number</code></td>
+                <td data-i18n="api.compact_desc">Compacts history by pruning non-essential nodes to save RAM/disk.</td>
               </tr>
               <tr>
                 <td><code>diff(entryA, entryB?)</code></td>

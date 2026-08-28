@@ -1,5 +1,8 @@
 import {
   Branch,
+  BranchComparison,
+  BranchMergeOptions,
+  CompactionOptions,
   DiffChange,
   HistoryEntry,
   Homura,
@@ -8,6 +11,8 @@ import {
   HomuraListener,
   HomuraMiddleware,
   HomuraUnsubscribe,
+  HomuraWildcardListener,
+  ReplayOptions,
   SerializedHomura,
   Snapshot,
   StateUpdater,
@@ -153,6 +158,49 @@ export class HomuraInstance<T> implements Homura<T> {
       label: options?.label ?? 'Update state',
       metadata: options?.metadata
     });
+  }
+
+  /**
+   * Batches multiple mutations atomically into a single consolidated history commit.
+   */
+  public transaction<R = void>(
+    fn: (draft: T) => R,
+    options?: StateUpdateOptions
+  ): HistoryEntry<T> {
+    const currentState = this.getState();
+
+    if (isObject(currentState)) {
+      const { draft, finishDraft } = createDraft<T>(currentState);
+      fn(draft);
+      const { nextState } = finishDraft();
+
+      const label = options?.label ?? 'Transaction';
+      const entry = this.setState(nextState, {
+        ...options,
+        label,
+        metadata: { ...options?.metadata, transaction: true }
+      });
+
+      this.events.emit('transaction:commit', { entry, label });
+      return entry;
+    }
+
+    // Primitive state update
+    let nextState = currentState;
+    const res = fn(nextState);
+    if (res !== undefined) {
+      nextState = res as unknown as T;
+    }
+
+    const label = options?.label ?? 'Transaction';
+    const entry = this.setState(nextState, {
+      ...options,
+      label,
+      metadata: { ...options?.metadata, transaction: true }
+    });
+
+    this.events.emit('transaction:commit', { entry, label });
+    return entry;
   }
 
   /**
@@ -362,6 +410,51 @@ export class HomuraInstance<T> implements Homura<T> {
   }
 
   /**
+   * Replays timeline history sequentially with configurable speed and step hooks.
+   */
+  public async replay(options?: ReplayOptions<T>): Promise<void> {
+    const currentEntry = this.history.getCurrentEntry();
+    const fromId = options?.from ?? this.history.getCurrentBranch().rootEntryId;
+    const toId = options?.to ?? currentEntry.id;
+
+    const path = this.history.getPathBetween(fromId, toId);
+    if (path.length === 0) return;
+
+    const speed = Math.max(0.1, options?.speed ?? 1);
+    const baseDelay = options?.stepDelayMs ?? 300;
+    const delayMs = baseDelay / speed;
+
+    this.events.emit('replay:start', {
+      fromEntryId: fromId,
+      toEntryId: toId,
+      totalSteps: path.length
+    });
+
+    for (let i = 0; i < path.length; i++) {
+      const entryId = path[i]!;
+      const entry = this.jumpTo(entryId);
+
+      if (options?.onStep) {
+        options.onStep(entry, i + 1, path.length);
+      }
+
+      this.events.emit('replay:step', {
+        entry,
+        stepIndex: i + 1,
+        totalSteps: path.length
+      });
+
+      if (i < path.length - 1 && delayMs > 0) {
+        await new Promise(resolve => setTimeout(resolve, delayMs));
+      }
+    }
+
+    this.events.emit('replay:end', {
+      finalEntry: this.history.getCurrentEntry()
+    });
+  }
+
+  /**
    * Creates a snapshot of the current state.
    */
   public snapshot(name?: string, metadata?: Record<string, unknown>): Snapshot<T> {
@@ -502,6 +595,43 @@ export class HomuraInstance<T> implements Homura<T> {
   }
 
   /**
+   * Merges another branch into current active branch.
+   */
+  public merge(sourceBranchId: string, options?: BranchMergeOptions): HistoryEntry<T> {
+    const targetBranch = this.history.getCurrentBranch();
+    const mergedEntry = this.history.mergeBranch(sourceBranchId, options);
+    this.events.emit('branch:merge', {
+      sourceBranchId,
+      targetBranchId: targetBranch.id,
+      entry: mergedEntry
+    });
+    this.events.emit('state:change', {
+      state: mergedEntry.state,
+      prevState: this.getState(),
+      entry: mergedEntry,
+      action: 'merge'
+    });
+    this.persistence.scheduleAutoSave(() => this.export());
+    return mergedEntry;
+  }
+
+  /**
+   * Compares two branches and calculates their common ancestor and structural diff.
+   */
+  public compare(branchOrEntryA: string, branchOrEntryB: string): BranchComparison {
+    const res = this.history.compareBranches(branchOrEntryA, branchOrEntryB);
+    const diff = diffStates(res.headA.state, res.headB.state);
+    return {
+      branchA: res.branchA,
+      branchB: res.branchB,
+      commonAncestorId: res.commonAncestorId,
+      aheadCount: res.aheadCount,
+      behindCount: res.behindCount,
+      diff
+    };
+  }
+
+  /**
    * Deletes a branch.
    */
   public deleteBranch(branchId: string): void {
@@ -541,7 +671,7 @@ export class HomuraInstance<T> implements Homura<T> {
   }
 
   /**
-   * Exports full state graph for JSON serialization or backups.
+   * Exports full state graph for JSON serialization, backups, or bug report sharing.
    */
   public export(): SerializedHomura<T> {
     const graphData = this.history.exportData();
@@ -577,6 +707,26 @@ export class HomuraInstance<T> implements Homura<T> {
   }
 
   /**
+   * Compacts and optimizes history graph by pruning non-essential nodes while preserving snapshot and branch checkpoints.
+   */
+  public compact(options?: CompactionOptions): number {
+    const snapshotEntryIds = new Set(this.snapshots.getSnapshots().map(s => s.historyEntryId));
+    const count = this.history.compact({
+      maxEntries: options?.maxEntries,
+      preserveSnapshots: options?.preserveSnapshots ?? true,
+      snapshotEntryIds
+    });
+    if (count > 0) {
+      this.events.emit('history:compact', {
+        prunedCount: count,
+        remainingCount: this.history.getAllEntries().length
+      });
+      this.persistence.scheduleAutoSave(() => this.export());
+    }
+    return count;
+  }
+
+  /**
    * Prunes oldest history entries.
    */
   public pruneHistory(maxEntries?: number): number {
@@ -593,7 +743,12 @@ export class HomuraInstance<T> implements Homura<T> {
   public on<K extends keyof HomuraEventMap<T>>(
     event: K,
     listener: HomuraListener<T, K>
-  ): HomuraUnsubscribe {
+  ): HomuraUnsubscribe;
+  public on(
+    event: '*',
+    listener: HomuraWildcardListener<T>
+  ): HomuraUnsubscribe;
+  public on(event: any, listener: any): HomuraUnsubscribe {
     return this.events.on(event, listener);
   }
 

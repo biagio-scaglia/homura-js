@@ -234,5 +234,35 @@ document.getElementById('sb-btn-snap')?.addEventListener('click', () => {
   showToast(currentLang === 'en' ? `Snapshot created: ${s.name}` : `Snapshot creato: ${s.name}`);
 });
 
+document.getElementById('sb-btn-transaction')?.addEventListener('click', () => {
+  const txLabel = currentLang === 'en' ? 'Batch Profile Update' : 'Aggiornamento Profilo in Batch';
+  homuraSandbox.transaction(d => {
+    d.counter += 50;
+    d.user = 'Homura (Architect)';
+    d.historyLog.push(`Atomic Batch (+50, Architect)`);
+  }, { label: txLabel });
+  showToast(currentLang === 'en' ? 'Atomic transaction committed (1 history entry)' : 'Transazione atomica eseguita (1 singolo nodo)');
+});
+
+document.getElementById('sb-btn-replay')?.addEventListener('click', async () => {
+  const replayBtn = document.getElementById('sb-btn-replay') as HTMLButtonElement | null;
+  if (replayBtn) replayBtn.disabled = true;
+
+  showToast(currentLang === 'en' ? 'Starting timeline replay...' : 'Avvio riproduzione timeline...');
+
+  await homuraSandbox.replay({
+    speed: 2,
+    stepDelayMs: 350,
+    onStep: (entry, step, total) => {
+      if (sbStatus) {
+        sbStatus.textContent = `Replaying (${step}/${total}): "${entry.label}"`;
+      }
+    }
+  });
+
+  if (replayBtn) replayBtn.disabled = false;
+  showToast(currentLang === 'en' ? 'Replay finished' : 'Riproduzione completata');
+});
+
 // Initialize default language
 setLanguage(currentLang);

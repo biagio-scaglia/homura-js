@@ -487,6 +487,239 @@ export class HistoryGraph<T> {
   }
 
   /**
+   * Finds the lowest common ancestor node between two entries in the DAG.
+   */
+  public findCommonAncestor(entryIdA: string, entryIdB: string): string | null {
+    const ancestorsA = new Set<string>();
+    let curA: string | null = entryIdA;
+    while (curA) {
+      ancestorsA.add(curA);
+      const entry = this.entries.get(curA);
+      curA = entry ? entry.parentId : null;
+    }
+
+    let curB: string | null = entryIdB;
+    while (curB) {
+      if (ancestorsA.has(curB)) {
+        return curB;
+      }
+      const entry = this.entries.get(curB);
+      curB = entry ? entry.parentId : null;
+    }
+
+    return null;
+  }
+
+  /**
+   * Returns ordered array of entry IDs representing the chronological path between two entries.
+   */
+  public getPathBetween(fromEntryId: string, toEntryId: string): string[] {
+    if (fromEntryId === toEntryId) {
+      return [fromEntryId];
+    }
+
+    // Check if toEntryId is a descendant of fromEntryId
+    const forwardPath: string[] = [];
+    let cur: string | null = toEntryId;
+    while (cur) {
+      forwardPath.unshift(cur);
+      if (cur === fromEntryId) {
+        return forwardPath;
+      }
+      const ent = this.entries.get(cur);
+      cur = ent ? ent.parentId : null;
+    }
+
+    // Check if fromEntryId is a descendant of toEntryId (rewind path)
+    const reversePath: string[] = [];
+    cur = fromEntryId;
+    while (cur) {
+      reversePath.push(cur);
+      if (cur === toEntryId) {
+        return reversePath;
+      }
+      const ent = this.entries.get(cur);
+      cur = ent ? ent.parentId : null;
+    }
+
+    // Divergent branches: go up to common ancestor and then down to toEntryId
+    const ancestorId = this.findCommonAncestor(fromEntryId, toEntryId);
+    if (!ancestorId) {
+      return [fromEntryId, toEntryId];
+    }
+
+    const upPath: string[] = [];
+    cur = fromEntryId;
+    while (cur && cur !== ancestorId) {
+      upPath.push(cur);
+      const ent = this.entries.get(cur);
+      cur = ent ? ent.parentId : null;
+    }
+    upPath.push(ancestorId);
+
+    const downPath: string[] = [];
+    cur = toEntryId;
+    while (cur && cur !== ancestorId) {
+      downPath.unshift(cur);
+      const ent = this.entries.get(cur);
+      cur = ent ? ent.parentId : null;
+    }
+
+    return [...upPath, ...downPath];
+  }
+
+  /**
+   * Compares two branches and returns common ancestor, ahead/behind counts.
+   */
+  public compareBranches(branchIdA: string, branchIdB: string): {
+    branchA: string;
+    branchB: string;
+    commonAncestorId: string | null;
+    aheadCount: number;
+    behindCount: number;
+    headA: HistoryEntry<T>;
+    headB: HistoryEntry<T>;
+  } {
+    const branchA = this.branches.get(branchIdA);
+    const branchB = this.branches.get(branchIdB);
+    if (!branchA) throw new HomuraHistoryError(`Branch "${branchIdA}" not found`);
+    if (!branchB) throw new HomuraHistoryError(`Branch "${branchIdB}" not found`);
+
+    const headA = this.entries.get(branchA.headEntryId)!;
+    const headB = this.entries.get(branchB.headEntryId)!;
+
+    const commonAncestorId = this.findCommonAncestor(headA.id, headB.id);
+
+    let aheadCount = 0;
+    let curA: string | null = headA.id;
+    while (curA && curA !== commonAncestorId) {
+      aheadCount++;
+      const ent = this.entries.get(curA);
+      curA = ent ? ent.parentId : null;
+    }
+
+    let behindCount = 0;
+    let curB: string | null = headB.id;
+    while (curB && curB !== commonAncestorId) {
+      behindCount++;
+      const ent = this.entries.get(curB);
+      curB = ent ? ent.parentId : null;
+    }
+
+    return {
+      branchA: branchIdA,
+      branchB: branchIdB,
+      commonAncestorId,
+      aheadCount,
+      behindCount,
+      headA,
+      headB
+    };
+  }
+
+  /**
+   * Merges a source branch into the current active branch.
+   */
+  public mergeBranch(
+    sourceBranchId: string,
+    options: { label?: string; metadata?: Record<string, unknown>; strategy?: 'fast-forward' | 'three-way' } = {}
+  ): HistoryEntry<T> {
+    const targetBranch = this.getCurrentBranch();
+    const sourceBranch = this.branches.get(sourceBranchId);
+
+    if (!sourceBranch) {
+      throw new HomuraHistoryError(`Source branch "${sourceBranchId}" not found for merge`);
+    }
+    if (sourceBranch.id === targetBranch.id) {
+      throw new HomuraHistoryError(`Cannot merge branch "${sourceBranchId}" into itself`);
+    }
+
+    const targetHead = this.entries.get(targetBranch.headEntryId)!;
+    const sourceHead = this.entries.get(sourceBranch.headEntryId)!;
+
+    const label = options.label ?? `Merge branch '${sourceBranch.name}' into '${targetBranch.name}'`;
+    const metadata = {
+      ...options.metadata,
+      merge: {
+        sourceBranchId: sourceBranch.id,
+        targetBranchId: targetBranch.id,
+        sourceHeadId: sourceHead.id,
+        targetHeadId: targetHead.id
+      }
+    };
+
+    // Create merge commit node on target branch
+    const mergeEntryId = generateId('merge');
+    const mergeEntry: HistoryEntry<T> = {
+      id: mergeEntryId,
+      parentId: targetHead.id,
+      childrenIds: [],
+      branchId: targetBranch.id,
+      timestamp: Date.now(),
+      label,
+      state: deepClone(sourceHead.state),
+      metadata
+    };
+
+    targetHead.childrenIds.push(mergeEntryId);
+    this.entries.set(mergeEntryId, mergeEntry);
+    targetBranch.headEntryId = mergeEntryId;
+    this.currentEntryId = mergeEntryId;
+
+    return mergeEntry;
+  }
+
+  /**
+   * Compacts history graph by removing redundant intermediate nodes while preserving topology.
+   */
+  public compact(options: { maxEntries?: number; preserveSnapshots?: boolean; snapshotEntryIds?: Set<string> } = {}): number {
+    const maxEntries = options.maxEntries ?? this.maxHistory;
+    const snapshotIds = options.snapshotEntryIds ?? new Set<string>();
+
+    const protectedIds = new Set<string>([this.rootEntryId, this.currentEntryId]);
+    for (const b of this.branches.values()) {
+      protectedIds.add(b.headEntryId);
+      protectedIds.add(b.rootEntryId);
+    }
+    for (const sId of snapshotIds) {
+      protectedIds.add(sId);
+    }
+
+    let removedCount = 0;
+    const all = Array.from(this.entries.values()).sort((a, b) => a.timestamp - b.timestamp);
+
+    for (const entry of all) {
+      if (this.entries.size <= maxEntries) break;
+      if (protectedIds.has(entry.id)) continue;
+
+      // Unlink node and bypass
+      if (entry.parentId) {
+        const parent = this.entries.get(entry.parentId);
+        if (parent) {
+          parent.childrenIds = parent.childrenIds.filter(id => id !== entry.id);
+          for (const childId of entry.childrenIds) {
+            if (!parent.childrenIds.includes(childId)) {
+              parent.childrenIds.push(childId);
+            }
+          }
+        }
+      }
+
+      for (const childId of entry.childrenIds) {
+        const child = this.entries.get(childId);
+        if (child) {
+          child.parentId = entry.parentId;
+        }
+      }
+
+      this.entries.delete(entry.id);
+      removedCount++;
+    }
+
+    return removedCount;
+  }
+
+  /**
    * Exports raw graph for serialization.
    */
   public exportData(): {

@@ -15,9 +15,14 @@ export type {
   HomuraEventMap,
   HomuraEventName,
   HomuraListener,
+  HomuraWildcardListener,
   HomuraUnsubscribe,
   StateUpdater,
-  StateUpdateOptions
+  StateUpdateOptions,
+  ReplayOptions,
+  BranchMergeOptions,
+  BranchComparison,
+  CompactionOptions
 } from './types';
 
 export {
@@ -33,6 +38,10 @@ export {
 export {
   MemoryAdapter,
   LocalStorageAdapter,
+  IndexedDBAdapter,
+  createLocalStorageAdapter,
+  createIndexedDBAdapter,
+  createMemoryAdapter,
   PersistenceController
 } from './persistence';
 
