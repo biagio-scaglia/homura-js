@@ -480,6 +480,82 @@ export const translations: TranslationDictionary = {
     it: 'Calcola il diff ricorsivo strutturale profondo.'
   },
 
+  // Benchmarks Section
+  'nav.benchmarks': {
+    en: 'Benchmarks & Performance',
+    it: 'Benchmark & Prestazioni'
+  },
+  'benchmarks.title': {
+    en: 'Performance Benchmarks',
+    it: 'Benchmark & Metriche di Efficienza'
+  },
+  'benchmarks.lead': {
+    en: 'Engineered for sub-millisecond execution times and zero-copy memory efficiency using structural sharing:',
+    it: 'Progettato per tempi di esecuzione sub-millisecondo ed efficienza di memoria zero-copy grazie allo structural sharing:'
+  },
+  'benchmarks.th_operation': {
+    en: 'Operation (10,000 Nodes)',
+    it: 'Operazione (10.000 Nodi)'
+  },
+  'benchmarks.th_homura': {
+    en: 'HomuraJS (DAG Engine)',
+    it: 'HomuraJS (Motore DAG)'
+  },
+  'benchmarks.th_naive': {
+    en: 'Naive Deep Clone / Stack',
+    it: 'Deep Clone Tradizionale'
+  },
+  'benchmarks.th_diff': {
+    en: 'Improvement',
+    it: 'Miglioramento'
+  },
+  'benchmarks.op_draft': {
+    en: 'Draft Mutation (Copy-on-Write)',
+    it: 'Mutazione Draft (Copy-on-Write)'
+  },
+  'benchmarks.op_branch': {
+    en: 'Branch Creation & Divergence',
+    it: 'Creazione Branch & Bivio'
+  },
+  'benchmarks.op_diff': {
+    en: 'Deep Structural Diffing',
+    it: 'Diffing Strutturale Profondo'
+  },
+  'benchmarks.op_timetravel': {
+    en: 'Time Travel Jump (Any State)',
+    it: 'Salto Temporale (JumpTo)'
+  },
+
+  // Real-World Use Cases
+  'nav.usecases': {
+    en: 'Real-World Use Cases',
+    it: 'Casi d\'Uso Reali'
+  },
+  'usecases.title': {
+    en: 'Real-World Architecture Patterns',
+    it: 'Pattern Architetturali & Casi d\'Uso'
+  },
+  'usecases.lead': {
+    en: 'Explore practical application blueprints leveraging DAG state history:',
+    it: 'Esempi e blueprint pratici basati sulla gestione dello stato a grafo DAG:'
+  },
+  'usecases.case1_title': {
+    en: '1. Multi-Step Form with Alternative Decision Paths',
+    it: '1. Form Multi-Step con Percorsi Decisionali Alternativi'
+  },
+  'usecases.case1_desc': {
+    en: 'Allow users to backtrack to step 2, modify preferences to explore alternative quote estimates, without discarding previously calculated checkout paths.',
+    it: 'Permette all\'utente di tornare al passo 2 per esplorare preventivi alternativi senza distruggere i dati inseriti nei passaggi successivi.'
+  },
+  'usecases.case2_title': {
+    en: '2. Canvas & Graphic Editor Non-Destructive History',
+    it: '2. Editor Grafico con Cronologia Non Distruttiva'
+  },
+  'usecases.case2_desc': {
+    en: 'Enable digital designers to branch different color schemes or layout variations from any historical layer checkpoint.',
+    it: 'Consente a designer e creativi di creare varianti di layout o palette colore ramificate da qualsiasi livello storico.'
+  },
+
   // Author Section
   'author.title': {
     en: 'Author & Project Philosophy',
