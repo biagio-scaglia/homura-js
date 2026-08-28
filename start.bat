@@ -9,30 +9,44 @@ echo    HOMURAJS -- Time Travel State ^& History Engine for JavaScript
 echo                     "Git for application state"
 echo ======================================================================
 echo.
-echo   [1] Mini RPG Inventory Showcase (Hero stats, Backpack, Shop, DevTools)
-echo   [2] Interactive Playground (Full DAG Visualizer, State Tree, Diff)
-echo   [3] React 18+ Demo (useHomura Hook + Floating DevTools)
-echo   [4] Vue 3 Demo (Composition API + DevTools)
-echo   [5] Vanilla JS Demo (bindState Two-Way DOM sync)
-echo   [6] Run Complete Vitest Test Suite (38 tests)
-echo   [7] Run Full Build and TypeScript Typecheck
+echo   [1] Official Documentation Portal (Live Sandbox, Guides, API Reference)
+echo   [2] Mini RPG Inventory Showcase (Hero stats, Backpack, Shop, DevTools)
+echo   [3] Interactive Playground (Full DAG Visualizer, State Tree, Diff)
+echo   [4] React 18+ Demo (useHomura Hook + Floating DevTools)
+echo   [5] Vue 3 Demo (Composition API + DevTools)
+echo   [6] Vanilla JS Demo (bindState Two-Way DOM sync)
+echo   [7] Run Complete Vitest Test Suite (38 tests)
+echo   [8] Run Full Build and TypeScript Typecheck
 echo   [0] Exit
 echo.
 echo ======================================================================
-set /p CHOICE="Select an option (0-7): "
+set /p CHOICE="Select an option (0-8): "
 
-if "%CHOICE%"=="1" goto RPG
-if "%CHOICE%"=="2" goto PLAYGROUND
-if "%CHOICE%"=="3" goto REACT
-if "%CHOICE%"=="4" goto VUE
-if "%CHOICE%"=="5" goto VANILLA
-if "%CHOICE%"=="6" goto TEST
-if "%CHOICE%"=="7" goto BUILD
+if "%CHOICE%"=="1" goto DOCS
+if "%CHOICE%"=="2" goto RPG
+if "%CHOICE%"=="3" goto PLAYGROUND
+if "%CHOICE%"=="4" goto REACT
+if "%CHOICE%"=="5" goto VUE
+if "%CHOICE%"=="6" goto VANILLA
+if "%CHOICE%"=="7" goto TEST
+if "%CHOICE%"=="8" goto BUILD
 if "%CHOICE%"=="0" goto EXIT
 
 echo.
-echo [!] Invalid selection. Please choose a number from 0 to 7.
+echo [!] Invalid selection. Please choose a number from 0 to 8.
 timeout /t 2 >nul
+goto MENU
+
+:DOCS
+cls
+echo ======================================================================
+echo  Launching Official Documentation Portal...
+echo  Local server: http://localhost:5173
+echo ======================================================================
+echo.
+start http://localhost:5173
+call pnpm --filter "@homura-js/docs" run dev
+pause
 goto MENU
 
 :RPG

@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HomuraJS — Documentazione Ufficiale</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base: #060408;
+      --bg-surface: #0c0814;
+      --bg-surface-elevated: #140d22;
+      --bg-card: #110b1d;
+      --bg-code: #09060e;
+      --border: rgba(192, 132, 252, 0.14);
+      --border-highlight: rgba(168, 85, 247, 0.45);
+      --accent: #a855f7;
+      --accent-glow: rgba(168, 85, 247, 0.35);
+      --accent-hover: #c084fc;
+      --violet-dark: #7c3aed;
+      --violet-light: #c084fc;
+      --cyan: #00d2d3;
+      --green: #34d399;
+      --amber: #fbbf24;
+      --text-main: #f3e8ff;
+      --text-muted: #c4b5fd;
+      --text-subtle: #7c6f9e;
+      --sidebar-width: 280px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(12, 8, 20, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-title {
+      font-family: 'Cinzel', serif;
+      font-size: 20px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #f3e8ff 20%, var(--violet-light) 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: 0.08em;
+    }
+
+    .version-tag {
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid var(--accent);
+      color: var(--violet-light);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 12px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .search-input {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 13px;
+      width: 220px;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
+
+    .btn {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 7px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .btn:hover {
+      background: #1f1435;
+      border-color: var(--border-highlight);
+    }
+
+    .btn-primary {
+      background: var(--violet-dark);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #9333ea;
+      box-shadow: 0 0 14px var(--accent-glow);
+    }
+
+    /* Layout */
+    .docs-layout {
+      display: flex;
+      flex: 1;
+      max-width: 1440px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Sidebar */
+    .docs-sidebar {
+      width: var(--sidebar-width);
+      position: sticky;
+      top: 64px;
+      height: calc(100vh - 64px);
+      overflow-y: auto;
+      padding: 24px 16px 40px;
+      border-right: 1px solid var(--border);
+      background: var(--bg-surface);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .nav-group-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      margin-bottom: 8px;
+      padding-left: 8px;
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .nav-item a {
+      display: block;
+      padding: 6px 10px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      border-radius: 6px;
+      transition: all 0.15s;
+    }
+
+    .nav-item a:hover {
+      color: #fff;
+      background: rgba(168, 85, 247, 0.12);
+    }
+
+    .nav-item.active a {
+      color: #fff;
+      background: rgba(168, 85, 247, 0.2);
+      border-left: 3px solid var(--accent);
+      font-weight: 600;
+    }
+
+    /* Main Content */
+    .docs-content {
+      flex: 1;
+      min-width: 0;
+      padding: 40px 48px 80px;
+      max-width: 960px;
+    }
+
+    /* Typography */
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 36px;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      color: #fff;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #ffffff 30%, var(--violet-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .lead {
+      font-size: 16px;
+      color: var(--text-muted);
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #f3e8ff;
+      margin-top: 48px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--violet-light);
+      margin-top: 28px;
+      margin-bottom: 10px;
+    }
+
+    p, li {
+      font-size: 14.5px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    ul, ol {
+      padding-left: 24px;
+      margin-bottom: 16px;
+    }
+
+    li { margin-bottom: 6px; }
+
+    strong { color: #fff; }
+
+    /* Code Blocks */
+    .code-container {
+      background: var(--bg-code);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin: 16px 0 24px;
+      overflow: hidden;
+    }
+
+    .code-header {
+      background: var(--bg-surface-elevated);
+      border-bottom: 1px solid var(--border);
+      padding: 6px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-subtle);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .code-copy-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .code-copy-btn:hover {
+      background: rgba(168, 85, 247, 0.2);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    pre {
+      padding: 16px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #e9d5ff;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9em;
+      background: rgba(168, 85, 247, 0.12);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--violet-light);
+      border: 1px solid rgba(192, 132, 252, 0.2);
+    }
+
+    pre code {
+      background: transparent;
+      padding: 0;
+      border: none;
+      color: inherit;
+    }
+
+    /* Tabs */
+    .tab-bar {
+      display: flex;
+      gap: 6px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--text-muted);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .tab-btn:hover { color: #fff; }
+    .tab-btn.active {
+      color: var(--violet-light);
+      border-bottom-color: var(--accent);
+    }
+
+    /* Cards & Grids */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      transition: all 0.2s ease;
+    }
+
+    .feature-card:hover {
+      border-color: var(--border-highlight);
+      transform: translateY(-2px);
+    }
+
+    .feature-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .feature-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 0;
+    }
+
+    /* Interactive Live Sandbox Inside Docs */
+    .sandbox-container {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--accent);
+      box-shadow: 0 0 24px var(--accent-glow);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 32px 0;
+    }
+
+    .sandbox-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .sandbox-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .sandbox-output {
+      background: var(--bg-code);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      color: var(--text-main);
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 13.5px;
+    }
+
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      text-align: left;
+    }
+
+    th {
+      background: var(--bg-surface-elevated);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--violet-dark);
+      border: 1px solid var(--accent);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.25s ease;
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <!-- Global Header -->
+  <header>
+    <a href="#" class="brand">
+      <span class="brand-title">HOMURAJS</span>
+      <span class="version-tag">v1.0.0</span>
+    </a>
+
+    <div class="header-actions">
+      <input type="text" class="search-input" id="search-bar" placeholder="Cerca nella documentazione..." />
+      <button class="btn btn-primary" id="btn-copy-install">Copia Installazione</button>
+      <a href="https://github.com/biagio-scaglia/homura-js" target="_blank" class="btn">GitHub</a>
+    </div>
+  </header>
+
+  <div class="docs-layout">
+    <!-- Navigation Sidebar -->
+    <aside class="docs-sidebar">
+      <div>
+        <div class="nav-group-title">Introduzione</div>
+        <ul class="nav-list">
+          <li class="nav-item active"><a href="#panoramica">Panoramica</a></li>
+          <li class="nav-item"><a href="#perche-homura">Perche HomuraJS</a></li>
+          <li class="nav-item"><a href="#installazione">Installazione</a></li>
+          <li class="nav-item"><a href="#quickstart">Guida Rapida</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="nav-group-title">Concetti Fondamentali</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="#state-engine">Gestione Stato & Immutabilita</a></li>
+          <li class="nav-item"><a href="#dag-graph">Grafo DAG & Branching</a></li>
+          <li class="nav-item"><a href="#time-travel">Viaggio Temporale</a></li>
+          <li class="nav-item"><a href="#snapshots">Snapshot & Milestone</a></li>
+          <li class="nav-item"><a href="#diff-engine">Motore di Diff Strutturale</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="nav-group-title">Funzionalita Avanzate</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="#persistenza">Persistenza & Storage</a></li>
+          <li class="nav-item"><a href="#middleware">Middleware & Pipeline</a></li>
+          <li class="nav-item"><a href="#eventi">Sistema Eventi</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="nav-group-title">Integrazioni UI</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="#react">React 18+</a></li>
+          <li class="nav-item"><a href="#vue">Vue 3</a></li>
+          <li class="nav-item"><a href="#vanilla">Vanilla JS</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="nav-group-title">Strumenti & Diagnostica</div>
+        <ul class="nav-list">
+          <li class="nav-item"><a href="#devtools">DevTools Integrati</a></li>
+          <li class="nav-item"><a href="#sandbox-live">Sandbox Interattivo Live</a></li>
+          <li class="nav-item"><a href="#api-reference">API Reference</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="docs-content">
+      <!-- Section: Overview -->
+      <section id="panoramica">
+        <h1>HomuraJS</h1>
+        <p class="lead">
+          Motore di time-travel debugging e state history management ad alte prestazioni per JavaScript e TypeScript. 
+          Un'architettura a Grafo Aciclico Diretto (DAG) concepita come <strong>"Git for application state"</strong>.
+        </p>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="feature-title">Grafo DAG Non Distruttivo</div>
+            <p class="feature-desc">Ogni mutazione diverge in un ramo senza mai cancellare le linee temporali storiche precedenti.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-title">Proxy Draft Immutabile</div>
+            <p class="feature-desc">Modifica diretta tramite sintassi ergonomica con Copy-On-Write puro a zero dipendenze.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-title">Diffing Strutturale Profondo</div>
+            <p class="feature-desc">Algoritmo di confronto ricorsivo con tracciamento esatto dei percorsi semantici dot-path.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-title">DevTools Completi</div>
+            <p class="feature-desc">Visualizzatore di timeline, ispettore dello stato ad albero, comparatore diff e scrubber temporale.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Why Homura -->
+      <section id="perche-homura">
+        <h2>Perche HomuraJS?</h2>
+        <p>
+          Nei gestori di stato tradizionali, la cronologia e gestita come uno stack lineare piatto. Quando si retrocede indietro nel tempo ed avviene una nuova modifica, <strong>tutti gli stati futuri vengono distrutti in modo irreversibile</strong>.
+        </p>
+        <p>
+          HomuraJS elimina questa limitazione memorizzando ogni transizione come nodo di un grafo ad albero (DAG). Quando si retrocede e si applica una modifica, il motore genera automaticamente un nuovo ramo parallelo, mantenendo intatta la storia passata e futura.
+        </p>
+      </section>
+
+      <!-- Section: Installation -->
+      <section id="installazione">
+        <h2>Installazione</h2>
+        <p>Seleziona il tuo gestore di pacchetti preferito:</p>
+
+        <div class="tab-bar">
+          <button class="tab-btn active" data-tab="npm">npm</button>
+          <button class="tab-btn" data-tab="pnpm">pnpm</button>
+          <button class="tab-btn" data-tab="yarn">yarn</button>
+          <button class="tab-btn" data-tab="bun">bun</button>
+        </div>
+
+        <div class="code-container" id="install-code-box">
+          <div class="code-header">
+            <span>Terminal</span>
+            <button class="code-copy-btn">Copia</button>
+          </div>
+          <pre><code id="install-cmd">npm install @homura-js/core</code></pre>
+        </div>
+
+        <h3>Installazione per Framework Specifici</h3>
+        <p>Per integrare HomuraJS nel tuo framework UI preferito:</p>
+        <div class="code-container">
+          <div class="code-header">
+            <span>React 18+</span>
+            <button class="code-copy-btn">Copia</button>
+          </div>
+          <pre><code>npm install @homura-js/core @homura-js/react @homura-js/devtools</code></pre>
+        </div>
+
+        <div class="code-container">
+          <div class="code-header">
+            <span>Vue 3</span>
+            <button class="code-copy-btn">Copia</button>
+          </div>
+          <pre><code>npm install @homura-js/core @homura-js/vue @homura-js/devtools</code></pre>
+        </div>
+      </section>
+
+      <!-- Section: Quickstart -->
+      <section id="quickstart">
+        <h2>Guida Rapida</h2>
+        <p>Inizializza un'istanza ed esegui mutazioni controllate nel tempo in poche righe:</p>
+
+        <div class="code-container">
+          <div class="code-header">
+            <span>quickstart.ts</span>
+            <button class="code-copy-btn">Copia</button>
+          </div>
+          <pre><code>import { createHomura } from '@homura-js/core';
+
+// 1. Inizializzazione istanza
+const homura = createHomura({
+  initialState: { contatore: 0, utente: 'Homura' }
+});
+
+// 2. Modifica tramite Bozza Proxy
+homura.update(draft => {
+  draft.contatore += 10;
+}, { label: 'Incremento contatore' });
+
+// 3. Viaggio nel tempo
+homura.undo(); // Il contatore torna a 0
+homura.redo(); // Il contatore torna a 10
+
+console.log(homura.getState()); // { contatore: 10, utente: 'Homura' }</code></pre>
+        </div>
+      </section>
+
+      <!-- Section: State Engine -->
+      <section id="state-engine">
+        <h2>Gestione dello Stato & Immutabilita</h2>
+        <p>
+          HomuraJS garantisce l'immutabilita tramite Proxy Drafts basati su Copy-On-Write. 
+          All'interno della funzione <code>update(draft => ...)</code> puoi modificare le proprieta direttamente: il motore applichera le modifiche solo ai percorsi toccati, condividendo la struttura immutata con lo stato precedente.
+        </p>
+
+        <div class="code-container">
+          <div class="code-header">
+            <span>mutations.ts</span>
+            <button class="code-copy-btn">Copia</button>
+          </div>
+          <pre><code>// Modifica bozza diretta
+homura.update(draft => {
+  draft.utente = 'Akemi';
+  draft.contatore += 5;
+}, { label: 'Aggiornamento Utente' });
+
+// Ritorno funzionale puro
+homura.update(state => ({
+  ...state,
+  contatore: state.contatore + 1
+}), { label: 'Incremento Funzionale' });
+
+// Impostazione diretta stato
+homura.setState({ contatore: 100, utente: 'Homura' }, { label: 'Reset Totale' });</code></pre>
+        </div>
+      </section>
+
+      <!-- Section: DAG & Branching -->
+      <section id="dag-graph">
+        <h2>Grafo DAG & Branching ("Git for State")</h2>
+        <p>
+          Ogni operazione produce un oggetto <code>HistoryEntry&lt;T&gt;</code> indicizzato nel grafo:
+        </p>
+
+        <div class="code-container">
+          <div class="code-header">
+            <span>types.ts</span>
+          </div>
+          <pre><code>interface HistoryEntry&lt;T&gt; {
+  id: string;
+  parentId: string | null;
+  childrenIds: string[];
+  branchId: string;
+  timestamp: number;
+  label: string;
+  state: T;
+  metadata?: Record&lt;string, unknown&gt;;
+}</code></pre>
+        </div>
+
+        <p>
+          Se retrocedi nella cronologia ed esegui un nuovo update, HomuraJS crea in automatico un nuovo ramo senza cancellare la storia precedente:
+        </p>
+
+        <div class="code-container">
+          <div class="code-header">
+            <span>branching.ts</span>
+            <button class="code-copy-btn">Copia</button>
+          </div>
+          <pre><code>// Retrocede a uno stato passato
+homura.jumpTo("nodo-passato-id");
+
+// Questa modifica apre un nuovo ramo 'branch-2'
+homura.update(draft => {
+  draft.utente = 'Linea Temporale B';
+}, { label: 'Bivio Alternativo' });
+
+// Elenco di tutti i rami
+const rami = homura.getBranches();
+
+// Cambio attivo di ramo
+homura.switchBranch(rami[0].id);</code></pre>
+        </div>
+      </section>
+
+      <!-- Section: Time Travel -->
+      <section id="time-travel">
+        <h2>Navigazione Temporale</h2>
+        <p>Comandi deterministici per viaggiare lungo la cronologia:</p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Metodo</th>
+              <th>Descrizione</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>homura.undo()</code></td>
+              <td>Retrocede al nodo genitore precedente.</td>
+            </tr>
+            <tr>
+              <td><code>homura.redo()</code></td>
+              <td>Avanza al nodo figlio successivo nel ramo attivo.</td>
+            </tr>
+            <tr>
+              <td><code>homura.rewind(N)</code></td>
+              <td>Retrocede velocemente di N passi nella cronologia.</td>
+            </tr>
+            <tr>
+              <td><code>homura.fastForward(N)</code></td>
+              <td>Avanza velocemente di N passi nella cronologia.</td>
+            </tr>
+            <tr>
+              <td><code>homura.jumpTo(entryId)</code></td>
+              <td>Salta direttamente a qualsiasi nodo del grafo DAG.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Section: Snapshots -->
+      <section id="snapshots">
+        <h2>Snapshot & Milestone</h2>
+        <p>
+          Crea segnalibri persistenti per salvare pietre miliari dell'applicazione e ripristinarle istantaneamente:
+        </p>
+
+        <div class="code-container">
+          <div class="code-header">
+            <span>snapshots.ts</span>
+            <button class="code-copy-btn">Copia</button>
+          </div>
+          <pre><code>// Creazione snapshot
+const snap = homura.snapshot('Punto di Controllo Boss', { stage: 3 });
+
+// Elenco snapshot
+const lista = homura.getSnapshots();
+
+// Ripristino immediato dello stato memorizzato
+homura.restore(snap.id);
+
+// Eliminazione snapshot
+homura.deleteSnapshot(snap.id);</code></pre>
+        </div>
+      </section>
+
+      <!-- Section: Diff Engine -->
+      <section id="diff-engine">
+        <h2>Motore di Diff Strutturale</h2>
+        <p>
+          Il motore pure-function identifica le differenze semantiche esatte tra due stati:
+        </p>
+
+        <div class="code-container">
+          <div class="code-header">
+            <span>diff.ts</span>
+            <button class="code-copy-btn">Copia</button>
+          </div>
+          <pre><code>import { diffStates } from '@homura-js/core';
+
+const statoA = { eroe: { hp: 100, arma: 'Spada' }, oggetti: ['Pozione'] };
+const statoB = { eroe: { hp: 75, arma: 'Spada Magica' }, oggetti: ['Pozione', 'Scudo'] };
+
+const diff = diffStates(statoA, statoB);
+console.log(diff);
+// [
+//   { path: ['eroe', 'hp'], type: 'changed', oldValue: 100, newValue: 75 },
+//   { path: ['eroe', 'arma'], type: 'changed', oldValue: 'Spada', newValue: 'Spada Magica' },
+//   { path: ['oggetti', 1], type: 'added', value: 'Scudo' }
+// ]</code></pre>
+        </div>
+      </section>
+
+      <!-- Section: Persistence -->
+      <section id="persistenza">
+        <h2>Persistenza dei Dati</h2>
+        <p>
+          Adattatori pronti all'uso per salvare l'intero grafo in LocalStorage o in memoria con debouncing:
+        </p>
+
+        <div class="code-container">
+          <div class="code-header">
+            <span>persistence.ts</span>
+            <button class="code-copy-btn">Copia</button>
+          </div>
+          <pre><code>import { createHomura, LocalStorageAdapter } from '@homura-js/core';
+
+const homura = createHomura({
+  initialState: { settings: { theme: 'dark' } },
+  persistence: {
+    adapter: new LocalStorageAdapter('app_homura_state'),
+    autoSave: true,
+    debounceMs: 250
+  }
+});
+
+// Salvataggio manuale
+await homura.save();
+
+// Caricamento manuale
+await homura.load();</code></pre>
+        </div>
+      </section>
+
+      <!-- Section: React Integration -->
+      <section id="react">
+        <h2>Integrazione React 18+</h2>
+        <p>
+          L'hook <code>useHomura</code> sfrutta le API native <code>useSyncExternalStore</code> garantendo assenza di tearing e rendering ottimale tramite selettori:
+        </p>
+
+        <div class="code-container">
+          <div class="code-header">
+            <span>Contatore.tsx</span>
+            <button class="code-copy-btn">Copia</button>
+          </div>
+          <pre><code>import { useHomura, HomuraDevTools } from '@homura-js/react';
+import { homura } from './store';
+
+export function Contatore() {
+  // Sottoscrizione con selettore fine-grained
+  const { state: contatore, update, undo, redo, canUndo, canRedo } = useHomura(
+    homura,
+    s => s.contatore
+  );
+
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Valore: {contatore}&lt;/h1&gt;
+      &lt;button onClick={() =&gt; update(d =&gt; { d.contatore++; }, { label: 'Incremento' })}&gt;+1&lt;/button&gt;
+      &lt;button disabled={!canUndo} onClick={() =&gt; undo()}&gt;Undo&lt;/button&gt;
+      &lt;button disabled={!canRedo} onClick={() =&gt; redo()}&gt;Redo&lt;/button&gt;
+
+      &lt;HomuraDevTools homura={homura} position="floating" /&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+        </div>
+      </section>
+
+      <!-- Section: Vue Integration -->
+      <section id="vue">
+        <h2>Integrazione Vue 3</h2>
+        <div class="code-container">
+          <div class="code-header">
+            <span>Contatore.vue</span>
+            <button class="code-copy-btn">Copia</button>
+          </div>
+          <pre><code>&lt;template&gt;
+  &lt;div&gt;
+    &lt;h1&gt;Valore: {{ state.contatore }}&lt;/h1&gt;
+    &lt;button @click="incrementa"&gt;+1&lt;/button&gt;
+    &lt;button :disabled="!canUndo" @click="undo"&gt;Undo&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script setup lang="ts"&gt;
+import { useHomura } from '@homura-js/vue';
+import { homura } from './store';
+
+const { state, update, undo, canUndo } = useHomura(homura);
+
+function incrementa() {
+  update(d =&gt; { d.contatore++; }, { label: 'Incremento' });
+}
+&lt;/script&gt;</code></pre>
+        </div>
+      </section>
+
+      <!-- Section: DevTools -->
+      <section id="devtools">
+        <h2>DevTools Diagnostici Integrati</h2>
+        <p>
+          Il pacchetto <code>@homura-js/devtools</code> offre un pannello grafico moderno a zero dipendenze esterne:
+        </p>
+
+        <div class="code-container">
+          <div class="code-header">
+            <span>mountDevtools.ts</span>
+            <button class="code-copy-btn">Copia</button>
+          </div>
+          <pre><code>import { mountDevTools } from '@homura-js/devtools';
+
+// Overlay fluttuante in basso a destra (scorciatoia: Alt + H)
+mountDevTools(homura, {
+  position: 'floating',
+  theme: 'dark',
+  defaultOpen: true
+});</code></pre>
+        </div>
+      </section>
+
+      <!-- Section: Interactive Live Sandbox -->
+      <section id="sandbox-live">
+        <h2>Sandbox Interattivo Live</h2>
+        <p>
+          Interagisci direttamente con un'istanza reale di HomuraJS integrata in questa pagina:
+        </p>
+
+        <div class="sandbox-container">
+          <div class="sandbox-header">
+            <span style="font-weight: 700; color: #fff;">HOMURA ENGINE SANDBOX</span>
+            <span id="sb-status" style="font-size: 12px; color: var(--accent);">Pronto</span>
+          </div>
+
+          <div class="sandbox-controls">
+            <button class="btn btn-primary" id="sb-btn-inc">+10 Contatore</button>
+            <button class="btn btn-primary" id="sb-btn-user">Cambia Utente</button>
+            <button class="btn" id="sb-btn-undo">Undo</button>
+            <button class="btn" id="sb-btn-redo">Redo</button>
+            <button class="btn" id="sb-btn-fork" style="border-color: var(--violet-light);">Fork Ramo</button>
+            <button class="btn" id="sb-btn-snap">Snapshot</button>
+          </div>
+
+          <div style="margin-bottom: 8px; font-size: 12px; font-weight: 600; color: var(--text-muted);">
+            Stato Attuale in Tempo Reale:
+          </div>
+          <div class="sandbox-output" id="sb-state-display">Inizializzazione...</div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Copy Notification Toast -->
+  <div class="toast" id="toast">Copiato negli appunti</div>
+
+  <script type="module" src="./src/main.ts"></script>
+</body>
+</html>

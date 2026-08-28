@@ -36,6 +36,22 @@ importers:
         specifier: ^3.0.5
         version: 3.2.7(@types/node@22.20.1)(jsdom@26.1.0)
 
+  docs:
+    dependencies:
+      '@homura-js/core':
+        specifier: workspace:*
+        version: link:../packages/core
+      '@homura-js/devtools':
+        specifier: workspace:*
+        version: link:../packages/devtools
+    devDependencies:
+      typescript:
+        specifier: ^5.7.3
+        version: 5.9.3
+      vite:
+        specifier: ^6.1.0
+        version: 6.4.3(@types/node@22.20.1)
+
   examples/react:
     dependencies:
       '@homura-js/core':
