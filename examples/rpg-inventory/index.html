@@ -3,29 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HomuraJS — RPG Inventory & Time Machine Demo</title>
+  <title>HomuraJS — RPG Inventory and Time Machine Demo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #090c10;
-      --card-bg: rgba(22, 27, 34, 0.85);
-      --card-border: rgba(255, 255, 255, 0.08);
-      --accent: #ff4757;
-      --accent-glow: rgba(255, 71, 87, 0.4);
-      --gold: #ffd32a;
+      --bg: #07050a;
+      --card-bg: rgba(18, 13, 28, 0.85);
+      --card-border: rgba(192, 132, 252, 0.15);
+      --accent: #a855f7;
+      --accent-glow: rgba(168, 85, 247, 0.4);
+      --gold: #fbbf24;
       --cyan: #00d2d3;
-      --purple: #a855f7;
-      --green: #2ed573;
-      --text: #f1f5f9;
-      --muted: #94a3b8;
+      --purple: #c084fc;
+      --green: #34d399;
+      --text: #f3e8ff;
+      --muted: #c4b5fd;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      background: radial-gradient(circle at 50% 0%, #1a162b 0%, #090c10 70%);
+      background: radial-gradient(circle at 50% 0%, #1c1130 0%, #07050a 75%);
       color: var(--text);
       font-family: 'Inter', sans-serif;
       min-height: 100vh;
@@ -44,7 +44,7 @@
       font-family: 'Cinzel', serif;
       font-size: 32px;
       font-weight: 900;
-      background: linear-gradient(135deg, #fff 20%, var(--accent) 80%);
+      background: linear-gradient(135deg, #f3e8ff 20%, var(--purple) 80%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       letter-spacing: 0.1em;
@@ -61,7 +61,7 @@
       max-width: 1100px;
       background: var(--card-bg);
       border: 1px solid var(--accent);
-      box-shadow: 0 0 20px rgba(255, 71, 87, 0.15);
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
       border-radius: 12px;
       padding: 12px 18px;
       display: flex;
@@ -106,7 +106,7 @@
       font-family: 'Cinzel', serif;
       font-size: 16px;
       font-weight: 700;
-      color: #fff;
+      color: #f3e8ff;
       margin-bottom: 14px;
       display: flex;
       align-items: center;
@@ -141,9 +141,9 @@
       transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .hp-fill { background: linear-gradient(90deg, #ff4757, #ff6b81); box-shadow: 0 0 10px var(--accent-glow); }
+    .hp-fill { background: linear-gradient(90deg, #7c3aed, #a855f7); box-shadow: 0 0 10px var(--accent-glow); }
     .mp-fill { background: linear-gradient(90deg, #00d2d3, #54a0ff); box-shadow: 0 0 10px var(--cyan); }
-    .exp-fill { background: linear-gradient(90deg, #a855f7, #c084fc); }
+    .exp-fill { background: linear-gradient(90deg, #9333ea, #c084fc); }
 
     .gold-badge {
       font-family: 'Cinzel', serif;
@@ -164,8 +164,8 @@
     }
 
     .equip-slot {
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px dashed rgba(255, 255, 255, 0.15);
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px dashed rgba(192, 132, 252, 0.25);
       border-radius: 8px;
       padding: 8px 12px;
       display: flex;
@@ -176,7 +176,7 @@
 
     .equip-slot.equipped {
       border: 1px solid var(--purple);
-      background: rgba(168, 85, 247, 0.1);
+      background: rgba(168, 85, 247, 0.15);
     }
 
     /* Inventory Items */
@@ -200,14 +200,14 @@
     }
 
     .inv-item-card:hover {
-      border-color: rgba(255, 255, 255, 0.25);
+      border-color: rgba(192, 132, 252, 0.4);
       transform: translateY(-2px);
     }
 
     .inv-item-name {
       font-weight: 600;
       font-size: 12.5px;
-      color: #fff;
+      color: #f3e8ff;
     }
 
     .inv-item-qty {
@@ -225,9 +225,9 @@
     }
 
     .btn {
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(168, 85, 247, 0.12);
       border: 1px solid var(--card-border);
-      color: #fff;
+      color: #f3e8ff;
       font-family: 'Inter', sans-serif;
       font-size: 12px;
       font-weight: 600;
@@ -241,25 +241,24 @@
     }
 
     .btn:hover {
-      background: rgba(255, 255, 255, 0.15);
-      border-color: rgba(255, 255, 255, 0.3);
+      background: rgba(168, 85, 247, 0.25);
+      border-color: rgba(192, 132, 252, 0.5);
     }
 
-    .btn-danger {
-      background: rgba(255, 71, 87, 0.2);
-      border-color: var(--accent);
-      color: #ff6b81;
-    }
-
-    .btn-danger:hover {
-      background: var(--accent);
+    .btn-violet {
+      background: #7c3aed;
+      border-color: #a855f7;
       color: #fff;
     }
 
+    .btn-violet:hover {
+      background: #9333ea;
+    }
+
     .btn-success {
-      background: rgba(46, 213, 115, 0.2);
+      background: rgba(52, 211, 153, 0.18);
       border-color: var(--green);
-      color: #2ed573;
+      color: #34d399;
     }
 
     .btn-success:hover {
@@ -268,7 +267,7 @@
     }
 
     .btn-gold {
-      background: rgba(255, 211, 42, 0.15);
+      background: rgba(251, 191, 36, 0.15);
       border-color: var(--gold);
       color: var(--gold);
     }
@@ -285,23 +284,23 @@
       height: 520px;
       border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+      border: 1px solid rgba(192, 132, 252, 0.2);
     }
   </style>
 </head>
 <body>
   <div class="rpg-header">
     <h1 class="rpg-title">HOMURA TIME TRAVEL ENGINE</h1>
-    <p class="rpg-subtitle">Deterministic DAG State Machine • Non-Destructive Branching • Zero-Copy State Time Travel</p>
+    <p class="rpg-subtitle">Deterministic DAG State Machine - Non-Destructive Branching - Zero-Copy State Time Travel</p>
   </div>
 
   <!-- Time Travel Quick HUD -->
   <div class="time-travel-hud">
     <div class="hud-section">
       <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--accent); letter-spacing: 0.1em;">Time Machine</span>
-      <button class="btn btn-danger" id="hud-undo">◀ Undo</button>
-      <button class="btn" id="hud-redo">Redo ▶</button>
+      <button class="btn btn-violet" id="hud-undo">Undo</button>
+      <button class="btn" id="hud-redo">Redo</button>
       <button class="btn" id="hud-rewind-5">-5 Steps</button>
       <button class="btn" id="hud-ff-5">+5 Steps</button>
     </div>
@@ -309,7 +308,7 @@
     <div class="hud-section">
       <span style="font-size: 12px; color: var(--muted);" id="hud-status">Current: Initial state</span>
       <span class="homura-branch-badge" id="hud-branch">main</span>
-      <button class="btn btn-gold" id="hud-snapshot">📷 Snapshot</button>
+      <button class="btn btn-gold" id="hud-snapshot">Snapshot</button>
     </div>
   </div>
 
@@ -356,7 +355,6 @@
       <div style="margin-top: 14px; display: flex; align-items: center; justify-content: space-between;">
         <span style="font-size: 12px; color: var(--muted);">Treasury:</span>
         <div class="gold-badge">
-          <span>🪙</span>
           <span id="gold-val">1250 G</span>
         </div>
       </div>
@@ -366,7 +364,7 @@
       <div class="equipment-slots">
         <div class="equip-slot equipped" id="slot-weapon">
           <span style="color: var(--muted);">Weapon</span>
-          <span style="font-weight: 600; color: #fff;" id="equip-weapon-name">Rune Sword (+15 ATK)</span>
+          <span style="font-weight: 600; color: #f3e8ff;" id="equip-weapon-name">Rune Sword (+15 ATK)</span>
           <button class="btn" style="padding: 2px 6px; font-size: 10px;" id="btn-unequip-weapon">Unequip</button>
         </div>
         <div class="equip-slot" id="slot-armor">
@@ -386,20 +384,20 @@
 
       <div class="inventory-grid" id="inventory-container"></div>
 
-      <div class="card-title" style="margin-top: 18px; font-size: 14px;">Battle & Encounter Actions</div>
+      <div class="card-title" style="margin-top: 18px; font-size: 14px;">Battle and Encounter Actions</div>
       <div class="action-btn-group">
-        <button class="btn btn-danger" id="action-damage">💥 Take 25 Damage</button>
-        <button class="btn btn-success" id="action-heal">💚 Use Potion (+30 HP)</button>
-        <button class="btn" id="action-spell">✨ Cast Time Spell (-15 MP, +80 EXP)</button>
-        <button class="btn btn-gold" id="action-loot">🎁 Find Dungeon Chest (+250 G)</button>
+        <button class="btn btn-violet" id="action-damage">Take 25 Damage</button>
+        <button class="btn btn-success" id="action-heal">Use Potion (+30 HP)</button>
+        <button class="btn" id="action-spell">Cast Time Spell (-15 MP, +80 EXP)</button>
+        <button class="btn btn-gold" id="action-loot">Find Dungeon Chest (+250 G)</button>
       </div>
 
       <div class="card-title" style="margin-top: 18px; font-size: 14px;">Merchant Emporium</div>
       <div class="action-btn-group">
-        <button class="btn" id="shop-buy-potion">🛒 Buy Potion (-50 G)</button>
-        <button class="btn" id="shop-buy-ether">🛒 Buy Ether (-80 G)</button>
-        <button class="btn" id="shop-buy-excalibur">🗡️ Buy Excalibur Sword (-500 G)</button>
-        <button class="btn" id="shop-buy-shield">🛡️ Buy Dragon Armor (-350 G)</button>
+        <button class="btn" id="shop-buy-potion">Buy Potion (-50 G)</button>
+        <button class="btn" id="shop-buy-ether">Buy Ether (-80 G)</button>
+        <button class="btn" id="shop-buy-excalibur">Buy Excalibur Sword (-500 G)</button>
+        <button class="btn" id="shop-buy-shield">Buy Dragon Armor (-350 G)</button>
       </div>
     </div>
   </div>

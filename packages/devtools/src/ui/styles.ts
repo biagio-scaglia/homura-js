@@ -5,29 +5,29 @@
  */
 export const devtoolsStyles = `
 :root, .homura-devtools-root {
-  --hm-bg-base: #0a0d14;
-  --hm-bg-surface: #111722;
-  --hm-bg-surface-elevated: #182232;
-  --hm-bg-card: #141c2b;
-  --hm-bg-card-hover: #1e293b;
-  --hm-bg-active: rgba(255, 71, 87, 0.12);
-  --hm-border: rgba(255, 255, 255, 0.08);
-  --hm-border-focus: rgba(255, 71, 87, 0.4);
-  --hm-border-subtle: rgba(255, 255, 255, 0.04);
+  --hm-bg-base: #08060c;
+  --hm-bg-surface: #0f0b18;
+  --hm-bg-surface-elevated: #171124;
+  --hm-bg-card: #140e20;
+  --hm-bg-card-hover: #1f1632;
+  --hm-bg-active: rgba(168, 85, 247, 0.15);
+  --hm-border: rgba(192, 132, 252, 0.12);
+  --hm-border-focus: rgba(168, 85, 247, 0.5);
+  --hm-border-subtle: rgba(255, 255, 255, 0.05);
   
-  --hm-accent: #ff4757;
-  --hm-accent-glow: rgba(255, 71, 87, 0.35);
-  --hm-accent-hover: #ff6b81;
+  --hm-accent: #a855f7;
+  --hm-accent-glow: rgba(168, 85, 247, 0.35);
+  --hm-accent-hover: #c084fc;
   --hm-cyan: #00d2d3;
   --hm-cyan-glow: rgba(0, 210, 211, 0.25);
-  --hm-purple: #a855f7;
-  --hm-green: #2ed573;
-  --hm-amber: #ffa502;
-  --hm-red: #ff4757;
+  --hm-purple: #c084fc;
+  --hm-green: #34d399;
+  --hm-amber: #fbbf24;
+  --hm-red: #9333ea;
 
-  --hm-text-primary: #f1f5f9;
-  --hm-text-secondary: #94a3b8;
-  --hm-text-muted: #64748b;
+  --hm-text-primary: #f3e8ff;
+  --hm-text-secondary: #c4b5fd;
+  --hm-text-muted: #7c6f9e;
   
   --hm-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --hm-font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
@@ -35,7 +35,7 @@ export const devtoolsStyles = `
   --hm-radius-sm: 4px;
   --hm-radius-md: 8px;
   --hm-radius-lg: 12px;
-  --hm-shadow-lg: 0 10px 30px -5px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 71, 87, 0.1);
+  --hm-shadow-lg: 0 10px 30px -5px rgba(0, 0, 0, 0.8), 0 0 20px rgba(168, 85, 247, 0.15);
   --hm-transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 

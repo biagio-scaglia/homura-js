@@ -1,175 +1,130 @@
-# ⏳ HOMURAJS — Time Travel State & History Engine for JavaScript
+<div align="center">
 
-> **"Git for application state."**
+# HOMURAJS
+### Time Travel State and History Engine for JavaScript
 
-[![CI Tests](https://img.shields.io/badge/tests-38%2F38%20passed-success)](https://github.com/biagio-scaglia/homura-js)
-[![TypeScript](https://img.shields.io/badge/TypeScript-Strict%20Mode-blue)](https://www.typescriptlang.org/)
-[![License](https://img.shields.io/badge/license-MIT-purple.svg)](LICENSE)
-[![NPM Packages](https://img.shields.io/badge/npm-%40homurajs-red)](https://www.npmjs.com/settings/homura-js/packages)
+**"Git for application state"**
 
-**HomuraJS** is a next-generation, high-performance time-travel state management and history engine for JavaScript and TypeScript. Unlike simple undo/redo stacks that destructively discard future states when you travel back in time and make a change, HomuraJS models state evolution as a **Directed Acyclic Graph (DAG)** of immutable commits—bringing true branching, tree visualization, deep structural diffing, persistent milestones, and decoupled developer tooling to any frontend or Node.js application.
+[![CI Tests](https://img.shields.io/badge/tests-38%2F38%20passed-7c3aed)](https://github.com/biagio-scaglia/homura-js)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Strict%20Mode-581c87)](https://www.typescriptlang.org/)
+[![License](https://img.shields.io/badge/license-MIT-3b0764)](LICENSE)
+[![NPM Organization](https://img.shields.io/badge/npm-%40homura--js-a855f7)](https://www.npmjs.com/settings/homura-js/packages)
 
-Named after the concept of manipulating time, HomuraJS is framework-agnostic at its core, with first-class integrations for **React 18+**, **Vue 3**, and **Vanilla JS**.
-
----
-
-## 📑 Table of Contents
-
-1. [Why HomuraJS?](#-why-homurajs)
-2. [Packages Architecture](#-packages-architecture)
-3. [Installation](#-installation)
-4. [Quick Start (Under 10 Lines)](#-quick-start-under-10-lines)
-5. [Core State Engine](#-core-state-engine)
-6. [DAG History & Branching ("Git for State")](#-dag-history--branching-git-for-state)
-7. [Time Travel: Rewind, Fast-Forward & Jump](#-time-travel-rewind-fast-forward--jump)
-8. [Snapshots & Milestones](#-snapshots--milestones)
-9. [Deep Structural Diff Engine](#-deep-structural-diff-engine)
-10. [Persistence Adapters](#-persistence-adapters)
-11. [Event System & Middleware Pipeline](#-event-system--middleware-pipeline)
-12. [Modern DevTools UI](#-modern-devtools-ui)
-13. [React 18+ Integration](#-react-18-integration)
-14. [Vue 3 Integration](#-vue-3-integration)
-15. [Vanilla JS & DOM Binding](#-vanilla-js--dom-binding)
-16. [Performance & Immutability Architecture](#-performance--immutability-architecture)
-17. [Full API Reference](#-full-api-reference)
-18. [Typed Error Handling](#-typed-error-handling)
-19. [Showcase RPG Demo](#-showcase-rpg-demo)
-20. [Roadmap](#-roadmap)
+</div>
 
 ---
 
-## ⚡ Why HomuraJS?
+## 1. Cos'e HomuraJS e cosa fa esattamente
 
-Traditional state libraries treat history as a flat stack:
+HomuraJS e un motore di gestione dello stato e della cronologia temporale per applicazioni JavaScript e TypeScript.
 
-```text
-[Stack-based Undo/Redo]:
-Step 1 ── Step 2 ── Step 3 (Undo to Step 2, then modify) ── Step 3 is PERMANENTLY DESTROYED!
-```
+A differenza dei tradizionali gestori di stato o dei semplici sistemi Undo/Redo basati su uno stack lineare, HomuraJS modella ogni mutazione dell'applicazione come un **Grafo Aciclico Diretto (DAG - Directed Acyclic Graph)** di stati immutabili.
 
-**HomuraJS** treats state evolution as a **Graph**:
+### Il Problema dei Sistemi Tradizionali
+Nei sistemi Undo/Redo convenzionali:
+1. L'utente esegue: Azione A -> Azione B -> Azione C.
+2. L'utente torna indietro di 2 passi fino ad Azione A.
+3. Se l'utente esegue una nuova operazione (Azione D), l'intera cronologia futura (Azione B e Azione C) viene **distrutta permanentemente**.
 
-```text
-[HomuraJS DAG Graph]:
-                  Login (v1)
-                     │
-Start ── Cart ── Product ── Quantity (v3) [Head: main]
-                  │
-                  └──── Product Removed ── Alternative Checkout [Head: branch-2]
-```
-
-* **Zero Data Loss**: Diverging from a past node creates a new branch; your old timeline remains fully accessible and traversable.
-* **Structural Diffing**: Built-in diff engine instantly tells you what changed (`added`, `removed`, `changed`) with exact dot-paths.
-* **Zero Runtime Dependencies**: The core engine is 100% standalone, lightweight, and framework-agnostic.
-* **Modern Developer Tooling**: Includes `@homurajs/devtools` with DAG visual timeline, interactive scrubber, JSON tree inspector, side-by-side diffing, and floating overlay launcher.
+### La Soluzione di HomuraJS ("Git for State")
+HomuraJS impedisce qualsiasi perdita di dati attraverso la divergenza non distruttiva dei rami (Branching):
+1. Quando ci si sposta indietro nel tempo e si applica una modifica, HomuraJS crea automaticamente un nuovo ramo parallelo.
+2. La cronologia originale rimane intatta, navigabile e ispezionabile in qualsiasi momento.
+3. Il motore consente di confrontare due stati qualsiasi tramite un algoritmo di Diff strutturale profondo, di creare punti di ripristino istantanei (Snapshot) e di persistere i dati in memoria o nel LocalStorage.
 
 ---
 
-## 📦 Packages Architecture
+## 2. Architettura dei Pacchetti
 
-HomuraJS is structured as a modular TypeScript monorepo:
+Il progetto e strutturato come un monorepo TypeScript suddiviso in pacchetti modulari:
 
-| Package | Description | Version |
-| :--- | :--- | :--- |
-| [`@homurajs/core`](#core-state-engine) | Core DAG history engine, immutability, diffs, snapshots, persistence & middleware | `1.0.0` |
-| [`@homurajs/devtools`](#modern-devtools-ui) | Modern cyberpunk DevTools UI, DAG timeline, JSON inspector, diff viewer, playback HUD | `1.0.0` |
-| [`@homurajs/react`](#react-18-integration) | React 18+ hooks (`useHomura`, selectors, Provider, `<HomuraDevTools />`) | `1.0.0` |
-| [`@homurajs/vue`](#vue-3-integration) | Vue 3 Composition API hook (`useHomura`) and Vue plugin | `1.0.0` |
-| [`@homurajs/vanilla`](#vanilla-js--dom-binding) | Vanilla DOM bindings (`bindState`) and standalone helpers | `1.0.0` |
+| Pacchetto | Descrizione |
+| :--- | :--- |
+| **`@homura-js/core`** | Motore centrale: Grafo DAG, Immutabilita tramite Proxy Draft, Diff strutturale, Snapshot, Persistenza e Middleware. |
+| **`@homura-js/devtools`** | Interfaccia grafica diagnostica: Visualizzatore temporale ad albero, Ispettore JSON dello stato, Confrontatore Diff e Scrubber di riproduzione temporale. |
+| **`@homura-js/react`** | Integrazione per React 18+ basata su `useSyncExternalStore` con selettori ottimizzati per evitare re-render non necessari. |
+| **`@homura-js/vue`** | Integrazione per Vue 3 tramite Composition API e plugin dedicato. |
+| **`@homura-js/vanilla`** | Binding bidirezionale reattivo per elementi DOM senza framework. |
+| **`@biagioscaglia/homurajs`** | Bundle unificato per installazione diretta. |
 
 ---
 
-## 🚀 Installation
+## 3. Installazione
 
+### Motore Core
 ```bash
-# Core engine
-npm install @homurajs/core
+npm install @homura-js/core
+```
 
-# DevTools UI
-npm install @homurajs/devtools
+### Con React
+```bash
+npm install @homura-js/core @homura-js/react @homura-js/devtools
+```
 
-# React 18+ Integration
-npm install @homurajs/react
+### Con Vue 3
+```bash
+npm install @homura-js/core @homura-js/vue @homura-js/devtools
+```
 
-# Vue 3 Integration
-npm install @homurajs/vue
-
-# Vanilla JS Integration
-npm install @homurajs/vanilla
+### Con Vanilla JS
+```bash
+npm install @homura-js/vanilla
 ```
 
 ---
 
-## ⚡ Quick Start (Under 10 Lines)
+## 4. Guida Rapida
+
+Inizializzazione e manipolazione dello stato in meno di dieci righe di codice:
 
 ```ts
-import { createHomura } from '@homurajs/core';
+import { createHomura } from '@homura-js/core';
 
-const homura = createHomura({ initialState: { count: 0 } });
-
-homura.update(d => { d.count += 10; }, { label: 'Add 10' });
-homura.update(d => { d.count *= 2; }, { label: 'Double' });
-
-homura.undo(); // count is 10
-homura.redo(); // count is 20
-console.log(homura.getState()); // { count: 20 }
-```
-
----
-
-## 🧠 Core State Engine
-
-Create a strongly-typed Homura instance:
-
-```ts
-import { createHomura } from '@homurajs/core';
-
-interface AppState {
-  player: {
-    name: string;
-    hp: number;
-    inventory: string[];
-  };
-  gold: number;
-}
-
-const homura = createHomura<AppState>({
-  initialState: {
-    player: { name: 'Homura', hp: 100, inventory: ['Potion'] },
-    gold: 500
-  },
-  maxHistory: 1000,
-  enableBranches: true
+const homura = createHomura({
+  initialState: { counter: 0, user: 'Homura' }
 });
+
+// Mutazione tramite Proxy Draft
+homura.update(draft => {
+  draft.counter += 10;
+}, { label: 'Incremento di 10' });
+
+// Viaggio nel tempo
+homura.undo(); // Il contatore torna a 0
+homura.redo(); // Il contatore torna a 10
+
+console.log(homura.getState()); // { counter: 10, user: 'Homura' }
 ```
 
-### Mutating State (Draft Proxy & Direct State)
+---
 
-Homura provides zero-dependency copy-on-write proxy updates:
+## 5. Come Funziona la Gestione dello Stato
+
+### Immutabilita e Aggiornamento a Bozza (Draft Proxy)
+HomuraJS include un meccanismo di Copy-On-Write basato su Proxy senza dipendenze esterne. Le modifiche vengono registrate su una bozza virtuale e finalizzate in un nuovo albero di stato immutabile che condivide la struttura non modificata con gli stati precedenti.
 
 ```ts
-// 1. Mutating Draft Proxy (Immer-style ergonomics)
+// 1. Modifica diretta della bozza
 homura.update(draft => {
-  draft.player.hp -= 25;
-  draft.player.inventory.push('Magic Staff');
-  draft.gold += 150;
-}, { label: 'Defeated Goblin & Looted Staff' });
+  draft.user = 'Akemi';
+  draft.counter += 5;
+}, { label: 'Aggiornamento Utente' });
 
-// 2. Pure state return
+// 2. Modifica funzionale pura (ritorno del nuovo stato)
 homura.update(state => ({
   ...state,
-  gold: state.gold + 50
-}), { label: 'Found gold coins' });
+  counter: state.counter + 1
+}), { label: 'Incremento Puro' });
 
-// 3. Direct setState
-homura.setState(nextState, { label: 'Reset level' });
+// 3. Assegnazione diretta
+homura.setState({ counter: 100, user: 'Homura' }, { label: 'Reset Globale' });
 ```
 
 ---
 
-## 🌳 DAG History & Branching ("Git for State")
+## 6. Il Grafo Cronologico DAG e il Branching
 
-Every state modification produces a typed `HistoryEntry<T>` in the history graph:
+Ogni modifica genera un nodo di cronologia immutabile:
 
 ```ts
 interface HistoryEntry<T> {
@@ -184,184 +139,149 @@ interface HistoryEntry<T> {
 }
 ```
 
-### Automatic Branching on Divergence
+### Divergenza Automatica dei Rami
 
-When you navigate backward in history and make a new commit, Homura automatically creates a new branch, preserving the historical timeline:
+Se l'applicazione si trova su un nodo passato e viene eseguito un nuovo aggiornamento, HomuraJS crea un nuovo ramo logico senza sovrascrivere o cancellare i nodi figli preesistenti:
 
-```ts
-// A ── B ── C ── D
-homura.jumpTo("B");
-
-// Updating from B creates a new branch!
-// A ── B ── C ── D (original branch 'main')
-//      \
-//       E ── F    (new branch 'branch-2')
-homura.update(d => { d.player.hp = 50; }, { label: 'Alternative path' });
+```text
+Nodo Iniziale (v1)
+       │
+       ├─── Azione 1 (Ramo Principale) ─── Azione 2 (v2)
+       │
+       └─── Azione Alternativa (Nuovo Ramo) ─── Azione 3 (v3)
 ```
 
-### Explicit Branch Management
-
 ```ts
-// Create branch explicitly
-const mageBranch = homura.createBranch('Mage-Path');
+// Ritorno al passato
+homura.jumpTo("entry-id-passato");
 
-// List branches
+// Questa operazione non distrugge il futuro: crea un nuovo ramo
+homura.update(draft => {
+  draft.counter = 999;
+}, { label: 'Linea Temporale Alternativa' });
+
+// Elenco di tutti i rami
 const branches = homura.getBranches();
 
-// Switch active branch
-homura.switchBranch(mageBranch.id);
-
-// Delete branch
-homura.deleteBranch('old-branch');
+// Cambio esplicito di ramo
+homura.switchBranch(branches[0].id);
 ```
 
 ---
 
-## ⏪ Time Travel: Rewind, Fast-Forward & Jump
+## 7. Navigazione Temporale: Rewind, Fast-Forward e Jump
+
+HomuraJS permette di spostarsi in modo deterministico lungo la linea temporale:
 
 ```ts
-// 1 step back
+// Singolo passo indietro o avanti
 homura.undo();
-
-// 1 step forward
 homura.redo();
 
-// Rewind N steps
-homura.rewind(5);
+// Spostamento di N passi
+homura.rewind(5);       // Indietro di 5 nodi
+homura.fastForward(3);  // Avanti di 3 nodi
 
-// Fast forward N steps
-homura.fastForward(3);
-
-// Jump directly to any entry in the DAG
-homura.jumpTo(entry.id);
+// Salto diretto a qualsiasi nodo del grafo
+homura.jumpTo("id-nodo-specifico");
 ```
 
 ---
 
-## 📷 Snapshots & Milestones
+## 8. Snapshot e Punti di Ripristino
 
-Snapshots are persistent, named bookmarks pointing to specific milestones in your history graph:
+Gli Snapshot sono segnalibri immutabili associati a un nodo temporale specifico, utili per salvare pietre miliari dell'applicazione:
 
 ```ts
-// Capture snapshot
-const snap = homura.snapshot('Before Boss Battle', { stage: 4 });
+// Creazione di uno snapshot
+const checkpoint = homura.snapshot('Stato Pre-Battaglia', { livello: 5 });
 
-// List snapshots
+// Elenco degli snapshot esistenti
 const snapshots = homura.getSnapshots();
 
-// Restore snapshot anytime
-homura.restore(snap.id);
+// Ripristino istantaneo dello stato al momento dello snapshot
+homura.restore(checkpoint.id);
 
-// Delete snapshot
-homura.deleteSnapshot(snap.id);
+// Eliminazione di uno snapshot
+homura.deleteSnapshot(checkpoint.id);
 ```
 
 ---
 
-## 🔍 Deep Structural Diff Engine
+## 9. Motore di Diff Strutturale
 
-Homura contains an independent, pure diff engine that compares nested objects, arrays, and primitive values:
+HomuraJS include un motore di calcolo delle differenze ricorsivo e puro. Il motore confronta oggetti, array e valori primitivi, identificando le modifiche esatte con il percorso semantico:
 
 ```ts
-import { diffStates } from '@homurajs/core';
+import { diffStates } from '@homura-js/core';
 
-const oldState = { user: { name: 'Mario', gold: 100 }, items: ['Potion'] };
-const newState = { user: { name: 'Luigi', gold: 150 }, items: ['Potion', 'Shield'] };
+const statoA = { profilo: { nome: 'Homura', livello: 1 }, oggetti: ['Scudo'] };
+const statoB = { profilo: { nome: 'Homura', livello: 2 }, oggetti: ['Scudo', 'Arco'] };
 
-const diff = diffStates(oldState, newState);
+const differenze = diffStates(statoA, statoB);
 ```
 
-Output:
+Risultato prodotto:
 ```json
 [
   {
-    "path": ["user", "name"],
+    "path": ["profilo", "livello"],
     "type": "changed",
-    "oldValue": "Mario",
-    "newValue": "Luigi"
+    "oldValue": 1,
+    "newValue": 2
   },
   {
-    "path": ["user", "gold"],
-    "type": "changed",
-    "oldValue": 100,
-    "newValue": 150
-  },
-  {
-    "path": ["items", 1],
+    "path": ["oggetti", 1],
     "type": "added",
-    "value": "Shield"
+    "value": "Arco"
   }
 ]
 ```
 
-Instance method:
+E possibile calcolare il diff anche direttamente tra due nodi di cronologia:
 ```ts
-// Diff between two entries
-homura.diff(entryA, entryB);
-
-// Diff an entry against current state
-homura.diff(historicalEntry);
+const diff = homura.diff(nodoA, nodoB);
 ```
 
 ---
 
-## 💾 Persistence Adapters
+## 10. Persistenza dei Dati
 
-Homura includes pluggable persistence adapters with debounced auto-saving:
+Il motore supporta adattatori di persistenza sincroni e asincroni con debouncing automatico:
 
 ```ts
-import { createHomura, LocalStorageAdapter, MemoryAdapter } from '@homurajs/core';
+import { createHomura, LocalStorageAdapter } from '@homura-js/core';
 
-// Browser LocalStorage persistence
 const homura = createHomura({
-  initialState,
+  initialState: { configurazione: 'attiva' },
   persistence: {
-    adapter: new LocalStorageAdapter('my_app_state'),
+    adapter: new LocalStorageAdapter('homura_storage_key'),
     autoSave: true,
-    debounceMs: 150
+    debounceMs: 200
   }
 });
 
-// Hydrate saved state
-await homura.load();
-
-// Manual save
+// Salvataggio esplicito
 await homura.save();
+
+// Caricamento manuale
+await homura.load();
 ```
 
 ---
 
-## 📡 Event System & Middleware Pipeline
+## 11. Pipeline di Middleware ed Eventi
 
-### Events
-
-```ts
-// Listen to state changes
-const unsubscribe = homura.on('state:change', ({ state, prevState, entry, action }) => {
-  console.log(`[${action}] State evolved to:`, state);
-});
-
-// Listen to branching
-homura.on('branch:create', ({ branch }) => {
-  console.log('Created branch:', branch.name);
-});
-
-// Clean up
-unsubscribe();
-```
-
-### Middleware Pipeline
+### Middleware (Stile Onion)
+I middleware permettono di intercettare, arricchire o bloccare qualsiasi transizione di stato prima che venga applicata:
 
 ```ts
 homura.use((context, next) => {
-  console.log(`Action: ${context.action}, Label: ${context.label}`);
-  
-  // Enrich metadata
-  context.setMetadata?.({ timestamp: Date.now(), userId: 'admin' });
+  console.log(`Azione: ${context.action}, Etichetta: ${context.label}`);
 
-  // Guard / intercept / cancel invalid mutations
-  if (context.action === 'setState' && (context.nextState as any).hp < 0) {
-    console.warn('Preventing negative HP');
+  // Esempio: blocco delle transizioni non valide
+  if (context.action === 'setState' && (context.nextState as any).counter < 0) {
+    console.warn('Operazione annullata: il contatore non puo essere negativo.');
     context.cancel();
     return;
   }
@@ -370,27 +290,38 @@ homura.use((context, next) => {
 });
 ```
 
+### Eventi Tipizzati
+```ts
+const unsubscribe = homura.on('state:change', ({ state, prevState, entry, action }) => {
+  console.log(`Transizione [${action}]:`, state);
+});
+
+// Disiscrizione
+unsubscribe();
+```
+
 ---
 
-## 🛠️ Modern DevTools UI
+## 12. DevTools UI
 
-Homura DevTools is a developer-focused, dark-themed diagnostic panel with:
-- **Visual DAG Timeline**: Click-to-jump, branch markers, search filter, relative timestamps.
-- **Collapsible JSON State Inspector**: Expand/collapse all, filter search, syntax highlighting, copy values.
-- **Diff Viewer**: Side-by-side & unified diff comparator between any two historical commits.
-- **Playback & Scrubber HUD**: Automatic cinematic playback (Play/Pause), scrubbing slider, `±1`, `±5`, `±10` step navigation.
-- **Floating Overlay Launcher**: Sleek glowing badge in the bottom-right corner of your screen (toggle with `Alt + H`).
+I DevTools offrono una suite visiva integrata per monitorare l'evoluzione dello stato:
+- **Timeline DAG**: Ispezione visiva di tutti i nodi e rami della cronologia.
+- **Ispettore JSON**: Vista ad albero con ricerca testuale, evidenziazione tipi e copia rapida.
+- **Diff Viewer**: Confronto affiancato e unificato tra versioni storiche.
+- **Playback HUD**: Controllo di riproduzione automatica e scrubbing manuale.
+- **Floating Overlay**: Pulsante fluttuante con scorciatoia `Alt + H`.
 
 ```ts
-import { mountDevTools } from '@homurajs/devtools';
+import { mountDevTools } from '@homura-js/devtools';
 
-// Mount floating dock launcher
+// Montaggio come overlay fluttuante
 mountDevTools(homura, {
   position: 'floating',
+  theme: 'dark',
   defaultOpen: true
 });
 
-// Or embed into a specific DOM element
+// Montaggio all'interno di un contenitore specifico
 mountDevTools(homura, {
   container: '#devtools-container',
   position: 'embedded'
@@ -399,32 +330,33 @@ mountDevTools(homura, {
 
 ---
 
-## ⚛️ React 18+ Integration
+## 13. Integrazione con React 18+
+
+L'integrazione per React utilizza `useSyncExternalStore` per garantire la sincronizzazione esente da tearing e supporta i selettori per ottimizzare le prestazioni:
 
 ```tsx
-import { createHomura } from '@homurajs/core';
-import { useHomura, HomuraDevTools } from '@homurajs/react';
+import { createHomura } from '@homura-js/core';
+import { useHomura, HomuraDevTools } from '@homura-js/react';
 
 const homura = createHomura({
-  initialState: { counter: 0, user: { name: 'Mario' } }
+  initialState: { contatore: 0, utente: 'Homura' }
 });
 
-export function Counter() {
-  // Select fine-grained slice for optimal performance without unnecessary re-renders
-  const { state: count, update, undo, redo, canUndo, canRedo } = useHomura(
+export function ComponenteContatore() {
+  // Sottoscrizione mirata alla sola proprieta 'contatore'
+  const { state: contatore, update, undo, redo, canUndo, canRedo } = useHomura(
     homura,
-    state => state.counter
+    s => s.contatore
   );
 
   return (
-    <div>
-      <h1>Count: {count}</h1>
-      <button onClick={() => update(d => { d.counter++; }, { label: 'Increment' })}>+1</button>
+    <div style={{ background: '#0a0710', color: '#e9d5ff', padding: 24, borderRadius: 8 }}>
+      <h2>Valore: {contatore}</h2>
+      <button onClick={() => update(d => { d.contatore++; }, { label: 'Incremento' })}>+1</button>
       <button disabled={!canUndo} onClick={() => undo()}>Undo</button>
       <button disabled={!canRedo} onClick={() => redo()}>Redo</button>
 
-      {/* Embedded or Floating DevTools */}
-      <HomuraDevTools homura={homura} position="floating" defaultOpen={true} />
+      <HomuraDevTools homura={homura} position="floating" />
     </div>
   );
 }
@@ -432,13 +364,13 @@ export function Counter() {
 
 ---
 
-## 🟢 Vue 3 Integration
+## 14. Integrazione con Vue 3
 
 ```vue
 <template>
-  <div>
-    <h1>Count: {{ state.count }}</h1>
-    <button @click="increment">+1</button>
+  <div style="background: #0a0710; color: #e9d5ff; padding: 24px; border-radius: 8px;">
+    <h2>Contatore: {{ state.contatore }}</h2>
+    <button @click="incrementa">+1</button>
     <button :disabled="!canUndo" @click="undo">Undo</button>
     <button :disabled="!canRedo" @click="redo">Redo</button>
   </div>
@@ -446,38 +378,40 @@ export function Counter() {
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { createHomura } from '@homurajs/core';
-import { useHomura } from '@homurajs/vue';
-import { mountDevTools } from '@homurajs/devtools';
+import { createHomura } from '@homura-js/core';
+import { useHomura } from '@homura-js/vue';
+import { mountDevTools } from '@homura-js/devtools';
 
-const homura = createHomura({ initialState: { count: 0 } });
+const homura = createHomura({
+  initialState: { contatore: 0 }
+});
+
 const { state, update, undo, redo, canUndo, canRedo } = useHomura(homura);
 
-function increment() {
-  update(d => { d.count++; }, { label: 'Increment' });
+function incrementa() {
+  update(d => { d.contatore += 1; }, { label: 'Incremento' });
 }
 
 onMounted(() => {
-  mountDevTools(homura, { position: 'floating', defaultOpen: true });
+  mountDevTools(homura, { position: 'floating' });
 });
 </script>
 ```
 
 ---
 
-## 🍦 Vanilla JS & DOM Binding
+## 15. Integrazione Vanilla JS
 
 ```ts
-import { createHomura, bindState, mountDevTools } from '@homurajs/vanilla';
+import { createHomura, bindState, mountDevTools } from '@homura-js/vanilla';
 
 const homura = createHomura({
-  initialState: { score: 100, player: 'Mario' }
+  initialState: { punteggio: 100 }
 });
 
-// Automatically bind state slices to DOM elements
-const unbind = bindState(homura, [
-  { selector: s => s.score, target: '#score-display', format: v => `Score: ${v}` },
-  { selector: s => s.player, target: '#player-display' }
+// Sincronizzazione automatica con elementi DOM
+bindState(homura, [
+  { selector: s => s.punteggio, target: '#punteggio-display', format: v => `Punteggio: ${v}` }
 ]);
 
 mountDevTools(homura, { position: 'floating' });
@@ -485,103 +419,62 @@ mountDevTools(homura, { position: 'floating' });
 
 ---
 
-## ⚡ Performance & Immutability Architecture
+## 16. Riferimento Completo delle API
 
-* **Structural Sharing**: Unmodified state branches retain their object references across commits.
-* **Zero Clones on Read**: `getState()` returns the current state node without cloning overhead.
-* **Copy-on-Write Proxy Drafts**: Mutations inside `update(draft => ...)` only create shallow copies along the modified path.
-* **Configurable History Pruning**: Limit total DAG size via `maxHistory` or manually call `pruneHistory(limit)`.
+### Metodi di Istanza `Homura<T>`
 
----
-
-## 📖 Full API Reference
-
-### `createHomura<T>(config: HomuraConfig<T>): Homura<T>`
-
-#### Methods:
-* `getState(): T`
-* `setState(nextState: T, options?: StateUpdateOptions): HistoryEntry<T>`
-* `update(updater: StateUpdater<T>, options?: StateUpdateOptions): HistoryEntry<T>`
-* `commit(label: string, metadata?: Record<string, unknown>): HistoryEntry<T>`
-* `undo(): HistoryEntry<T> | null`
-* `redo(): HistoryEntry<T> | null`
-* `rewind(steps: number): HistoryEntry<T> | null`
-* `fastForward(steps: number): HistoryEntry<T> | null`
-* `jumpTo(entryId: string): HistoryEntry<T>`
-* `snapshot(name?: string, metadata?: Record<string, unknown>): Snapshot<T>`
-* `restore(snapshotId: string): HistoryEntry<T>`
-* `deleteSnapshot(snapshotId: string): void`
-* `getSnapshots(): Snapshot<T>[]`
-* `getHistory(options?: { allBranches?: boolean }): HistoryEntry<T>[]`
-* `getCurrentEntry(): HistoryEntry<T>`
-* `getBranches(): Branch[]`
-* `getCurrentBranch(): Branch`
-* `createBranch(name: string, fromEntryId?: string): Branch`
-* `switchBranch(branchId: string): HistoryEntry<T>`
-* `deleteBranch(branchId: string): void`
-* `diff(entryOrStateA, entryOrStateB?): DiffChange[]`
-* `export(): SerializedHomura<T>`
-* `import(data: SerializedHomura<T>): void`
-* `pruneHistory(maxEntries?: number): number`
-* `on(event, listener): HomuraUnsubscribe`
-* `use(middleware: HomuraMiddleware<T>): void`
-* `save(): Promise<void>`
-* `load(): Promise<boolean>`
+* `getState(): T` — Restituisce lo stato immutabile corrente.
+* `setState(nextState: T, options?: StateUpdateOptions): HistoryEntry<T>` — Imposta direttamente il nuovo stato.
+* `update(updater: StateUpdater<T>, options?: StateUpdateOptions): HistoryEntry<T>` — Esegue una mutazione tramite bozza Copy-On-Write.
+* `undo(): HistoryEntry<T> | null` — Torna al nodo genitore nella cronologia.
+* `redo(): HistoryEntry<T> | null` — Avanza al nodo figlio successivo nel ramo attivo.
+* `rewind(steps: number): HistoryEntry<T> | null` — Retrocede di N passi.
+* `fastForward(steps: number): HistoryEntry<T> | null` — Avanza di N passi.
+* `jumpTo(entryId: string): HistoryEntry<T>` — Salta a qualsiasi nodo del grafo.
+* `snapshot(name?: string, metadata?: Record<string, unknown>): Snapshot<T>` — Cattura uno snapshot del nodo corrente.
+* `restore(snapshotId: string): HistoryEntry<T>` — Ripristina lo stato memorizzato nello snapshot.
+* `deleteSnapshot(snapshotId: string): void` — Rimuove uno snapshot.
+* `getSnapshots(): Snapshot<T>[]` — Restituisce l'elenco degli snapshot.
+* `getHistory(options?: { allBranches?: boolean }): HistoryEntry<T>[]` — Restituisce i nodi di cronologia.
+* `getCurrentEntry(): HistoryEntry<T>` — Restituisce il nodo attivo.
+* `getBranches(): Branch[]` — Restituisce l'elenco dei rami.
+* `getCurrentBranch(): Branch` — Restituisce il ramo attivo.
+* `createBranch(name: string, fromEntryId?: string): Branch` — Crea un nuovo ramo esplicito.
+* `switchBranch(branchId: string): HistoryEntry<T>` — Passa a un altro ramo.
+* `deleteBranch(branchId: string): void` — Elimina un ramo.
+* `diff(entryOrStateA, entryOrStateB?): DiffChange[]` — Calcola le differenze strutturali tra due stati o nodi.
+* `export(): SerializedHomura<T>` — Esporta l'intero grafo in formato serializzabile.
+* `import(data: SerializedHomura<T>): void` — Importa e reidrata un grafo salvato.
+* `pruneHistory(maxEntries?: number): number` — Pota i nodi piu vecchi per ottimizzare l'uso della memoria.
+* `use(middleware: HomuraMiddleware<T>): void` — Registra una funzione middleware.
+* `on(event, listener): HomuraUnsubscribe` — Sottoscrive un listener agli eventi.
+* `save(): Promise<void>` — Salva lo stato tramite l'adattatore configurato.
+* `load(): Promise<boolean>` — Carica lo stato dall'adattatore.
 
 ---
 
-## 🛡️ Typed Error Handling
+## 17. Avvio Locale dei Test e delle Demo
 
-```ts
-import {
-  HomuraError,
-  HomuraHistoryError,
-  HomuraSnapshotError,
-  HomuraBranchError,
-  HomuraSerializationError,
-  HomuraPersistenceError,
-  HomuraMiddlewareError
-} from '@homurajs/core';
-```
-
----
-
-## 🎮 Showcase RPG Demo
-
-Run the interactive Mini RPG Inventory & Time Machine demo:
+Per testare tutte le funzionalita e le demo incluse:
 
 ```bash
+# Esecuzione script interattivo (Windows)
+./start.bat
+
+# Esecuzione diretta suite di test Vitest
+pnpm test
+
+# Avvio demo Mini RPG Inventory
 pnpm --filter "@homurajs/example-rpg-inventory" run dev
-```
 
-Or test the Playground:
-
-```bash
+# Avvio Playground Interattivo
 pnpm --filter "@homurajs/playground" run dev
 ```
 
 ---
 
-## 🗺️ Roadmap
+## 18. Licenza
 
-- [x] Core DAG State & History Graph Engine
-- [x] Non-destructive automatic branching
-- [x] Zero-dependency copy-on-write draft proxies
-- [x] Deep structural Diff Engine with path tracking
-- [x] Persistent Snapshots & Milestones
-- [x] LocalStorage & Memory Persistence Adapters
-- [x] Middleware pipeline & typed event system
-- [x] Standalone DevTools UI (Timeline, Inspector, Diff Viewer, Scrubber, Floating Launcher)
-- [x] React 18+ Integration (`useHomura`, selectors, Provider, `<HomuraDevTools />`)
-- [x] Vue 3 Integration (`useHomura`, Composition API, plugin)
-- [x] Vanilla JS integration (`bindState`)
-- [x] Complete test suite (38/38 unit tests passing)
-- [ ] Browser DevTools Extension package (Chrome & Firefox manifest v3)
-- [ ] WebWorker & IndexedDB offloaded background persistence adapter
-- [ ] Time-travel collaborative multi-user state synchronization (CRDT/OT)
+Distribuito sotto licenza **MIT**. Consulta il file [LICENSE](LICENSE) per ulteriori dettagli.
 
----
-
-## 📜 License
-
-MIT © [HomuraJS Team](https://github.com/biagio-scaglia/homura-js)
+Copyright (c) 2026 Biagio Scaglia & HomuraJS Team.
