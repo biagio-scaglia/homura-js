@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HomuraJS — Interactive DevTools Live Studio</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-dark: #07040d;
+      --bg-card: rgba(22, 13, 38, 0.75);
+      --bg-card-hover: rgba(35, 20, 60, 0.85);
+      --border: rgba(168, 85, 247, 0.22);
+      --border-accent: rgba(168, 85, 247, 0.6);
+      --text: #f3e8ff;
+      --text-muted: #a89bc4;
+      --accent: #a855f7;
+      --accent-glow: rgba(168, 85, 247, 0.35);
+      --accent-grad: linear-gradient(135deg, #a855f7, #6366f1);
+      --font: 'Inter', system-ui, -apple-system, sans-serif;
+      --font-mono: 'Fira Code', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(120, 40, 200, 0.25), transparent),
+        radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.15), transparent);
+      color: var(--text);
+      font-family: var(--font);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      background: rgba(10, 6, 18, 0.85);
+      backdrop-filter: blur(12px);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-logo {
+      width: 28px;
+      height: 28px;
+      color: var(--accent);
+      filter: drop-shadow(0 0 8px var(--accent-glow));
+    }
+
+    .brand-title {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      background: var(--accent-grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .badge-live {
+      background: rgba(34, 197, 94, 0.15);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+      padding: 3px 8px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .badge-live::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #4ade80;
+      box-shadow: 0 0 8px #4ade80;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn {
+      background: rgba(30, 18, 52, 0.8);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      border-color: var(--accent);
+      background: rgba(45, 25, 80, 0.9);
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+
+    .btn-primary {
+      background: var(--accent-grad);
+      border-color: transparent;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 0 16px rgba(168, 85, 247, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .studio-container {
+      flex: 1;
+      padding: 24px;
+      max-width: 1440px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 24px;
+    }
+
+    @media (max-width: 1024px) {
+      .studio-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .app-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Controls Bar */
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    /* Kanban Board Layout */
+    .kanban-board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .kanban-board {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .kanban-col {
+      background: rgba(14, 8, 25, 0.6);
+      border: 1px solid rgba(168, 85, 247, 0.15);
+      border-radius: 8px;
+      padding: 12px;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .col-header {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .col-count {
+      background: rgba(168, 85, 247, 0.2);
+      color: var(--accent);
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 999px;
+    }
+
+    .task-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .task-card {
+      background: rgba(28, 16, 48, 0.8);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px;
+      font-size: 13px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .task-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(168, 85, 247, 0.2);
+    }
+
+    .task-card-title {
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .task-card-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .tag-priority-high { color: #f87171; font-weight: 700; }
+    .tag-priority-med { color: #fbbf24; font-weight: 600; }
+    .tag-priority-low { color: #34d399; }
+
+    /* Side Panel */
+    .side-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .history-log {
+      max-height: 220px;
+      overflow-y: auto;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      background: rgba(10, 5, 20, 0.8);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .log-item {
+      padding: 4px 6px;
+      border-radius: 4px;
+      background: rgba(168, 85, 247, 0.08);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .log-action { color: #c084fc; font-weight: 600; }
+    .log-time { color: #6b7280; font-size: 10px; }
+
+    .shortcut-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      font-size: 12px;
+    }
+
+    .shortcut-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    kbd {
+      background: rgba(40, 25, 70, 0.9);
+      border: 1px solid var(--border);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: #e9d5ff;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(25, 12, 45, 0.95);
+      border: 1px solid var(--accent);
+      color: #f3e8ff;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <a href="index.html" class="brand" title="Back to Documentation">
+      <svg class="brand-logo" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+      <div>
+        <div class="brand-title">HOMURAJS LIVE STUDIO</div>
+        <div style="font-size: 11px; color: var(--text-muted);">Interactive Time-Travel & DevTools Playground</div>
+      </div>
+    </a>
+
+    <div class="header-actions">
+      <div class="badge-live">DevTools Attached</div>
+      <button class="btn btn-primary" id="btn-toggle-devtools" title="Toggle HomuraJS DevTools (Alt+H)">
+        🎮 Toggle DevTools
+      </button>
+      <a href="index.html" class="btn" title="Back to documentation">
+        ◀ Docs
+      </a>
+    </div>
+  </header>
+
+  <main class="studio-container">
+    <!-- Left Column: Kanban Board Application -->
+    <div class="app-card">
+      <div class="card-title">
+        <span>CyberFlow Kanban — Live State Engine</span>
+        <div style="font-size: 12px; color: var(--text-muted);">
+          Branch: <strong id="active-branch-label" style="color: var(--accent);">main</strong>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="controls-grid">
+        <button class="btn btn-primary" id="btn-add-task">➕ Add Task</button>
+        <button class="btn" id="btn-batch-tx">⚡ Transaction</button>
+        <button class="btn" id="btn-undo">⏪ Undo</button>
+        <button class="btn" id="btn-redo">⏩ Redo</button>
+        <button class="btn" id="btn-fork">🌿 Fork Branch</button>
+        <button class="btn" id="btn-merge">🔀 3-Way Merge</button>
+        <button class="btn" id="btn-snap">📸 Snapshot</button>
+        <button class="btn" id="btn-replay">🎬 Replay (2x)</button>
+      </div>
+
+      <!-- Live Kanban Board -->
+      <div class="kanban-board">
+        <!-- To Do -->
+        <div class="kanban-col" id="col-todo">
+          <div class="col-header">
+            <span>To Do</span>
+            <span class="col-count" id="count-todo">0</span>
+          </div>
+          <div class="task-list" id="list-todo"></div>
+        </div>
+
+        <!-- In Progress -->
+        <div class="kanban-col" id="col-progress">
+          <div class="col-header">
+            <span>In Progress</span>
+            <span class="col-count" id="count-progress">0</span>
+          </div>
+          <div class="task-list" id="list-progress"></div>
+        </div>
+
+        <!-- Done -->
+        <div class="kanban-col" id="col-done">
+          <div class="col-header">
+            <span>Done</span>
+            <span class="col-count" id="count-done">0</span>
+          </div>
+          <div class="task-list" id="list-done"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Live Event Stream & Diagnostic Shortcuts -->
+    <div class="side-panel">
+      <div class="app-card">
+        <div class="card-title">
+          <span>DAG Event Stream</span>
+          <span style="font-size: 11px; color: var(--text-muted);" id="event-count">0 events</span>
+        </div>
+        <div class="history-log" id="event-log">
+          <div class="log-item">
+            <span class="log-action">init:engine</span>
+            <span class="log-time">ready</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="app-card">
+        <div class="card-title">
+          <span>DevTools Keyboard Shortcuts</span>
+        </div>
+        <div class="shortcut-list">
+          <div class="shortcut-row">
+            <span>Toggle DevTools Panel</span>
+            <kbd>Alt + H</kbd>
+          </div>
+          <div class="shortcut-row">
+            <span>Step Undo / Redo</span>
+            <div><kbd>Alt + ←</kbd> <kbd>Alt + →</kbd></div>
+          </div>
+          <div class="shortcut-row">
+            <span>Rewind / Fast-Forward (5x)</span>
+            <div><kbd>Shift + ←</kbd> <kbd>Shift + →</kbd></div>
+          </div>
+          <div class="shortcut-row">
+            <span>Minimize / Close</span>
+            <kbd>Esc</kbd>
+          </div>
+        </div>
+      </div>
+
+      <div class="app-card">
+        <div class="card-title">
+          <span>Session Bug Reporting</span>
+        </div>
+        <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
+          Export the entire historical DAG graph as a <code>.homura</code> report file to reproduce bugs deterministically.
+        </p>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-primary" style="flex: 1;" id="btn-export-session">💾 Export .homura</button>
+          <button class="btn" style="flex: 1;" id="btn-import-session">📂 Import</button>
+        </div>
+        <input type="file" id="file-input-session" accept=".json,.homura" style="display: none;" />
+      </div>
+    </div>
+  </main>
+
+  <div class="toast" id="toast">Notification</div>
+
+  <script type="module" src="./src/demo.ts"></script>
+</body>
+</html>

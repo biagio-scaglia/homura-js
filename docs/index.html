@@ -955,7 +955,12 @@
         <input type="text" class="search-input" id="search-bar" placeholder="Search documentation..." data-i18n-placeholder="header.search_placeholder" aria-label="Search documentation" />
       </div>
 
-      <button class="btn btn-primary" id="btn-copy-install" title="Copy npm install command">
+      <a href="demo.html" class="btn btn-primary" style="background: linear-gradient(135deg, #a855f7, #6366f1); box-shadow: 0 0 16px rgba(168, 85, 247, 0.4); border: none; font-weight: 700;" title="Open Live Interactive Studio with DevTools">
+        <svg class="icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        <span>Live Studio</span>
+      </a>
+
+      <button class="btn" id="btn-copy-install" title="Copy npm install command">
         <svg class="icon" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
         <span class="btn-copy-text" data-i18n="header.copy_install">Copy Install</span>
       </button>
