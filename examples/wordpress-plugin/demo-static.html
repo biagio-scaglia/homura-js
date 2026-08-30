@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HomuraJS — Zero-JS Form Recovery & Time Travel Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #06030b;
+      --card: #0f071a;
+      --border: rgba(168, 85, 247, 0.25);
+      --accent: #a855f7;
+      --accent-hover: #c084fc;
+      --text: #f5f3ff;
+      --muted: #c4b5fd;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 600px;
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
+    h1 {
+      font-family: 'Cinzel', serif;
+      color: var(--accent);
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+    p.subtitle {
+      color: var(--muted);
+      font-size: 13.5px;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+    .form-group {
+      margin-bottom: 18px;
+    }
+    label {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #e9d5ff;
+      margin-bottom: 6px;
+    }
+    input, textarea, select {
+      width: 100%;
+      background: #190c2e;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 6px;
+      padding: 10px 14px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 13.5px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--accent);
+    }
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 24px;
+    }
+    button {
+      padding: 10px 18px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+    }
+    .btn-secondary {
+      background: #200f38;
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .btn-secondary:hover:not(:disabled) {
+      background: #311654;
+      color: #fff;
+    }
+    .btn-secondary:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+    .info-badge {
+      margin-top: 24px;
+      background: rgba(168, 85, 247, 0.1);
+      border: 1px dashed rgba(168, 85, 247, 0.3);
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+  </style>
+  <!-- Load Local/CDN Standalone Bundle -->
+  <script src="../../packages/homura-js/dist/index.global.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>HOMURAJS</h1>
+    <p class="subtitle">
+      Zero-JavaScript Static Form Time-Travel &amp; Crash Recovery. Type in the fields below, then test <b>Undo</b> and <b>Redo</b>, or refresh the page!
+    </p>
+
+    <!-- Homura Form Auto-Binding -->
+    <form data-homura-form="quote_request" data-homura-persist="localstorage">
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" name="fullName" placeholder="e.g. Elena Rossi" />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="elena@example.com" />
+      </div>
+
+      <div class="form-group">
+        <label for="serviceType">Service Category</label>
+        <select id="serviceType" name="serviceType">
+          <option value="ecommerce">WooCommerce Store</option>
+          <option value="custom_app">Custom Web Application</option>
+          <option value="landing">Static Landing Page</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="message">Project Scope</label>
+        <textarea id="message" name="message" rows="3" placeholder="Describe your project needs..."></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button type="button" class="btn-secondary" data-homura-undo>↩ Undo</button>
+        <button type="button" class="btn-secondary" data-homura-redo>↪ Redo</button>
+        <button type="submit" class="btn-primary" style="margin-left: auto;">Submit Quote</button>
+      </div>
+    </form>
+
+    <div class="info-badge">
+      💡 <b>How it works:</b> No custom JS code is written on this page. The <code>data-homura-form</code> engine automatically tracks every keystroke into an immutable DAG graph, enables/disables the Undo/Redo buttons, and persists the draft in <code>LocalStorage</code>!
+    </div>
+  </div>
+</body>
+</html>

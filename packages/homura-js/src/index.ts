@@ -16,5 +16,5 @@ export type {
   DevToolsBridgeMessage,
   DevToolsBridgeSnapshot
 } from '@homura-js/devtools';
-export { bindState } from '@homura-js/vanilla';
-export type { StateBinding, DOMTarget } from '@homura-js/vanilla';
+export { bindState, bindForm, autoInitForms } from '@homura-js/vanilla';
+export type { StateBinding, DOMTarget, FormBindingOptions, FormBindingController } from '@homura-js/vanilla';

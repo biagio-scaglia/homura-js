@@ -1,5 +1,41 @@
 import { createHomura } from '@homura-js/core';
 import { mountDevTools } from '@homura-js/devtools';
+import { translations, Language } from './i18n';
+
+// 1. Language Controller (Synced with localStorage, default: 'en')
+let currentLang: Language = (localStorage.getItem('homura_playground_lang') as Language) ||
+                            (localStorage.getItem('homura_docs_lang') as Language) || 'en';
+
+export function setLanguage(lang: Language): void {
+  currentLang = lang;
+  localStorage.setItem('homura_playground_lang', lang);
+  document.documentElement.lang = lang;
+
+  // Update text for elements with data-i18n
+  document.querySelectorAll<HTMLElement>('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (key && translations[key] && translations[key][lang]) {
+      el.textContent = translations[key][lang];
+    }
+  });
+
+  // Update active state on language buttons
+  const btnEn = document.getElementById('btn-lang-en');
+  const btnIt = document.getElementById('btn-lang-it');
+  if (btnEn && btnIt) {
+    if (lang === 'en') {
+      btnEn.classList.add('active');
+      btnIt.classList.remove('active');
+    } else {
+      btnIt.classList.add('active');
+      btnEn.classList.remove('active');
+    }
+  }
+}
+
+// Attach listeners to language buttons
+document.getElementById('btn-lang-en')?.addEventListener('click', () => setLanguage('en'));
+document.getElementById('btn-lang-it')?.addEventListener('click', () => setLanguage('it'));
 
 interface PlaygroundState {
   user: {
@@ -63,7 +99,7 @@ document.getElementById('btn-add-user')?.addEventListener('click', () => {
       role: 'Sarasaland Ruler',
       verified: true
     };
-  }, { label: 'Added User: Princess Daisy' });
+  }, { label: currentLang === 'it' ? 'Aggiunto Utente: Princess Daisy' : 'Added User: Princess Daisy' });
 });
 
 document.getElementById('btn-rename-user')?.addEventListener('click', () => {
@@ -75,18 +111,19 @@ document.getElementById('btn-rename-user')?.addEventListener('click', () => {
     } else {
       d.user = { name: nextName, role: 'Member', verified: false };
     }
-  }, { label: `Renamed User to ${nextName}` });
+  }, { label: currentLang === 'it' ? `Rinominato Utente in ${nextName}` : `Renamed User to ${nextName}` });
 });
 
 let taskCounter = 4;
 document.getElementById('btn-add-task')?.addEventListener('click', () => {
+  const currentTaskNum = taskCounter++;
   homura.update(d => {
     d.tasks.push({
-      id: String(taskCounter++),
-      title: `Deploy release build #${taskCounter}`,
+      id: String(currentTaskNum),
+      title: `Deploy release build #${currentTaskNum}`,
       done: false
     });
-  }, { label: `Pushed Task #${taskCounter - 1}` });
+  }, { label: currentLang === 'it' ? `Aggiunto Task #${currentTaskNum}` : `Pushed Task #${currentTaskNum}` });
 });
 
 document.getElementById('btn-toggle-task')?.addEventListener('click', () => {
@@ -97,33 +134,33 @@ document.getElementById('btn-toggle-task')?.addEventListener('click', () => {
     } else if (d.tasks.length > 0) {
       d.tasks[0]!.done = false;
     }
-  }, { label: 'Toggled Task Status' });
+  }, { label: currentLang === 'it' ? 'Stato Task Aggiornato' : 'Toggled Task Status' });
 });
 
 document.getElementById('btn-toggle-theme')?.addEventListener('click', () => {
   homura.update(d => {
     d.settings.theme = d.settings.theme === 'dark' ? 'light' : 'dark';
-  }, { label: `Switched Theme to ${d.settings.theme === 'dark' ? 'light' : 'dark'}` });
+  }, { label: currentLang === 'it' ? `Cambiato Tema in ${d.settings.theme === 'dark' ? 'light' : 'dark'}` : `Switched Theme to ${d.settings.theme === 'dark' ? 'light' : 'dark'}` });
 });
 
 document.getElementById('btn-inc-metric')?.addEventListener('click', () => {
   homura.update(d => {
     d.metrics.counter += 10;
     d.metrics.lastUpdated = Date.now();
-  }, { label: 'Incremented Counter +10' });
+  }, { label: currentLang === 'it' ? 'Incremento Contatore +10' : 'Incremented Counter +10' });
 });
 
-// v1.1.0: Transaction Batching
+// Advanced: Transaction Batching
 document.getElementById('btn-transaction')?.addEventListener('click', () => {
   homura.transaction(d => {
     d.user = { name: 'Biagio Scaglia', role: 'Homura Author', verified: true };
     d.metrics.counter += 100;
     d.settings.notifications = true;
-    d.tasks.push({ id: String(taskCounter++), title: 'Publish Homura v1.1.0', done: true });
-  }, { label: 'Atomic Profile & Task Batch' });
+    d.tasks.push({ id: String(taskCounter++), title: 'Publish Homura v1.2.2', done: true });
+  }, { label: currentLang === 'it' ? 'Transazione Atomica Profilo & Task' : 'Atomic Profile & Task Batch' });
 });
 
-// v1.1.0: Replay Engine
+// Advanced: Replay Engine
 document.getElementById('btn-replay')?.addEventListener('click', async () => {
   const replayBtn = document.getElementById('btn-replay') as HTMLButtonElement | null;
   if (replayBtn) replayBtn.disabled = true;
@@ -131,25 +168,33 @@ document.getElementById('btn-replay')?.addEventListener('click', async () => {
   if (replayBtn) replayBtn.disabled = false;
 });
 
-// v1.1.0: Branch Compare & Merge
+// Advanced: Branch Compare & Merge
 document.getElementById('btn-compare-merge')?.addEventListener('click', () => {
   const branches = homura.getBranches();
   const otherBranch = branches.find(b => b.id !== homura.getCurrentBranch().id);
   if (otherBranch) {
     const comp = homura.compare(homura.getCurrentBranch().id, otherBranch.id);
-    alert(`Comparison with "${otherBranch.name}":\nAhead: ${comp.aheadCount}, Behind: ${comp.behindCount}, Diff Changes: ${comp.diff.length}`);
-    homura.merge(otherBranch.id, { label: `Merged branch ${otherBranch.name}` });
+    const msg = currentLang === 'it'
+      ? `Confronto con "${otherBranch.name}":\nIn anticipo: ${comp.aheadCount}, In ritardo: ${comp.behindCount}, Differenze: ${comp.diff.length}`
+      : `Comparison with "${otherBranch.name}":\nAhead: ${comp.aheadCount}, Behind: ${comp.behindCount}, Diff Changes: ${comp.diff.length}`;
+    alert(msg);
+    homura.merge(otherBranch.id, { label: currentLang === 'it' ? `Fuso ramo ${otherBranch.name}` : `Merged branch ${otherBranch.name}` });
   } else {
-    alert('Please fork an alternative timeline branch first to compare and merge!');
+    alert(currentLang === 'it'
+      ? 'Crea prima un ramo alternativo per confrontare e unire i rami!'
+      : 'Please fork an alternative timeline branch first to compare and merge!');
   }
 });
 
-// v1.1.0: History Compaction
+// Advanced: History Compaction
 document.getElementById('btn-compact')?.addEventListener('click', () => {
   const before = homura.getHistory({ allBranches: true }).length;
   const pruned = homura.compact({ maxEntries: 10, preserveSnapshots: true });
   const after = homura.getHistory({ allBranches: true }).length;
-  alert(`History compacted:\nPruned ${pruned} intermediate nodes.\nTotal nodes reduced from ${before} to ${after}.`);
+  const msg = currentLang === 'it'
+    ? `Cronologia compattata:\nRimossi ${pruned} nodi intermedi.\nNodi totali ridotti da ${before} a ${after}.`
+    : `History compacted:\nPruned ${pruned} intermediate nodes.\nTotal nodes reduced from ${before} to ${after}.`;
+  alert(msg);
 });
 
 // Navigation & Actions
@@ -159,17 +204,23 @@ document.getElementById('btn-rewind-3')?.addEventListener('click', () => homura.
 document.getElementById('btn-fast-forward-3')?.addEventListener('click', () => homura.fastForward(3));
 
 document.getElementById('btn-snapshot')?.addEventListener('click', () => {
-  const name = prompt('Snapshot label:', `Snapshot #${homura.getSnapshots().length + 1}`);
+  const promptText = currentLang === 'it' ? 'Etichetta Snapshot:' : 'Snapshot label:';
+  const defaultLabel = currentLang === 'it' ? `Snapshot #${homura.getSnapshots().length + 1}` : `Snapshot #${homura.getSnapshots().length + 1}`;
+  const name = prompt(promptText, defaultLabel);
   if (name) homura.snapshot(name);
 });
 
 document.getElementById('btn-fork')?.addEventListener('click', () => {
-  const branchName = prompt('New Branch Name:', `experiment-${Date.now().toString(36)}`);
+  const promptText = currentLang === 'it' ? 'Nome del Nuovo Ramo:' : 'New Branch Name:';
+  const branchName = prompt(promptText, `experiment-${Date.now().toString(36)}`);
   if (branchName) {
     homura.createBranch(branchName);
     homura.update(d => {
       d.user = { name: 'Alternative Entity', role: 'Quantum Divergence', verified: true };
       d.metrics.counter = 9999;
-    }, { label: 'Divergent Branch Genesis' });
+    }, { label: currentLang === 'it' ? 'Genesi Ramo Divergente' : 'Divergent Branch Genesis' });
   }
 });
+
+// Initial language set
+setLanguage(currentLang);

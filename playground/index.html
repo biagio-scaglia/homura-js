@@ -4,7 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HomuraJS — State Machine and Time Travel Playground</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #08060c;
@@ -14,6 +16,7 @@
       --cyan: #00d2d3;
       --purple: #c084fc;
       --green: #34d399;
+      --gold: #d4af37;
       --text: #f3e8ff;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -26,12 +29,13 @@
       flex-direction: column;
     }
     header {
-      padding: 16px 24px;
+      padding: 14px 24px;
       background: var(--surface);
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 16px;
     }
     .brand {
       display: flex;
@@ -49,6 +53,34 @@
       border-radius: 12px;
       font-size: 11px;
       font-family: 'JetBrains Mono', monospace;
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .lang-switcher {
+      display: inline-flex;
+      align-items: center;
+      background: #180f29;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 6px;
+      padding: 2px;
+    }
+    .lang-btn {
+      background: transparent;
+      border: none;
+      color: #c4b5fd;
+      padding: 4px 10px;
+      font-size: 11.5px;
+      font-weight: 700;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .lang-btn.active {
+      background: var(--accent);
+      color: #fff;
     }
     .main-layout {
       display: flex;
@@ -98,12 +130,17 @@
 <body>
   <header>
     <div class="brand">
-      <span style="color: var(--accent);">HOMURAJS</span>
-      <span class="badge">v1.2.2</span>
-      <span style="font-size: 12px; font-weight: 400; color: #c4b5fd;">State and History Playground</span>
+      <span style="color: var(--accent); font-family: 'Cinzel', serif;">HOMURAJS</span>
+      <span class="badge" data-i18n="header.badge">v1.2.2</span>
+      <span style="font-size: 12px; font-weight: 400; color: #c4b5fd;" data-i18n="header.subtitle">State and History Playground</span>
     </div>
-    <div style="display: flex; gap: 8px;">
-      <a href="https://github.com/biagio-scaglia/homura-js" target="_blank" class="btn" style="text-decoration: none;">GitHub Repo</a>
+    <div class="header-actions">
+      <!-- Language Switcher -->
+      <div class="lang-switcher">
+        <button class="lang-btn active" id="btn-lang-en">EN</button>
+        <button class="lang-btn" id="btn-lang-it">IT</button>
+      </div>
+      <a href="https://github.com/biagio-scaglia/homura-js" target="_blank" class="btn" style="text-decoration: none;" data-i18n="header.github">GitHub Repo</a>
     </div>
   </header>
 
@@ -111,48 +148,48 @@
     <!-- Left Pane: Interactive State Controls -->
     <div class="playground-pane">
       <div class="card">
-        <h3 style="margin-bottom: 12px; font-size: 15px;">State Sandbox</h3>
-        <p style="color: #c4b5fd; font-size: 13px; margin-bottom: 16px;">
+        <h3 style="margin-bottom: 12px; font-size: 15px;" data-i18n="sandbox.title">State Sandbox</h3>
+        <p style="color: #c4b5fd; font-size: 13px; margin-bottom: 16px;" data-i18n="sandbox.desc">
           Execute updates on the Homura engine below. Notice how every state mutation is recorded in the Directed Acyclic Graph on the right, allowing non-destructive time travel, branch forks, and structural diffing.
         </p>
         <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px;">
-          <button class="btn btn-primary" id="btn-add-user">Add User</button>
-          <button class="btn btn-primary" id="btn-rename-user">Rename Active User</button>
-          <button class="btn btn-primary" id="btn-add-task">Push Todo Task</button>
-          <button class="btn" id="btn-toggle-task">Toggle Task Complete</button>
-          <button class="btn" id="btn-toggle-theme">Toggle Theme</button>
-          <button class="btn" id="btn-inc-metric">Increment Metric</button>
+          <button class="btn btn-primary" id="btn-add-user" data-i18n="btn.add_user">Add User</button>
+          <button class="btn btn-primary" id="btn-rename-user" data-i18n="btn.rename_user">Rename Active User</button>
+          <button class="btn btn-primary" id="btn-add-task" data-i18n="btn.add_task">Push Todo Task</button>
+          <button class="btn" id="btn-toggle-task" data-i18n="btn.toggle_task">Toggle Task Complete</button>
+          <button class="btn" id="btn-toggle-theme" data-i18n="btn.toggle_theme">Toggle Theme</button>
+          <button class="btn" id="btn-inc-metric" data-i18n="btn.inc_metric">Increment Metric</button>
         </div>
       </div>
 
       <div class="card">
-        <h3 style="margin-bottom: 12px; font-size: 15px;">v1.1.0 Advanced State &amp; History Features</h3>
+        <h3 style="margin-bottom: 12px; font-size: 15px;" data-i18n="advanced.title">Advanced State &amp; History Features</h3>
         <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-          <button class="btn btn-primary" id="btn-transaction">Atomic Transaction Batch</button>
-          <button class="btn btn-primary" id="btn-replay" style="background: #9333ea;">▶ Replay Timeline (2x)</button>
-          <button class="btn" id="btn-compare-merge">Compare &amp; Merge Branch</button>
-          <button class="btn" id="btn-compact">Compact History (Prune Nodes)</button>
+          <button class="btn btn-primary" id="btn-transaction" data-i18n="btn.transaction">Atomic Transaction Batch</button>
+          <button class="btn btn-primary" id="btn-replay" style="background: #9333ea;" data-i18n="btn.replay">▶ Replay Timeline (2x)</button>
+          <button class="btn" id="btn-compare-merge" data-i18n="btn.compare_merge">Compare &amp; Merge Branch</button>
+          <button class="btn" id="btn-compact" data-i18n="btn.compact">Compact History (Prune Nodes)</button>
         </div>
       </div>
 
       <div class="card">
-        <h3 style="margin-bottom: 12px; font-size: 15px;">Time-Travel Actions</h3>
+        <h3 style="margin-bottom: 12px; font-size: 15px;" data-i18n="timetravel.title">Time-Travel Actions</h3>
         <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-          <button class="btn" id="btn-undo">Undo 1 Step</button>
-          <button class="btn" id="btn-redo">Redo 1 Step</button>
-          <button class="btn" id="btn-rewind-3">Rewind 3 Steps</button>
-          <button class="btn" id="btn-fast-forward-3">Fast-Forward 3 Steps</button>
-          <button class="btn" id="btn-snapshot" style="color: var(--purple);">Take Snapshot</button>
+          <button class="btn" id="btn-undo" data-i18n="btn.undo">Undo 1 Step</button>
+          <button class="btn" id="btn-redo" data-i18n="btn.redo">Redo 1 Step</button>
+          <button class="btn" id="btn-rewind-3" data-i18n="btn.rewind_3">Rewind 3 Steps</button>
+          <button class="btn" id="btn-fast-forward-3" data-i18n="btn.fast_forward_3">Fast-Forward 3 Steps</button>
+          <button class="btn" id="btn-snapshot" style="color: var(--purple);" data-i18n="btn.snapshot">Take Snapshot</button>
         </div>
       </div>
 
       <div class="card">
-        <h3 style="margin-bottom: 12px; font-size: 15px;">Branching Simulator ("Git for State")</h3>
-        <p style="color: #c4b5fd; font-size: 13px; margin-bottom: 12px;">
+        <h3 style="margin-bottom: 12px; font-size: 15px;" data-i18n="branching.title">Branching Simulator ("Git for State")</h3>
+        <p style="color: #c4b5fd; font-size: 13px; margin-bottom: 12px;" data-i18n="branching.desc">
           Click "Fork Alternative Timeline" after rewinding. Homura will create a new branch without discarding previous history.
         </p>
         <div style="display: flex; gap: 8px;">
-          <button class="btn" id="btn-fork" style="background: rgba(168, 85, 247, 0.2); border-color: var(--purple); color: #c084fc;">Fork Alternative Timeline</button>
+          <button class="btn" id="btn-fork" style="background: rgba(168, 85, 247, 0.2); border-color: var(--purple); color: #c084fc;" data-i18n="btn.fork">Fork Alternative Timeline</button>
         </div>
       </div>
     </div>
