@@ -40,6 +40,7 @@
   "homepage": "https://github.com/biagio-scaglia/homura-js#readme",
   "dependencies": {
     "@homura-js/core": "workspace:*",
+    "@homura-js/db": "workspace:*",
     "@homura-js/devtools": "workspace:*",
     "@homura-js/vanilla": "workspace:*"
   },

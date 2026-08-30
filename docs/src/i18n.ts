@@ -81,6 +81,10 @@ export const translations: TranslationDictionary = {
     en: 'Forensic Bug Reporting (.homura)',
     it: 'Diagnostica & Bug Reporting (.homura)'
   },
+  'sidebar.db': {
+    en: 'HomuraDB & Full-Stack Forensics',
+    it: 'HomuraDB & Correlazione Full-Stack'
+  },
   'sidebar.reference': {
     en: '04.0 // REFERENCE',
     it: '04.0 // RIFERIMENTO API'
@@ -294,6 +298,16 @@ export const translations: TranslationDictionary = {
   'bugreport.p1': {
     en: 'Debug application state like you debug source code. Export entire DAG timelines from production or QA sessions and replay them step-by-step on any developer machine:',
     it: 'Effettua il debug dello stato applicativo come esegui il debug del codice sorgente. Esporta l\'intera cronologia DAG da sessioni di produzione o QA e riproducila passo dopo passo su qualsiasi macchina di sviluppo:'
+  },
+
+  // Section 03.7: HomuraDB & Full-Stack Forensics
+  'homuradb.title': {
+    en: 'HomuraDB & Full-Stack State Correlation (@homura-js/db)',
+    it: 'HomuraDB & Correlazione Forense Full-Stack (@homura-js/db)'
+  },
+  'homuradb.p1': {
+    en: 'Versioned database state and end-to-end deterministic correlation between client UI states (#184), network requests, and database transactions (#52):',
+    it: 'Stato del database versionato e correlazione deterministica end-to-end tra stati della UI client (#184), richieste di rete e transazioni del database (#52):'
   },
 
   // Section 04.0: Comparison Matrix

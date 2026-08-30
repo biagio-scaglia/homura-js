@@ -1,0 +1,57 @@
+{
+  "name": "@homura-js/db",
+  "version": "1.2.5",
+  "description": "Versioned database state and full-stack forensic state correlation for HomuraJS",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/biagio-scaglia/homura-js.git",
+    "directory": "packages/db"
+  },
+  "bugs": {
+    "url": "https://github.com/biagio-scaglia/homura-js/issues"
+  },
+  "homepage": "https://github.com/biagio-scaglia/homura-js#readme",
+  "dependencies": {
+    "@homura-js/core": "workspace:*"
+  },
+  "keywords": [
+    "database",
+    "versioned-db",
+    "sqlite",
+    "time-travel",
+    "dag",
+    "forensics",
+    "state-correlation",
+    "reproducible-history",
+    "audit-log",
+    "event-sourcing",
+    "homura"
+  ],
+  "author": "Biagio Scaglia",
+  "license": "MIT"
+}

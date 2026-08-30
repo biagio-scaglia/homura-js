@@ -29,6 +29,7 @@ Key capabilities:
 - `@homura-js/vanilla`: Frameworkless reactive DOM bindings (`bindState`) and Zero-JS form auto-recovery engine (`bindForm`, `data-homura-form`).
 - `@homura-js/react`: React 18+ hook (`useHomura`) powered by `useSyncExternalStore` with selector optimization.
 - `@homura-js/vue`: Vue 3 Composition API hook (`useHomura`) and plugin.
+- `@homura-js/db`: Versioned embedded database state (SQLite/In-Memory) & Full-Stack forensic correlation between client UI states (#184), network traces, and DB transactions (#52).
 
 ## WordPress & WooCommerce Integration
 

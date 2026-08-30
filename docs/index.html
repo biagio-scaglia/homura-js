@@ -1298,6 +1298,7 @@
         <div class="nav-item"><a href="#vue"><span data-i18n="sidebar.vue">Vue 3 Composition</span></a></div>
         <div class="nav-item"><a href="#devtools"><span data-i18n="sidebar.devtools">Diagnostic DevTools</span></a></div>
         <div class="nav-item"><a href="#bug-reporting"><span data-i18n="sidebar.bugreport">Forensic Bug Reporting (.homura)</span> <span class="tag">TOOLING</span></a></div>
+        <div class="nav-item"><a href="#homura-db"><span data-i18n="sidebar.db">HomuraDB &amp; Full-Stack Forensics</span> <span class="tag">DATABASE</span></a></div>
       </nav>
 
       <nav class="nav-group">
@@ -1880,6 +1881,57 @@ await homura.replay({
 // 4. Jump directly to the failing node and compute the recursive structural diff
 homura.jumpTo('corrupted-node-id');
 const diffs = homura.diff('previous-valid-node', 'corrupted-node-id');</code></pre>
+        </div>
+      </section>
+
+      <!-- Section: HomuraDB & Full-Stack Forensics -->
+      <section id="homura-db">
+        <div class="section-coord">SPEC // 03.7 // DATABASE_FORENSICS</div>
+        <h2 data-i18n="homuradb.title">HomuraDB &amp; Full-Stack State Correlation (@homura-js/db)</h2>
+        <p data-i18n="homuradb.p1">
+          Versioned database state and end-to-end deterministic correlation between client UI states (#184), network requests, and database transactions (#52):
+        </p>
+
+        <div class="code-container">
+          <div class="code-header">
+            <span>fullstack-correlation.ts</span>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>COPY</span>
+            </button>
+          </div>
+          <pre><code>import { createHomuraDB, createForensicRecorder } from '@homura-js/db';
+
+// 1. Initialize Versioned Database Engine (Embedded SQLite / Memory)
+const db = createHomuraDB({ name: 'production_store' });
+db.createTable('orders');
+db.createTable('inventory');
+
+// 2. Attach Full-Stack Forensic Recorder
+const recorder = createForensicRecorder({
+  clientHomura, // Frontend UI Homura State (#184)
+  db            // Backend Database HomuraDB State (#52)
+});
+
+// 3. Correlate HTTP Network Requests with Database Mutations
+recorder.recordNetworkTrace({
+  url: '/api/checkout',
+  method: 'POST',
+  statusCode: 200,
+  requestBody: { cart: ['cyber_shield_01'] }
+});
+
+db.transaction(tx => {
+  tx.insert('orders', { id: 'ord_99', total: 250, status: 'confirmed' });
+  tx.update('inventory', 'SHIELD-01', { stock: 48 });
+}, {
+  label: 'Atomic Checkout Transaction',
+  clientStateId: clientHomura.getCurrentEntry().id
+});
+
+// 4. Export Unified Forensic Session (.homura)
+const sessionJSON = recorder.exportJSON();
+// sessionJSON contains: Client UI DAG + Network Trace Timeline + Database Mutation DAG</code></pre>
         </div>
       </section>
 
