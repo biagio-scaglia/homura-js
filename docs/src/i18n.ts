@@ -136,8 +136,12 @@ export const translations: TranslationDictionary = {
     it: 'Vue 3'
   },
   'nav.vanilla': {
-    en: 'Vanilla JS',
-    it: 'Vanilla JS'
+    en: 'Vanilla JS & Static Sites',
+    it: 'Vanilla JS & Siti Statici'
+  },
+  'nav.wordpress': {
+    en: 'WordPress & WooCommerce',
+    it: 'WordPress & WooCommerce'
   },
   'nav.tools': {
     en: 'Tools & Diagnostics',
@@ -422,6 +426,54 @@ export const translations: TranslationDictionary = {
   'vue.title': {
     en: 'Vue 3 Integration',
     it: 'Integrazione Vue 3'
+  },
+
+  // Vanilla JS & Static Sites
+  'vanilla.title': {
+    en: 'Vanilla JS & Zero-JS Static Site Form Engine',
+    it: 'Vanilla JS & Motore Form Zero-JS per Siti Statici'
+  },
+  'vanilla.p1': {
+    en: 'Use HomuraJS directly with DOM elements or turn any static HTML form into a time-travel crash-recovery machine without writing a single line of JavaScript.',
+    it: 'Usa HomuraJS direttamente con elementi del DOM o trasforma qualsiasi form HTML statico in una macchina con time-travel e recupero da crash senza scrivere una sola riga di JavaScript.'
+  },
+  'vanilla.h3_dom': {
+    en: '1. Reactive DOM Element Binding (bindState)',
+    it: '1. Binding Reattivo di Elementi DOM (bindState)'
+  },
+  'vanilla.h3_forms': {
+    en: '2. Zero-JS Form Auto-Binding & Crash Recovery (data-homura-*)',
+    it: '2. Form Auto-Binding Zero-JS & Recupero Crash (data-homura-*)'
+  },
+  'vanilla.h3_wizard': {
+    en: '3. Multi-Step Form Wizard (data-homura-wizard)',
+    it: '3. Form Wizard Multi-Step (data-homura-wizard)'
+  },
+  'vanilla.h3_cdn': {
+    en: '4. Standalone CDN Browser Script Tag',
+    it: '4. Script Tag CDN per il Browser'
+  },
+
+  // WordPress & WooCommerce
+  'wordpress.title': {
+    en: 'WordPress & WooCommerce Integration',
+    it: 'Integrazione WordPress & WooCommerce'
+  },
+  'wordpress.p1': {
+    en: 'The official HomuraJS WordPress plugin brings non-destructive DAG time-travel, WooCommerce checkout recovery, and form crash protection to 43% of the web.',
+    it: 'Il plugin ufficiale di HomuraJS per WordPress porta il time-travel non distruttivo, il recupero carrello WooCommerce e la protezione crash dei form sul 43% del web.'
+  },
+  'wordpress.h3_install': {
+    en: 'Installation & Activation',
+    it: 'Installazione & Attivazione'
+  },
+  'wordpress.h3_shortcodes': {
+    en: 'WordPress Shortcodes',
+    it: 'Shortcode WordPress'
+  },
+  'wordpress.h3_autohook': {
+    en: 'Auto-Hook into WooCommerce, Contact Form 7, and Elementor',
+    it: 'Auto-Hook per WooCommerce, Contact Form 7 ed Elementor'
   },
 
   // DevTools

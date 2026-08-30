@@ -1225,7 +1225,8 @@
         <ul class="nav-list">
           <li class="nav-item"><a href="#react" data-i18n="nav.react">React 18+</a></li>
           <li class="nav-item"><a href="#vue" data-i18n="nav.vue">Vue 3</a></li>
-          <li class="nav-item"><a href="#vanilla" data-i18n="nav.vanilla">Vanilla JS</a></li>
+          <li class="nav-item"><a href="#vanilla" data-i18n="nav.vanilla">Vanilla JS &amp; Static Sites</a></li>
+          <li class="nav-item"><a href="#wordpress" data-i18n="nav.wordpress">WordPress &amp; WooCommerce</a></li>
         </ul>
       </div>
 
@@ -1987,6 +1988,156 @@ function increment() {
 }
 &lt;/script&gt;</code></pre>
         </div>
+      </section>
+
+      <!-- Section: Vanilla JS & Static Sites -->
+      <section id="vanilla">
+        <h2>
+          <svg class="icon icon-accent" viewBox="0 0 24 24"><path d="M16.5 9.4 7.55 4.24a1.78 1.78 0 0 0-2.5 1.55v12.42a1.78 1.78 0 0 0 2.5 1.55L16.5 14.6a1.78 1.78 0 0 0 0-3.2z"></path></svg>
+          <span data-i18n="vanilla.title">Vanilla JS &amp; Zero-JS Static Site Form Engine</span>
+        </h2>
+        <p data-i18n="vanilla.p1">
+          Use HomuraJS directly with DOM elements or turn any static HTML form into a time-travel crash-recovery machine without writing a single line of JavaScript.
+        </p>
+
+        <h3 style="font-size: 15px; margin: 24px 0 8px 0;" data-i18n="vanilla.h3_forms">2. Zero-JS Form Auto-Binding &amp; Crash Recovery (data-homura-*)</h3>
+        <p>Drop a single script tag into any HTML site (Webflow, Shopify, Squarespace, Static HTML). Homura automatically captures inputs, tracks non-destructive DAG history, and enables Undo/Redo buttons:</p>
+        <div class="code-container">
+          <div class="code-header">
+            <span class="code-header-title">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <span>index.html</span>
+            </span>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre><code>&lt;!-- Load HomuraJS Standalone Bundle from CDN --&gt;
+&lt;script src="https://unpkg.com/@biagioscaglia/homurajs/dist/index.global.js"&gt;&lt;/script&gt;
+
+&lt;!-- Declarative Zero-JS Form Auto-Binding --&gt;
+&lt;form data-homura-form="lead_form" data-homura-persist="localstorage"&gt;
+  &lt;!-- Status badge and history breadcrumbs --&gt;
+  &lt;span data-homura-status&gt;&lt;/span&gt;
+  &lt;div data-homura-breadcrumbs&gt;&lt;/div&gt;
+
+  &lt;input type="text" name="client_name" placeholder="Full Name" /&gt;
+  &lt;input type="email" name="client_email" placeholder="Email Address" /&gt;
+  &lt;textarea name="message" placeholder="Project specifications..."&gt;&lt;/textarea&gt;
+
+  &lt;button type="button" data-homura-undo&gt;↩ Undo&lt;/button&gt;
+  &lt;button type="button" data-homura-redo&gt;↪ Redo&lt;/button&gt;
+  &lt;button type="submit"&gt;Submit Form&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+        </div>
+
+        <h3 style="font-size: 15px; margin: 24px 0 8px 0;" data-i18n="vanilla.h3_wizard">3. Multi-Step Form Wizard (data-homura-wizard)</h3>
+        <p>Paginated multi-step questionnaires with time-travel rewind across steps and zero loss of state:</p>
+        <div class="code-container">
+          <div class="code-header">
+            <span class="code-header-title">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <span>wizard.html</span>
+            </span>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre><code>&lt;form data-homura-wizard="quote_wizard" data-homura-persist="localstorage"&gt;
+  &lt;!-- Step 1 --&gt;
+  &lt;div data-homura-step="1"&gt;
+    &lt;label&gt;Step 1: Budget Range&lt;/label&gt;
+    &lt;select name="budget"&gt;&lt;option value="10k"&gt;$5,000 - $10,000&lt;/option&gt;&lt;/select&gt;
+    &lt;button type="button" data-homura-next&gt;Next Step ➔&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Step 2 --&gt;
+  &lt;div data-homura-step="2"&gt;
+    &lt;label&gt;Step 2: Contact Info&lt;/label&gt;
+    &lt;input type="email" name="email" placeholder="Email" /&gt;
+    &lt;button type="button" data-homura-prev&gt;⬅ Back&lt;/button&gt;
+    &lt;button type="submit" data-homura-next data-submit-label="Complete Order"&gt;Finish&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+        </div>
+
+        <h3 style="font-size: 15px; margin: 24px 0 8px 0;" data-i18n="vanilla.h3_dom">1. Reactive DOM Element Binding (bindState)</h3>
+        <div class="code-container">
+          <div class="code-header">
+            <span class="code-header-title">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <span>vanilla.ts</span>
+            </span>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre><code>import { createHomura, bindState } from '@biagioscaglia/homurajs';
+
+const homura = createHomura({
+  initialState: { counter: 0, user: { name: 'Mario' } }
+});
+
+// Reactively sync DOM elements with formatted state selectors
+const unbind = bindState(homura, [
+  { selector: s =&gt; s.counter, target: '#count-badge', format: val =&gt; `Counter: ${val}` },
+  { selector: s =&gt; s.user.name, target: '#username-display' }
+]);</code></pre>
+        </div>
+      </section>
+
+      <!-- Section: WordPress & WooCommerce -->
+      <section id="wordpress">
+        <h2>
+          <svg class="icon icon-accent" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 0-7.07 17.07L12 2z"></path><path d="m4.93 4.93 4.24 14.14L12 12"></path></svg>
+          <span data-i18n="wordpress.title">WordPress &amp; WooCommerce Integration</span>
+        </h2>
+        <p data-i18n="wordpress.p1">
+          The official HomuraJS WordPress plugin brings non-destructive DAG time-travel, WooCommerce checkout recovery, and form crash protection to 43% of the web.
+        </p>
+
+        <h3 style="font-size: 15px; margin: 24px 0 8px 0;" data-i18n="wordpress.h3_install">Installation &amp; Activation</h3>
+        <ol style="margin-left: 20px; line-height: 1.8; color: var(--text-muted); font-size: 13.5px;">
+          <li>Copy the <code>examples/wordpress-plugin</code> folder into your WordPress <code>wp-content/plugins/homurajs-time-travel</code> directory.</li>
+          <li>Navigate to <b>WordPress Admin &rarr; Plugins</b> and click <b>Activate</b>.</li>
+          <li>All forms and shortcodes are instantly active across your entire WordPress theme!</li>
+        </ol>
+
+        <h3 style="font-size: 15px; margin: 24px 0 8px 0;" data-i18n="wordpress.h3_shortcodes">WordPress Shortcodes</h3>
+        <div class="code-container">
+          <div class="code-header">
+            <span class="code-header-title">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <span>WordPress Page / Post Shortcodes</span>
+            </span>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>Copy</span>
+            </button>
+          </div>
+          <pre><code>[homura_form id="client_quote" persist="localstorage"]
+  [homura_status form="client_quote"]
+  [homura_breadcrumbs form="client_quote"]
+
+  &lt;input type="text" name="company_name" placeholder="Company Name" /&gt;
+  &lt;textarea name="project_details"&gt;&lt;/textarea&gt;
+
+  [homura_undo form="client_quote" label="↩ Undo Step"]
+  [homura_redo form="client_quote" label="↪ Redo Step"]
+[/homura_form]</code></pre>
+        </div>
+
+        <h3 style="font-size: 15px; margin: 24px 0 8px 0;" data-i18n="wordpress.h3_autohook">Auto-Hook into WooCommerce, Contact Form 7, and Elementor</h3>
+        <p>The plugin automatically detects and attaches crash-recovery and local state persistence to:</p>
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--text-muted); font-size: 13.5px;">
+          <li>🛒 <b>WooCommerce Checkout</b> (<code>.woocommerce-checkout</code>): Preserves customer billing, shipping, and order notes across accidental tab closes or page refreshes.</li>
+          <li>📬 <b>Contact Form 7</b> (<code>.wpcf7 form</code>): Real-time field buffering.</li>
+          <li>📝 <b>WPForms &amp; Gravity Forms</b> (<code>.wpforms-form</code>, <code>.gform_wrapper</code>).</li>
+          <li>🎨 <b>Elementor Forms</b> (<code>.elementor-form</code>).</li>
+        </ul>
       </section>
 
       <!-- Section: DevTools -->
