@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" fill="none">
+  <!-- Background Obsidian Rounded Card -->
+  <rect width="256" height="256" rx="48" fill="#07050a"/>
+  <rect x="6" y="6" width="244" height="244" rx="42" stroke="#a855f7" stroke-width="4" stroke-opacity="0.35"/>
+  <rect x="14" y="14" width="228" height="228" rx="36" stroke="#c084fc" stroke-width="1.5" stroke-opacity="0.2"/>
+
+  <!-- Radial Ambient Glow -->
+  <radialGradient id="bgGlow" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#9333ea" stop-opacity="0.25" />
+    <stop offset="100%" stop-color="#07050a" stop-opacity="0" />
+  </radialGradient>
+  <rect width="256" height="256" rx="48" fill="url(#bgGlow)"/>
+
+  <!-- Defs / Filters / Gradients -->
+  <defs>
+    <filter id="shieldGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <linearGradient id="violetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f3e8ff" />
+      <stop offset="45%" stop-color="#c084fc" />
+      <stop offset="100%" stop-color="#7c3aed" />
+    </linearGradient>
+    <linearGradient id="shieldFill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1b0f30" />
+      <stop offset="100%" stop-color="#0a0514" />
+    </linearGradient>
+  </defs>
+
+  <!-- Homura Time Shield -->
+  <!-- Scaled 4x from favicon (M32 10 L50 20 V38 C50 48 32 56 32 56 C32 56 14 48 14 38 V20 Z) -->
+  <path d="M128 40 L200 80 V152 C200 192 128 224 128 224 C128 224 56 192 56 152 V80 Z" fill="url(#shieldFill)" stroke="url(#violetGrad)" stroke-width="8" filter="url(#shieldGlow)"/>
+
+  <!-- Time Hourglass / Chronos Diamond inside Shield -->
+  <!-- Scaled 4x (32,18 42,27 35,32 42,37 32,46 22,37 29,32 22,27) -->
+  <polygon points="128,72 168,108 140,128 168,148 128,184 88,148 116,128 88,108" fill="url(#violetGrad)" />
+  <circle cx="128" cy="128" r="10" fill="#ffffff" />
+</svg>

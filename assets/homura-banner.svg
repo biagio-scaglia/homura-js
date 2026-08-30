@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 772 250" width="772" height="250" fill="none">
+  <!-- Dark Obsidian Background -->
+  <rect width="772" height="250" fill="#06030a"/>
+  
+  <!-- Subtle Glowing Grid -->
+  <defs>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#a855f7" stroke-width="0.5" stroke-opacity="0.12" />
+    </pattern>
+    <radialGradient id="bannerGlow" cx="20%" cy="50%" r="60%">
+      <stop offset="0%" stop-color="#9333ea" stop-opacity="0.25" />
+      <stop offset="100%" stop-color="#06030a" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="rightGlow" cx="90%" cy="80%" r="50%">
+      <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.15" />
+      <stop offset="100%" stop-color="#06030a" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="violetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f3e8ff" />
+      <stop offset="45%" stop-color="#c084fc" />
+      <stop offset="100%" stop-color="#7c3aed" />
+    </linearGradient>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="60%" stop-color="#f3e8ff" />
+      <stop offset="100%" stop-color="#c084fc" />
+    </linearGradient>
+    <filter id="shieldGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <rect width="772" height="250" fill="url(#grid)"/>
+  <rect width="772" height="250" fill="url(#bannerGlow)"/>
+  <rect width="772" height="250" fill="url(#rightGlow)"/>
+  <rect x="1" y="1" width="770" height="248" rx="0" stroke="#a855f7" stroke-width="1.5" stroke-opacity="0.25"/>
+
+  <!-- Left: Homura Shield (exact from favicon scaled and positioned) -->
+  <g transform="translate(45, 30) scale(2.9)">
+    <!-- Shield Outline -->
+    <path d="M32 10 L50 20 V38 C50 48 32 56 32 56 C32 56 14 48 14 38 V20 Z" fill="#140d22" stroke="url(#violetGrad)" stroke-width="2.5" filter="url(#shieldGlow)"/>
+    
+    <!-- Time Hourglass / Chronos Diamond inside Shield -->
+    <polygon points="32,18 42,27 35,32 42,37 32,46 22,37 29,32 22,27" fill="url(#violetGrad)" />
+    <circle cx="32" cy="32" r="3" fill="#ffffff" />
+  </g>
+
+  <!-- Right: Typography & Badges -->
+  <g transform="translate(245, 0)">
+    <!-- Badge -->
+    <g transform="translate(0, 42)">
+      <rect width="210" height="24" rx="12" fill="#1e1035" stroke="#a855f7" stroke-width="1" stroke-opacity="0.4" />
+      <text x="12" y="16" fill="#c084fc" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" letter-spacing="1">GIT FOR APPLICATION STATE</text>
+    </g>
+
+    <!-- Main Title -->
+    <text x="0" y="112" fill="url(#textGrad)" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="38" font-weight="900" letter-spacing="1.5">HOMURAJS</text>
+    
+    <!-- Subtitle -->
+    <text x="0" y="146" fill="#e9d5ff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="600">Time Travel &amp; Form Recovery for WordPress</text>
+    
+    <!-- Description / Bullets -->
+    <text x="0" y="180" fill="#a78bfa" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="400">
+      ⚡ Non-destructive DAG Undo/Redo &nbsp;|&nbsp; 🛡️ Form Crash Protection &nbsp;|&nbsp; 🛒 WooCommerce
+    </text>
+  </g>
+</svg>
