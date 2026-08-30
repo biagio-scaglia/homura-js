@@ -3,7 +3,7 @@ Contributors: biagioscaglia
 Donate link: https://github.com/biagio-scaglia/homura-js
 Tags: time-travel, undo-redo, form-recovery, woocommerce, contact-form-7
 Requires at least: 5.8
-Tested up to: 6.7
+Tested up to: 7.1
 Requires PHP: 7.4
 Stable tag: 1.2.3
 License: MIT
@@ -30,7 +30,7 @@ Real-time Directed Acyclic Graph (DAG) state history, form crash recovery, and n
 
 == Installation ==
 
-1. Upload the `homurajs-time-travel` folder to the `/wp-content/plugins/` directory, or install via WordPress Plugin Admin.
+1. Upload the `homura-time-travel-form-recovery` folder to the `/wp-content/plugins/` directory, or install via WordPress Plugin Admin.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. Use the shortcodes in any page, post, or form.
 

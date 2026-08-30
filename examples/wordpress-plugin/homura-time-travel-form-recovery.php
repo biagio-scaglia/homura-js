@@ -8,7 +8,7 @@
  * Author URI: https://github.com/biagio-scaglia
  * License: MIT
  * License URI: https://opensource.org/licenses/MIT
- * Text Domain: homura-time-travel
+ * Text Domain: homura-time-travel-form-recovery
  * Requires at least: 5.8
  * Requires PHP: 7.4
  */
