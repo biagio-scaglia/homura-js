@@ -77,6 +77,10 @@ export const translations: TranslationDictionary = {
     en: 'Diagnostic DevTools',
     it: 'DevTools Diagnostiche'
   },
+  'sidebar.bugreport': {
+    en: 'Forensic Bug Reporting (.homura)',
+    it: 'Diagnostica & Bug Reporting (.homura)'
+  },
   'sidebar.reference': {
     en: '04.0 // REFERENCE',
     it: '04.0 // RIFERIMENTO API'
@@ -156,6 +160,14 @@ export const translations: TranslationDictionary = {
   'sandbox.btn_replay': {
     en: 'Timeline Replay',
     it: 'Riproduci Timeline'
+  },
+  'sandbox.btn_export': {
+    en: 'Export .homura',
+    it: 'Esporta .homura'
+  },
+  'sandbox.btn_import': {
+    en: 'Import Session',
+    it: 'Importa Sessione'
   },
 
   // Section 01.1: Linear History Problem
@@ -272,6 +284,16 @@ export const translations: TranslationDictionary = {
   'devtools.p1': {
     en: 'Zero-dependency diagnostic panel with visual DAG tree, state inspector, and diff scrubber:',
     it: "Pannello diagnostico a zero dipendenze con albero DAG visivo, ispettore di stato e scrubber di differenze:"
+  },
+
+  // Section 03.6: Forensic Bug Reporting
+  'bugreport.title': {
+    en: 'Forensic Bug Reporting & Session Playback (.homura)',
+    it: 'Diagnostica Forense & Riproduzione Sessioni (.homura)'
+  },
+  'bugreport.p1': {
+    en: 'Debug application state like you debug source code. Export entire DAG timelines from production or QA sessions and replay them step-by-step on any developer machine:',
+    it: 'Effettua il debug dello stato applicativo come esegui il debug del codice sorgente. Esporta l\'intera cronologia DAG da sessioni di produzione o QA e riproducila passo dopo passo su qualsiasi macchina di sviluppo:'
   },
 
   // Section 04.0: Comparison Matrix

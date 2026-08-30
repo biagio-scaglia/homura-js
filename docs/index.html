@@ -1297,6 +1297,7 @@
         <div class="nav-item"><a href="#react"><span data-i18n="sidebar.react">React 18+ Binding</span></a></div>
         <div class="nav-item"><a href="#vue"><span data-i18n="sidebar.vue">Vue 3 Composition</span></a></div>
         <div class="nav-item"><a href="#devtools"><span data-i18n="sidebar.devtools">Diagnostic DevTools</span></a></div>
+        <div class="nav-item"><a href="#bug-reporting"><span data-i18n="sidebar.bugreport">Forensic Bug Reporting (.homura)</span> <span class="tag">TOOLING</span></a></div>
       </nav>
 
       <nav class="nav-group">
@@ -1396,6 +1397,15 @@
               <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
               <span data-i18n="sandbox.btn_replay">Timeline Replay</span>
             </button>
+            <button id="sb-btn-export" class="sb-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              <span data-i18n="sandbox.btn_export">Export .homura</span>
+            </button>
+            <button id="sb-btn-import" class="sb-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              <span data-i18n="sandbox.btn_import">Import Session</span>
+            </button>
+            <input type="file" id="sb-file-input" accept=".homura,.json" style="display: none;" />
           </div>
         </div>
       </div>
@@ -1833,6 +1843,46 @@ mountDevTools(homura, {
         </div>
       </section>
 
+      <!-- Section: Forensic Bug Reporting -->
+      <section id="bug-reporting">
+        <div class="section-coord">SPEC // 03.6 // FORENSIC_TOOLING</div>
+        <h2 data-i18n="bugreport.title">Forensic Bug Reporting &amp; Session Playback (.homura)</h2>
+        <p data-i18n="bugreport.p1">
+          Debug application state like you debug source code. Export entire DAG timelines from production or QA sessions and replay them step-by-step on any developer machine:
+        </p>
+
+        <div class="code-container">
+          <div class="code-header">
+            <span>forensic-debugging.ts</span>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>COPY</span>
+            </button>
+          </div>
+          <pre><code>// 1. Client / User encounters an unexpected bug in production
+window.addEventListener('error', () => {
+  // Capture 100% of the DAG state evolution up to the moment of failure
+  const sessionData = homura.export();
+  sendErrorReport('crash-session.homura', sessionData);
+});
+
+// 2. Developer imports the session in DevTools or local environment
+homura.import(crashSessionData);
+
+// 3. Replay the exact sequence of user actions that corrupted the state
+await homura.replay({
+  speed: 2,
+  onStep: (entry, step, total) => {
+    console.log(`[Step ${step}/${total}] Transition: ${entry.label}`, entry.state);
+  }
+});
+
+// 4. Jump directly to the failing node and compute the recursive structural diff
+homura.jumpTo('corrupted-node-id');
+const diffs = homura.diff('previous-valid-node', 'corrupted-node-id');</code></pre>
+        </div>
+      </section>
+
       <!-- Section: Comparison Matrix -->
       <section id="comparison-matrix">
         <div class="section-coord">SPEC // 04.0 // COMPARATIVE_MATRIX</div>
@@ -2032,6 +2082,14 @@ mountDevTools(homura, {
               </tr>
             </tbody>
           </table>
+        </div>
+        <p style="margin-top: 14px; font-size: 13px; color: var(--text-dim);">
+          All performance metrics are fully reproducible. Run the benchmark suite on your local machine:
+        </p>
+        <div class="code-container" style="margin-top: 8px;">
+          <pre><code>git clone https://github.com/biagio-scaglia/homura-js.git
+cd homura-js && pnpm install
+pnpm run bench</code></pre>
         </div>
       </section>
 

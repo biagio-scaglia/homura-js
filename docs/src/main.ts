@@ -282,6 +282,39 @@ document.getElementById('sb-btn-replay')?.addEventListener('click', async () => 
   showToast(currentLang === 'en' ? 'Replay finished' : 'Riproduzione completata');
 });
 
+// Export .homura session
+document.getElementById('sb-btn-export')?.addEventListener('click', () => {
+  const data = homuraSandbox.export();
+  const blob = new Blob([data], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `session-${Date.now().toString(36)}.homura`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast(currentLang === 'en' ? 'Exported bug session (.homura)' : 'Sessione esportata (.homura)');
+});
+
+// Import .homura session
+const fileInput = document.getElementById('sb-file-input') as HTMLInputElement | null;
+document.getElementById('sb-btn-import')?.addEventListener('click', () => {
+  fileInput?.click();
+});
+
+fileInput?.addEventListener('change', async () => {
+  const file = fileInput.files?.[0];
+  if (!file) return;
+  try {
+    const text = await file.text();
+    homuraSandbox.import(text);
+    renderSandbox();
+    showToast(currentLang === 'en' ? `Loaded session "${file.name}"` : `Sessione "${file.name}" caricata con successo`);
+  } catch (err) {
+    showToast(currentLang === 'en' ? 'Invalid .homura session file' : 'File sessione .homura non valido');
+  }
+  fileInput.value = '';
+});
+
 // Initialize default language
 setLanguage(currentLang);
 

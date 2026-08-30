@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-08-28T10:54:22.344Z",
+  "timestamp": "2026-08-30T21:09:51.923Z",
   "environment": {
     "node": "v24.13.0",
     "platform": "win32",
@@ -8,15 +8,15 @@
   "latencyMetrics": [
     {
       "operation": "Draft Mutation (Copy-On-Write)",
-      "homuraMs": 0.029,
-      "naiveMs": 0.002,
+      "homuraMs": 0.012,
+      "naiveMs": 0.001,
       "reduxImmerMs": 0,
       "zustandMs": 0,
       "speedup": "0x Faster"
     },
     {
       "operation": "Time Travel Jump (Random Access)",
-      "homuraMs": 0.005,
+      "homuraMs": 0.002,
       "naiveMs": 0.45,
       "reduxImmerMs": 0.85,
       "zustandMs": 0,
@@ -24,7 +24,7 @@
     },
     {
       "operation": "3-Way Merge Commit",
-      "homuraMs": 5.001,
+      "homuraMs": 4.872,
       "naiveMs": 8.45,
       "reduxImmerMs": 0,
       "zustandMs": 0,
