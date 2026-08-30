@@ -1,21 +1,52 @@
 User-agent: *
 Allow: /
 
-# AI Crawlers & LLM Agents
+# OpenAI / ChatGPT
 User-agent: GPTBot
 Allow: /
 
 User-agent: ChatGPT-User
 Allow: /
 
-User-agent: PerplexityBot
-Allow: /
-
+# Anthropic Claude
 User-agent: ClaudeBot
 Allow: /
 
+User-agent: Claude-Web
+Allow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+
+# Google Gemini & Search Extended
 User-agent: Google-Extended
 Allow: /
 
-# Sitemaps & LLM Manifest
+User-agent: GoogleOther
+Allow: /
+
+# Apple AI & Intelligence
+User-agent: Applebot-Extended
+Allow: /
+
+# Amazon & Meta AI
+User-agent: Amazonbot
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: Cohere-ai
+Allow: /
+
+User-agent: Diffbot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+# AI Manifests & Sitemaps
 Sitemap: https://biagio-scaglia.github.io/homura-js/sitemap.xml
+# LLM Manifest: https://biagio-scaglia.github.io/homura-js/llms.txt
+# Full LLM Knowledge Base: https://biagio-scaglia.github.io/homura-js/llms-full.txt

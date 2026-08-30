@@ -81,6 +81,10 @@ export const translations: TranslationDictionary = {
     en: '04.0 // REFERENCE',
     it: '04.0 // RIFERIMENTO API'
   },
+  'sidebar.matrix': {
+    en: 'Comparison Matrix',
+    it: 'Matrice Comparativa'
+  },
   'sidebar.api': {
     en: 'API Matrix',
     it: 'Matrice API'
@@ -270,7 +274,17 @@ export const translations: TranslationDictionary = {
     it: "Pannello diagnostico a zero dipendenze con albero DAG visivo, ispettore di stato e scrubber di differenze:"
   },
 
-  // Section 04.0: API Matrix
+  // Section 04.0: Comparison Matrix
+  'matrix.title': {
+    en: 'Competitive Architecture Comparison',
+    it: 'Confronto Architetturale Competitivo'
+  },
+  'matrix.p1': {
+    en: 'How HomuraJS Directed Acyclic Graph (DAG) state topology compares to linear history stacks and alternative engines:',
+    it: 'Come si confronta la topologia di stato a Grafo Aciclico Diretto (DAG) di HomuraJS rispetto agli stack di cronologia lineare tradizionali e ad altri motori:'
+  },
+
+  // Section 04.1: API Matrix
   'api.title': {
     en: 'Complete Homura<T> API Matrix',
     it: 'Matrice Completa API Homura<T>'
@@ -302,6 +316,22 @@ export const translations: TranslationDictionary = {
   'faq.a2': {
     en: 'Yes. @homura-js/core has zero dependencies. You can use it in Vanilla JS, Node.js, Svelte, Solid, Angular, or in static HTML/WordPress sites via @homura-js/vanilla or shortcodes.',
     it: 'Certamente. @homura-js/core non ha alcuna dipendenza esterna. Puo essere impiegato in Vanilla JS, Node.js, Svelte, Solid, Angular o in pagine HTML statiche e siti WordPress tramite @homura-js/vanilla o shortcode.'
+  },
+  'faq.q3': {
+    en: 'How does HomuraJS protect WooCommerce checkout & WordPress forms?',
+    it: 'Come protegge HomuraJS il checkout di WooCommerce e i moduli WordPress?'
+  },
+  'faq.a3': {
+    en: 'The official WordPress plugin auto-hooks into .woocommerce-checkout, .wpcf7, .wpforms-form, .gform_wrapper, and .elementor-form, saving input to LocalStorage in real-time. If the browser crashes, refreshes, or loses connection, customer input is seamlessly recovered.',
+    it: 'Il plugin ufficiale per WordPress si aggancia automaticamente a .woocommerce-checkout, .wpcf7, .wpforms-form, .gform_wrapper ed .elementor-form, salvando i dati inseriti in LocalStorage in tempo reale. In caso di crash, ricaricamento o chiusura della scheda, tutti i campi vengono ripristinati istantaneamente.'
+  },
+  'faq.q4': {
+    en: 'Can HomuraJS be used on static sites without npm (CDN)?',
+    it: 'HomuraJS puo essere usato su siti statici senza npm tramite CDN?'
+  },
+  'faq.a4': {
+    en: 'Yes. Include unpkg.com/@biagioscaglia/homurajs/dist/index.global.js via script tag and declare data-homura-form="form_id" data-homura-persist="localstorage" on your HTML forms.',
+    it: 'Si. Basta includere unpkg.com/@biagioscaglia/homurajs/dist/index.global.js tramite tag script e inserire gli attributi data-homura-form="form_id" data-homura-persist="localstorage" nei tuoi form HTML.'
   },
 
   // Toasts

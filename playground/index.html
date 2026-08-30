@@ -20,13 +20,23 @@
       --text: #f3e8ff;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      overflow-x: clip;
+      width: 100%;
+      max-width: 100%;
+    }
     body {
       background: var(--bg);
       color: var(--text);
       font-family: 'Inter', sans-serif;
       min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       flex-direction: column;
+      overflow-x: clip;
+      width: 100%;
+      max-width: 100%;
+      -webkit-font-smoothing: antialiased;
     }
     header {
       padding: 14px 24px;
@@ -36,6 +46,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 16px;
+      flex-wrap: wrap;
     }
     .brand {
       display: flex;
@@ -44,6 +55,7 @@
       font-size: 16px;
       font-weight: 800;
       letter-spacing: 0.05em;
+      flex-wrap: wrap;
     }
     .badge {
       background: rgba(168, 85, 247, 0.15);
@@ -53,11 +65,13 @@
       border-radius: 12px;
       font-size: 11px;
       font-family: 'JetBrains Mono', monospace;
+      white-space: nowrap;
     }
     .header-actions {
       display: flex;
       align-items: center;
       gap: 10px;
+      flex-wrap: wrap;
     }
     .lang-switcher {
       display: inline-flex;
@@ -87,6 +101,8 @@
       flex: 1;
       overflow: hidden;
       height: calc(100vh - 65px);
+      height: calc(100dvh - 65px);
+      min-width: 0;
     }
     .playground-pane {
       flex: 1;
@@ -95,17 +111,21 @@
       padding: 20px;
       overflow-y: auto;
       gap: 16px;
+      min-width: 0;
     }
     .devtools-pane {
       flex: 1.2;
       border-left: 1px solid var(--border);
       height: 100%;
+      min-width: 0;
     }
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 16px;
+      min-width: 0;
+      overflow-wrap: break-word;
     }
     .btn {
       background: #171124;
@@ -121,10 +141,57 @@
       align-items: center;
       gap: 6px;
       transition: all 0.15s ease;
+      max-width: 100%;
+      white-space: nowrap;
     }
     .btn:hover { background: #251a3a; border-color: rgba(192, 132, 252, 0.4); }
     .btn-primary { background: #7c3aed; border-color: #a855f7; }
     .btn-primary:hover { background: #9333ea; }
+
+    @media (max-width: 992px) {
+      header {
+        padding: 10px 16px;
+        gap: 10px;
+      }
+      .main-layout {
+        flex-direction: column;
+        height: auto;
+        min-height: calc(100vh - 65px);
+        overflow-y: auto;
+      }
+      .playground-pane {
+        flex: none;
+        padding: 14px;
+        overflow-y: visible;
+      }
+      .devtools-pane {
+        flex: none;
+        border-left: none;
+        border-top: 1px solid var(--border);
+        min-height: 520px;
+        height: 580px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 8px 12px;
+      }
+      .brand {
+        font-size: 14px;
+      }
+      .btn {
+        font-size: 11.5px;
+        padding: 6px 10px;
+      }
+      .playground-pane {
+        padding: 10px;
+        gap: 12px;
+      }
+      .card {
+        padding: 12px;
+      }
+    }
   </style>
 </head>
 <body>

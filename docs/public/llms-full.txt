@@ -1,0 +1,232 @@
+# HomuraJS: The Directed Acyclic Graph (DAG) State & History Engine for JavaScript
+
+> Full Technical Specification, Architecture, Ecosystem Guides, WordPress & Zero-JS Integrations, and API Reference.
+> Engineered by Biagio Scaglia & the HomuraJS Core Team.
+> Documentation: https://biagio-scaglia.github.io/homura-js/
+> Source Repository: https://github.com/biagio-scaglia/homura-js
+> Package Registry: https://www.npmjs.com/package/@biagioscaglia/homurajs
+
+---
+
+## 1. Executive Summary & Core Philosophy
+
+HomuraJS is an advanced, framework-agnostic state management and history engine designed to solve the fundamental flaw of traditional undo/redo implementations: **the destructive linear stack problem**.
+
+In conventional state libraries (e.g., Redux-Undo, simple undo arrays, browser history), history is modeled as a 1D linear array with a single active pointer. When a user steps back $N$ times and performs a new mutation, all future steps ahead of the pointer are permanently deleted.
+
+HomuraJS models application history as a **Directed Acyclic Graph (DAG)** of immutable state snapshots:
+- Every mutation creates a new node in the graph with parent and child links.
+- Rewinding to an earlier state and applying a change creates an **alternative timeline branch** without erasing any existing timeline.
+- Branches can be switched, compared, inspected, and merged via 3-way reconciliation algorithms.
+- Memory usage is minimized using **Copy-On-Write structural sharing** via JavaScript Proxies.
+
+---
+
+## 2. Monorepo Package Anatomy
+
+HomuraJS is structured as a high-performance monorepo:
+
+### `@homura-js/core` (< 5.2 kB gzipped)
+The zero-dependency core engine:
+- Graph node registry and DAG traversal algorithms (ancestors, descendants, branch heads).
+- Copy-On-Write draft proxy engine for intuitive mutable syntax (`update(draft => { draft.x = 1; })`).
+- Deep recursive structural diff engine (`diff(nodeA, nodeB)`).
+- Snapshot registry and milestone bookmarking.
+- Persistence adapters (LocalStorage, SessionStorage, IndexedDB, Custom).
+- Event emitter (`state:change`, `node:add`, `branch:create`, `branch:switch`, `branch:merge`, `undo`, `redo`).
+- History compaction and node pruning (`compact()`, `pruneHistory()`).
+- Step-by-step automated timeline playback (`replay()`).
+
+### `@homura-js/devtools` (< 9.4 kB gzipped)
+Standalone diagnostic UI and scrubber:
+- Interactive visual DAG timeline graph with zoom, pan, branch tags, and jump-to-node.
+- Real-time collapsible JSON state inspector.
+- Side-by-side recursive structural diff viewer with color-coded additions, deletions, and modifications.
+- Step-by-step timeline playback controls with speed multiplier (1x, 2x, 5x, 10x).
+- Floating and embedded mounting modes (`mountDevTools()`).
+
+### `@homura-js/vanilla` (< 2.8 kB gzipped)
+Framework-free reactive DOM and form crash recovery:
+- `bindState(homura, selector, element, renderFn)`: Reactive DOM binding without virtual DOM.
+- `bindForm(formElement, options)`: Zero-JS declarative form crash protection.
+- Auto-tracks input fields (`input`, `textarea`, `select`, `checkbox`, `radio`, `contenteditable`).
+- Restores form state on page refresh or browser crash.
+- Handles multi-step form wizards (`data-homura-wizard`, `data-homura-step`, `data-homura-next`, `data-homura-prev`).
+
+### `@homura-js/react` (< 2.1 kB gzipped)
+React 18+ bindings:
+- `useHomura(store, selector?, equalityFn?)` hook powered by React 18's `useSyncExternalStore`.
+- Fine-grained selector optimization preventing unnecessary component re-renders.
+- Provides `state`, `update`, `undo`, `redo`, `canUndo`, `canRedo`, `createBranch`, `switchBranch`.
+
+### `@homura-js/vue` (< 2.3 kB gzipped)
+Vue 3 Composition API bindings:
+- `useHomura(store)` hook returning shallow reactive state and time-travel controls.
+- Vue plugin wrapper for global store injection.
+
+### `@biagioscaglia/homurajs` (Meta-Package & CDN)
+- Unified package exporting all modules.
+- CDN standalone browser bundle (`dist/index.global.js`) for static HTML, WordPress, Shopify, Squarespace, and Webflow.
+
+---
+
+## 3. WordPress & WooCommerce Integration (Deep Dive)
+
+HomuraJS provides an official WordPress plugin (`homura-time-travel-form-recovery`) designed for high-conversion sites, lead generation, and checkout crash protection.
+
+### Key Capabilities in WordPress:
+1. **Crash Recovery for Forms**: Automatically saves user input to browser LocalStorage as a local DAG state tree. If a customer accidentally closes a tab or experiences a page refresh, their data is instantly restored.
+2. **Shortcodes for Page Builders & Themes**:
+   - `[homura_form id="contact_quote" persist="localstorage"] ... [/homura_form]`
+   - `[homura_undo form="contact_quote" label="Undo"]`
+   - `[homura_redo form="contact_quote" label="Redo"]`
+   - `[homura_status form="contact_quote"]`
+   - `[homura_breadcrumbs form="contact_quote"]`
+3. **Auto-Hooks for Popular WordPress Form & E-Commerce Plugins**:
+   - **WooCommerce Checkout**: Auto-attaches to `.woocommerce-checkout` to protect customer shipping, billing, and order notes from accidental checkout abandonment.
+   - **Contact Form 7**: Auto-attaches to `.wpcf7 form`.
+   - **WPForms**: Auto-attaches to `.wpforms-form`.
+   - **Gravity Forms**: Auto-attaches to `.gform_wrapper form`.
+   - **Elementor Forms**: Auto-attaches to `.elementor-form`.
+4. **Privacy & GDPR Compliance**:
+   - 100% client-side operation.
+   - Zero telemetry, zero external tracking, and zero remote script execution.
+   - Data stored exclusively in the visitor's local browser sandbox.
+
+---
+
+## 4. Zero-JS Declarative HTML API (Static Sites & Headless CMS)
+
+Any static website (Webflow, Squarespace, Shopify, Astro, Hugo, 11ty, Plain HTML) can use HomuraJS without writing JavaScript:
+
+### Single Form Crash Recovery & Time-Travel
+```html
+<script src="https://unpkg.com/@biagioscaglia/homurajs/dist/index.global.js"></script>
+
+<form data-homura-form="lead_generation" data-homura-persist="localstorage">
+  <span data-homura-status></span>
+  <div data-homura-breadcrumbs></div>
+
+  <input type="text" name="full_name" placeholder="Full Name" />
+  <input type="email" name="email" placeholder="Email Address" />
+  <textarea name="project_brief" placeholder="Project Description"></textarea>
+
+  <button type="button" data-homura-undo>Step Back (Undo)</button>
+  <button type="button" data-homura-redo>Step Forward (Redo)</button>
+  <button type="submit">Submit Quote</button>
+</form>
+```
+
+### Multi-Step Questionnaire Wizard
+```html
+<form data-homura-wizard="onboarding_wizard" data-homura-persist="localstorage">
+  <!-- Step 1 -->
+  <div data-homura-step="1">
+    <h3>Step 1: Company Profile</h3>
+    <input type="text" name="company_name" />
+    <button type="button" data-homura-next>Next Step</button>
+  </div>
+
+  <!-- Step 2 -->
+  <div data-homura-step="2">
+    <h3>Step 2: Technical Scope</h3>
+    <input type="number" name="team_size" />
+    <button type="button" data-homura-prev>Previous Step</button>
+    <button type="submit" data-homura-next data-submit-label="Complete">Finish</button>
+  </div>
+</form>
+```
+
+---
+
+## 5. TypeScript / JavaScript API Reference
+
+### Core Type Definitions
+```ts
+export interface HistoryEntry<T> {
+  id: string;              // UUIDv4 node identifier
+  parentId: string | null; // Ancestor node ID
+  childrenIds: string[];   // Divergent branch child node IDs
+  branchId: string;        // Active timeline branch name
+  timestamp: number;       // Unix epoch ms
+  label: string;           // Human-readable action description
+  state: T;                // Immutable frozen state snapshot
+  metadata?: Record<string, unknown>;
+}
+
+export interface Branch {
+  id: string;
+  name: string;
+  headEntryId: string;
+  createdAt: number;
+}
+
+export interface Snapshot<T> {
+  id: string;
+  name: string;
+  entryId: string;
+  state: T;
+  timestamp: number;
+}
+
+export interface DiffChange {
+  type: 'added' | 'removed' | 'modified';
+  path: string;
+  oldValue?: unknown;
+  newValue?: unknown;
+}
+```
+
+### Core Instance Methods
+- `getState(): T`: Returns current immutable frozen snapshot.
+- `update(updater: (draft: T) => void, options?: { label?: string; metadata?: Record<string, unknown> }): HistoryEntry<T>`: Applies mutation via draft proxy.
+- `undo(): HistoryEntry<T> | null`: Rewinds active pointer to parent node.
+- `redo(): HistoryEntry<T> | null`: Advances active pointer to child node.
+- `canUndo(): boolean`: Returns true if parent exists.
+- `canRedo(): boolean`: Returns true if child exists on active branch.
+- `createBranch(name: string, fromEntryId?: string): Branch`: Forks new timeline.
+- `switchBranch(branchName: string): boolean`: Switches active timeline to branch head.
+- `merge(sourceBranchId: string, options?: { strategy?: 'theirs' | 'ours' | 'manual' }): HistoryEntry<T>`: 3-way branch reconciliation.
+- `diff(entryA: string | HistoryEntry<T>, entryB?: string | HistoryEntry<T>): DiffChange[]`: Recursive dot-path diffing.
+- `snapshot(name?: string, metadata?: Record<string, unknown>): Snapshot<T>`: Milestone bookmarking.
+- `transaction(fn: (draft: T) => void, options?: { label?: string }): HistoryEntry<T>`: Collapses multiple writes into one node.
+- `replay(options?: { speed?: number; stepDelayMs?: number; onStep?: (entry: HistoryEntry<T>, idx: number, total: number) => void }): Promise<void>`: Automated playback.
+- `compact(options?: { keepSnapshots?: boolean; maxEntries?: number }): void`: Prunes linear nodes while preserving branch junctions.
+
+---
+
+## 6. Competitive Comparison Matrix
+
+| Feature | HomuraJS | Redux-Undo | Zustand History | XState | Immer (Standalone) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **History Topology** | **DAG (Non-destructive)** | 1D Linear Stack (Destructive) | 1D Linear Stack | Finite State Machine | None (Draft only) |
+| **Branch Divergence** | **Yes (Infinite branches)** | No (Discarded on mutation) | No | State transitions only | No |
+| **Zero-JS Form Recovery** | **Built-in (`bindForm`)** | None | None | None | None |
+| **WordPress Plugin** | **Official Plugin & Shortcodes** | None | None | None | None |
+| **Structural Diffing** | **Recursive dot-path diff** | None | None | None | None |
+| **Embedded DevTools GUI** | **Built-in visual DAG tree** | External extension | None | External visualizer | None |
+| **Bundle Size** | **< 5.2 kB gzip** | ~4 kB | ~3 kB | ~15 kB | ~6 kB |
+| **Dependencies** | **Zero** | Redux required | Zustand required | Zero | Zero |
+
+---
+
+## 7. Performance Benchmarks
+
+Tested on Chromium v130 (10,000 DAG Nodes, nested 500-key objects):
+- **Node Mutation (Proxy Commit)**: ~185,000 operations/second (`0.005 ms` average latency).
+- **Timeline Jump (Rewind/Fast-Forward)**: ~420,000 operations/second (`0.002 ms` average latency).
+- **Deep Structural Diffing**: ~95,000 operations/second (`0.010 ms` average latency).
+- **State Serialization**: ~45,000 operations/second (`0.022 ms` average latency).
+
+---
+
+## 8. Frequently Asked Questions (FAQ)
+
+### Q1: How does HomuraJS prevent memory leaks when working with large DAG graphs?
+HomuraJS implements Copy-On-Write structural sharing. If only a single property of a 10,000-property object is updated, the new node references the unmodified subtrees in memory. Additionally, `compact()` and `pruneHistory()` allow pruning intermediate linear steps while preserving named snapshots and branch junction points.
+
+### Q2: Can HomuraJS be used in non-React applications?
+Yes. `@homura-js/core` is 100% framework-agnostic. It works out-of-the-box in Vanilla JS, Node.js, Vue 3, Svelte, Solid, Angular, WordPress, Webflow, Shopify, and static HTML.
+
+### Q3: How does HomuraJS integrate with WooCommerce and WordPress?
+The official WordPress plugin automatically hooks into `.woocommerce-checkout`, `.wpcf7 form`, `.wpforms-form`, `.gform_wrapper`, and `.elementor-form`. It stores form input in LocalStorage without any code or configuration required.

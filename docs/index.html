@@ -17,7 +17,11 @@
   <link rel="canonical" href="https://biagio-scaglia.github.io/homura-js/" />
   <meta name="theme-color" content="#0b0a0d" />
   <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-  <link rel="shortcut icon" type="image/svg+xml" href="./favicon.svg" />
+  <link rel="icon" type="image/png" sizes="192x192" href="./homura-icon.png" />
+  <link rel="icon" type="image/png" sizes="48x48" href="./homura-icon.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="./homura-icon.png" />
+  <link rel="shortcut icon" type="image/png" href="./homura-icon.png" />
+  <link rel="manifest" href="./site.webmanifest" />
 
   <!-- Multilingual Links -->
   <link rel="alternate" hreflang="en" href="https://biagio-scaglia.github.io/homura-js/" />
@@ -46,7 +50,11 @@
   <meta name="twitter:description" content="DAG state management with non-destructive time travel and branching for React, Vue, Vanilla JS, and WordPress." />
   <meta name="twitter:image" content="https://biagio-scaglia.github.io/homura-js/homura-banner.png" />
 
-  <!-- Structured Data JSON-LD -->
+  <!-- LLM & AI Search Engine Manifests -->
+  <link rel="alternate" type="text/plain" href="https://biagio-scaglia.github.io/homura-js/llms.txt" title="LLMs.txt" />
+  <link rel="alternate" type="text/plain" href="https://biagio-scaglia.github.io/homura-js/llms-full.txt" title="LLMs-full.txt" />
+
+  <!-- Structured Data JSON-LD (Rich Snippets for Google, Perplexity, ChatGPT, Claude) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -56,7 +64,10 @@
         "@id": "https://github.com/biagio-scaglia#person",
         "name": "Biagio Scaglia",
         "url": "https://github.com/biagio-scaglia",
-        "sameAs": ["https://github.com/biagio-scaglia", "https://www.npmjs.com/~biagioscaglia"],
+        "sameAs": [
+          "https://github.com/biagio-scaglia",
+          "https://www.npmjs.com/~biagioscaglia"
+        ],
         "jobTitle": "Software Engineer & Open Source Creator"
       },
       {
@@ -65,10 +76,114 @@
         "name": "HomuraJS",
         "url": "https://biagio-scaglia.github.io/homura-js/",
         "applicationCategory": "DeveloperApplication",
+        "applicationSubCategory": "State Management Library",
         "operatingSystem": "All",
         "softwareVersion": "1.2.3",
         "license": "https://opensource.org/licenses/MIT",
+        "description": "Directed Acyclic Graph (DAG) state management and time-travel history engine for JavaScript, TypeScript, WordPress, React, and Vue. Non-destructive timeline branching with zero-JS form crash recovery.",
+        "keywords": "time travel state, DAG state graph, undo redo javascript, wordpress form recovery, woocommerce checkout save, react time travel, structural diffing, proxy draft immutability",
+        "author": { "@id": "https://github.com/biagio-scaglia#person" },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      },
+      {
+        "@type": "SoftwareSourceCode",
+        "@id": "https://biagio-scaglia.github.io/homura-js/#code",
+        "name": "HomuraJS Monorepo",
+        "programmingLanguage": "TypeScript",
+        "runtimePlatform": "Browser, Node.js, Web Worker",
+        "codeRepository": "https://github.com/biagio-scaglia/homura-js",
+        "license": "https://opensource.org/licenses/MIT",
         "author": { "@id": "https://github.com/biagio-scaglia#person" }
+      },
+      {
+        "@type": "TechArticle",
+        "@id": "https://biagio-scaglia.github.io/homura-js/#article",
+        "headline": "Solving the Linear History Flaw with Directed Acyclic Graph (DAG) State Machines",
+        "description": "Technical specification of HomuraJS: how non-destructive DAG branching, Copy-On-Write proxy immutability, and zero-JS form auto-binding prevent permanent data loss in web applications.",
+        "url": "https://biagio-scaglia.github.io/homura-js/",
+        "author": { "@id": "https://github.com/biagio-scaglia#person" },
+        "publisher": { "@id": "https://github.com/biagio-scaglia#person" },
+        "inLanguage": ["en", "it"],
+        "about": [
+          "State Management",
+          "Directed Acyclic Graph",
+          "Time Travel Debugging",
+          "WordPress Form Crash Recovery",
+          "Copy-On-Write Immutability"
+        ]
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://biagio-scaglia.github.io/homura-js/#faq-schema",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is HomuraJS and how does it work?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "HomuraJS is a JavaScript/TypeScript state management and time-travel debugging engine that models state history as a Directed Acyclic Graph (DAG). Instead of a linear stack that permanently deletes future history upon mutation after an undo, HomuraJS branches timelines non-destructively, preserving 100% of historical states."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does HomuraJS integrate with WordPress and WooCommerce?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "HomuraJS provides an official WordPress plugin (homura-time-travel-form-recovery) that automatically attaches crash recovery and time-travel undo/redo to WooCommerce checkout (.woocommerce-checkout), Contact Form 7, WPForms, Gravity Forms, and Elementor Forms via browser LocalStorage with zero configuration."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do you use HomuraJS without writing JavaScript on static sites?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Include the standalone script from CDN (unpkg.com/@biagioscaglia/homurajs/dist/index.global.js) and add HTML data attributes: data-homura-form='my_form' data-homura-persist='localstorage' with data-homura-undo and data-homura-redo buttons."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How does HomuraJS prevent memory leaks with large history graphs?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "HomuraJS uses Copy-On-Write structural sharing via JavaScript Proxies: unchanged parts of the state tree share memory references across all DAG nodes. Compact() and pruneHistory() functions allow pruning redundant linear steps while preserving named snapshots and branch junction points."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does HomuraJS support React 18+ and Vue 3?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes. @homura-js/react provides the useHomura hook powered by useSyncExternalStore with selector optimization, and @homura-js/vue provides the useHomura Composition API hook."
+            }
+          }
+        ]
+      },
+      {
+        "@type": "HowTo",
+        "@id": "https://biagio-scaglia.github.io/homura-js/#howto-wordpress",
+        "name": "How to Enable Time-Travel Crash Recovery on WordPress Forms",
+        "description": "Step-by-step guide to installing and activating the HomuraJS plugin on WordPress and WooCommerce.",
+        "step": [
+          {
+            "@type": "HowToStep",
+            "name": "Upload and Activate Plugin",
+            "text": "Upload the homura-time-travel-form-recovery plugin to /wp-content/plugins/ and activate it in WordPress Admin."
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Automatic Hooking",
+            "text": "The plugin automatically hooks into WooCommerce checkout, Contact Form 7, WPForms, Gravity Forms, and Elementor Forms."
+          },
+          {
+            "@type": "HowToStep",
+            "name": "Custom Shortcodes",
+            "text": "Use [homura_form id='quote_form'] with [homura_undo] and [homura_redo] shortcodes inside any page or post."
+          }
+        ]
       }
     ]
   }
@@ -122,6 +237,9 @@
     html {
       scroll-behavior: smooth;
       background-color: var(--bg-base);
+      overflow-x: clip;
+      width: 100%;
+      max-width: 100%;
     }
 
     body {
@@ -131,9 +249,12 @@
       font-size: 14.5px;
       line-height: 1.65;
       min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       flex-direction: column;
-      overflow-x: hidden;
+      overflow-x: clip;
+      width: 100%;
+      max-width: 100%;
       -webkit-font-smoothing: antialiased;
     }
 
@@ -173,6 +294,8 @@
       padding: 0 20px;
       font-family: var(--font-mono);
       font-size: 12px;
+      width: 100%;
+      max-width: 100%;
     }
 
     .brand-mark {
@@ -180,12 +303,15 @@
       align-items: center;
       gap: 12px;
       letter-spacing: 0.5px;
+      min-width: 0;
+      flex-shrink: 1;
     }
 
     .brand-logo-icon {
       width: 22px;
       height: 22px;
       display: block;
+      flex-shrink: 0;
     }
 
     .brand-title {
@@ -194,6 +320,7 @@
       font-size: 15px;
       letter-spacing: 1px;
       color: var(--text-main);
+      white-space: nowrap;
     }
 
     .brand-badge {
@@ -204,12 +331,14 @@
       font-size: 10px;
       font-weight: 600;
       letter-spacing: 0.5px;
+      white-space: nowrap;
     }
 
     .top-actions {
       display: flex;
       align-items: center;
       gap: 10px;
+      flex-shrink: 0;
     }
 
     .top-link {
@@ -219,6 +348,7 @@
       align-items: center;
       gap: 6px;
       padding: 4px 8px;
+      white-space: nowrap;
     }
     .top-link:hover {
       color: var(--text-main);
@@ -238,6 +368,7 @@
       align-items: center;
       gap: 6px;
       transition: all 0.15s ease;
+      white-space: nowrap;
     }
     .lang-btn:hover {
       border-color: var(--accent);
@@ -255,6 +386,7 @@
       font-size: 11px;
       align-items: center;
       gap: 6px;
+      white-space: nowrap;
     }
 
     /* Main Container Layout */
@@ -264,6 +396,8 @@
       width: 100%;
       max-width: 1560px;
       margin: 0 auto;
+      min-width: 0;
+      position: relative;
     }
 
     /* Sidebar Navigation */
@@ -274,16 +408,54 @@
       border-right: var(--border-hairline);
       position: sticky;
       top: 52px;
+      align-self: flex-start;
       height: calc(100vh - 52px);
+      height: calc(100dvh - 52px);
       overflow-y: auto;
+      overscroll-behavior: contain;
       padding: 20px 14px;
       display: flex;
       flex-direction: column;
       gap: 18px;
+      z-index: 80;
+    }
+
+    .sidebar-mobile-header {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 12px;
+      border-bottom: var(--border-hairline);
+      margin-bottom: 4px;
+    }
+
+    .sidebar-mobile-title {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.5px;
+    }
+
+    .sidebar-close-btn {
+      background: var(--bg-surface);
+      border: var(--border-hairline);
+      color: var(--text-main);
+      padding: 4px 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+    .sidebar-close-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
     }
 
     .search-box {
       position: relative;
+      width: 100%;
     }
 
     .search-input {
@@ -308,6 +480,7 @@
       display: flex;
       flex-direction: column;
       gap: 2px;
+      width: 100%;
     }
 
     .nav-group-title {
@@ -332,6 +505,7 @@
       color: var(--text-muted);
       border-left: 2px solid transparent;
       transition: all 0.15s ease;
+      gap: 6px;
     }
     .nav-item a:hover {
       color: var(--text-main);
@@ -351,16 +525,20 @@
       background: var(--bg-elevated);
       color: var(--text-dim);
       border: var(--border-hairline);
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     /* Main Content Surface */
     .docs-content {
       flex: 1;
       min-width: 0;
+      max-width: 100%;
       padding: 32px 40px 96px 40px;
       display: flex;
       flex-direction: column;
       gap: 52px;
+      overflow-x: clip;
     }
 
     /* Hero Asymmetric Laboratory Console */
@@ -370,6 +548,9 @@
       display: grid;
       grid-template-columns: 1.15fr 0.85fr;
       position: relative;
+      min-width: 0;
+      max-width: 100%;
+      width: 100%;
     }
 
     .hero-left {
@@ -379,6 +560,8 @@
       justify-content: space-between;
       border-right: var(--border-hairline);
       gap: 24px;
+      min-width: 0;
+      max-width: 100%;
     }
 
     .hero-meta-header {
@@ -396,17 +579,20 @@
 
     .hero-headline {
       font-family: var(--font-display);
-      font-size: 32px;
+      font-size: clamp(22px, 3vw, 32px);
       font-weight: 700;
-      line-height: 1.22;
+      line-height: 1.25;
       letter-spacing: -0.5px;
       color: var(--text-main);
+      overflow-wrap: break-word;
+      word-break: break-word;
     }
 
     .hero-abstract {
       font-size: 14.5px;
       line-height: 1.65;
       color: var(--text-muted);
+      overflow-wrap: break-word;
     }
 
     .hero-install-box {
@@ -416,11 +602,23 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 8px;
       font-family: var(--font-mono);
       font-size: 12px;
+      min-width: 0;
+      max-width: 100%;
     }
     .hero-install-box code {
       color: var(--text-main);
+      overflow-x: auto;
+      white-space: nowrap;
+      font-size: clamp(10.5px, 2.4vw, 12px);
+      scrollbar-width: none;
+      flex: 1;
+      min-width: 0;
+    }
+    .hero-install-box code::-webkit-scrollbar {
+      display: none;
     }
     .hero-install-box button {
       background: var(--bg-surface);
@@ -428,9 +626,11 @@
       color: var(--text-muted);
       font-family: var(--font-mono);
       font-size: 10px;
-      padding: 3px 6px;
+      padding: 4px 8px;
       cursor: pointer;
       transition: all 0.15s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .hero-install-box button:hover {
       border-color: var(--accent);
@@ -443,6 +643,7 @@
       gap: 10px;
       font-family: var(--font-mono);
       font-size: 11.5px;
+      min-width: 0;
     }
     .hero-btn {
       padding: 7px 14px;
@@ -454,6 +655,8 @@
       gap: 6px;
       font-weight: 500;
       transition: all 0.15s ease;
+      white-space: nowrap;
+      font-size: clamp(10.5px, 2.5vw, 11.5px);
     }
     .hero-btn:hover {
       background: var(--bg-hover);
@@ -465,8 +668,8 @@
       color: #ffffff;
     }
     .hero-btn-accent:hover {
-      background: #c52e22;
-      border-color: #c52e22;
+      background: #c084fc;
+      border-color: #c084fc;
     }
 
     /* Hero Right: Live Sandbox */
@@ -476,17 +679,22 @@
       display: flex;
       flex-direction: column;
       gap: 14px;
+      min-width: 0;
+      max-width: 100%;
     }
 
     .sandbox-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 8px;
       font-family: var(--font-mono);
       font-size: 10.5px;
       padding-bottom: 6px;
       border-bottom: var(--border-hairline);
       color: var(--text-dim);
+      flex-wrap: wrap;
+      min-width: 0;
     }
     .sandbox-status-dot {
       display: inline-block;
@@ -505,14 +713,18 @@
       line-height: 1.5;
       color: #a3e635;
       max-height: 170px;
-      overflow-y: auto;
-      white-space: pre-wrap;
+      overflow: auto;
+      white-space: pre;
+      -webkit-overflow-scrolling: touch;
+      max-width: 100%;
+      min-width: 0;
     }
 
     .sandbox-controls-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, 1fr);
       gap: 6px;
+      min-width: 0;
     }
 
     .sb-btn {
@@ -527,6 +739,15 @@
       align-items: center;
       gap: 5px;
       transition: all 0.15s ease;
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .sb-btn span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     .sb-btn:hover {
       background: var(--bg-hover);
@@ -544,6 +765,9 @@
       flex-direction: column;
       gap: 18px;
       scroll-margin-top: 70px;
+      min-width: 0;
+      max-width: 100%;
+      overflow-wrap: break-word;
     }
 
     .section-coord {
@@ -566,6 +790,8 @@
       gap: 10px;
       border-bottom: var(--border-hairline);
       padding-bottom: 6px;
+      overflow-wrap: break-word;
+      word-break: break-word;
     }
 
     h3 {
@@ -574,11 +800,14 @@
       font-weight: 600;
       color: var(--text-main);
       margin-top: 10px;
+      overflow-wrap: break-word;
+      word-break: break-word;
     }
 
     p {
       color: var(--text-muted);
       line-height: 1.65;
+      overflow-wrap: break-word;
     }
 
     /* Comparison Grid */
@@ -587,6 +816,8 @@
       grid-template-columns: 1fr 1fr;
       gap: 14px;
       margin-top: 6px;
+      min-width: 0;
+      width: 100%;
     }
 
     .comp-card {
@@ -596,9 +827,12 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
+      min-width: 0;
+      max-width: 100%;
+      overflow: hidden;
     }
     .comp-card.dag {
-      border-color: var(--border-vermilion);
+      border-color: var(--border-strong);
       background: var(--bg-surface);
     }
 
@@ -611,16 +845,19 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
     }
     .comp-title .badge {
       font-size: 9.5px;
       padding: 2px 5px;
       background: var(--bg-elevated);
       border: var(--border-hairline);
+      white-space: nowrap;
     }
     .comp-card.dag .comp-title .badge {
       color: var(--accent);
-      border-color: var(--border-vermilion);
+      border-color: var(--accent);
     }
 
     .ascii-tree {
@@ -632,6 +869,9 @@
       line-height: 1.5;
       color: var(--text-muted);
       overflow-x: auto;
+      max-width: 100%;
+      -webkit-overflow-scrolling: touch;
+      white-space: pre;
     }
 
     /* Technical Data Tables */
@@ -640,10 +880,14 @@
       background: var(--bg-surface);
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
+      max-width: 100%;
+      width: 100%;
+      display: block;
     }
 
     .data-table {
       width: 100%;
+      min-width: 480px;
       border-collapse: collapse;
       font-family: var(--font-mono);
       font-size: 11.5px;
@@ -680,6 +924,7 @@
       background: var(--bg-base);
       padding: 1px 4px;
       border: var(--border-hairline);
+      white-space: nowrap;
     }
 
     /* Code Blocks */
@@ -688,18 +933,30 @@
       background: var(--bg-inset);
       display: flex;
       flex-direction: column;
+      min-width: 0;
+      max-width: 100%;
+      overflow: hidden;
     }
 
     .code-header {
       background: var(--bg-elevated);
       border-bottom: var(--border-hairline);
-      padding: 5px 10px;
+      padding: 6px 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 8px;
       font-family: var(--font-mono);
       font-size: 10.5px;
       color: var(--text-dim);
+      min-width: 0;
+      overflow: hidden;
+    }
+    .code-header span:first-child {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      min-width: 0;
     }
 
     .code-copy-btn {
@@ -714,6 +971,8 @@
       align-items: center;
       gap: 4px;
       transition: all 0.15s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .code-copy-btn:hover {
       border-color: var(--accent);
@@ -728,6 +987,8 @@
       line-height: 1.6;
       color: #e6e2da;
       -webkit-overflow-scrolling: touch;
+      max-width: 100%;
+      white-space: pre;
     }
     pre code {
       font-family: inherit;
@@ -738,6 +999,12 @@
       display: flex;
       border-bottom: var(--border-hairline);
       background: var(--bg-surface);
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .tabs-header::-webkit-scrollbar {
+      display: none;
     }
     .tab-btn {
       background: transparent;
@@ -749,6 +1016,8 @@
       color: var(--text-dim);
       cursor: pointer;
       transition: all 0.15s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .tab-btn:hover {
       color: var(--text-main);
@@ -775,7 +1044,9 @@
       pointer-events: none;
       transform: translateY(6px);
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      z-index: 1000;
+      z-index: 10000;
+      max-width: calc(100vw - 40px);
+      word-break: break-word;
     }
     #toast.show {
       opacity: 1;
@@ -788,8 +1059,10 @@
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.7);
-      z-index: 90;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 990;
     }
 
     /* Responsive Queries */
@@ -800,45 +1073,127 @@
       .hero-left {
         border-right: none;
         border-bottom: var(--border-hairline);
+        padding: 28px 24px;
+      }
+      .hero-right {
+        padding: 20px 24px;
       }
       .comparison-grid {
         grid-template-columns: 1fr;
       }
     }
 
-    @media (max-width: 840px) {
+    @media (max-width: 992px) {
+      .menu-toggle {
+        display: inline-flex;
+      }
       .sidebar {
         position: fixed;
-        left: -100%;
-        top: 52px;
-        height: calc(100vh - 52px);
-        z-index: 95;
-        transition: left 0.25s ease;
-        box-shadow: 4px 0 16px rgba(0,0,0,0.7);
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: min(320px, 85vw);
+        height: 100vh;
+        height: 100dvh;
+        z-index: 1000;
+        transform: translateX(-105%);
+        transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.85);
+        padding: 16px 14px 40px 14px;
+        border-right: var(--border-strong);
+        background: #09060e;
+        overflow-y: auto;
       }
       .sidebar.open {
-        left: 0;
+        transform: translateX(0);
+      }
+      .sidebar-mobile-header {
+        display: flex;
       }
       .sidebar-backdrop.open {
         display: block;
       }
-      .menu-toggle {
-        display: inline-flex;
-      }
       .docs-content {
-        padding: 20px 14px 64px 14px;
+        padding: 24px 20px 80px 20px;
+        gap: 36px;
       }
-      .hero-left {
-        padding: 20px 14px;
-      }
-      .hero-headline {
-        font-size: 24px;
-      }
+    }
+
+    @media (max-width: 640px) {
       .top-bar {
-        padding: 0 12px;
+        padding: 0 10px;
+        height: 48px;
+      }
+      .brand-mark {
+        gap: 8px;
       }
       .brand-title {
+        font-size: 13.5px;
+      }
+      .brand-badge {
+        display: none;
+      }
+      .top-link span {
+        display: none;
+      }
+      .top-link {
+        padding: 4px 6px;
+      }
+      .top-actions {
+        gap: 4px;
+      }
+      .lang-btn {
+        padding: 3px 6px;
+        font-size: 10.5px;
+      }
+      .docs-content {
+        padding: 16px 12px 64px 12px;
+        gap: 28px;
+      }
+      .hero-left {
+        padding: 18px 14px;
+        gap: 16px;
+      }
+      .hero-right {
+        padding: 14px;
+        gap: 12px;
+      }
+      .hero-headline {
+        font-size: 21px;
+      }
+      .hero-abstract {
+        font-size: 13.5px;
+      }
+      .hero-install-box {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+      }
+      .hero-install-box button {
+        align-self: flex-start;
+      }
+      .hero-actions {
+        flex-direction: column;
+      }
+      .hero-btn {
+        width: 100%;
+        justify-content: center;
+      }
+      .sandbox-controls-grid {
+        grid-template-columns: 1fr;
+      }
+      h2 {
+        font-size: 18px;
+      }
+      h3 {
         font-size: 14px;
+      }
+      .comp-card {
+        padding: 12px;
+      }
+      pre {
+        font-size: 11px;
+        padding: 10px;
       }
     }
   </style>
@@ -897,6 +1252,13 @@
     
     <!-- Sidebar Navigation -->
     <aside class="sidebar" id="docs-sidebar">
+      <div class="sidebar-mobile-header">
+        <span class="sidebar-mobile-title">HOMURA // SPEC</span>
+        <button id="btn-sidebar-close" class="sidebar-close-btn" aria-label="Close navigation">
+          <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
       <div class="search-box">
         <input type="text" id="search-bar" class="search-input" placeholder="Search documentation... [/]" data-i18n-placeholder="sidebar.search_placeholder" />
       </div>
@@ -928,6 +1290,7 @@
 
       <nav class="nav-group">
         <div class="nav-group-title" data-i18n="sidebar.reference">04.0 // REFERENCE</div>
+        <div class="nav-item"><a href="#comparison-matrix"><span data-i18n="sidebar.matrix">Comparison Matrix</span></a></div>
         <div class="nav-item"><a href="#api-reference"><span data-i18n="sidebar.api">API Matrix</span></a></div>
         <div class="nav-item"><a href="#benchmarks"><span data-i18n="sidebar.benchmarks">Engine Specs</span></a></div>
         <div class="nav-item"><a href="#faq"><span data-i18n="sidebar.faq">FAQ</span></a></div>
@@ -1459,9 +1822,98 @@ mountDevTools(homura, {
         </div>
       </section>
 
+      <!-- Section: Comparison Matrix -->
+      <section id="comparison-matrix">
+        <div class="section-coord">SPEC // 04.0 // COMPARATIVE_MATRIX</div>
+        <h2 data-i18n="matrix.title">Competitive Architecture Comparison</h2>
+        <p data-i18n="matrix.p1">
+          How HomuraJS Directed Acyclic Graph (DAG) state topology compares to linear history stacks and alternative engines:
+        </p>
+        <div class="data-table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Capability</th>
+                <th>HomuraJS</th>
+                <th>Redux-Undo</th>
+                <th>Zustand History</th>
+                <th>XState</th>
+                <th>Immer (Standalone)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>History Topology</strong></td>
+                <td><code>DAG (Non-destructive)</code></td>
+                <td>1D Linear Stack</td>
+                <td>1D Linear Stack</td>
+                <td>Finite State Machine</td>
+                <td>None (Draft Proxy Only)</td>
+              </tr>
+              <tr>
+                <td><strong>Timeline Branching</strong></td>
+                <td><code>Yes (Infinite branches)</code></td>
+                <td>No (Destructive)</td>
+                <td>No (Destructive)</td>
+                <td>State Transitions</td>
+                <td>No</td>
+              </tr>
+              <tr>
+                <td><strong>Zero-JS Form Recovery</strong></td>
+                <td><code>Built-in (bindForm)</code></td>
+                <td>None</td>
+                <td>None</td>
+                <td>None</td>
+                <td>None</td>
+              </tr>
+              <tr>
+                <td><strong>WordPress / WooCommerce</strong></td>
+                <td><code>Official Plugin &amp; Auto-Hooks</code></td>
+                <td>None</td>
+                <td>None</td>
+                <td>None</td>
+                <td>None</td>
+              </tr>
+              <tr>
+                <td><strong>Structural Diffing</strong></td>
+                <td><code>Recursive Dot-Path Engine</code></td>
+                <td>None</td>
+                <td>None</td>
+                <td>None</td>
+                <td>None</td>
+              </tr>
+              <tr>
+                <td><strong>Embedded DevTools GUI</strong></td>
+                <td><code>Built-in Interactive Visual Graph</code></td>
+                <td>External DevTools</td>
+                <td>None</td>
+                <td>External Visualizer</td>
+                <td>None</td>
+              </tr>
+              <tr>
+                <td><strong>Core Bundle Size</strong></td>
+                <td><code>&lt; 5.2 kB gzip</code></td>
+                <td>~4 kB + Redux</td>
+                <td>~3 kB + Zustand</td>
+                <td>~15 kB</td>
+                <td>~6 kB</td>
+              </tr>
+              <tr>
+                <td><strong>Dependencies</strong></td>
+                <td><code>Zero (Self-contained)</code></td>
+                <td>Redux required</td>
+                <td>Zustand required</td>
+                <td>Zero</td>
+                <td>Zero</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
       <!-- Section: API Reference -->
       <section id="api-reference">
-        <div class="section-coord">SPEC // 04.0 // API_MATRIX</div>
+        <div class="section-coord">SPEC // 04.1 // API_MATRIX</div>
         <h2 data-i18n="api.title">Complete Homura&lt;T&gt; API Matrix</h2>
         <div class="data-table-container">
           <table class="data-table">
@@ -1535,7 +1987,7 @@ mountDevTools(homura, {
 
       <!-- Section: Engine Benchmarks -->
       <section id="benchmarks">
-        <div class="section-coord">SPEC // 04.1 // BENCHMARKS</div>
+        <div class="section-coord">SPEC // 04.2 // BENCHMARKS</div>
         <h2 data-i18n="benchmarks.title">Engine Performance Specs</h2>
         <div class="data-table-container">
           <table class="data-table">
@@ -1574,7 +2026,7 @@ mountDevTools(homura, {
 
       <!-- Section: FAQ -->
       <section id="faq">
-        <div class="section-coord">SPEC // 04.2 // FREQUENT_QUESTIONS</div>
+        <div class="section-coord">SPEC // 04.3 // FREQUENT_QUESTIONS</div>
         <h2 data-i18n="faq.title">Frequently Asked Questions</h2>
         <div class="comparison-grid" style="grid-template-columns: 1fr;">
           <div class="comp-card">
@@ -1587,6 +2039,18 @@ mountDevTools(homura, {
             <h3 data-i18n="faq.q2">Can HomuraJS be used without React or Vue?</h3>
             <p data-i18n="faq.a2">
               Yes. @homura-js/core has zero dependencies. You can use it in Vanilla JS, Node.js, Svelte, Solid, Angular, or in static HTML/WordPress sites via @homura-js/vanilla or shortcodes.
+            </p>
+          </div>
+          <div class="comp-card">
+            <h3 data-i18n="faq.q3">How does HomuraJS protect WooCommerce checkout &amp; WordPress forms?</h3>
+            <p data-i18n="faq.a3">
+              The official WordPress plugin auto-hooks into .woocommerce-checkout, .wpcf7, .wpforms-form, .gform_wrapper, and .elementor-form, saving input to LocalStorage in real-time. If the browser crashes, refreshes, or loses connection, customer input is seamlessly recovered.
+            </p>
+          </div>
+          <div class="comp-card">
+            <h3 data-i18n="faq.q4">Can HomuraJS be used on static sites without npm (CDN)?</h3>
+            <p data-i18n="faq.a4">
+              Yes. Include unpkg.com/@biagioscaglia/homurajs/dist/index.global.js via script tag and declare data-homura-form="form_id" data-homura-persist="localstorage" on your HTML forms.
             </p>
           </div>
         </div>
