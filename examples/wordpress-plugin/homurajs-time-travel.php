@@ -1,13 +1,16 @@
 <?php
 /**
- * Plugin Name: HomuraJS — Time Travel State & Form Recovery
- * Plugin URI: https://github.com/biagio-scaglia/homura-js
+ * Plugin Name: Homura Time Travel & Form Recovery
+ * Plugin URI: https://biagio-scaglia.github.io/homura-js/
  * Description: Real-time DAG time-travel history engine, form crash recovery, and non-destructive undo/redo for WordPress & WooCommerce forms.
  * Version: 1.2.3
- * Author: Biagio Scaglia & HomuraJS Team
+ * Author: Biagio Scaglia
  * Author URI: https://github.com/biagio-scaglia
  * License: MIT
- * Text Domain: homurajs-time-travel
+ * License URI: https://opensource.org/licenses/MIT
+ * Text Domain: homura-time-travel
+ * Requires at least: 5.8
+ * Requires PHP: 7.4
  */
 
 if (!defined('ABSPATH')) {
@@ -28,12 +31,12 @@ class HomuraJSTimeTravelPlugin {
     }
 
     /**
-     * Enqueue HomuraJS Standalone Bundle and Auto-Hook Script
+     * Enqueue HomuraJS Standalone Bundle from local assets
      */
     public function enqueue_scripts() {
         wp_enqueue_script(
             'homurajs-bundle',
-            'https://unpkg.com/@biagioscaglia/homurajs@' . self::VERSION . '/dist/index.global.js',
+            plugins_url('assets/js/homura.min.js', __FILE__),
             array(),
             self::VERSION,
             true

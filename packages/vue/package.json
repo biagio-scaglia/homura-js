@@ -1,6 +1,6 @@
 {
   "name": "@homura-js/vue",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Vue 3 Composition API & Plugin Integration for HomuraJS Time Travel State Engine",
   "type": "module",
   "main": "./dist/index.cjs",
