@@ -1,7 +1,7 @@
 {
   "name": "@homura-js/react",
   "version": "1.2.1",
-  "description": "React 18+ Integration for HomuraJS Time Travel State Engine",
+  "description": "React 18+ Integration for HomuraJS Time Travel State Engine with useSyncExternalStore",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -50,9 +50,17 @@
   },
   "keywords": [
     "react",
-    "time-travel",
+    "react-hooks",
+    "react18",
+    "react19",
+    "use-sync-external-store",
     "state",
+    "state-management",
+    "time-travel",
+    "time-travel-debugging",
+    "undo-redo",
     "history",
+    "dag",
     "hooks",
     "devtools",
     "homura"

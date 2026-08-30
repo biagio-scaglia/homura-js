@@ -1,7 +1,7 @@
 {
   "name": "@homura-js/devtools",
   "version": "1.2.1",
-  "description": "Modern Time Travel DevTools UI & Bridge for HomuraJS",
+  "description": "Modern Time Travel DevTools UI & Diagnostic Bridge for HomuraJS State Graphs",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -41,11 +41,14 @@
   },
   "keywords": [
     "devtools",
+    "redux-devtools",
     "time-travel",
-    "history",
-    "timeline",
+    "time-travel-debugging",
+    "history-graph",
+    "timeline-visualizer",
     "diff-viewer",
     "state-inspector",
+    "dag-visualizer",
     "homura"
   ],
   "author": "Biagio Scaglia",

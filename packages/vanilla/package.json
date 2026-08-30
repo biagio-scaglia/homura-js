@@ -1,7 +1,7 @@
 {
   "name": "@homura-js/vanilla",
   "version": "1.2.1",
-  "description": "Vanilla JavaScript and DOM helpers for HomuraJS",
+  "description": "Vanilla JavaScript and DOM helpers for HomuraJS Time Travel State Engine",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -43,9 +43,15 @@
   "keywords": [
     "vanillajs",
     "dom",
-    "time-travel",
+    "reactive-dom",
     "state",
+    "state-management",
+    "time-travel",
+    "time-travel-debugging",
+    "undo-redo",
     "history",
+    "dag",
+    "static-sites",
     "homura"
   ],
   "author": "Biagio Scaglia",

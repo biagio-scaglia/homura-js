@@ -1,16 +1,19 @@
 {
   "name": "@biagioscaglia/homurajs",
   "version": "1.2.1",
-  "description": "HomuraJS — Time Travel State & History Engine for JavaScript (Git for application state)",
+  "description": "HomuraJS — Time Travel State & DAG History Engine for JavaScript (Git for application state)",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "unpkg": "./dist/index.global.js",
+  "jsdelivr": "./dist/index.global.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.global.js"
     }
   },
   "files": [
@@ -42,16 +45,31 @@
   },
   "keywords": [
     "state",
+    "state-management",
     "time-travel",
-    "history",
+    "time-travel-debugging",
     "dag",
+    "history-graph",
+    "undo-redo",
     "undo",
     "redo",
     "branching",
     "diff",
     "snapshots",
     "git-for-state",
+    "immutable",
+    "immutability",
+    "proxy",
     "devtools",
+    "redux-alternative",
+    "zustand-alternative",
+    "react-state",
+    "vue-state",
+    "vanillajs",
+    "cdn",
+    "standalone",
+    "wordpress",
+    "static-sites",
     "homura",
     "homura-js",
     "homurajs"
