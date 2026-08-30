@@ -176,4 +176,27 @@ describe('@homurajs/core - Core Engine', () => {
     expect(homura.getHistory()).toHaveLength(1);
     expect(homura.undo()).toBeNull();
   });
+
+  it('canUndo and canRedo report accurate navigation availability', () => {
+    const homura = createHomura<AppState>({ initialState: initial });
+    expect(homura.canUndo()).toBe(false);
+    expect(homura.canRedo()).toBe(false);
+
+    homura.update(d => {
+      d.counter = 1;
+    });
+
+    expect(homura.canUndo()).toBe(true);
+    expect(homura.canRedo()).toBe(false);
+
+    homura.undo();
+
+    expect(homura.canUndo()).toBe(false);
+    expect(homura.canRedo()).toBe(true);
+
+    homura.redo();
+
+    expect(homura.canUndo()).toBe(true);
+    expect(homura.canRedo()).toBe(false);
+  });
 });

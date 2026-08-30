@@ -388,6 +388,12 @@ export interface Homura<T> {
   /** Redoes one step to child node */
   redo(): HistoryEntry<T> | null;
 
+  /** Returns true if undo is possible from current state */
+  canUndo(): boolean;
+
+  /** Returns true if redo is possible from current state */
+  canRedo(): boolean;
+
   /** Rewinds N steps in history */
   rewind(steps: number): HistoryEntry<T> | null;
 

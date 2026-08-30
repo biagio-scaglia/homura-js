@@ -315,6 +315,22 @@ export class HistoryGraph<T> {
   }
 
   /**
+   * Returns true if an undo operation is possible from current entry.
+   */
+  public canUndo(): boolean {
+    const current = this.entries.get(this.currentEntryId);
+    return current ? current.parentId !== null : false;
+  }
+
+  /**
+   * Returns true if a redo operation is possible from current entry.
+   */
+  public canRedo(): boolean {
+    const current = this.entries.get(this.currentEntryId);
+    return current ? current.childrenIds.length > 0 : false;
+  }
+
+  /**
    * Redoes one step forward to a child node.
    */
   public redo(): HistoryEntry<T> | null {

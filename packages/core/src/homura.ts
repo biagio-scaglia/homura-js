@@ -248,6 +248,20 @@ export class HomuraInstance<T> implements Homura<T> {
   }
 
   /**
+   * Returns true if an undo operation is possible from current state.
+   */
+  public canUndo(): boolean {
+    return this.history.canUndo();
+  }
+
+  /**
+   * Returns true if a redo operation is possible from current state.
+   */
+  public canRedo(): boolean {
+    return this.history.canRedo();
+  }
+
+  /**
    * Navigates 1 step forward in history.
    */
   public redo(): HistoryEntry<T> | null {
