@@ -1,6 +1,6 @@
 {
   "name": "@homura-js/db",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "Versioned database state and full-stack forensic state correlation for HomuraJS",
   "type": "module",
   "main": "./dist/index.cjs",

@@ -1,6 +1,6 @@
 {
   "name": "@homura-js/vanilla",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "Vanilla JavaScript and DOM helpers for HomuraJS Time Travel State Engine",
   "type": "module",
   "main": "./dist/index.cjs",

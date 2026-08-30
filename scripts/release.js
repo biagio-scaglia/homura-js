@@ -30,6 +30,7 @@ console.log(`\n🚀 Bumping HomuraJS version: v${currentVersion} -> v${nextVersi
 const pkgPaths = [
   'package.json',
   'packages/core/package.json',
+  'packages/db/package.json',
   'packages/devtools/package.json',
   'packages/homura-js/package.json',
   'packages/react/package.json',
