@@ -9,7 +9,7 @@
 ## 🌟 Key Features
 
 1. **Versioned Database State**: Every table insert, update, and delete is recorded as an immutable node in a state DAG.
-2. **Deterministic Time-Travel**: `checkout()`, `undo()`, `redo()`, and `diff()` across database states.
+2. **Reproducible Time-Travel**: `checkout()`, `undo()`, `redo()`, and `diff()` across database states.
 3. **Branching & 3-Way Merging**: Fork alternative schema or data branches and reconcile them safely.
 4. **Full-Stack State Correlation**: Seamlessly correlate client UI states (`node_client_184`), network requests, and database transactions (`db_node_52`) into a unified forensic bug report (`session.homura`).
 

@@ -305,19 +305,31 @@ export const translations: TranslationDictionary = {
     en: 'HomuraDB & Full-Stack State Correlation (@homura-js/db)',
     it: 'HomuraDB & Correlazione Forense Full-Stack (@homura-js/db)'
   },
+  'homuradb.sub1': {
+    en: 'Version your database state',
+    it: 'Versiona lo stato del tuo database'
+  },
   'homuradb.p1': {
-    en: 'Versioned database state and end-to-end deterministic correlation between client UI states (#184), network requests, and database transactions (#52):',
-    it: 'Stato del database versionato e correlazione deterministica end-to-end tra stati della UI client (#184), richieste di rete e transazioni del database (#52):'
+    en: 'Record table inserts, updates, and deletes as an immutable Directed Acyclic Graph (DAG) on top of embedded SQLite or memory stores with instant time-travel and branch merging.',
+    it: 'Registra inserimenti, modifiche e cancellazioni come un Grafo Aciclico Diretto (DAG) immutabile su SQLite embedded o memoria con time travel istantaneo.'
+  },
+  'homuradb.sub2': {
+    en: 'Full-Stack State Correlation',
+    it: 'Correlazione di Stato Full-Stack'
+  },
+  'homuradb.p2': {
+    en: 'Connect UI state (#184), network requests, and database transactions (#52) into one reproducible causal history exported as a unified .homura forensic session:',
+    it: 'Collega lo stato della UI (#184), le richieste di rete e le transazioni del DB (#52) in un\'unica cronologia causale riproducibile esportata in una sessione forense .homura:'
   },
 
   // Section 04.0: Comparison Matrix
   'matrix.title': {
-    en: 'Competitive Architecture Comparison',
-    it: 'Confronto Architetturale Competitivo'
+    en: 'Architectural Scope & Paradigm Comparison',
+    it: 'Confronto Architetturale e di Paradigma'
   },
   'matrix.p1': {
-    en: 'How HomuraJS Directed Acyclic Graph (DAG) state topology compares to linear history stacks and alternative engines:',
-    it: 'Come si confronta la topologia di stato a Grafo Aciclico Diretto (DAG) di HomuraJS rispetto agli stack di cronologia lineare tradizionali e ad altri motori:'
+    en: 'Understanding how HomuraJS state history infrastructure compares to focused single-purpose libraries across different layers of the JavaScript stack:',
+    it: 'Come si posiziona l\'infrastruttura di cronologia di HomuraJS rispetto a librerie focalizzate su singoli scopi nei vari livelli dello stack JavaScript:'
   },
 
   // Section 04.1: API Matrix

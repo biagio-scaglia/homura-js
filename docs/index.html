@@ -1877,10 +1877,9 @@ await homura.replay({
     console.log(`[Step ${step}/${total}] Transition: ${entry.label}`, entry.state);
   }
 });
-
 // 4. Jump directly to the failing node and compute the recursive structural diff
-homura.jumpTo('corrupted-node-id');
-const diffs = homura.diff('previous-valid-node', 'corrupted-node-id');</code></pre>
+  homura.jumpTo('corrupted-node-id');
+  const diffs = homura.diff('previous-valid-node', 'corrupted-node-id');</code></pre>
         </div>
       </section>
 
@@ -1888,9 +1887,16 @@ const diffs = homura.diff('previous-valid-node', 'corrupted-node-id');</code></p
       <section id="homura-db">
         <div class="section-coord">SPEC // 03.7 // DATABASE_FORENSICS</div>
         <h2 data-i18n="homuradb.title">HomuraDB &amp; Full-Stack State Correlation (@homura-js/db)</h2>
-        <p data-i18n="homuradb.p1">
-          Versioned database state and end-to-end deterministic correlation between client UI states (#184), network requests, and database transactions (#52):
-        </p>
+        <div style="margin-bottom: 20px;">
+          <h3 style="font-size: 16px; color: var(--accent); margin-bottom: 6px;" data-i18n="homuradb.sub1">Version your database state</h3>
+          <p data-i18n="homuradb.p1" style="margin-bottom: 14px;">
+            Record table inserts, updates, and deletes as an immutable Directed Acyclic Graph (DAG) on top of embedded SQLite or memory stores with instant time-travel and branch merging.
+          </p>
+          <h3 style="font-size: 16px; color: var(--accent); margin-bottom: 6px;" data-i18n="homuradb.sub2">Full-Stack State Correlation</h3>
+          <p data-i18n="homuradb.p2">
+            Connect UI state (#184), network requests, and database transactions (#52) into one reproducible causal history exported as a unified <code>.homura</code> forensic session:
+          </p>
+        </div>
 
         <div class="code-container">
           <div class="code-header">
@@ -1937,87 +1943,87 @@ const sessionJSON = recorder.exportJSON();
 
       <!-- Section: Comparison Matrix -->
       <section id="comparison-matrix">
-        <div class="section-coord">SPEC // 04.0 // COMPARATIVE_MATRIX</div>
-        <h2 data-i18n="matrix.title">Competitive Architecture Comparison</h2>
+        <div class="section-coord">SPEC // 04.0 // ARCHITECTURAL_COMPARISON</div>
+        <h2 data-i18n="matrix.title">Architectural Scope &amp; Paradigm Comparison</h2>
         <p data-i18n="matrix.p1">
-          How HomuraJS Directed Acyclic Graph (DAG) state topology compares to linear history stacks and alternative engines:
+          Understanding how HomuraJS state history infrastructure compares to focused single-purpose libraries across different layers of the JavaScript stack:
         </p>
         <div class="data-table-container">
           <table class="data-table">
             <thead>
               <tr>
-                <th>Capability</th>
+                <th>Paradigm / Scope</th>
                 <th>HomuraJS</th>
                 <th>Redux-Undo</th>
                 <th>Zustand History</th>
                 <th>XState</th>
-                <th>Immer (Standalone)</th>
+                <th>Immer</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><strong>History Topology</strong></td>
-                <td><code>DAG (Non-destructive)</code></td>
-                <td>1D Linear Stack</td>
-                <td>1D Linear Stack</td>
-                <td>Finite State Machine</td>
-                <td>None (Draft Proxy Only)</td>
+                <td><strong>Primary Design Target</strong></td>
+                <td><code>State History Infrastructure</code></td>
+                <td>Redux Store Enhancer</td>
+                <td>Zustand Middleware</td>
+                <td>State Machine Orchestration</td>
+                <td>Immutability Utility</td>
               </tr>
               <tr>
-                <td><strong>Timeline Branching</strong></td>
-                <td><code>Yes (Infinite branches)</code></td>
-                <td>No (Destructive)</td>
-                <td>No (Destructive)</td>
-                <td>State Transitions</td>
-                <td>No</td>
+                <td><strong>History Model</strong></td>
+                <td><code>Directed Acyclic Graph (DAG)</code></td>
+                <td>1D Linear Stack (Past/Future)</td>
+                <td>1D Linear Stack (Temporal)</td>
+                <td>Transition Graph / Statechart</td>
+                <td>N/A (Copy-on-Write Proxy)</td>
               </tr>
               <tr>
-                <td><strong>Zero-JS Form Recovery</strong></td>
-                <td><code>Built-in (bindForm)</code></td>
-                <td>None</td>
-                <td>None</td>
-                <td>None</td>
-                <td>None</td>
+                <td><strong>Branching &amp; 3-Way Merge</strong></td>
+                <td><code>Built-in (Non-destructive)</code></td>
+                <td>Destructive on new action</td>
+                <td>Destructive on new action</td>
+                <td>Parallel State Nodes</td>
+                <td>N/A</td>
               </tr>
               <tr>
-                <td><strong>WordPress / WooCommerce</strong></td>
-                <td><code>Official Plugin &amp; Auto-Hooks</code></td>
-                <td>None</td>
-                <td>None</td>
-                <td>None</td>
-                <td>None</td>
+                <td><strong>Full-Stack Forensics (.homura)</strong></td>
+                <td><code>UI ↔ Network ↔ DB Correlation</code></td>
+                <td>N/A (Client Redux only)</td>
+                <td>N/A (Client Store only)</td>
+                <td>Event Inspection Protocol</td>
+                <td>N/A</td>
               </tr>
               <tr>
-                <td><strong>Structural Diffing</strong></td>
+                <td><strong>Zero-JS Static &amp; WordPress Forms</strong></td>
+                <td><code>Auto-Recovery &amp; WP Plugin</code></td>
+                <td>N/A</td>
+                <td>N/A</td>
+                <td>N/A</td>
+                <td>N/A</td>
+              </tr>
+              <tr>
+                <td><strong>Structural Diffing Engine</strong></td>
                 <td><code>Recursive Dot-Path Engine</code></td>
-                <td>None</td>
-                <td>None</td>
-                <td>None</td>
-                <td>None</td>
+                <td>N/A</td>
+                <td>N/A</td>
+                <td>N/A</td>
+                <td>JSON Patches (RFC 6902)</td>
               </tr>
               <tr>
-                <td><strong>Embedded DevTools GUI</strong></td>
-                <td><code>Built-in Interactive Visual Graph</code></td>
-                <td>External DevTools</td>
-                <td>None</td>
-                <td>External Visualizer</td>
-                <td>None</td>
+                <td><strong>Diagnostic GUI &amp; Replay</strong></td>
+                <td><code>Embedded Visual DevTools</code></td>
+                <td>Browser Extension / Redux DevTools</td>
+                <td>N/A</td>
+                <td>XState Stately Visualizer</td>
+                <td>N/A</td>
               </tr>
               <tr>
-                <td><strong>Core Bundle Size</strong></td>
-                <td><code>&lt; 5.2 kB gzip</code></td>
-                <td>~4 kB + Redux</td>
-                <td>~3 kB + Zustand</td>
-                <td>~15 kB</td>
-                <td>~6 kB</td>
-              </tr>
-              <tr>
-                <td><strong>Dependencies</strong></td>
-                <td><code>Zero (Self-contained)</code></td>
-                <td>Redux required</td>
-                <td>Zustand required</td>
-                <td>Zero</td>
-                <td>Zero</td>
+                <td><strong>Runtime Dependencies</strong></td>
+                <td><code>Zero Dependencies</code></td>
+                <td>Requires Redux</td>
+                <td>Requires Zustand</td>
+                <td>Zero Dependencies</td>
+                <td>Zero Dependencies</td>
               </tr>
             </tbody>
           </table>
@@ -2134,6 +2140,14 @@ const sessionJSON = recorder.exportJSON();
               </tr>
             </tbody>
           </table>
+        </div>
+        <div style="margin-top: 18px; padding: 14px 18px; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 13px;">
+          <div style="font-weight: 600; color: var(--accent); margin-bottom: 8px;">🔬 Benchmark Methodology &amp; Complexity Profile</div>
+          <ul style="margin: 0; padding-left: 18px; line-height: 1.6; color: var(--text-dim);">
+            <li><strong>O(1) Hash Map Timeline Jump (<code>~0.002 ms</code>)</strong>: Homura indexes all DAG entries in a flat dictionary by UUID. Jumping to any node resolves in O(1) time directly without replaying intermediate node deltas.</li>
+            <li><strong>Proxy Mutation (<code>~0.005 ms</code>)</strong>: Copy-On-Write drafts clone only modified dictionary branches, sharing memory references for unmodified subtrees.</li>
+            <li><strong>Dataset Size</strong>: Tested across 10,000 active nodes and 500 deep nested object properties per state.</li>
+          </ul>
         </div>
         <p style="margin-top: 14px; font-size: 13px; color: var(--text-dim);">
           All performance metrics are fully reproducible. Run the benchmark suite on your local machine:
