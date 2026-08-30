@@ -1,0 +1,60 @@
+# HomuraJS
+
+> Time Travel State & History Engine for JavaScript ("Git for application state")
+
+Built by Biagio Scaglia & HomuraJS Team — https://github.com/biagio-scaglia
+
+HomuraJS models application state mutations as a Directed Acyclic Graph (DAG) of immutable states with non-destructive branch divergence, zero-dependency Copy-On-Write draft proxies, deep recursive structural diffing, atomic transactions, step-by-step replay, and diagnostic DevTools.
+
+## Packages
+
+- `@biagioscaglia/homurajs`: Unified meta-package bundle for Node.js, bundlers, and browsers via CDN.
+- `@homura-js/core`: Core DAG state engine, structural diff, snapshots, persistence, and middleware.
+- `@homura-js/devtools`: Embedded diagnostic UI with visual timeline tree, JSON state inspector, diff viewer, and playback controls.
+- `@homura-js/react`: React 18+ integration hook (`useHomura`) powered by `useSyncExternalStore` with selector optimization.
+- `@homura-js/vue`: Vue 3 Composition API hook (`useHomura`) and plugin.
+- `@homura-js/vanilla`: Frameworkless reactive DOM bindings (`bindState`) and zero-JS form auto-recovery engine (`bindForm`, `data-homura-form`).
+
+## Pages & Documentation
+
+- Homepage & Documentation: https://biagio-scaglia.github.io/homura-js/
+- Live Interactive Studio: https://biagio-scaglia.github.io/homura-js/demo.html
+- GitHub Repository: https://github.com/biagio-scaglia/homura-js
+- npm Package: https://www.npmjs.com/package/@biagioscaglia/homurajs
+
+## Quick Start (JavaScript / TypeScript)
+
+```ts
+import { createHomura } from '@homura-js/core';
+
+const homura = createHomura({
+  initialState: { count: 0, user: 'Homura' }
+});
+
+// Mutate via Copy-On-Write draft proxy
+homura.update(draft => {
+  draft.count += 10;
+}, { label: 'Increment' });
+
+// Time travel navigation
+homura.undo(); // count -> 0
+homura.redo(); // count -> 10
+```
+
+## Quick Start (HTML / Static Sites / WordPress)
+
+```html
+<script src="https://unpkg.com/@biagioscaglia/homurajs/dist/index.global.js"></script>
+
+<form data-homura-form="contact" data-homura-persist="localstorage">
+  <input name="email" type="email" />
+  <button type="button" data-homura-undo>Undo</button>
+  <button type="button" data-homura-redo>Redo</button>
+</form>
+```
+
+## Notes
+
+- License: MIT License
+- Language: English (primary), Italian (secondary)
+- All content may be used for AI indexing unless otherwise stated.

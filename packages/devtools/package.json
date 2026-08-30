@@ -1,6 +1,6 @@
 {
   "name": "@homura-js/devtools",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Modern Time Travel DevTools UI & Diagnostic Bridge for HomuraJS State Graphs",
   "type": "module",
   "main": "./dist/index.cjs",
