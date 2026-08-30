@@ -74,14 +74,13 @@
   }
   </script>
 
-  <!-- Typography: Space Grotesk (Editorial Headers), IBM Plex Sans (Technical Prose), JetBrains Mono (Code/Metadata) -->
+  <!-- Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      /* Palette: Charcoal / Newsprint Bone / Vermilion Cinnabar */
       --bg-base: #0b0a0d;
       --bg-surface: #110f14;
       --bg-elevated: #17151c;
@@ -116,7 +115,7 @@
 
     ::-webkit-scrollbar { width: 5px; height: 5px; }
     ::-webkit-scrollbar-track { background: #0b0a0d; }
-    ::-webkit-scrollbar-thumb { background: #26242e; border-radius: 0; }
+    ::-webkit-scrollbar-thumb { background: #26242e; }
     ::-webkit-scrollbar-thumb:hover { background: #e0382b; }
 
     html {
@@ -135,7 +134,6 @@
       flex-direction: column;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
     }
 
     a {
@@ -143,6 +141,22 @@
       text-decoration: none;
       transition: color 0.15s ease;
     }
+
+    /* Vector SVG Icons */
+    .icon {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: square;
+      stroke-linejoin: miter;
+      display: inline-block;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+    .icon-sm { width: 12px; height: 12px; }
+    .icon-lg { width: 18px; height: 18px; }
 
     /* Top Grid Header */
     .top-bar {
@@ -155,7 +169,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 24px;
+      padding: 0 20px;
       font-family: var(--font-mono);
       font-size: 12px;
     }
@@ -194,12 +208,12 @@
     .top-actions {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 10px;
     }
 
     .top-link {
       color: var(--text-muted);
-      font-size: 12px;
+      font-size: 11.5px;
       display: inline-flex;
       align-items: center;
       gap: 6px;
@@ -217,7 +231,7 @@
       font-family: var(--font-mono);
       font-size: 11px;
       font-weight: 600;
-      padding: 4px 10px;
+      padding: 4px 8px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -231,13 +245,15 @@
 
     .menu-toggle {
       display: none;
-      background: transparent;
+      background: var(--bg-surface);
       border: var(--border-hairline);
       color: var(--text-main);
-      padding: 4px 8px;
+      padding: 6px 10px;
       cursor: pointer;
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 11px;
+      align-items: center;
+      gap: 6px;
     }
 
     /* Main Container Layout */
@@ -259,10 +275,10 @@
       top: 52px;
       height: calc(100vh - 52px);
       overflow-y: auto;
-      padding: 24px 16px;
+      padding: 20px 14px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 18px;
     }
 
     .search-box {
@@ -275,8 +291,8 @@
       border: var(--border-hairline);
       color: var(--text-main);
       font-family: var(--font-mono);
-      font-size: 11.5px;
-      padding: 8px 12px;
+      font-size: 11px;
+      padding: 8px 10px;
       outline: none;
       transition: border-color 0.15s ease;
     }
@@ -290,17 +306,17 @@
     .nav-group {
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 2px;
     }
 
     .nav-group-title {
       font-family: var(--font-mono);
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 600;
       letter-spacing: 1px;
       color: var(--text-dim);
       text-transform: uppercase;
-      padding: 6px 10px 4px 10px;
+      padding: 4px 8px;
       border-bottom: var(--border-hairline);
       margin-bottom: 4px;
     }
@@ -309,9 +325,9 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 5px 10px;
+      padding: 5px 8px;
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 11.5px;
       color: var(--text-muted);
       border-left: 2px solid transparent;
       transition: all 0.15s ease;
@@ -325,11 +341,11 @@
       color: var(--text-main);
       background: var(--bg-surface);
       border-left-color: var(--vermilion);
-      font-weight: 500;
+      font-weight: 600;
     }
 
     .nav-item .tag {
-      font-size: 9px;
+      font-size: 8.5px;
       padding: 1px 4px;
       background: var(--bg-elevated);
       color: var(--text-dim);
@@ -340,10 +356,10 @@
     .docs-content {
       flex: 1;
       min-width: 0;
-      padding: 32px 48px 96px 48px;
+      padding: 32px 40px 96px 40px;
       display: flex;
       flex-direction: column;
-      gap: 56px;
+      gap: 52px;
     }
 
     /* Hero Asymmetric Laboratory Console */
@@ -356,21 +372,21 @@
     }
 
     .hero-left {
-      padding: 40px;
+      padding: 36px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       border-right: var(--border-hairline);
-      gap: 28px;
+      gap: 24px;
     }
 
     .hero-meta-header {
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 10.5px;
       color: var(--text-dim);
       display: flex;
       flex-wrap: wrap;
-      gap: 16px;
+      gap: 14px;
       letter-spacing: 0.5px;
     }
     .hero-meta-header span {
@@ -379,15 +395,15 @@
 
     .hero-headline {
       font-family: var(--font-display);
-      font-size: 34px;
+      font-size: 32px;
       font-weight: 700;
-      line-height: 1.2;
+      line-height: 1.22;
       letter-spacing: -0.5px;
       color: var(--text-main);
     }
 
     .hero-abstract {
-      font-size: 15px;
+      font-size: 14.5px;
       line-height: 1.65;
       color: var(--text-muted);
     }
@@ -395,12 +411,12 @@
     .hero-install-box {
       background: var(--bg-inset);
       border: var(--border-hairline);
-      padding: 10px 14px;
+      padding: 8px 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       font-family: var(--font-mono);
-      font-size: 12.5px;
+      font-size: 12px;
     }
     .hero-install-box code {
       color: var(--text-main);
@@ -410,8 +426,8 @@
       border: var(--border-hairline);
       color: var(--text-muted);
       font-family: var(--font-mono);
-      font-size: 11px;
-      padding: 3px 8px;
+      font-size: 10px;
+      padding: 3px 6px;
       cursor: pointer;
       transition: all 0.15s ease;
     }
@@ -423,12 +439,12 @@
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 10px;
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 11.5px;
     }
     .hero-btn {
-      padding: 8px 16px;
+      padding: 7px 14px;
       border: var(--border-hairline);
       background: var(--bg-elevated);
       color: var(--text-main);
@@ -452,13 +468,13 @@
       border-color: #c52e22;
     }
 
-    /* Hero Right: Live Interactive Sandbox Terminal */
+    /* Hero Right: Live Sandbox */
     .hero-right {
-      padding: 24px;
+      padding: 20px;
       background: var(--bg-inset);
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
     }
 
     .sandbox-header {
@@ -466,15 +482,15 @@
       align-items: center;
       justify-content: space-between;
       font-family: var(--font-mono);
-      font-size: 11px;
-      padding-bottom: 8px;
+      font-size: 10.5px;
+      padding-bottom: 6px;
       border-bottom: var(--border-hairline);
       color: var(--text-dim);
     }
     .sandbox-status-dot {
       display: inline-block;
-      width: 7px;
-      height: 7px;
+      width: 6px;
+      height: 6px;
       background: var(--vermilion);
       margin-right: 6px;
     }
@@ -482,12 +498,12 @@
     .sandbox-state-view {
       background: var(--bg-base);
       border: var(--border-hairline);
-      padding: 14px;
+      padding: 12px;
       font-family: var(--font-mono);
-      font-size: 11.5px;
+      font-size: 11px;
       line-height: 1.5;
       color: #a3e635;
-      max-height: 180px;
+      max-height: 170px;
       overflow-y: auto;
       white-space: pre-wrap;
     }
@@ -495,7 +511,7 @@
     .sandbox-controls-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
+      gap: 6px;
     }
 
     .sb-btn {
@@ -503,10 +519,12 @@
       border: var(--border-hairline);
       color: var(--text-main);
       font-family: var(--font-mono);
-      font-size: 11px;
-      padding: 6px 10px;
+      font-size: 10.5px;
+      padding: 6px 8px;
       cursor: pointer;
-      text-align: left;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
       transition: all 0.15s ease;
     }
     .sb-btn:hover {
@@ -519,17 +537,17 @@
       border-color: var(--border-hairline);
     }
 
-    /* Section Components & Visual Rhythm */
+    /* Section Components */
     section {
       display: flex;
       flex-direction: column;
-      gap: 20px;
-      scroll-margin-top: 72px;
+      gap: 18px;
+      scroll-margin-top: 70px;
     }
 
     .section-coord {
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 600;
       color: var(--vermilion);
       letter-spacing: 1px;
@@ -538,45 +556,45 @@
 
     h2 {
       font-family: var(--font-display);
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 700;
       letter-spacing: -0.3px;
       color: var(--text-main);
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       border-bottom: var(--border-hairline);
-      padding-bottom: 8px;
+      padding-bottom: 6px;
     }
 
     h3 {
       font-family: var(--font-display);
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 600;
       color: var(--text-main);
-      margin-top: 12px;
+      margin-top: 10px;
     }
 
     p {
       color: var(--text-muted);
-      line-height: 1.7;
+      line-height: 1.65;
     }
 
-    /* Side-by-Side Comparison Split (Destructive Linear vs Non-Destructive DAG) */
+    /* Comparison Grid */
     .comparison-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-top: 8px;
+      gap: 14px;
+      margin-top: 6px;
     }
 
     .comp-card {
       border: var(--border-hairline);
       background: var(--bg-surface);
-      padding: 20px;
+      padding: 18px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
     }
     .comp-card.dag {
       border-color: var(--border-vermilion);
@@ -585,7 +603,7 @@
 
     .comp-title {
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
       letter-spacing: 0.5px;
       color: var(--text-main);
@@ -594,8 +612,8 @@
       justify-content: space-between;
     }
     .comp-title .badge {
-      font-size: 10px;
-      padding: 2px 6px;
+      font-size: 9.5px;
+      padding: 2px 5px;
       background: var(--bg-elevated);
       border: var(--border-hairline);
     }
@@ -607,9 +625,9 @@
     .ascii-tree {
       background: var(--bg-inset);
       border: var(--border-hairline);
-      padding: 12px;
+      padding: 10px;
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 11px;
       line-height: 1.5;
       color: var(--text-muted);
       overflow-x: auto;
@@ -620,27 +638,28 @@
       border: var(--border-hairline);
       background: var(--bg-surface);
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .data-table {
       width: 100%;
       border-collapse: collapse;
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 11.5px;
       text-align: left;
     }
     .data-table th {
       background: var(--bg-elevated);
       color: var(--text-dim);
       font-weight: 600;
-      padding: 10px 14px;
+      padding: 8px 12px;
       border-bottom: var(--border-hairline);
       letter-spacing: 0.5px;
       text-transform: uppercase;
-      font-size: 11px;
+      font-size: 10px;
     }
     .data-table td {
-      padding: 10px 14px;
+      padding: 8px 12px;
       border-bottom: var(--border-hairline);
       color: var(--text-muted);
       vertical-align: top;
@@ -673,12 +692,12 @@
     .code-header {
       background: var(--bg-elevated);
       border-bottom: var(--border-hairline);
-      padding: 6px 12px;
+      padding: 5px 10px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 10.5px;
       color: var(--text-dim);
     }
 
@@ -687,9 +706,12 @@
       border: var(--border-hairline);
       color: var(--text-muted);
       font-family: var(--font-mono);
-      font-size: 10px;
-      padding: 2px 6px;
+      font-size: 9.5px;
+      padding: 2px 5px;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
       transition: all 0.15s ease;
     }
     .code-copy-btn:hover {
@@ -698,12 +720,13 @@
     }
 
     pre {
-      padding: 14px;
+      padding: 12px;
       overflow-x: auto;
       font-family: var(--font-mono);
-      font-size: 12.5px;
+      font-size: 12px;
       line-height: 1.6;
       color: #e6e2da;
+      -webkit-overflow-scrolling: touch;
     }
     pre code {
       font-family: inherit;
@@ -719,9 +742,9 @@
       background: transparent;
       border: none;
       border-bottom: 2px solid transparent;
-      padding: 8px 16px;
+      padding: 6px 14px;
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-dim);
       cursor: pointer;
       transition: all 0.15s ease;
@@ -738,21 +761,20 @@
     /* Toast Notification */
     #toast {
       position: fixed;
-      bottom: 24px;
-      right: 24px;
+      bottom: 20px;
+      right: 20px;
       background: var(--bg-elevated);
       border: var(--border-strong);
       border-left: 3px solid var(--vermilion);
       color: var(--text-main);
-      padding: 10px 16px;
+      padding: 8px 14px;
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 11.5px;
       opacity: 0;
       pointer-events: none;
-      transform: translateY(8px);
+      transform: translateY(6px);
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       z-index: 1000;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
     }
     #toast.show {
       opacity: 1;
@@ -803,13 +825,19 @@
         display: inline-flex;
       }
       .docs-content {
-        padding: 24px 16px 64px 16px;
+        padding: 20px 14px 64px 14px;
       }
       .hero-left {
-        padding: 24px 16px;
+        padding: 20px 14px;
       }
       .hero-headline {
-        font-size: 26px;
+        font-size: 24px;
+      }
+      .top-bar {
+        padding: 0 12px;
+      }
+      .brand-title {
+        font-size: 14px;
       }
     }
   </style>
@@ -819,7 +847,10 @@
   <!-- Top System Bar -->
   <header class="top-bar">
     <div class="brand-mark">
-      <button id="btn-menu-toggle" class="menu-toggle" aria-label="Toggle navigation menu">MENU</button>
+      <button id="btn-menu-toggle" class="menu-toggle" aria-label="Toggle navigation menu">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        <span>MENU</span>
+      </button>
       <svg class="brand-logo-icon" viewBox="0 0 64 64" fill="none">
         <rect width="64" height="64" rx="4" fill="#141218"/>
         <rect x="2" y="2" width="60" height="60" rx="3" stroke="#e0382b" stroke-width="2" stroke-opacity="0.8"/>
@@ -828,21 +859,25 @@
         <circle cx="32" cy="32" r="2.5" fill="#e0382b" />
       </svg>
       <span class="brand-title">HOMURAJS</span>
-      <span class="brand-badge">焔 v1.2.3</span>
+      <span class="brand-badge">v1.2.3</span>
     </div>
 
     <div class="top-actions">
       <a href="demo.html" class="top-link btn-demo-link" style="color: var(--vermilion); font-weight: 600;">
-        <span>● LIVE STUDIO</span>
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="currentColor"></circle></svg>
+        <span>LIVE STUDIO</span>
       </a>
       <a href="https://github.com/biagio-scaglia/homura-js" target="_blank" rel="noopener noreferrer" class="top-link">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
         <span>GITHUB</span>
       </a>
       <a href="https://www.npmjs.com/package/@biagioscaglia/homurajs" target="_blank" rel="noopener noreferrer" class="top-link">
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="2"></rect><path d="M7 7v10h5V12h3v5h2V7z"></path></svg>
         <span>NPM</span>
       </a>
       <button id="btn-lang-toggle" class="lang-btn" aria-label="Toggle language">
-        <span>🌐</span> <span id="lang-label">EN</span>
+        <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+        <span id="lang-label">EN</span>
       </button>
     </div>
   </header>
@@ -915,13 +950,25 @@
 
           <div class="hero-install-box">
             <code>npm install @biagioscaglia/homurajs</code>
-            <button id="btn-copy-install" data-i18n="hero.copy">COPY</button>
+            <button id="btn-copy-install">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span data-i18n="hero.copy">COPY</span>
+            </button>
           </div>
 
           <div class="hero-actions">
-            <a href="#quickstart" class="hero-btn hero-btn-accent" data-i18n="hero.cta_docs">→ Read Specification</a>
-            <a href="demo.html" class="hero-btn btn-demo-link" data-i18n="hero.cta_demo">↗ Launch Interactive Studio</a>
-            <a href="https://github.com/biagio-scaglia/homura-js" target="_blank" rel="noopener noreferrer" class="hero-btn">↗ GitHub Source</a>
+            <a href="#quickstart" class="hero-btn hero-btn-accent">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <span data-i18n="hero.cta_docs">Read Specification</span>
+            </a>
+            <a href="demo.html" class="hero-btn btn-demo-link">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              <span data-i18n="hero.cta_demo">Launch Interactive Studio</span>
+            </a>
+            <a href="https://github.com/biagio-scaglia/homura-js" target="_blank" rel="noopener noreferrer" class="hero-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+              <span>GitHub Source</span>
+            </a>
           </div>
         </div>
 
@@ -935,14 +982,38 @@
           <div id="sb-state-display" class="sandbox-state-view"></div>
 
           <div class="sandbox-controls-grid">
-            <button id="sb-btn-inc" class="sb-btn" data-i18n="sandbox.btn_inc">+10 Increment</button>
-            <button id="sb-btn-user" class="sb-btn" data-i18n="sandbox.btn_user">Switch User</button>
-            <button id="sb-btn-undo" class="sb-btn" data-i18n="sandbox.btn_undo">↩ Undo Step</button>
-            <button id="sb-btn-redo" class="sb-btn" data-i18n="sandbox.btn_redo">↪ Redo Step</button>
-            <button id="sb-btn-fork" class="sb-btn" data-i18n="sandbox.btn_fork">⑂ Fork Timeline</button>
-            <button id="sb-btn-snap" class="sb-btn" data-i18n="sandbox.btn_snap">◷ Create Snapshot</button>
-            <button id="sb-btn-transaction" class="sb-btn" data-i18n="sandbox.btn_tx">⚡ Atomic Tx</button>
-            <button id="sb-btn-replay" class="sb-btn" data-i18n="sandbox.btn_replay">▶ Timeline Replay</button>
+            <button id="sb-btn-inc" class="sb-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span data-i18n="sandbox.btn_inc">+10 Increment</span>
+            </button>
+            <button id="sb-btn-user" class="sb-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <span data-i18n="sandbox.btn_user">Switch User</span>
+            </button>
+            <button id="sb-btn-undo" class="sb-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+              <span data-i18n="sandbox.btn_undo">Undo Step</span>
+            </button>
+            <button id="sb-btn-redo" class="sb-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+              <span data-i18n="sandbox.btn_redo">Redo Step</span>
+            </button>
+            <button id="sb-btn-fork" class="sb-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="6" y1="3" x2="6" y2="15"></line><circle cx="18" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M18 9a9 9 0 0 1-9 9"></path></svg>
+              <span data-i18n="sandbox.btn_fork">Fork Timeline</span>
+            </button>
+            <button id="sb-btn-snap" class="sb-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+              <span data-i18n="sandbox.btn_snap">Create Snapshot</span>
+            </button>
+            <button id="sb-btn-transaction" class="sb-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+              <span data-i18n="sandbox.btn_tx">Atomic Tx</span>
+            </button>
+            <button id="sb-btn-replay" class="sb-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              <span data-i18n="sandbox.btn_replay">Timeline Replay</span>
+            </button>
           </div>
         </div>
       </div>
@@ -968,7 +1039,7 @@ Action A ──> Action B ──> Action C (Head)
   │
   └── [User performs Action D]
   │
-  ❌ Action B and Action C are PERMANENTLY DESTROYED.
+  [X] Action B and Action C are PERMANENTLY DESTROYED.
             </div>
             <p style="font-size: 13px;">
               Because linear arrays have only one future pointer, applying any change from a previous state truncates everything ahead.
@@ -987,7 +1058,7 @@ State A ──> State B ──> State C (main branch)
   │
   ├──> State D ──> State E (experimental branch)
   │
-  ✓ Both branches coexist, are navigable, and can be merged.
+  [OK] Both branches coexist, are navigable, and can be merged.
             </div>
             <p style="font-size: 13px;">
               Every mutation creates a new node in the Directed Acyclic Graph. Branch divergence preserves 100% of historical states forever.
@@ -1007,7 +1078,10 @@ State A ──> State B ──> State C (main branch)
         <div class="code-container">
           <div class="code-header">
             <span>packages/core/src/types.ts</span>
-            <button class="code-copy-btn">COPY</button>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>COPY</span>
+            </button>
           </div>
           <pre><code>export interface HistoryEntry&lt;T&gt; {
   id: string;              // UUIDv4 node identifier
@@ -1052,7 +1126,10 @@ State A ──> State B ──> State C (main branch)
         <div class="code-container">
           <div class="code-header">
             <span>example.ts</span>
-            <button class="code-copy-btn">COPY</button>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>COPY</span>
+            </button>
           </div>
           <pre><code>import { createHomura } from '@biagioscaglia/homurajs';
 
@@ -1144,7 +1221,10 @@ homura.update(draft =&gt; { draft.counter = 999; });</code></pre>
         <div class="code-container">
           <div class="code-header">
             <span>atomic-transactions.ts</span>
-            <button class="code-copy-btn">COPY</button>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>COPY</span>
+            </button>
           </div>
           <pre><code>// Atomic Transactions: Multiple operations collapsed into a single DAG node
 homura.transaction(draft =&gt; {
@@ -1166,7 +1246,10 @@ homura.transaction(draft =&gt; {
         <div class="code-container">
           <div class="code-header">
             <span>diff-engine.ts</span>
-            <button class="code-copy-btn">COPY</button>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>COPY</span>
+            </button>
           </div>
           <pre><code>const diffs = homura.diff('entry-node-a', 'entry-node-b');
 // Returns:
@@ -1188,7 +1271,10 @@ homura.transaction(draft =&gt; {
         <div class="code-container">
           <div class="code-header">
             <span>static-form.html</span>
-            <button class="code-copy-btn">COPY</button>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>COPY</span>
+            </button>
           </div>
           <pre><code>&lt;!-- CDN Standalone Script --&gt;
 &lt;script src="https://unpkg.com/@biagioscaglia/homurajs/dist/index.global.js"&gt;&lt;/script&gt;
@@ -1202,8 +1288,8 @@ homura.transaction(draft =&gt; {
   &lt;input type="email" name="email" placeholder="Email Address" /&gt;
   &lt;textarea name="specifications"&gt;&lt;/textarea&gt;
 
-  &lt;button type="button" data-homura-undo&gt;↩ Undo&lt;/button&gt;
-  &lt;button type="button" data-homura-redo&gt;↪ Redo&lt;/button&gt;
+  &lt;button type="button" data-homura-undo&gt;Undo&lt;/button&gt;
+  &lt;button type="button" data-homura-redo&gt;Redo&lt;/button&gt;
   &lt;button type="submit"&gt;Submit Form&lt;/button&gt;
 &lt;/form&gt;</code></pre>
         </div>
@@ -1212,18 +1298,21 @@ homura.transaction(draft =&gt; {
         <div class="code-container">
           <div class="code-header">
             <span>wizard.html</span>
-            <button class="code-copy-btn">COPY</button>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>COPY</span>
+            </button>
           </div>
           <pre><code>&lt;form data-homura-wizard="quote_wizard" data-homura-persist="localstorage"&gt;
   &lt;div data-homura-step="1"&gt;
     &lt;label&gt;Step 1: Budget&lt;/label&gt;
     &lt;input type="number" name="budget" /&gt;
-    &lt;button type="button" data-homura-next&gt;Next ➔&lt;/button&gt;
+    &lt;button type="button" data-homura-next&gt;Next Step&lt;/button&gt;
   &lt;/div&gt;
   &lt;div data-homura-step="2"&gt;
     &lt;label&gt;Step 2: Contact&lt;/label&gt;
     &lt;input type="email" name="email" /&gt;
-    &lt;button type="button" data-homura-prev&gt;⬅ Back&lt;/button&gt;
+    &lt;button type="button" data-homura-prev&gt;Back&lt;/button&gt;
     &lt;button type="submit" data-homura-next data-submit-label="Finish"&gt;Submit&lt;/button&gt;
   &lt;/div&gt;
 &lt;/form&gt;</code></pre>
@@ -1241,7 +1330,10 @@ homura.transaction(draft =&gt; {
         <div class="code-container">
           <div class="code-header">
             <span>WordPress Shortcode Implementation</span>
-            <button class="code-copy-btn">COPY</button>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>COPY</span>
+            </button>
           </div>
           <pre><code>[homura_form id="lead_quote" persist="localstorage"]
   [homura_status form="lead_quote"]
@@ -1250,18 +1342,18 @@ homura.transaction(draft =&gt; {
   &lt;input type="text" name="company" placeholder="Company Name" /&gt;
   &lt;textarea name="project_scope"&gt;&lt;/textarea&gt;
 
-  [homura_undo form="lead_quote" label="↩ Undo Step"]
-  [homura_redo form="lead_quote" label="↪ Redo Step"]
+  [homura_undo form="lead_quote" label="Undo Step"]
+  [homura_redo form="lead_quote" label="Redo Step"]
 [/homura_form]</code></pre>
         </div>
 
         <h3 data-i18n="wordpress.h3_autohook">Automatic Hooks for Top Form Engines</h3>
         <p>The plugin auto-detects and attaches crash recovery to:</p>
-        <ul style="margin-left: 20px; line-height: 1.8; color: var(--text-muted); font-size: 13.5px;">
-          <li>🛒 <strong>WooCommerce Checkout</strong> (<code>.woocommerce-checkout</code>)</li>
-          <li>📬 <strong>Contact Form 7</strong> (<code>.wpcf7 form</code>)</li>
-          <li>📝 <strong>WPForms &amp; Gravity Forms</strong> (<code>.wpforms-form</code>, <code>.gform_wrapper</code>)</li>
-          <li>🎨 <strong>Elementor Forms</strong> (<code>.elementor-form</code>)</li>
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--text-muted); font-size: 13px; list-style: none;">
+          <li><svg class="icon icon-sm" viewBox="0 0 24 24" style="margin-right: 6px; color: var(--vermilion);"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg> <strong>WooCommerce Checkout</strong> (<code>.woocommerce-checkout</code>)</li>
+          <li><svg class="icon icon-sm" viewBox="0 0 24 24" style="margin-right: 6px; color: var(--vermilion);"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> <strong>Contact Form 7</strong> (<code>.wpcf7 form</code>)</li>
+          <li><svg class="icon icon-sm" viewBox="0 0 24 24" style="margin-right: 6px; color: var(--vermilion);"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg> <strong>WPForms &amp; Gravity Forms</strong> (<code>.wpforms-form</code>, <code>.gform_wrapper</code>)</li>
+          <li><svg class="icon icon-sm" viewBox="0 0 24 24" style="margin-right: 6px; color: var(--vermilion);"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg> <strong>Elementor Forms</strong> (<code>.elementor-form</code>)</li>
         </ul>
       </section>
 
@@ -1272,7 +1364,10 @@ homura.transaction(draft =&gt; {
         <div class="code-container">
           <div class="code-header">
             <span>UserDashboard.tsx</span>
-            <button class="code-copy-btn">COPY</button>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>COPY</span>
+            </button>
           </div>
           <pre><code>import React from 'react';
 import { useHomura } from '@homura-js/react';
@@ -1303,7 +1398,10 @@ export function UserDashboard() {
         <div class="code-container">
           <div class="code-header">
             <span>Counter.vue</span>
-            <button class="code-copy-btn">COPY</button>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>COPY</span>
+            </button>
           </div>
           <pre><code>&lt;template&gt;
   &lt;div&gt;
@@ -1338,7 +1436,10 @@ function increment() {
         <div class="code-container">
           <div class="code-header">
             <span>devtools-mount.ts</span>
-            <button class="code-copy-btn">COPY</button>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>COPY</span>
+            </button>
           </div>
           <pre><code>import { mountDevTools } from '@homura-js/devtools';
 
@@ -1471,22 +1572,22 @@ mountDevTools(homura, {
           <div class="comp-card">
             <h3 data-i18n="faq.q1">How does HomuraJS prevent memory leaks with large DAG histories?</h3>
             <p data-i18n="faq.a1">
-              HomuraJS uses Copy-On-Write structural sharing: unmodified parts of the state tree share memory references across all nodes. Additionally, <code>compact()</code> and <code>pruneHistory()</code> allow pruning redundant linear steps while preserving named snapshots and branch junctions.
+              HomuraJS uses Copy-On-Write structural sharing: unmodified parts of the state tree share memory references across all nodes. Additionally, compact() and pruneHistory() allow pruning redundant linear steps while preserving named snapshots and branch junctions.
             </p>
           </div>
           <div class="comp-card">
             <h3 data-i18n="faq.q2">Can HomuraJS be used without React or Vue?</h3>
             <p data-i18n="faq.a2">
-              Yes. <code>@homura-js/core</code> has zero dependencies. You can use it in Vanilla JS, Node.js, Svelte, Solid, Angular, or in static HTML/WordPress sites via <code>@homura-js/vanilla</code> or shortcodes.
+              Yes. @homura-js/core has zero dependencies. You can use it in Vanilla JS, Node.js, Svelte, Solid, Angular, or in static HTML/WordPress sites via @homura-js/vanilla or shortcodes.
             </p>
           </div>
         </div>
       </section>
 
       <!-- Engineering Colophon Footer -->
-      <footer style="border-top: var(--border-hairline); padding-top: 32px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; font-family: var(--font-mono); font-size: 11px; color: var(--text-dim);">
+      <footer style="border-top: var(--border-hairline); padding-top: 28px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; font-family: var(--font-mono); font-size: 11px; color: var(--text-dim);">
         <div>
-          <div>HOMURAJS // 焔 (HOMURA) SOFTWARE LABORATORY</div>
+          <div>HOMURAJS // SOFTWARE LABORATORY</div>
           <div style="margin-top: 4px;">Designed and engineered by <a href="https://github.com/biagio-scaglia" style="color: var(--text-main); text-decoration: underline;">Biagio Scaglia</a>.</div>
         </div>
         <div style="text-align: right;">

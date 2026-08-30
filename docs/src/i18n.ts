@@ -8,759 +8,309 @@ export interface TranslationDictionary {
 }
 
 export const translations: TranslationDictionary = {
-  // Brand & Header
-  'brand.subtitle': {
-    en: 'Time Travel State & History Engine',
-    it: 'Motore di Time Travel State & Cronologia'
+  // Sidebar & Search
+  'sidebar.search_placeholder': {
+    en: 'Search documentation... [/]',
+    it: 'Cerca nella documentazione... [/]'
   },
-  'header.search_placeholder': {
-    en: 'Search documentation...',
-    it: 'Cerca nella documentazione...'
+  'sidebar.spec': {
+    en: '01.0 // SPECIFICATION',
+    it: '01.0 // SPECIFICHE TECNICHE'
   },
-  'header.copy_install': {
-    en: 'Copy Install',
-    it: 'Copia Installazione'
-  },
-  'header.live_studio': {
-    en: 'Live Studio',
-    it: 'Live Studio'
-  },
-  'demo.mobile_warning_badge': {
-    en: 'Desktop & Tablet Experience',
-    it: 'Esperienza Desktop & Tablet'
-  },
-  'demo.mobile_warning_title': {
-    en: 'Desktop or Tablet Recommended',
-    it: 'Esperienza Desktop o Tablet Consigliata'
-  },
-  'demo.mobile_warning_desc': {
-    en: 'HomuraJS Interactive Live Studio & DevTools are optimized for larger screens to inspect real-time DAG history graphs, multi-column Kanban states, and side-by-side time travel diffs. Please visit this page on a desktop or tablet for the optimal experience.',
-    it: "L'Interactive Live Studio e le DevTools di HomuraJS sono progettati per schermi ampi (Desktop o Tablet) per visualizzare l'albero di cronologia DAG a nodi, la lavagna Kanban interattiva e i diff strutturali in tempo reale. Per un'esperienza ottimale, ti consigliamo di accedere da computer desktop o tablet."
-  },
-  'demo.mobile_btn_back': {
-    en: 'Back to Documentation',
-    it: 'Torna alla Documentazione'
-  },
-  'demo.mobile_btn_force': {
-    en: 'Continue to Demo anyway (not recommended)',
-    it: 'Visualizza comunque la demo (non consigliato)'
-  },
-  'demo.mobile_tip': {
-    en: '💡 Tip: Open this link on a PC or tablet for full interactive control and keyboard shortcuts (Alt+H).',
-    it: '💡 Suggerimento: apri questo link su PC o tablet per un controllo completo con scorciatoie da tastiera (Alt+H).'
-  },
-  'demo.force_toast': {
-    en: '⚠️ Mobile preview mode enabled. For the best experience, use desktop or tablet.',
-    it: "⚠️ Modalità mobile attivata. Per un'esperienza completa usa desktop o tablet."
-  },
-  'toast.copied': {
-    en: 'Copied to clipboard',
-    it: 'Copiato negli appunti'
-  },
-  'toast.cmd_copied': {
-    en: 'Command "npm install @homura-js/core" copied',
-    it: 'Comando "npm install @homura-js/core" copiato'
-  },
-
-  // Navigation Groups & Links
-  'nav.intro': {
-    en: 'Introduction',
-    it: 'Introduzione'
-  },
-  'nav.overview': {
+  'sidebar.overview': {
     en: 'Overview',
     it: 'Panoramica'
   },
-  'nav.why_homura': {
-    en: 'Why HomuraJS',
-    it: 'Perche HomuraJS'
+  'sidebar.problem': {
+    en: 'The Linear Stack Flaw',
+    it: 'Il Limite dello Stack Lineare'
   },
-  'nav.installation': {
+  'sidebar.dag': {
+    en: 'DAG Branching Model',
+    it: 'Modello a Grafo DAG'
+  },
+  'sidebar.engine': {
+    en: '02.0 // ENGINE CORE',
+    it: '02.0 // ARCHITETTURA CORE'
+  },
+  'sidebar.install': {
     en: 'Installation',
     it: 'Installazione'
   },
-  'nav.quickstart': {
-    en: 'Quickstart',
+  'sidebar.quickstart': {
+    en: 'Quick Start',
     it: 'Guida Rapida'
   },
-  'nav.concepts': {
-    en: 'Core Concepts',
-    it: 'Concetti Fondamentali'
+  'sidebar.architecture': {
+    en: 'Monorepo Packages',
+    it: 'Pacchetti Monorepo'
   },
-  'nav.state_engine': {
-    en: 'State Engine & Immutability',
-    it: 'Gestione Stato & Immutabilita'
+  'sidebar.immutability': {
+    en: 'Proxy Draft Engine',
+    it: 'Motore Proxy Immutabile'
   },
-  'nav.dag_graph': {
-    en: 'DAG Graph & Branching',
-    it: 'Grafo DAG & Branching'
+  'sidebar.diffing': {
+    en: 'Structural Diffing',
+    it: 'Diffing Strutturale'
   },
-  'nav.time_travel': {
-    en: 'Time Travel Navigation',
-    it: 'Viaggio Temporale'
+  'sidebar.ecosystem': {
+    en: '03.0 // ECOSYSTEM',
+    it: '03.0 // ECOSISTEMA'
   },
-  'nav.snapshots': {
-    en: 'Snapshots & Milestones',
-    it: 'Snapshot & Milestone'
+  'sidebar.vanilla': {
+    en: 'Vanilla & Static Forms',
+    it: 'Moduli Vanilla & Statici'
   },
-  'nav.diff_engine': {
-    en: 'Structural Diff Engine',
-    it: 'Motore di Diff Strutturale'
-  },
-  'nav.advanced': {
-    en: 'Advanced Features',
-    it: 'Funzionalita Avanzate'
-  },
-  'nav.persistence': {
-    en: 'Persistence & Storage',
-    it: 'Persistenza & Storage'
-  },
-  'nav.middleware': {
-    en: 'Middleware & Pipeline',
-    it: 'Middleware & Pipeline'
-  },
-  'nav.events': {
-    en: 'Event System',
-    it: 'Sistema Eventi'
-  },
-  'nav.integrations': {
-    en: 'UI Integrations',
-    it: 'Integrazioni UI'
-  },
-  'nav.react': {
-    en: 'React 18+',
-    it: 'React 18+'
-  },
-  'nav.vue': {
-    en: 'Vue 3',
-    it: 'Vue 3'
-  },
-  'nav.vanilla': {
-    en: 'Vanilla JS & Static Sites',
-    it: 'Vanilla JS & Siti Statici'
-  },
-  'nav.wordpress': {
+  'sidebar.wordpress': {
     en: 'WordPress & WooCommerce',
     it: 'WordPress & WooCommerce'
   },
-  'nav.tools': {
-    en: 'Tools & Diagnostics',
-    it: 'Strumenti & Diagnostica'
-  },
-  'nav.devtools': {
-    en: 'Embedded DevTools',
-    it: 'DevTools Integrati'
-  },
-  'nav.sandbox': {
-    en: 'Live Interactive Sandbox',
-    it: 'Sandbox Interattivo Live'
-  },
-  'nav.faq': {
-    en: 'Frequently Asked Questions (FAQ)',
-    it: 'Domande Frequenti (FAQ)'
-  },
-  'nav.api_reference': {
-    en: 'API Reference',
-    it: 'API Reference'
-  },
-  'nav.author': {
-    en: 'Author & Project',
-    it: 'Autore & Progetto'
-  },
-
-  // Overview Section
-  'overview.goth_motto': {
-    en: 'Chronos in Ramis Aeternis • Non-Destructive DAG State Engine',
-    it: 'Chronos in Ramis Aeternis • Motore di Stato DAG Non Distruttivo'
-  },
-  'overview.title': {
-    en: 'HomuraJS — Git for Application State',
-    it: 'HomuraJS — Version Control per lo Stato Applicativo'
-  },
-  'overview.lead': {
-    en: 'State → History → Branches → Time Travel → Diff / Replay → Debug. A high-performance Directed Acyclic Graph (DAG) state versioning engine for JavaScript and TypeScript ("Git for application state").',
-    it: 'State → History → Branches → Time Travel → Diff / Replay → Debug. Motore ad alte prestazioni basato su Grafi Aciclici Diretti (DAG) per il versioning dello stato in JavaScript e TypeScript ("Git per lo stato dell\'applicazione").'
-  },
-  'overview.tldr_title': {
-    en: 'Direct Answer / TL;DR',
-    it: 'Risposta Diretta / TL;DR'
-  },
-  'overview.tldr_text': {
-    en: 'HomuraJS is a zero-dependency TypeScript library that records application state evolution as an immutable tree graph. It enables rewinding, fast-forwarding, creating parallel branch forks without destroying historical past/future timelines, deep semantic diffing, and inspecting states via native embedded DevTools.',
-    it: 'HomuraJS e una libreria TypeScript zero-dependency che registra l\'evoluzione dello stato come grafo ad albero immutabile. Consente di retrocedere nel tempo (rewind), avanzare (fast-forward), creare rami paralleli (branching) senza mai distruggere la cronologia passata/futura, confrontare due stati con diff semantico profondo e ispezionarli con DevTools integrati.'
-  },
-  'feature.dag.title': {
-    en: 'Non-Destructive DAG Graph',
-    it: 'Grafo DAG Non Distruttivo'
-  },
-  'feature.dag.desc': {
-    en: 'Every state mutation diverges into a timeline branch without ever truncating previous historical branches.',
-    it: 'Ogni mutazione diverge in un ramo senza mai cancellare le linee temporali storiche precedenti.'
-  },
-  'feature.proxy.title': {
-    en: 'Immutable Draft Proxy',
-    it: 'Proxy Draft Immutabile'
-  },
-  'feature.proxy.desc': {
-    en: 'Direct mutation syntax powered by zero-dependency Copy-On-Write proxies with structural sharing.',
-    it: 'Modifica diretta tramite sintassi ergonomica con Copy-On-Write puro a zero dipendenze.'
-  },
-  'feature.diff.title': {
-    en: 'Deep Structural Diffing',
-    it: 'Diffing Strutturale Profondo'
-  },
-  'feature.diff.desc': {
-    en: 'Recursive diffing algorithm with precise dot-path tracking of added, removed, and modified properties.',
-    it: 'Algoritmo di confronto ricorsivo con tracciamento esatto dei percorsi semantici dot-path.'
-  },
-  'feature.devtools.title': {
-    en: 'Full Diagnostic DevTools',
-    it: 'DevTools Completi'
-  },
-  'feature.devtools.desc': {
-    en: 'Visual graph timeline, collapsible JSON tree inspector, side-by-side diff viewer, and time scrubber.',
-    it: 'Visualizzatore di timeline, ispettore dello stato ad albero, comparatore diff e scrubber temporale.'
-  },
-
-  // Why Homura
-  'why.title': {
-    en: 'Why HomuraJS?',
-    it: 'Perche HomuraJS?'
-  },
-  'why.p1': {
-    en: 'In conventional state managers, history is maintained as a flat linear stack. When you travel back in time and perform a new update, all future states are irreversibly destroyed.',
-    it: 'Nei gestori di stato tradizionali, la cronologia e gestita come uno stack lineare piatto. Quando si retrocede indietro nel tempo ed avviene una nuova modifica, tutti gli stati futuri vengono distrutti in modo irreversibile.'
-  },
-  'why.p2': {
-    en: 'HomuraJS removes this limitation by modeling every state transition as a node in a Directed Acyclic Graph (DAG). Rewinding and applying a new change creates an alternative branch, preserving both past and future history forever.',
-    it: 'HomuraJS elimina questa limitazione memorizzando ogni transizione come nodo di un grafo ad albero (DAG). Quando si retrocede e si applica una modifica, il motore genera automaticamente un nuovo ramo parallelo, mantenendo intatta la storia passata e futura.'
-  },
-
-  // Installation
-  'install.title': {
-    en: 'Installation',
-    it: 'Installazione'
-  },
-  'install.lead': {
-    en: 'Select your preferred package manager:',
-    it: 'Seleziona il tuo gestore di pacchetti preferito:'
-  },
-  'install.framework_title': {
-    en: 'Installation for Specific Frameworks',
-    it: 'Installazione per Framework Specifici'
-  },
-  'install.framework_lead': {
-    en: 'Integrate HomuraJS into your favorite UI framework:',
-    it: 'Per integrare HomuraJS nel tuo framework UI preferito:'
-  },
-
-  // Quickstart
-  'quickstart.title': {
-    en: 'Quickstart',
-    it: 'Guida Rapida'
-  },
-  'quickstart.lead': {
-    en: 'Initialize a store and execute controlled time-travel mutations in seconds:',
-    it: 'Inizializza un\'istanza ed esegui mutazioni controllate nel tempo in poche righe:'
-  },
-
-  // State Engine
-  'state_engine.title': {
-    en: 'State Management & Immutability',
-    it: 'Gestione dello Stato & Immutabilita'
-  },
-  'state_engine.p1': {
-    en: 'HomuraJS guarantees immutability via Copy-On-Write Proxy Drafts. Inside update(draft => ...), you write direct mutations: the engine applies changes only to modified paths while structurally sharing untouched state.',
-    it: 'HomuraJS garantisce l\'immutabilita tramite Proxy Drafts basati su Copy-On-Write. All\'interno della funzione update(draft => ...) puoi modificare le proprieta direttamente: il motore applichera le modifiche solo ai percorsi toccati, condividendo la struttura immutata con lo stato precedente.'
-  },
-
-  // DAG & Branching
-  'dag.title': {
-    en: 'DAG Graph & Branching ("Git for State")',
-    it: 'Grafo DAG & Branching ("Git for State")'
-  },
-  'dag.p1': {
-    en: 'Every state transition produces an immutable HistoryEntry indexed in the DAG graph:',
-    it: 'Ogni operazione produce un oggetto HistoryEntry indicizzato nel grafo:'
-  },
-  'dag.p2': {
-    en: 'If you travel back in history and dispatch a new update, HomuraJS automatically forks an alternative timeline branch without discarding prior history:',
-    it: 'Se retrocedi nella cronologia ed esegui un nuovo update, HomuraJS crea in automatico un nuovo ramo senza cancellare la storia precedente:'
-  },
-
-  // Time Travel
-  'time_travel.title': {
-    en: 'Time Travel Navigation',
-    it: 'Navigazione Temporale'
-  },
-  'time_travel.lead': {
-    en: 'Deterministic commands for traversing your application history:',
-    it: 'Comandi deterministici per viaggiare lungo la cronologia:'
-  },
-  'time_travel.th_method': {
-    en: 'Method',
-    it: 'Metodo'
-  },
-  'time_travel.th_desc': {
-    en: 'Description',
-    it: 'Descrizione'
-  },
-  'time_travel.undo_desc': {
-    en: 'Rewinds to the parent node in the timeline graph.',
-    it: 'Retrocede al nodo genitore precedente.'
-  },
-  'time_travel.redo_desc': {
-    en: 'Advances to the next child node in the active branch.',
-    it: 'Avanza al nodo figlio successivo nel ramo attivo.'
-  },
-  'time_travel.rewind_desc': {
-    en: 'Fast-rewinds backwards by N history steps.',
-    it: 'Retrocede velocemente di N passi nella cronologia.'
-  },
-  'time_travel.ff_desc': {
-    en: 'Fast-forwards forward by N history steps.',
-    it: 'Avanza velocemente di N passi nella cronologia.'
-  },
-  'time_travel.jump_desc': {
-    en: 'Jumps directly to any node ID in the DAG graph.',
-    it: 'Salta direttamente a qualsiasi nodo del grafo DAG.'
-  },
-
-  // Snapshots
-  'snapshots.title': {
-    en: 'Snapshots & Milestones',
-    it: 'Snapshot & Milestone'
-  },
-  'snapshots.p1': {
-    en: 'Create named immutable checkpoints of your application state and restore them instantly:',
-    it: 'Crea segnalibri persistenti per salvare pietre miliari dell\'applicazione e ripristinarle istantaneamente:'
-  },
-
-  // Diff Engine
-  'diff.title': {
-    en: 'Structural Diff Engine',
-    it: 'Motore di Diff Strutturale'
-  },
-  'diff.p1': {
-    en: 'The pure-function diffing engine computes exact semantic delta changes between any two states:',
-    it: 'Il motore pure-function identifica le differenze semantiche esatte tra due stati:'
-  },
-
-  // Transaction
-  'nav.transaction': {
-    en: 'Transactions & Batching',
-    it: 'Transazioni & Batching'
-  },
-  'transaction.title': {
-    en: 'Atomic Transactions & Batching',
-    it: 'Transazioni Atomiche & Batching'
-  },
-  'transaction.p1': {
-    en: 'Combine multiple state updates into a single atomic history commit instead of cluttering your timeline with intermediate states:',
-    it: 'Raggruppa piu modifiche dello stato in un unico commit di cronologia atomico anziche intasare la timeline con stati intermedi:'
-  },
-
-  // Replay Engine
-  'nav.replay': {
-    en: 'Replay Engine & Bug Reports',
-    it: 'Replay Engine & Bug Report'
-  },
-  'replay.title': {
-    en: 'Timeline Replay Engine & Bug Reports',
-    it: 'Timeline Replay Engine & Bug Report'
-  },
-  'replay.p1': {
-    en: 'Step-by-step automated time-travel replay engine for live debugging, QA testing, and exporting reproducible session bug reports:',
-    it: 'Motore di riproduzione automatica passo-passo per live debugging, QA testing ed esportazione di bug report di sessione riproducibili:'
-  },
-
-  // Branch Management (Merge & Compare)
-  'nav.branch_mgmt': {
-    en: 'Branch Merge & Compare',
-    it: 'Branch Merge & Compare'
-  },
-  'branch_mgmt.title': {
-    en: 'Branch Merging & Comparison ("Git for State")',
-    it: 'Merge e Confronto tra Rami ("Git for State")'
-  },
-  'branch_mgmt.p1': {
-    en: 'Compare parallel branches to discover divergence points (Lowest Common Ancestor), diffs, and merge alternative feature timelines:',
-    it: 'Confronta rami paralleli per scoprire punti di divergenza (LCA), differenze strutturali e unisci linee temporali alternative:'
-  },
-
-  // Compaction & IndexedDB
-  'nav.compaction': {
-    en: 'Compaction & IndexedDB',
-    it: 'Compattazione & IndexedDB'
-  },
-  'compaction.title': {
-    en: 'History Compaction & Enterprise Storage',
-    it: 'Compattazione Cronologia & Storage Enterprise'
-  },
-  'compaction.p1': {
-    en: 'Keep your memory footprint optimal with intelligent graph compaction and high-capacity storage backends like IndexedDB:',
-    it: 'Mantieni l\'impronta di memoria ottimale grazie alla compattazione intelligente del grafo e agli storage backend ad alta capacita come IndexedDB:'
-  },
-
-  // Persistence
-  'persistence.title': {
-    en: 'Data Persistence & Storage',
-    it: 'Persistenza dei Dati'
-  },
-  'persistence.p1': {
-    en: 'Out-of-the-box storage adapters to save the entire DAG history to LocalStorage or Memory with automated debouncing:',
-    it: 'Adattatori pronti all\'uso per salvare l\'intero grafo in LocalStorage o in memoria con debouncing:'
-  },
-
-  // React
-  'react.title': {
-    en: 'React 18+ Integration',
+  'sidebar.react': {
+    en: 'React 18+ Binding',
     it: 'Integrazione React 18+'
   },
-  'react.p1': {
-    en: 'The useHomura hook leverages native useSyncExternalStore APIs, ensuring zero tearing and fine-grained selector re-render optimizations:',
-    it: 'L\'hook useHomura sfrutta le API native useSyncExternalStore garantendo assenza di tearing e rendering ottimale tramite selettori:'
-  },
-
-  // Vue
-  'vue.title': {
-    en: 'Vue 3 Integration',
+  'sidebar.vue': {
+    en: 'Vue 3 Composition',
     it: 'Integrazione Vue 3'
   },
+  'sidebar.devtools': {
+    en: 'Diagnostic DevTools',
+    it: 'DevTools Diagnostiche'
+  },
+  'sidebar.reference': {
+    en: '04.0 // REFERENCE',
+    it: '04.0 // RIFERIMENTO API'
+  },
+  'sidebar.api': {
+    en: 'API Matrix',
+    it: 'Matrice API'
+  },
+  'sidebar.benchmarks': {
+    en: 'Engine Specs',
+    it: 'Specifiche e Prestazioni'
+  },
+  'sidebar.faq': {
+    en: 'FAQ',
+    it: 'Domande Frequenti'
+  },
 
-  // Vanilla JS & Static Sites
+  // Hero Section
+  'hero.title': {
+    en: 'The Directed Acyclic Graph State Engine for JavaScript.',
+    it: 'Il motore di gestione dello stato a Grafo Aciclico Diretto (DAG) per JavaScript.'
+  },
+  'hero.p1': {
+    en: 'Conventional state managers treat history as a flat stack. When you undo and mutate, future steps are permanently destroyed. HomuraJS forks non-destructive timeline branches — Git for application state.',
+    it: 'I gestori di stato tradizionali trattano la cronologia come uno stack lineare piatto. Quando annulli e modifichi, i passaggi futuri vengono distrutti. HomuraJS crea rami temporali non distruttivi — Git per lo stato applicativo.'
+  },
+  'hero.copy': {
+    en: 'COPY',
+    it: 'COPIA'
+  },
+  'hero.cta_docs': {
+    en: 'Read Specification',
+    it: 'Leggi le Specifiche'
+  },
+  'hero.cta_demo': {
+    en: 'Launch Interactive Studio',
+    it: 'Apri lo Studio Interattivo'
+  },
+
+  // Live Runtime Sandbox
+  'sandbox.title': {
+    en: 'LIVE RUNTIME CONSOLE',
+    it: 'CONSOLE RUNTIME DAL VIVO'
+  },
+  'sandbox.btn_inc': {
+    en: '+10 Increment',
+    it: '+10 Incrementa'
+  },
+  'sandbox.btn_user': {
+    en: 'Switch User',
+    it: 'Cambia Utente'
+  },
+  'sandbox.btn_undo': {
+    en: 'Undo Step',
+    it: 'Annulla Step'
+  },
+  'sandbox.btn_redo': {
+    en: 'Redo Step',
+    it: 'Ripeti Step'
+  },
+  'sandbox.btn_fork': {
+    en: 'Fork Timeline',
+    it: 'Biforca Ramo'
+  },
+  'sandbox.btn_snap': {
+    en: 'Create Snapshot',
+    it: 'Crea Snapshot'
+  },
+  'sandbox.btn_tx': {
+    en: 'Atomic Tx',
+    it: 'Transazione Atomica'
+  },
+  'sandbox.btn_replay': {
+    en: 'Timeline Replay',
+    it: 'Riproduci Timeline'
+  },
+
+  // Section 01.1: Linear History Problem
+  'problem.title': {
+    en: 'The Fundamental Flaw of Linear History',
+    it: 'Il Limite Strutturale della Cronologia Lineare'
+  },
+  'problem.p1': {
+    en: 'Every standard undo/redo implementation (from Redux-Undo to naive history arrays) uses a 1D linear stack. This model creates silent, permanent data loss during real-world user interaction:',
+    it: "Tutte le implementazioni standard di annulla/ripeti (da Redux-Undo agli array di cronologia) utilizzano uno stack lineare monodimensionale. Questo modello causa la perdita silenziosa e permanente dei dati durante l'interazione:"
+  },
+
+  // Section 01.2: DAG Model
+  'dag.title': {
+    en: 'Directed Acyclic Graph (DAG) Topology',
+    it: 'Topologia a Grafo Aciclico Diretto (DAG)'
+  },
+  'dag.p1': {
+    en: 'Each state in HomuraJS is an immutable node containing state snapshots, parent-child links, timestamps, and semantic metadata:',
+    it: 'Ogni stato in HomuraJS e un nodo immutabile contenente istantanee di stato, collegamenti genitore-figlio, timestamp e metadati semantici:'
+  },
+
+  // Section 02.0: Installation
+  'install.title': {
+    en: 'Package Installation',
+    it: 'Installazione dei Pacchetti'
+  },
+  'install.p1': {
+    en: 'Install the unified meta-package or individual modular packages according to your project requirements:',
+    it: 'Installa il meta-pacchetto unificato o i singoli pacchetti modulari in base alle esigenze del tuo progetto:'
+  },
+
+  // Section 02.1: Quickstart
+  'quickstart.title': {
+    en: 'Quick Start Specification',
+    it: 'Guida Rapida alle Specifiche'
+  },
+  'quickstart.p1': {
+    en: 'Initialize the engine, perform mutations via Copy-On-Write draft proxies, and execute non-destructive time travel:',
+    it: 'Inizializza il motore, esegui mutazioni tramite proxy draft Copy-On-Write ed effettua viaggi temporali non distruttivi:'
+  },
+
+  // Section 02.2: Architecture
+  'architecture.title': {
+    en: 'Monorepo Package Architecture',
+    it: 'Architettura dei Pacchetti Monorepo'
+  },
+
+  // Section 02.3: Immutability
+  'immutability.title': {
+    en: 'Copy-On-Write Proxy Immutability',
+    it: 'Immutabilita tramite Proxy Copy-On-Write'
+  },
+  'immutability.p1': {
+    en: 'HomuraJS intercepts state writes using JavaScript Proxies. Mutations are isolated in a temporary draft and applied with structural sharing:',
+    it: 'HomuraJS intercetta le scritture di stato tramite Proxy JavaScript. Le mutazioni vengono isolate in una bozza temporanea e applicate con condivisione strutturale:'
+  },
+
+  // Section 02.4: Diffing
+  'diffing.title': {
+    en: 'Structural Diff Engine & Replay',
+    it: 'Motore di Diffing Strutturale & Riproduzione'
+  },
+  'diffing.p1': {
+    en: 'Calculate recursive JSON difference sets between any two nodes in the DAG with exact dot-paths and types:',
+    it: 'Calcola insiemi ricorsivi di differenze JSON tra due nodi qualsiasi del DAG con dot-path esatti e tipologie:'
+  },
+
+  // Section 03.1: Vanilla JS & Static Sites
   'vanilla.title': {
     en: 'Vanilla JS & Zero-JS Static Site Form Engine',
-    it: 'Vanilla JS & Motore Form Zero-JS per Siti Statici'
+    it: 'Motore Moduli Vanilla JS & Siti Statici Senza JavaScript'
   },
   'vanilla.p1': {
-    en: 'Use HomuraJS directly with DOM elements or turn any static HTML form into a time-travel crash-recovery machine without writing a single line of JavaScript.',
-    it: 'Usa HomuraJS direttamente con elementi del DOM o trasforma qualsiasi form HTML statico in una macchina con time-travel e recupero da crash senza scrivere una sola riga di JavaScript.'
-  },
-  'vanilla.h3_dom': {
-    en: '1. Reactive DOM Element Binding (bindState)',
-    it: '1. Binding Reattivo di Elementi DOM (bindState)'
-  },
-  'vanilla.h3_forms': {
-    en: '2. Zero-JS Form Auto-Binding & Crash Recovery (data-homura-*)',
-    it: '2. Form Auto-Binding Zero-JS & Recupero Crash (data-homura-*)'
+    en: 'Turn any static HTML form (Webflow, Shopify, Squarespace, Static HTML) into a time-travel crash-recovery machine without writing JavaScript:',
+    it: 'Trasforma qualsiasi form HTML statico (Webflow, Shopify, Squarespace, HTML puro) in un sistema di recupero dati con cronologia temporale senza scrivere codice JavaScript:'
   },
   'vanilla.h3_wizard': {
-    en: '3. Multi-Step Form Wizard (data-homura-wizard)',
-    it: '3. Form Wizard Multi-Step (data-homura-wizard)'
-  },
-  'vanilla.h3_cdn': {
-    en: '4. Standalone CDN Browser Script Tag',
-    it: '4. Script Tag CDN per il Browser'
+    en: 'Multi-Step Form Wizard (data-homura-wizard)',
+    it: 'Wizard di Moduli a Piu Fasi (data-homura-wizard)'
   },
 
-  // WordPress & WooCommerce
+  // Section 03.2: WordPress & WooCommerce
   'wordpress.title': {
     en: 'WordPress & WooCommerce Integration',
     it: 'Integrazione WordPress & WooCommerce'
   },
   'wordpress.p1': {
-    en: 'The official HomuraJS WordPress plugin brings non-destructive DAG time-travel, WooCommerce checkout recovery, and form crash protection to 43% of the web.',
-    it: 'Il plugin ufficiale di HomuraJS per WordPress porta il time-travel non distruttivo, il recupero carrello WooCommerce e la protezione crash dei form sul 43% del web.'
-  },
-  'wordpress.h3_install': {
-    en: 'Installation & Activation',
-    it: 'Installazione & Attivazione'
-  },
-  'wordpress.h3_shortcodes': {
-    en: 'WordPress Shortcodes',
-    it: 'Shortcode WordPress'
+    en: 'The official HomuraJS WordPress plugin brings DAG state history, checkout recovery, and form crash protection to WordPress:',
+    it: 'Il plugin ufficiale di HomuraJS per WordPress porta la cronologia DAG, il recupero del carrello/checkout e la protezione da crash dei moduli su WordPress:'
   },
   'wordpress.h3_autohook': {
-    en: 'Auto-Hook into WooCommerce, Contact Form 7, and Elementor',
-    it: 'Auto-Hook per WooCommerce, Contact Form 7 ed Elementor'
+    en: 'Automatic Hooks for Top Form Engines',
+    it: 'Rilevamento Automatico per i Principali Form Engine'
   },
 
-  // DevTools
+  // Section 03.3: React
+  'react.title': {
+    en: 'React 18+ Integration (@homura-js/react)',
+    it: 'Integrazione React 18+ (@homura-js/react)'
+  },
+
+  // Section 03.4: Vue
+  'vue.title': {
+    en: 'Vue 3 Composition API (@homura-js/vue)',
+    it: 'Integrazione Vue 3 Composition API (@homura-js/vue)'
+  },
+
+  // Section 03.5: DevTools
   'devtools.title': {
     en: 'Embedded Diagnostic DevTools',
-    it: 'DevTools Diagnostici Integrati'
+    it: 'DevTools Diagnostiche Integrate'
   },
   'devtools.p1': {
-    en: 'The @homura-js/devtools package provides a high-performance visual GUI with zero external runtime dependencies:',
-    it: 'Il pacchetto @homura-js/devtools offre un pannello grafico moderno a zero dipendenze esterne:'
+    en: 'Zero-dependency diagnostic panel with visual DAG tree, state inspector, and diff scrubber:',
+    it: "Pannello diagnostico a zero dipendenze con albero DAG visivo, ispettore di stato e scrubber di differenze:"
   },
 
-  // Sandbox Live
-  'sandbox.title': {
-    en: 'Live Interactive Sandbox',
-    it: 'Sandbox Interattivo Live'
-  },
-  'sandbox.p1': {
-    en: 'Test and interact with a live HomuraJS engine running directly inside this documentation page:',
-    it: 'Interagisci direttamente con un\'istanza reale di HomuraJS integrata in questa pagina:'
-  },
-  'sandbox.btn_inc': {
-    en: '+10 Counter',
-    it: '+10 Contatore'
-  },
-  'sandbox.btn_user': {
-    en: 'Change User',
-    it: 'Cambia Utente'
-  },
-  'sandbox.btn_undo': {
-    en: 'Undo',
-    it: 'Undo'
-  },
-  'sandbox.btn_redo': {
-    en: 'Redo',
-    it: 'Redo'
-  },
-  'sandbox.btn_fork': {
-    en: 'Fork Branch',
-    it: 'Fork Ramo'
-  },
-  'sandbox.btn_snap': {
-    en: 'Snapshot',
-    it: 'Segnalibro'
-  },
-  'sandbox.btn_transaction': {
-    en: 'Transaction Batch',
-    it: 'Transazione Batch'
-  },
-  'sandbox.btn_replay': {
-    en: '▶ Replay (2x)',
-    it: '▶ Replay (2x)'
-  },
-  'sandbox.state_label': {
-    en: 'Live State Output:',
-    it: 'Stato Attuale in Tempo Reale:'
+  // Section 04.0: API Matrix
+  'api.title': {
+    en: 'Complete Homura<T> API Matrix',
+    it: 'Matrice Completa API Homura<T>'
   },
 
-  // FAQ
+  // Section 04.1: Benchmarks
+  'benchmarks.title': {
+    en: 'Engine Performance Specs',
+    it: 'Specifiche e Benchmark di Prestazione'
+  },
+
+  // Section 04.2: FAQ
   'faq.title': {
-    en: 'Frequently Asked Questions (FAQ)',
+    en: 'Frequently Asked Questions',
     it: 'Domande Frequenti (FAQ)'
   },
   'faq.q1': {
-    en: 'What is HomuraJS?',
-    it: 'Che cos\'e HomuraJS?'
+    en: 'How does HomuraJS prevent memory leaks with large DAG histories?',
+    it: 'Come previene HomuraJS i memory leak con grafi di cronologia molto ampi?'
   },
   'faq.a1': {
-    en: 'HomuraJS is a JavaScript/TypeScript state management and time-travel debugging engine modeled as a Directed Acyclic Graph (DAG), conceived as "Git for application state".',
-    it: 'HomuraJS e una libreria JavaScript/TypeScript per il time-travel debugging e la gestione della cronologia dello stato basata su Grafi Aciclici Diretti (DAG), concepita come "Git per lo stato dell\'applicazione".'
+    en: 'HomuraJS uses Copy-On-Write structural sharing: unmodified parts of the state tree share memory references across all nodes. Additionally, compact() and pruneHistory() allow pruning redundant linear steps while preserving named snapshots and branch junctions.',
+    it: 'HomuraJS utilizza la condivisione strutturale Copy-On-Write: le porzioni non modificate dell\'albero di stato condividono i puntatori di memoria tra tutti i nodi. Inoltre, compact() e pruneHistory() consentono di pulire i passaggi lineari ridondanti preservando snapshot e bivi di diramazione.'
   },
   'faq.q2': {
-    en: 'How is HomuraJS different from standard Undo/Redo systems?',
-    it: 'In cosa differisce HomuraJS da un normale sistema Undo/Redo?'
+    en: 'Can HomuraJS be used without React or Vue?',
+    it: 'HomuraJS puo essere utilizzato senza React o Vue?'
   },
   'faq.a2': {
-    en: 'Standard Undo/Redo systems use a flat linear array stack that irrevocably destroys future states whenever a new mutation occurs in the past. HomuraJS forks non-destructive timeline branches, preserving all past and future states forever.',
-    it: 'I sistemi standard di Undo/Redo usano uno stack lineare che distrugge permanentemente gli stati futuri quando si torna indietro e si applica una nuova modifica. HomuraJS crea rami paralleli (Branching) senza mai eliminare la cronologia passata o futura.'
-  },
-  'faq.q3': {
-    en: 'Which UI frameworks are supported?',
-    it: 'Quali framework UI supporta HomuraJS?'
-  },
-  'faq.a3': {
-    en: 'HomuraJS core is framework-agnostic (@homura-js/core) and provides official packages for React 18+ (@homura-js/react), Vue 3 (@homura-js/vue), and Vanilla JavaScript (@homura-js/vanilla).',
-    it: 'HomuraJS e framework-agnostic nel core (@homura-js/core) e include pacchetti dedicati con integrazioni native per React 18+ (@homura-js/react), Vue 3 (@homura-js/vue) e Vanilla JavaScript (@homura-js/vanilla).'
-  },
-  'faq.q4': {
-    en: 'How to install HomuraJS?',
-    it: 'Come si installa HomuraJS?'
-  },
-  'faq.a4': {
-    en: 'Install the core package via `npm install @homura-js/core` or use the unified meta-package `npm install @biagioscaglia/homurajs`.',
-    it: 'E possibile installare il core tramite `npm install @homura-js/core` oppure installare il meta-package unificato `npm install @biagioscaglia/homurajs`.'
+    en: 'Yes. @homura-js/core has zero dependencies. You can use it in Vanilla JS, Node.js, Svelte, Solid, Angular, or in static HTML/WordPress sites via @homura-js/vanilla or shortcodes.',
+    it: 'Certamente. @homura-js/core non ha alcuna dipendenza esterna. Puo essere impiegato in Vanilla JS, Node.js, Svelte, Solid, Angular o in pagine HTML statiche e siti WordPress tramite @homura-js/vanilla o shortcode.'
   },
 
-  // API Reference
-  'api.title': {
-    en: 'Complete API Reference',
-    it: 'Riferimento Completo delle API'
+  // Toasts
+  'toast.copied': {
+    en: 'Copied to clipboard',
+    it: 'Copiato negli appunti'
   },
-  'api.th_method': {
-    en: 'Method',
-    it: 'Metodo'
-  },
-  'api.th_params': {
-    en: 'Parameters',
-    it: 'Parametri'
-  },
-  'api.th_return': {
-    en: 'Return',
-    it: 'Ritorno'
-  },
-  'api.th_desc': {
-    en: 'Description',
-    it: 'Descrizione'
-  },
-  'api.get_state_desc': {
-    en: 'Returns the current immutable state tree.',
-    it: 'Restituisce l\'albero di stato immutabile corrente.'
-  },
-  'api.update_desc': {
-    en: 'Executes a Copy-On-Write draft mutation.',
-    it: 'Esegue una modifica bozza Copy-On-Write.'
-  },
-  'api.undo_desc': {
-    en: 'Rewinds to the parent node in the timeline graph.',
-    it: 'Retrocede al nodo genitore nella timeline.'
-  },
-  'api.redo_desc': {
-    en: 'Advances to the next child node in the active branch.',
-    it: 'Avanza al nodo figlio nel ramo attivo.'
-  },
-  'api.rewind_desc': {
-    en: 'Fast-rewinds backwards by N history steps.',
-    it: 'Retrocede velocemente di N passi.'
-  },
-  'api.ff_desc': {
-    en: 'Fast-forwards forward by N history steps.',
-    it: 'Avanza velocemente di N passi.'
-  },
-  'api.jump_desc': {
-    en: 'Jumps directly to any node ID in the DAG graph.',
-    it: 'Salta a qualsiasi nodo del grafo DAG.'
-  },
-  'api.snap_desc': {
-    en: 'Creates a named immutable checkpoint of the state.',
-    it: 'Crea un segnalibro immutabile dello stato.'
-  },
-  'api.restore_desc': {
-    en: 'Restores the state stored in the snapshot checkpoint.',
-    it: 'Ripristina lo stato memorizzato nello snapshot.'
-  },
-  'api.transaction_desc': {
-    en: 'Batches multiple mutations into a single atomic history commit.',
-    it: 'Raggruppa piu modifiche in un unico commit atomico di cronologia.'
-  },
-  'api.replay_desc': {
-    en: 'Replays timeline history step-by-step with configurable speed and hooks.',
-    it: 'Riproduce la cronologia passo-passo con velocita e hook configurabili.'
-  },
-  'api.merge_desc': {
-    en: 'Merges another branch timeline into the current active branch.',
-    it: 'Fonde la cronologia di un altro ramo nel ramo attivo corrente.'
-  },
-  'api.compare_desc': {
-    en: 'Compares two branches calculating common ancestor and structural diff.',
-    it: 'Confronta due rami calcolando antenato comune e diff strutturale.'
-  },
-  'api.compact_desc': {
-    en: 'Compacts history by pruning non-essential nodes to save RAM/disk.',
-    it: 'Compatta la cronologia eliminando i nodi intermedi non essenziali per risparmiare memoria.'
-  },
-  'api.diff_desc': {
-    en: 'Calculates the deep recursive structural delta diff.',
-    it: 'Calcola il diff ricorsivo strutturale profondo.'
-  },
-
-  // Benchmarks Section
-  'nav.benchmarks': {
-    en: 'Benchmarks & Performance',
-    it: 'Benchmark & Prestazioni'
-  },
-  'benchmarks.title': {
-    en: 'Performance Benchmarks & Memory Profiling',
-    it: 'Benchmark di Prestazioni & Profiling Memoria'
-  },
-  'benchmarks.lead': {
-    en: 'Engineered for sub-millisecond execution times and zero-copy memory efficiency using structural sharing:',
-    it: 'Progettato per tempi di esecuzione sub-millisecondo ed efficienza di memoria zero-copy grazie allo structural sharing:'
-  },
-  'benchmarks.comp_lead': {
-    en: 'Direct head-to-head comparison across core state management architectures (10,000 updates):',
-    it: 'Confronto diretto testa a testa tra le principali architetture di state management (10.000 update):'
-  },
-  'benchmarks.mem_lead': {
-    en: 'Memory footprint scaling with zero-copy structural sharing vs linear deep-cloning (from 100 to 1,000,000 states):',
-    it: 'Impronta di memoria scalabile con structural sharing zero-copy vs deep-cloning lineare (da 100 a 1.000.000 di stati):'
-  },
-  'benchmarks.th_operation': {
-    en: 'Operation (10,000 Nodes)',
-    it: 'Operazione (10.000 Nodi)'
-  },
-  'benchmarks.th_homura': {
-    en: 'HomuraJS (DAG Engine)',
-    it: 'HomuraJS (Motore DAG)'
-  },
-  'benchmarks.th_naive': {
-    en: 'Naive Deep Clone / Stack',
-    it: 'Deep Clone Tradizionale'
-  },
-  'benchmarks.th_diff': {
-    en: 'Improvement',
-    it: 'Miglioramento'
-  },
-  'benchmarks.op_draft': {
-    en: 'Draft Mutation (Copy-on-Write)',
-    it: 'Mutazione Draft (Copy-on-Write)'
-  },
-  'benchmarks.op_branch': {
-    en: 'Branch Creation & Divergence',
-    it: 'Creazione Branch & Bivio'
-  },
-  'benchmarks.op_diff': {
-    en: 'Deep Structural Diffing',
-    it: 'Diffing Strutturale Profondo'
-  },
-  'benchmarks.op_timetravel': {
-    en: 'Time Travel Jump (Any State)',
-    it: 'Salto Temporale (JumpTo)'
-  },
-
-  // Real-World Use Cases
-  'nav.usecases': {
-    en: 'Real-World Use Cases',
-    it: 'Casi d\'Uso Reali'
-  },
-  'usecases.title': {
-    en: 'Real-World Architecture Patterns',
-    it: 'Pattern Architetturali & Casi d\'Uso'
-  },
-  'usecases.lead': {
-    en: 'Explore practical application blueprints leveraging DAG state history:',
-    it: 'Esempi e blueprint pratici basati sulla gestione dello stato a grafo DAG:'
-  },
-  'usecases.case1_title': {
-    en: '1. Multi-Step Form with Alternative Decision Paths',
-    it: '1. Form Multi-Step con Percorsi Decisionali Alternativi'
-  },
-  'usecases.case1_desc': {
-    en: 'Allow users to backtrack to step 2, modify preferences to explore alternative quote estimates, without discarding previously calculated checkout paths.',
-    it: 'Permette all\'utente di tornare al passo 2 per esplorare preventivi alternativi senza distruggere i dati inseriti nei passaggi successivi.'
-  },
-  'usecases.case2_title': {
-    en: '2. Canvas & Graphic Editor Non-Destructive History',
-    it: '2. Editor Grafico con Cronologia Non Distruttiva'
-  },
-  'usecases.case2_desc': {
-    en: 'Enable digital designers to branch different color schemes or layout variations from any historical layer checkpoint.',
-    it: 'Consente a designer e creativi di creare varianti di layout o palette colore ramificate da qualsiasi livello storico.'
-  },
-
-  // Author Section
-  'author.title': {
-    en: 'Author & Project Philosophy',
-    it: 'Autore & Filosofia del Progetto'
-  },
-  'author.role': {
-    en: 'Creator & Lead Architect of HomuraJS',
-    it: 'Creatore & Lead Architect di HomuraJS'
-  },
-  'author.p1': {
-    en: 'HomuraJS was created and engineered by Biagio Scaglia to overcome the historical limitations of linear state management in modern web architecture.',
-    it: 'HomuraJS e stato ideato e sviluppato da Biagio Scaglia per superare i limiti storici della gestione dello stato lineare nel web moderno.'
-  },
-  'author.p2': {
-    en: 'Unlike conventional Undo/Redo patterns that discard history whenever a past state is branched, HomuraJS introduces "Git for application state" powered by a pure Directed Acyclic Graph (DAG) state machine, Copy-On-Write semantic diffing, and zero-dependency diagnostic tools.',
-    it: 'A differenza dei convenzionali pattern Undo/Redo che distruggono la cronologia non appena viene generata una deviazione nel passato, HomuraJS introduce il concetto di "Git for application state" grazie a una struttura a Grafo Aciclico Diretto (DAG), diffing semantico Copy-On-Write e suite diagnostica nativa a zero dipendenze esterne.'
-  },
-
-  // Footer
-  'footer.copy': {
-    en: 'HomuraJS (c) 2026 Biagio Scaglia & HomuraJS Team. Released under the MIT License.',
-    it: 'HomuraJS (c) 2026 Biagio Scaglia & HomuraJS Team. Distribuito sotto licenza MIT.'
-  },
-  'footer.desc': {
-    en: 'Directed Acyclic Graph (DAG) Time Travel State Architecture for JavaScript & TypeScript.',
-    it: 'Architettura Time Travel State basata su Grafi Aciclici Diretti (DAG) per JavaScript e TypeScript.'
+  'toast.cmd_copied': {
+    en: 'Command copied to clipboard',
+    it: 'Comando copiato negli appunti'
   }
 };
