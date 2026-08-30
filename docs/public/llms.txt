@@ -18,7 +18,6 @@ HomuraJS models application state mutations as a Directed Acyclic Graph (DAG) of
 ## Pages & Documentation
 
 - Homepage & Documentation: https://biagio-scaglia.github.io/homura-js/
-- Live Interactive Studio: https://biagio-scaglia.github.io/homura-js/demo.html
 - GitHub Repository: https://github.com/biagio-scaglia/homura-js
 - npm Package: https://www.npmjs.com/package/@biagioscaglia/homurajs
 

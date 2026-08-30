@@ -12,7 +12,7 @@
 
 **"Git for application state"** — Directed Acyclic Graph (DAG) state management, non-destructive branching, time travel, zero-JS static site form recovery, and WordPress plugin.
 
-[Documentation Portal](https://biagio-scaglia.github.io/homura-js/) &nbsp;•&nbsp; [Live Interactive Studio](https://biagio-scaglia.github.io/homura-js/demo.html) &nbsp;•&nbsp; [WordPress Plugin](https://wordpress.org/plugins/homura-time-travel-form-recovery/)
+[Documentation Portal](https://biagio-scaglia.github.io/homura-js/) &nbsp;•&nbsp; [GitHub Repository](https://github.com/biagio-scaglia/homura-js) &nbsp;•&nbsp; [WordPress Plugin](https://wordpress.org/plugins/homura-time-travel-form-recovery/)
 
 </div>
 

@@ -271,18 +271,3 @@ document.getElementById('sb-btn-replay')?.addEventListener('click', async () => 
 // Initialize default language
 setLanguage(currentLang);
 
-// Ensure demo button is strictly hidden on mobile / small screens
-function syncMobileDemoButton() {
-  const isMobile = window.innerWidth <= 1024 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  const demoLinks = document.querySelectorAll<HTMLElement>('.btn-demo-link');
-  demoLinks.forEach(btn => {
-    if (isMobile) {
-      btn.style.setProperty('display', 'none', 'important');
-    } else {
-      btn.style.removeProperty('display');
-    }
-  });
-}
-window.addEventListener('resize', syncMobileDemoButton);
-syncMobileDemoButton();
-

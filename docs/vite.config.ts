@@ -13,8 +13,7 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main: path.resolve(__dirname, 'index.html'),
-        demo: path.resolve(__dirname, 'demo.html')
+        main: path.resolve(__dirname, 'index.html')
       }
     }
   }
