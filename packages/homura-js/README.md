@@ -4,13 +4,14 @@
   <img src="https://raw.githubusercontent.com/biagio-scaglia/homura-js/main/assets/homura-banner.png" alt="HomuraJS — Git for Application State" width="100%" />
 </p>
 
-[![CI Tests](https://img.shields.io/badge/tests-52%2F52%20passed-7c3aed)](https://github.com/biagio-scaglia/homura-js)
+[![CI Tests](https://img.shields.io/badge/tests-59%2F59%20passed-7c3aed)](https://github.com/biagio-scaglia/homura-js)
 [![Version](https://img.shields.io/badge/version-v1.2.6-9333ea)](https://www.npmjs.com/package/@biagioscaglia/homurajs)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict%20Mode-581c87)](https://www.typescriptlang.org/)
 [![License](https://img.shields.io/badge/license-MIT-3b0764)](LICENSE)
 [![NPM](https://img.shields.io/badge/npm-%40biagioscaglia%2Fhomurajs-a855f7)](https://www.npmjs.com/package/@biagioscaglia/homurajs)
 
-**"Git for application state"** — Directed Acyclic Graph (DAG) state management, non-destructive branching, time travel, zero-JS static site form recovery, and WordPress plugin.
+**Reproducible state history across the full stack.**
+Directed Acyclic Graph (DAG) state management, non-destructive branching, time travel, forensic bug reporting (`.homura`), zero-JS form recovery, and versioned database state.
 
 </div>
 
@@ -22,7 +23,7 @@
 npm install @biagioscaglia/homurajs
 ```
 
-`@biagioscaglia/homurajs` is the all-in-one meta-package bundling `@homura-js/core`, `@homura-js/devtools`, and `@homura-js/vanilla`.
+`@biagioscaglia/homurajs` is the all-in-one meta-package bundling `@homura-js/core`, `@homura-js/db`, `@homura-js/devtools`, and `@homura-js/vanilla`.
 
 ### Standalone Browser CDN
 ```html
