@@ -1,6 +1,6 @@
 {
   "name": "@homura-js/core",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "Core Time Travel State & History Engine for JavaScript (Git for application state)",
   "type": "module",
   "main": "./dist/index.cjs",
