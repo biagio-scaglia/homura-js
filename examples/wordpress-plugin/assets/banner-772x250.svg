@@ -62,7 +62,7 @@
     
     <!-- Description / Bullets -->
     <text x="0" y="180" fill="#a78bfa" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="400">
-      ⚡ Non-destructive DAG Undo/Redo &nbsp;|&nbsp; 🛡️ Form Crash Protection &nbsp;|&nbsp; 🛒 WooCommerce
+      ⚡ Non-destructive DAG Undo/Redo | 🛡️ Form Crash Protection | 🛒 WooCommerce
     </text>
   </g>
 </svg>

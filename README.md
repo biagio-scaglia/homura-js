@@ -1,8 +1,8 @@
 <div align="center">
 
-<img src="./assets/homura-banner.svg" alt="HomuraJS — Git for Application State" width="100%" />
-
-<br /><br />
+<p align="center">
+  <img src="https://raw.githubusercontent.com/biagio-scaglia/homura-js/main/assets/homura-banner.png" alt="HomuraJS — Git for Application State" width="100%" />
+</p>
 
 [![CI Tests](https://img.shields.io/badge/tests-52%2F52%20passed-7c3aed)](https://github.com/biagio-scaglia/homura-js)
 [![Version](https://img.shields.io/badge/version-v1.2.3-9333ea)](https://www.npmjs.com/package/@biagioscaglia/homurajs)
