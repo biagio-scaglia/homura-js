@@ -1,7 +1,7 @@
 <div align="center">
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/biagio-scaglia/homura-js/main/assets/homura-banner.png" alt="HomuraJS — Git for Application State" width="100%" />
+  <img src="https://i.pinimg.com/736x/c6/5c/af/c65caf927060c509c097ed0ce4d726cc.jpg" alt="HomuraJS — Reproducible State History Across the Full Stack" width="480" style="max-width: 100%; border-radius: 12px;" />
 </p>
 
 [![CI Tests](https://img.shields.io/badge/tests-59%2F59%20passed-7c3aed)](https://github.com/biagio-scaglia/homura-js)
