@@ -14,19 +14,17 @@
   <meta name="creator" content="Biagio Scaglia" />
   <meta name="publisher" content="Biagio Scaglia" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-  <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large" />
-  <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large" />
-  <link rel="canonical" href="https://github.com/biagio-scaglia/homura-js" />
-  <meta name="theme-color" content="#040207" />
+  <link rel="canonical" href="https://biagio-scaglia.github.io/homura-js/" />
+  <meta name="theme-color" content="#0b0a0d" />
   <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
   <link rel="shortcut icon" type="image/svg+xml" href="./favicon.svg" />
 
-  <!-- Multilingual & Alternate Links (GEO / SEO) -->
-  <link rel="alternate" hreflang="en" href="https://github.com/biagio-scaglia/homura-js" />
-  <link rel="alternate" hreflang="it" href="https://github.com/biagio-scaglia/homura-js" />
-  <link rel="alternate" hreflang="x-default" href="https://github.com/biagio-scaglia/homura-js" />
+  <!-- Multilingual Links -->
+  <link rel="alternate" hreflang="en" href="https://biagio-scaglia.github.io/homura-js/" />
+  <link rel="alternate" hreflang="it" href="https://biagio-scaglia.github.io/homura-js/" />
+  <link rel="alternate" hreflang="x-default" href="https://biagio-scaglia.github.io/homura-js/" />
 
-  <!-- Open Graph / Facebook / LinkedIn / WhatsApp -->
+  <!-- Open Graph / Social -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://biagio-scaglia.github.io/homura-js/" />
   <meta property="og:site_name" content="HomuraJS" />
@@ -48,18 +46,7 @@
   <meta name="twitter:description" content="DAG state management with non-destructive time travel and branching for React, Vue, Vanilla JS, and WordPress." />
   <meta name="twitter:image" content="https://biagio-scaglia.github.io/homura-js/homura-banner.png" />
 
-  <!-- Dublin Core Metadata (GEO & Academic Engines) -->
-  <meta name="DC.title" content="HomuraJS State and History Engine" />
-  <meta name="DC.creator" content="Biagio Scaglia" />
-  <meta name="DC.subject" content="Computer Software, State Management, Time Travel Debugging, JavaScript, TypeScript, DAG" />
-  <meta name="DC.description" content="Time Travel State and History Engine modeled as a Directed Acyclic Graph." />
-  <meta name="DC.publisher" content="Biagio Scaglia" />
-  <meta name="DC.format" content="text/html" />
-  <meta name="DC.language" content="en" />
-  <meta name="geo.region" content="IT" />
-  <meta name="geo.placename" content="Italy" />
-
-  <!-- Structured Data: Full Entity Knowledge Graph (Google Search, Knowledge Panel, AEO) -->
+  <!-- Structured Data JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -69,1915 +56,1261 @@
         "@id": "https://github.com/biagio-scaglia#person",
         "name": "Biagio Scaglia",
         "url": "https://github.com/biagio-scaglia",
-        "sameAs": [
-          "https://github.com/biagio-scaglia",
-          "https://www.npmjs.com/~biagioscaglia"
-        ],
-        "jobTitle": "Software Engineer & Open Source Creator",
-        "knowsAbout": [
-          "Time Travel State Management",
-          "Directed Acyclic Graph (DAG)",
-          "TypeScript",
-          "JavaScript",
-          "React",
-          "Vue.js",
-          "Software Architecture"
-        ]
-      },
-      {
-        "@type": "WebSite",
-        "@id": "https://biagio-scaglia.github.io/homura-js/#website",
-        "url": "https://biagio-scaglia.github.io/homura-js/",
-        "name": "HomuraJS Documentation",
-        "description": "Official documentation for HomuraJS, the time-travel state management engine created by Biagio Scaglia.",
-        "publisher": {
-          "@id": "https://github.com/biagio-scaglia#person"
-        },
-        "inLanguage": ["en", "it"]
+        "sameAs": ["https://github.com/biagio-scaglia", "https://www.npmjs.com/~biagioscaglia"],
+        "jobTitle": "Software Engineer & Open Source Creator"
       },
       {
         "@type": "SoftwareApplication",
-        "@id": "https://github.com/biagio-scaglia/homura-js#software",
+        "@id": "https://biagio-scaglia.github.io/homura-js/#software",
         "name": "HomuraJS",
-        "alternateName": ["@homura-js/core", "@biagioscaglia/homurajs", "Homura-JS"],
-        "operatingSystem": "Cross-platform (Node.js, Browser, Deno, Bun)",
-        "applicationCategory": "DeveloperApplication",
-        "programmingLanguage": "TypeScript, JavaScript",
-        "softwareVersion": "1.2.2",
-        "license": "https://opensource.org/licenses/MIT",
-        "description": "HomuraJS is the time-travel debugging and state history management engine designed and engineered by Biagio Scaglia. Modeled as a Directed Acyclic Graph (DAG), implementing 'Git for application state'.",
         "url": "https://biagio-scaglia.github.io/homura-js/",
-        "downloadUrl": "https://www.npmjs.com/package/@homura-js/core",
-        "author": {
-          "@id": "https://github.com/biagio-scaglia#person"
-        },
-        "creator": {
-          "@id": "https://github.com/biagio-scaglia#person"
-        },
-        "offers": {
-          "@type": "Offer",
-          "price": "0.00",
-          "priceCurrency": "USD"
-        }
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "All",
+        "softwareVersion": "1.2.3",
+        "license": "https://opensource.org/licenses/MIT",
+        "author": { "@id": "https://github.com/biagio-scaglia#person" }
       }
     ]
   }
   </script>
 
-  <!-- Structured Data: FAQPage (AEO for Perplexity, SearchGPT, Gemini, Claude, Google SGE) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "What is HomuraJS?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "HomuraJS is a JavaScript/TypeScript state management and time-travel debugging engine modeled as a Directed Acyclic Graph (DAG), conceived as 'Git for application state'."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How is HomuraJS different from standard Undo/Redo systems?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Standard Undo/Redo systems use a flat linear array stack that irrevocably destroys future states whenever a new mutation occurs in the past. HomuraJS forks non-destructive timeline branches, preserving all past and future states forever."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "Which UI frameworks are supported?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "HomuraJS core is framework-agnostic (@homura-js/core) and provides official packages for React 18+ (@homura-js/react), Vue 3 (@homura-js/vue), and Vanilla JavaScript (@homura-js/vanilla)."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How to install HomuraJS?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Install the core package via 'npm install @homura-js/core' or use the unified meta-package 'npm install @biagioscaglia/homurajs'."
-        }
-      }
-    ]
-  }
-  </script>
-
-  <!-- Fonts: Gothic Regal Display, Editorial Serif, Precision Sans & Monospace -->
+  <!-- Typography: Space Grotesk (Editorial Headers), IBM Plex Sans (Technical Prose), JetBrains Mono (Code/Metadata) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg-base: #040207;
-      --bg-surface: #0a0513;
-      --bg-surface-elevated: #120921;
-      --bg-card: #0f071a;
-      --bg-card-hover: #190d2b;
-      --bg-code: #06020a;
-      --border: rgba(168, 85, 247, 0.2);
-      --border-highlight: rgba(212, 175, 55, 0.45);
-      --border-gold: rgba(212, 175, 55, 0.3);
-      --border-goth: rgba(168, 85, 247, 0.35);
-      --accent: #a855f7;
-      --accent-deep: #7e22ce;
-      --accent-glow: rgba(168, 85, 247, 0.4);
-      --accent-hover: #c084fc;
-      --gold: #d4af37;
-      --gold-light: #f3e5ab;
-      --gold-glow: rgba(212, 175, 55, 0.35);
-      --violet-dark: #581c87;
-      --violet-light: #d8b4fe;
-      --silver-mist: #e9d5ff;
-      --text-main: #f5f3ff;
-      --text-muted: #c4b5fd;
-      --text-subtle: #8b7ca6;
-      --text-gold: #e5c158;
-      --sidebar-width: 280px;
+      /* Palette: Charcoal / Newsprint Bone / Vermilion Cinnabar */
+      --bg-base: #0b0a0d;
+      --bg-surface: #110f14;
+      --bg-elevated: #17151c;
+      --bg-inset: #070608;
+      --bg-hover: #1f1d26;
+
+      --text-main: #f4f0e8;
+      --text-muted: #b8b2a5;
+      --text-dim: #706b61;
+
+      --vermilion: #e0382b;
+      --vermilion-dim: #9e2318;
+      --vermilion-subtle: rgba(224, 56, 43, 0.08);
+
+      --border-hairline: 1px solid #1f1d24;
+      --border-strong: 1px solid #33303a;
+      --border-vermilion: 1px solid rgba(224, 56, 43, 0.4);
+
+      --sidebar-width: 270px;
+      --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', 'IBM Plex Mono', monospace;
     }
 
-    /* Custom Obsidian & Gold Scrollbars */
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
       scrollbar-width: thin;
-      scrollbar-color: rgba(212, 175, 55, 0.35) rgba(8, 4, 15, 0.85);
-    }
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: rgba(8, 4, 15, 0.85);
-    }
-    ::-webkit-scrollbar-thumb {
-      background: rgba(168, 85, 247, 0.35);
-      border-radius: 3px;
-      border: 1px solid rgba(212, 175, 55, 0.2);
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(212, 175, 55, 0.6);
+      scrollbar-color: #33303a #0b0a0d;
     }
 
-    html { scroll-behavior: smooth; overflow-x: hidden; }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #0b0a0d; }
+    ::-webkit-scrollbar-thumb { background: #26242e; border-radius: 0; }
+    ::-webkit-scrollbar-thumb:hover { background: #e0382b; }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg-base);
+    }
 
     body {
       background-color: var(--bg-base);
-      background-image: 
-        radial-gradient(ellipse 90% 60% at 50% -10%, rgba(126, 34, 206, 0.16), transparent),
-        radial-gradient(circle at 92% 20%, rgba(212, 175, 55, 0.05), transparent),
-        radial-gradient(circle at 8% 75%, rgba(88, 28, 135, 0.12), transparent);
       color: var(--text-main);
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      line-height: 1.6;
+      font-family: var(--font-body);
+      font-size: 14.5px;
+      line-height: 1.65;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
-    /* Vector SVG Icons */
-    .icon {
-      width: 15px;
-      height: 15px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      display: inline-block;
-      vertical-align: middle;
-      flex-shrink: 0;
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.15s ease;
     }
-    .icon-lg { width: 19px; height: 19px; }
-    .icon-sm { width: 13px; height: 13px; }
-    .icon-accent { stroke: var(--accent); }
-    .icon-gold { stroke: var(--gold); }
 
-    /* Header — Gothic Cathedral Top Bar */
-    header {
-      position: fixed;
+    /* Top Grid Header */
+    .top-bar {
+      position: sticky;
       top: 0;
-      left: 0;
-      right: 0;
-      width: 100%;
       z-index: 100;
-      background: rgba(8, 4, 15, 0.92);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.75), 0 1px 0 rgba(212, 175, 55, 0.14);
-      height: 58px;
+      height: 52px;
+      background: var(--bg-base);
+      border-bottom: var(--border-hairline);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 clamp(12px, 3vw, 28px);
-      gap: 12px;
+      padding: 0 24px;
+      font-family: var(--font-mono);
+      font-size: 12px;
     }
 
-    .header-left {
+    .brand-mark {
       display: flex;
       align-items: center;
       gap: 12px;
+      letter-spacing: 0.5px;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      color: inherit;
+    .brand-logo-icon {
+      width: 22px;
+      height: 22px;
+      display: block;
     }
 
     .brand-title {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(16px, 2.2vw, 19px);
-      font-weight: 900;
-      letter-spacing: 0.14em;
-      background: linear-gradient(135deg, #ffffff 10%, #f3e5ab 50%, #c084fc 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      white-space: nowrap;
-      filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.35));
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 1px;
+      color: var(--text-main);
     }
 
-    .version-tag {
-      background: rgba(212, 175, 55, 0.08);
-      border: 1px solid rgba(212, 175, 55, 0.35);
-      color: var(--gold-light);
-      font-family: 'JetBrains Mono', monospace;
+    .brand-badge {
+      padding: 2px 6px;
+      background: var(--bg-elevated);
+      border: var(--border-hairline);
+      color: var(--vermilion);
       font-size: 10px;
       font-weight: 600;
-      padding: 2px 7px;
-      border-radius: 4px;
-      letter-spacing: 0.06em;
-      box-shadow: 0 0 8px rgba(212, 175, 55, 0.12);
+      letter-spacing: 0.5px;
     }
 
-    .header-actions {
+    .top-actions {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 16px;
     }
 
-    .search-wrapper {
-      position: relative;
-      display: flex;
-      align-items: center;
-    }
-
-    .search-icon-inside {
-      position: absolute;
-      left: 10px;
-      color: var(--text-subtle);
-      pointer-events: none;
-    }
-
-    .search-input {
-      background: rgba(18, 10, 32, 0.85);
-      border: 1px solid rgba(168, 85, 247, 0.25);
-      color: var(--text-main);
-      padding: 6px 12px 6px 30px;
-      border-radius: 6px;
-      font-family: inherit;
+    .top-link {
+      color: var(--text-muted);
       font-size: 12px;
-      width: 180px;
-      outline: none;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px;
     }
-
-    .search-input:focus {
-      border-color: var(--gold);
-      box-shadow: 0 0 12px rgba(212, 175, 55, 0.3), 0 0 20px rgba(168, 85, 247, 0.2);
-      width: 220px;
-      background: rgba(25, 12, 45, 0.95);
-    }
-
-    .btn {
-      background: rgba(18, 10, 32, 0.85);
-      border: 1px solid rgba(168, 85, 247, 0.3);
+    .top-link:hover {
       color: var(--text-main);
-      font-family: 'Inter', sans-serif;
-      font-size: 12.5px;
+      background: var(--bg-surface);
+    }
+
+    .lang-btn {
+      background: var(--bg-surface);
+      border: var(--border-hairline);
+      color: var(--text-main);
+      font-family: var(--font-mono);
+      font-size: 11px;
       font-weight: 600;
-      padding: 6px 13px;
-      border-radius: 6px;
+      padding: 4px 10px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      justify-content: center;
       gap: 6px;
-      text-decoration: none;
-      white-space: nowrap;
-      min-height: 34px;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+      transition: all 0.15s ease;
+    }
+    .lang-btn:hover {
+      border-color: var(--vermilion);
+      color: var(--vermilion);
     }
 
-    .btn:hover {
-      background: rgba(35, 18, 58, 0.95);
-      border-color: var(--gold);
-      color: #fff;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6), 0 0 10px rgba(212, 175, 55, 0.2);
-      transform: translateY(-1px);
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, #6b21a8, #4c1d95);
-      border: 1px solid rgba(212, 175, 55, 0.4);
-      color: #fff;
-      font-weight: 700;
-    }
-
-    .btn-primary:hover {
-      background: linear-gradient(135deg, #7e22ce, #581c87);
-      border-color: var(--gold);
-      box-shadow: 0 0 16px var(--accent-glow), 0 0 10px rgba(212, 175, 55, 0.35);
-    }
-
-    .btn-live-studio {
-      background: linear-gradient(135deg, #7e22ce, #4c1d95);
-      border: 1px solid rgba(212, 175, 55, 0.45);
-      box-shadow: 0 0 16px rgba(168, 85, 247, 0.35);
-      font-weight: 700;
-    }
-
-    .btn-lang {
-      font-family: 'JetBrains Mono', monospace;
-      padding: 4px 10px;
-      font-size: 11px;
-      color: var(--gold-light);
-      border-color: rgba(212, 175, 55, 0.3);
-      background: rgba(18, 10, 32, 0.6);
-    }
-
-    .btn-lang:hover {
-      border-color: var(--gold);
-      color: #fff;
-    }
-
-    .btn-menu {
+    .menu-toggle {
       display: none;
+      background: transparent;
+      border: var(--border-hairline);
+      color: var(--text-main);
       padding: 4px 8px;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 12px;
     }
 
-    /* Layout Structure */
-    .docs-layout {
+    /* Main Container Layout */
+    .app-layout {
       display: flex;
+      flex: 1;
       width: 100%;
-      min-height: calc(100vh - 58px);
-      margin-top: 58px;
+      max-width: 1560px;
+      margin: 0 auto;
+    }
+
+    /* Sidebar Navigation */
+    .sidebar {
+      width: var(--sidebar-width);
+      flex-shrink: 0;
+      background: var(--bg-base);
+      border-right: var(--border-hairline);
+      position: sticky;
+      top: 52px;
+      height: calc(100vh - 52px);
+      overflow-y: auto;
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .search-box {
       position: relative;
     }
 
-    /* Sidebar Drawer Backdrop for Mobile */
-    .sidebar-backdrop {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      z-index: 89;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s ease;
+    .search-input {
+      width: 100%;
+      background: var(--bg-surface);
+      border: var(--border-hairline);
+      color: var(--text-main);
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      padding: 8px 12px;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+    .search-input:focus {
+      border-color: var(--vermilion);
+    }
+    .search-input::placeholder {
+      color: var(--text-dim);
     }
 
-    /* Sidebar — Gothic Arcane Library Menu */
-    .docs-sidebar {
-      position: fixed;
-      top: 58px;
-      left: 0;
-      bottom: 0;
-      height: calc(100vh - 58px);
-      overflow-y: auto;
-      background: #08040f;
-      border-right: 1px solid rgba(168, 85, 247, 0.18);
-      box-shadow: inset -1px 0 0 rgba(212, 175, 55, 0.08);
+    .nav-group {
       display: flex;
       flex-direction: column;
-      gap: 16px;
-      padding: 20px 14px 32px;
-    }
-
-    @media (min-width: 961px) {
-      .docs-sidebar {
-        width: 270px;
-        z-index: 40;
-        transform: none !important;
-      }
-      .docs-content {
-        margin-left: 270px;
-        width: calc(100% - 270px);
-        max-width: 980px;
-        padding: 36px 54px 90px;
-      }
-      footer {
-        margin-left: 270px;
-        width: calc(100% - 270px);
-      }
-    }
-
-    @media (max-width: 960px) {
-      .docs-sidebar {
-        width: 285px;
-        max-width: 84vw;
-        z-index: 90;
-        transform: translateX(-100%);
-        transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-        box-shadow: 10px 0 40px rgba(0, 0, 0, 0.9);
-      }
-      .docs-sidebar.open {
-        transform: translateX(0);
-      }
-      .docs-content {
-        margin-left: 0;
-        width: 100%;
-        padding: clamp(22px, 4vw, 44px) clamp(16px, 4vw, 48px) 70px;
-      }
-      footer {
-        margin-left: 0;
-        width: 100%;
-      }
+      gap: 3px;
     }
 
     .nav-group-title {
-      font-family: 'Cinzel', serif;
-      font-size: 11px;
-      font-weight: 700;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: var(--text-dim);
       text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--gold-light);
-      margin-bottom: 6px;
-      padding-left: 8px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      border-left: 2px solid var(--accent);
-    }
-
-    .nav-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
+      padding: 6px 10px 4px 10px;
+      border-bottom: var(--border-hairline);
+      margin-bottom: 4px;
     }
 
     .nav-item a {
       display: flex;
       align-items: center;
-      gap: 7px;
-      padding: 6px 10px;
+      justify-content: space-between;
+      padding: 5px 10px;
+      font-family: var(--font-mono);
+      font-size: 12px;
       color: var(--text-muted);
-      text-decoration: none;
-      font-size: 12.5px;
-      border-radius: 6px;
-      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      border-left: 2px solid transparent;
+      transition: all 0.15s ease;
     }
-
     .nav-item a:hover {
-      color: #fff;
-      background: rgba(168, 85, 247, 0.14);
-      padding-left: 14px;
+      color: var(--text-main);
+      background: var(--bg-surface);
+      border-left-color: var(--text-dim);
     }
-
     .nav-item.active a {
-      color: #fff;
-      background: linear-gradient(90deg, rgba(168, 85, 247, 0.22), rgba(212, 175, 55, 0.08));
-      border-left: 3px solid var(--gold);
-      font-weight: 600;
-      padding-left: 12px;
+      color: var(--text-main);
+      background: var(--bg-surface);
+      border-left-color: var(--vermilion);
+      font-weight: 500;
     }
 
-    /* Main Content Area */
+    .nav-item .tag {
+      font-size: 9px;
+      padding: 1px 4px;
+      background: var(--bg-elevated);
+      color: var(--text-dim);
+      border: var(--border-hairline);
+    }
+
+    /* Main Content Surface */
     .docs-content {
       flex: 1;
       min-width: 0;
+      padding: 32px 48px 96px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 56px;
     }
 
-    /* Gothic Hero Banner & Badge */
-    .goth-hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 4px 16px;
-      background: linear-gradient(90deg, rgba(168, 85, 247, 0.12), rgba(212, 175, 55, 0.12));
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      border-radius: 20px;
-      font-family: 'Cinzel', serif;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      color: var(--gold-light);
-      margin-bottom: 16px;
-      box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
-      text-transform: uppercase;
-    }
-
-    .goth-fleur {
-      color: var(--gold);
-      font-size: 13px;
-    }
-
-    /* Gothic Typography Hierarchy */
-    h1 {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(28px, 4.5vw, 42px);
-      font-weight: 900;
-      letter-spacing: 0.06em;
-      color: #fff;
-      margin-bottom: 12px;
-      line-height: 1.2;
-      background: linear-gradient(135deg, #ffffff 20%, #f3e5ab 60%, #c084fc 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 2px 12px rgba(168, 85, 247, 0.25));
-    }
-
-    .lead {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(17px, 2.4vw, 20px);
-      font-weight: 400;
-      font-style: italic;
-      color: var(--silver-mist);
-      margin-bottom: 28px;
-      line-height: 1.6;
-    }
-
-    h2 {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(19px, 3.2vw, 24px);
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      color: #f5f3ff;
-      margin-top: 48px;
-      margin-bottom: 16px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--border);
+    /* Hero Asymmetric Laboratory Console */
+    .hero-console {
+      border: var(--border-hairline);
+      background: var(--bg-surface);
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
       position: relative;
+    }
+
+    .hero-left {
+      padding: 40px;
       display: flex;
-      align-items: center;
-      gap: 10px;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: var(--border-hairline);
+      gap: 28px;
     }
 
-    h2::after {
-      content: '';
-      position: absolute;
-      bottom: -1px;
-      left: 0;
-      width: 60px;
-      height: 2px;
-      background: linear-gradient(90deg, var(--gold), transparent);
+    .hero-meta-header {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      letter-spacing: 0.5px;
+    }
+    .hero-meta-header span {
+      color: var(--vermilion);
     }
 
-    h3 {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(15px, 2.4vw, 17px);
+    .hero-headline {
+      font-family: var(--font-display);
+      font-size: 34px;
       font-weight: 700;
-      letter-spacing: 0.04em;
-      color: var(--gold-light);
-      margin-top: 28px;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+      color: var(--text-main);
     }
 
-    p, li {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-bottom: 14px;
+    .hero-abstract {
+      font-size: 15px;
       line-height: 1.65;
+      color: var(--text-muted);
     }
 
-    ul, ol {
-      padding-left: 20px;
-      margin-bottom: 14px;
-    }
-
-    li { margin-bottom: 6px; }
-
-    strong {
-      color: #fff;
-      font-weight: 600;
-    }
-
-    /* Imperial Decree / Direct Answer Box */
-    .answer-box {
-      background: linear-gradient(135deg, rgba(20, 8, 34, 0.95), rgba(35, 12, 45, 0.6));
-      border: 1px solid rgba(212, 175, 55, 0.25);
-      border-left: 4px solid var(--gold);
-      border-radius: 8px;
-      padding: clamp(14px, 2.5vw, 18px);
-      margin: 20px 0 28px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(168, 85, 247, 0.06);
-    }
-
-    .answer-box-title {
-      font-family: 'Cinzel', serif;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      color: var(--gold-light);
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    /* Gothic Arcane Code Blocks */
-    .code-container {
-      background: var(--bg-code);
-      border: 1px solid rgba(168, 85, 247, 0.25);
-      border-radius: 8px;
-      margin: 16px 0 24px;
-      overflow: hidden;
-      box-shadow: 0 10px 32px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(212, 175, 55, 0.1);
-      width: 100%;
-    }
-
-    .code-header {
-      background: #10081d;
-      border-bottom: 1px solid rgba(168, 85, 247, 0.2);
-      padding: 7px 14px;
+    .hero-install-box {
+      background: var(--bg-inset);
+      border: var(--border-hairline);
+      padding: 10px 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      font-size: 11.5px;
-      color: var(--gold-light);
-      font-family: 'JetBrains Mono', monospace;
+      font-family: var(--font-mono);
+      font-size: 12.5px;
     }
-
-    .code-header-title {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-weight: 600;
+    .hero-install-box code {
+      color: var(--text-main);
     }
-
-    .code-copy-btn {
-      background: rgba(168, 85, 247, 0.1);
-      border: 1px solid rgba(168, 85, 247, 0.25);
+    .hero-install-box button {
+      background: var(--bg-surface);
+      border: var(--border-hairline);
       color: var(--text-muted);
+      font-family: var(--font-mono);
       font-size: 11px;
-      font-family: inherit;
-      font-weight: 600;
       padding: 3px 8px;
-      border-radius: 4px;
       cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .hero-install-box button:hover {
+      border-color: var(--vermilion);
+      color: var(--text-main);
+    }
+
+    .hero-actions {
       display: flex;
-      align-items: center;
-      gap: 4px;
-      transition: all 0.15s;
-    }
-
-    .code-copy-btn:hover {
-      background: rgba(212, 175, 55, 0.15);
-      border-color: var(--gold);
-      color: #fff;
-      box-shadow: 0 0 10px rgba(212, 175, 55, 0.25);
-    }
-
-    pre {
-      padding: 14px 16px;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: clamp(12px, 1.8vw, 13px);
-      line-height: 1.5;
-      color: #e9d5ff;
-    }
-
-    code {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.9em;
-      background: rgba(168, 85, 247, 0.12);
-      padding: 2px 6px;
-      border-radius: 4px;
-      color: var(--gold-light);
-      border: 1px solid rgba(212, 175, 55, 0.2);
-      word-break: break-word;
-    }
-
-    pre code {
-      background: transparent;
-      padding: 0;
-      border: none;
-      color: inherit;
-      word-break: normal;
-    }
-
-    /* Tabs */
-    .tab-bar {
-      display: flex;
-      gap: 6px;
-      border-bottom: 1px solid rgba(168, 85, 247, 0.25);
-      margin-bottom: 16px;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .tab-btn {
-      background: transparent;
-      border: none;
-      border-bottom: 2px solid transparent;
-      color: var(--text-muted);
-      font-family: 'JetBrains Mono', monospace;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-family: var(--font-mono);
       font-size: 12px;
-      font-weight: 600;
-      padding: 8px 14px;
-      cursor: pointer;
-      display: flex;
+    }
+    .hero-btn {
+      padding: 8px 16px;
+      border: var(--border-hairline);
+      background: var(--bg-elevated);
+      color: var(--text-main);
+      display: inline-flex;
       align-items: center;
       gap: 6px;
-      white-space: nowrap;
-      transition: all 0.2s;
+      font-weight: 500;
+      transition: all 0.15s ease;
+    }
+    .hero-btn:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-strong);
+    }
+    .hero-btn-accent {
+      background: var(--vermilion);
+      border-color: var(--vermilion);
+      color: #ffffff;
+    }
+    .hero-btn-accent:hover {
+      background: #c52e22;
+      border-color: #c52e22;
     }
 
-    .tab-btn:hover {
-      color: #fff;
-      background: rgba(168, 85, 247, 0.08);
-    }
-
-    .tab-btn.active {
-      color: var(--gold-light);
-      border-bottom-color: var(--gold);
-      text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
-    }
-
-    /* Gothic Relic Feature Cards */
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-      margin: 24px 0;
-      width: 100%;
-    }
-
-    .feature-card {
-      background: linear-gradient(145deg, rgba(16, 9, 28, 0.9), rgba(10, 5, 18, 0.95));
-      border: 1px solid rgba(168, 85, 247, 0.22);
-      border-radius: 10px;
-      padding: clamp(16px, 2.5vw, 20px);
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .feature-card::before {
-      content: '✦';
-      position: absolute;
-      top: 8px;
-      right: 10px;
-      font-size: 10px;
-      color: rgba(212, 175, 55, 0.3);
-      transition: color 0.2s;
-    }
-
-    .feature-card:hover {
-      border-color: var(--border-gold);
-      transform: translateY(-3px);
-      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(168, 85, 247, 0.2);
-    }
-
-    .feature-card:hover::before {
-      color: var(--gold);
-      text-shadow: 0 0 8px var(--gold-glow);
-    }
-
-    .feature-header {
+    /* Hero Right: Live Interactive Sandbox Terminal */
+    .hero-right {
+      padding: 24px;
+      background: var(--bg-inset);
       display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 8px;
-    }
-
-    .feature-title {
-      font-family: 'Cinzel', serif;
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      color: #fff;
-    }
-
-    .feature-desc {
-      font-size: 13px;
-      color: var(--text-muted);
-      line-height: 1.55;
-      margin-bottom: 0;
-    }
-
-    /* Chamber of Chronos — Live Sandbox */
-    .sandbox-container {
-      background: linear-gradient(160deg, #11071f 0%, #07030d 100%);
-      border: 1px solid rgba(212, 175, 55, 0.35);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(168, 85, 247, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: clamp(16px, 3vw, 24px);
-      margin: 28px 0;
-      position: relative;
+      flex-direction: column;
+      gap: 16px;
     }
 
     .sandbox-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid rgba(168, 85, 247, 0.25);
-      padding-bottom: 12px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding-bottom: 8px;
+      border-bottom: var(--border-hairline);
+      color: var(--text-dim);
+    }
+    .sandbox-status-dot {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      background: var(--vermilion);
+      margin-right: 6px;
+    }
+
+    .sandbox-state-view {
+      background: var(--bg-base);
+      border: var(--border-hairline);
+      padding: 14px;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      line-height: 1.5;
+      color: #a3e635;
+      max-height: 180px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+
+    .sandbox-controls-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 8px;
     }
 
-    .sandbox-controls {
+    .sb-btn {
+      background: var(--bg-elevated);
+      border: var(--border-hairline);
+      color: var(--text-main);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 6px 10px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s ease;
+    }
+    .sb-btn:hover {
+      background: var(--bg-hover);
+      border-color: var(--vermilion);
+    }
+    .sb-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      border-color: var(--border-hairline);
+    }
+
+    /* Section Components & Visual Rhythm */
+    section {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      scroll-margin-top: 72px;
+    }
+
+    .section-coord {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--vermilion);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: var(--border-hairline);
+      padding-bottom: 8px;
+    }
+
+    h3 {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-main);
+      margin-top: 12px;
+    }
+
+    p {
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* Side-by-Side Comparison Split (Destructive Linear vs Non-Destructive DAG) */
+    .comparison-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-    @media (max-width: 900px) {
-      .sandbox-controls {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 8px;
     }
 
-    .sandbox-output {
-      background: #050208;
-      border: 1px solid rgba(168, 85, 247, 0.2);
-      border-radius: 8px;
-      padding: 12px 14px;
-      font-family: 'JetBrains Mono', monospace;
+    .comp-card {
+      border: var(--border-hairline);
+      background: var(--bg-surface);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .comp-card.dag {
+      border-color: var(--border-vermilion);
+      background: var(--bg-surface);
+    }
+
+    .comp-title {
+      font-family: var(--font-mono);
       font-size: 12px;
-      color: var(--silver-mist);
-      max-height: 200px;
-      overflow-y: auto;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .comp-title .badge {
+      font-size: 10px;
+      padding: 2px 6px;
+      background: var(--bg-elevated);
+      border: var(--border-hairline);
+    }
+    .comp-card.dag .comp-title .badge {
+      color: var(--vermilion);
+      border-color: var(--border-vermilion);
     }
 
-    /* Tables */
-    .table-container {
-      width: 100%;
+    .ascii-tree {
+      background: var(--bg-inset);
+      border: var(--border-hairline);
+      padding: 12px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--text-muted);
       overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      margin: 24px 0;
-      border-radius: 8px;
-      border: 1px solid rgba(168, 85, 247, 0.25);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
     }
 
-    table {
+    /* Technical Data Tables */
+    .data-table-container {
+      border: var(--border-hairline);
+      background: var(--bg-surface);
+      overflow-x: auto;
+    }
+
+    .data-table {
       width: 100%;
-      min-width: 560px;
       border-collapse: collapse;
-      font-size: 13.5px;
-    }
-
-    th, td {
-      border: 1px solid rgba(168, 85, 247, 0.15);
-      padding: 12px 16px;
+      font-family: var(--font-mono);
+      font-size: 12px;
       text-align: left;
     }
-
-    th {
-      font-family: 'Cinzel', serif;
-      background: #120921;
-      color: var(--gold-light);
-      font-weight: 700;
-      letter-spacing: 0.05em;
+    .data-table th {
+      background: var(--bg-elevated);
+      color: var(--text-dim);
+      font-weight: 600;
+      padding: 10px 14px;
+      border-bottom: var(--border-hairline);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      font-size: 11px;
+    }
+    .data-table td {
+      padding: 10px 14px;
+      border-bottom: var(--border-hairline);
+      color: var(--text-muted);
+      vertical-align: top;
+    }
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+    .data-table tr:hover td {
+      background: var(--bg-hover);
+      color: var(--text-main);
+    }
+    .data-table td strong {
+      color: var(--text-main);
+    }
+    .data-table td code {
+      color: var(--vermilion);
+      background: var(--bg-base);
+      padding: 1px 4px;
+      border: var(--border-hairline);
     }
 
-    tr:nth-child(even) {
-      background: rgba(168, 85, 247, 0.03);
+    /* Code Blocks */
+    .code-container {
+      border: var(--border-hairline);
+      background: var(--bg-inset);
+      display: flex;
+      flex-direction: column;
     }
 
-    /* Toast */
-    .toast {
+    .code-header {
+      background: var(--bg-elevated);
+      border-bottom: var(--border-hairline);
+      padding: 6px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+
+    .code-copy-btn {
+      background: transparent;
+      border: var(--border-hairline);
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 10px;
+      padding: 2px 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .code-copy-btn:hover {
+      border-color: var(--vermilion);
+      color: var(--vermilion);
+    }
+
+    pre {
+      padding: 14px;
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      line-height: 1.6;
+      color: #e6e2da;
+    }
+    pre code {
+      font-family: inherit;
+    }
+
+    /* Package Tabs */
+    .tabs-header {
+      display: flex;
+      border-bottom: var(--border-hairline);
+      background: var(--bg-surface);
+    }
+    .tab-btn {
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: 8px 16px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .tab-btn:hover {
+      color: var(--text-main);
+    }
+    .tab-btn.active {
+      color: var(--text-main);
+      border-bottom-color: var(--vermilion);
+      background: var(--bg-elevated);
+    }
+
+    /* Toast Notification */
+    #toast {
       position: fixed;
       bottom: 24px;
       right: 24px;
-      background: linear-gradient(135deg, #2a0845, #140526);
-      border: 1px solid var(--gold);
-      color: #fff;
-      padding: 12px 20px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.9), 0 0 15px rgba(212, 175, 55, 0.3);
+      background: var(--bg-elevated);
+      border: var(--border-strong);
+      border-left: 3px solid var(--vermilion);
+      color: var(--text-main);
+      padding: 10px 16px;
+      font-family: var(--font-mono);
+      font-size: 12px;
       opacity: 0;
-      transform: translateY(10px);
-      transition: all 0.25s ease;
-      z-index: 1000;
       pointer-events: none;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      max-width: calc(100vw - 48px);
+      transform: translateY(8px);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
     }
-
-    .toast.show {
+    #toast.show {
       opacity: 1;
+      pointer-events: auto;
       transform: translateY(0);
     }
 
-    footer {
-      border-top: 1px solid rgba(168, 85, 247, 0.2);
-      background: #060309;
-      padding: clamp(28px, 5vw, 44px) 20px;
-      text-align: center;
-      font-size: 13px;
-      color: var(--text-subtle);
-      position: relative;
+    /* Mobile Drawer & Backdrop */
+    .sidebar-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 90;
     }
 
-    footer::before {
-      content: '⚜';
-      position: absolute;
-      top: -10px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #040207;
-      padding: 0 12px;
-      color: var(--gold);
-      font-size: 14px;
-    }
-
-    /* RESPONSIVE BREAKPOINTS */
-    @media (max-width: 1024px) {
-      #btn-live-studio,
-      .btn-live-studio,
-      .btn-demo-link,
-      a[href="demo.html"],
-      a[href="./demo.html"] {
-        display: none !important;
-        visibility: hidden !important;
-        opacity: 0 !important;
-        pointer-events: none !important;
-        width: 0 !important;
-        height: 0 !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        position: absolute !important;
-        left: -9999px !important;
+    /* Responsive Queries */
+    @media (max-width: 1080px) {
+      .hero-console {
+        grid-template-columns: 1fr;
+      }
+      .hero-left {
+        border-right: none;
+        border-bottom: var(--border-hairline);
+      }
+      .comparison-grid {
+        grid-template-columns: 1fr;
       }
     }
 
-    @media (max-width: 960px) {
-      #btn-live-studio,
-      .btn-live-studio,
-      .btn-demo-link,
-      a[href="demo.html"],
-      a[href="./demo.html"] {
-        display: none !important;
-        visibility: hidden !important;
+    @media (max-width: 840px) {
+      .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 52px;
+        height: calc(100vh - 52px);
+        z-index: 95;
+        transition: left 0.25s ease;
+        box-shadow: 4px 0 16px rgba(0,0,0,0.7);
       }
-      .btn-menu {
-        display: inline-flex;
-      }
-      .sidebar-backdrop {
-        display: block;
+      .sidebar.open {
+        left: 0;
       }
       .sidebar-backdrop.open {
-        opacity: 1;
-        pointer-events: auto;
+        display: block;
       }
-      .docs-sidebar {
-        position: fixed;
-        top: 58px;
-        left: 0;
-        bottom: 0;
-        z-index: 90;
-        width: 290px;
-        max-width: 82vw;
-        transform: translateX(-100%);
-        transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-        box-shadow: 10px 0 40px rgba(0, 0, 0, 0.85);
+      .menu-toggle {
+        display: inline-flex;
       }
-      .docs-sidebar.open {
-        transform: translateX(0);
+      .docs-content {
+        padding: 24px 16px 64px 16px;
       }
-    }
-
-    @media (max-width: 768px) {
-      #btn-live-studio,
-      .btn-live-studio,
-      .btn-demo-link,
-      a[href="demo.html"],
-      a[href="./demo.html"] {
-        display: none !important;
-        visibility: hidden !important;
+      .hero-left {
+        padding: 24px 16px;
       }
-      .search-input {
-        width: 130px;
-      }
-      .search-input:focus {
-        width: 160px;
-      }
-      .sandbox-controls {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    @media (max-width: 640px) {
-      #btn-live-studio,
-      .btn-live-studio,
-      .btn-demo-link,
-      a[href="demo.html"],
-      a[href="./demo.html"] {
-        display: none !important;
-        visibility: hidden !important;
-      }
-      .search-wrapper {
-        display: none;
-      }
-      .version-tag {
-        display: none;
-      }
-      .header-actions {
-        gap: 6px;
-      }
-      .btn-copy-text {
-        display: none;
+      .hero-headline {
+        font-size: 26px;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Global Header -->
-  <header>
-    <div class="header-left">
-      <!-- Mobile Menu Toggle Hamburger Button -->
-      <button class="btn btn-menu" id="btn-menu-toggle" aria-label="Toggle navigation menu" title="Menu">
-        <svg class="icon" viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-      </button>
 
-      <a href="#" class="brand" title="HomuraJS Homepage">
-        <!-- Shield Logo SVG -->
-        <svg class="icon icon-lg icon-accent" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-        <span class="brand-title">HOMURAJS</span>
-        <span class="version-tag">v1.2.5</span>
-      </a>
+  <!-- Top System Bar -->
+  <header class="top-bar">
+    <div class="brand-mark">
+      <button id="btn-menu-toggle" class="menu-toggle" aria-label="Toggle navigation menu">MENU</button>
+      <svg class="brand-logo-icon" viewBox="0 0 64 64" fill="none">
+        <rect width="64" height="64" rx="4" fill="#141218"/>
+        <rect x="2" y="2" width="60" height="60" rx="3" stroke="#e0382b" stroke-width="2" stroke-opacity="0.8"/>
+        <path d="M32 10 L50 20 V38 C50 48 32 56 32 56 C32 56 14 48 14 38 V20 Z" fill="#0b0a0d" stroke="#e0382b" stroke-width="2.5"/>
+        <polygon points="32,18 42,27 35,32 42,37 32,46 22,37 29,32 22,27" fill="#f4f0e8" />
+        <circle cx="32" cy="32" r="2.5" fill="#e0382b" />
+      </svg>
+      <span class="brand-title">HOMURAJS</span>
+      <span class="brand-badge">焔 v1.2.3</span>
     </div>
 
-    <div class="header-actions">
-      <!-- Language Switcher Toggle -->
-      <button class="btn btn-lang" id="btn-lang-toggle" title="Switch Language / Cambia Lingua">
-        <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-        <span id="lang-label">EN</span>
-      </button>
-
-      <div class="search-wrapper">
-        <svg class="icon search-icon-inside" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <input type="text" class="search-input" id="search-bar" placeholder="Search documentation..." data-i18n-placeholder="header.search_placeholder" aria-label="Search documentation" />
-      </div>
-
-      <a href="demo.html" id="btn-live-studio" class="btn btn-primary btn-demo-link btn-live-studio" title="Open Live Interactive Studio with DevTools">
-        <svg class="icon" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-        <span data-i18n="header.live_studio">Live Studio</span>
+    <div class="top-actions">
+      <a href="demo.html" class="top-link btn-demo-link" style="color: var(--vermilion); font-weight: 600;">
+        <span>● LIVE STUDIO</span>
       </a>
-
-      <button class="btn" id="btn-copy-install" title="Copy npm install command">
-        <svg class="icon" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-        <span class="btn-copy-text" data-i18n="header.copy_install">Copy Install</span>
-      </button>
-
-      <a href="https://github.com/biagio-scaglia/homura-js" target="_blank" rel="noopener noreferrer" class="btn" title="GitHub Repository">
-        <svg class="icon" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-        <span class="btn-copy-text">GitHub</span>
+      <a href="https://github.com/biagio-scaglia/homura-js" target="_blank" rel="noopener noreferrer" class="top-link">
+        <span>GITHUB</span>
       </a>
+      <a href="https://www.npmjs.com/package/@biagioscaglia/homurajs" target="_blank" rel="noopener noreferrer" class="top-link">
+        <span>NPM</span>
+      </a>
+      <button id="btn-lang-toggle" class="lang-btn" aria-label="Toggle language">
+        <span>🌐</span> <span id="lang-label">EN</span>
+      </button>
     </div>
   </header>
 
-  <script>
-    (function() {
-      function hideMobileLiveStudio() {
-        if (window.innerWidth <= 1024 || /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)) {
-          var btn = document.getElementById('btn-live-studio') || document.querySelector('.btn-live-studio') || document.querySelector('.btn-demo-link') || document.querySelector('a[href*="demo.html"]');
-          if (btn) {
-            btn.style.setProperty('display', 'none', 'important');
-            btn.style.setProperty('visibility', 'hidden', 'important');
-          }
-        }
-      }
-      hideMobileLiveStudio();
-      window.addEventListener('resize', hideMobileLiveStudio);
-      document.addEventListener('DOMContentLoaded', hideMobileLiveStudio);
-    })();
-  </script>
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
 
-  <div class="docs-layout">
-    <!-- Mobile Drawer Backdrop -->
-    <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
-
-    <!-- Navigation Sidebar -->
-    <aside class="docs-sidebar" id="docs-sidebar" aria-label="Documentation Navigation">
-      <div>
-        <div class="nav-group-title">
-          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-          <span data-i18n="nav.intro">Introduction</span>
-        </div>
-        <ul class="nav-list">
-          <li class="nav-item active"><a href="#panoramica" data-i18n="nav.overview">Overview</a></li>
-          <li class="nav-item"><a href="#perche-homura" data-i18n="nav.why_homura">Why HomuraJS</a></li>
-          <li class="nav-item"><a href="#installazione" data-i18n="nav.installation">Installation</a></li>
-          <li class="nav-item"><a href="#quickstart" data-i18n="nav.quickstart">Quickstart</a></li>
-        </ul>
+  <!-- Application Layout -->
+  <div class="app-layout">
+    
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="docs-sidebar">
+      <div class="search-box">
+        <input type="text" id="search-bar" class="search-input" placeholder="Search documentation... [/]" data-i18n-placeholder="sidebar.search_placeholder" />
       </div>
 
-      <div>
-        <div class="nav-group-title">
-          <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-          <span data-i18n="nav.concepts">Core Concepts</span>
-        </div>
-        <ul class="nav-list">
-          <li class="nav-item"><a href="#state-engine" data-i18n="nav.state_engine">State Engine &amp; Immutability</a></li>
-          <li class="nav-item"><a href="#transazioni" data-i18n="nav.transaction">Transactions &amp; Batching</a></li>
-          <li class="nav-item"><a href="#replay-engine" data-i18n="nav.replay">Replay Engine &amp; Reports</a></li>
-          <li class="nav-item"><a href="#dag-graph" data-i18n="nav.dag_graph">DAG Graph &amp; Branching</a></li>
-          <li class="nav-item"><a href="#branch-mgmt" data-i18n="nav.branch_mgmt">Branch Merge &amp; Compare</a></li>
-          <li class="nav-item"><a href="#time-travel" data-i18n="nav.time_travel">Time Travel Navigation</a></li>
-          <li class="nav-item"><a href="#snapshots" data-i18n="nav.snapshots">Snapshots &amp; Milestones</a></li>
-          <li class="nav-item"><a href="#diff-engine" data-i18n="nav.diff_engine">Structural Diff Engine</a></li>
-          <li class="nav-item"><a href="#compattazione" data-i18n="nav.compaction">Compaction &amp; Storage</a></li>
-        </ul>
-      </div>
+      <nav class="nav-group">
+        <div class="nav-group-title" data-i18n="sidebar.spec">01.0 // SPECIFICATION</div>
+        <div class="nav-item active"><a href="#overview"><span data-i18n="sidebar.overview">Overview</span></a></div>
+        <div class="nav-item"><a href="#problem"><span data-i18n="sidebar.problem">The Linear Stack Flaw</span></a></div>
+        <div class="nav-item"><a href="#dag-model"><span data-i18n="sidebar.dag">DAG Branching Model</span></a></div>
+      </nav>
 
-      <div>
-        <div class="nav-group-title">
-          <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-          <span data-i18n="nav.advanced">Advanced Features</span>
-        </div>
-        <ul class="nav-list">
-          <li class="nav-item"><a href="#persistenza" data-i18n="nav.persistence">Persistence &amp; Storage</a></li>
-          <li class="nav-item"><a href="#middleware" data-i18n="nav.middleware">Middleware &amp; Pipeline</a></li>
-          <li class="nav-item"><a href="#eventi" data-i18n="nav.events">Event System</a></li>
-        </ul>
-      </div>
+      <nav class="nav-group">
+        <div class="nav-group-title" data-i18n="sidebar.engine">02.0 // ENGINE CORE</div>
+        <div class="nav-item"><a href="#installation"><span data-i18n="sidebar.install">Installation</span></a></div>
+        <div class="nav-item"><a href="#quickstart"><span data-i18n="sidebar.quickstart">Quick Start</span></a></div>
+        <div class="nav-item"><a href="#architecture"><span data-i18n="sidebar.architecture">Monorepo Packages</span></a></div>
+        <div class="nav-item"><a href="#immutability"><span data-i18n="sidebar.immutability">Proxy Draft Engine</span></a></div>
+        <div class="nav-item"><a href="#diffing"><span data-i18n="sidebar.diffing">Structural Diffing</span></a></div>
+      </nav>
 
-      <div>
-        <div class="nav-group-title">
-          <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-          <span data-i18n="nav.integrations">UI Integrations</span>
-        </div>
-        <ul class="nav-list">
-          <li class="nav-item"><a href="#react" data-i18n="nav.react">React 18+</a></li>
-          <li class="nav-item"><a href="#vue" data-i18n="nav.vue">Vue 3</a></li>
-          <li class="nav-item"><a href="#vanilla" data-i18n="nav.vanilla">Vanilla JS &amp; Static Sites</a></li>
-          <li class="nav-item"><a href="#wordpress" data-i18n="nav.wordpress">WordPress &amp; WooCommerce</a></li>
-        </ul>
-      </div>
+      <nav class="nav-group">
+        <div class="nav-group-title" data-i18n="sidebar.ecosystem">03.0 // ECOSYSTEM</div>
+        <div class="nav-item"><a href="#vanilla"><span data-i18n="sidebar.vanilla">Vanilla &amp; Static Forms</span> <span class="tag">ZERO-JS</span></a></div>
+        <div class="nav-item"><a href="#wordpress"><span data-i18n="sidebar.wordpress">WordPress &amp; WooCommerce</span> <span class="tag">PHP</span></a></div>
+        <div class="nav-item"><a href="#react"><span data-i18n="sidebar.react">React 18+ Binding</span></a></div>
+        <div class="nav-item"><a href="#vue"><span data-i18n="sidebar.vue">Vue 3 Composition</span></a></div>
+        <div class="nav-item"><a href="#devtools"><span data-i18n="sidebar.devtools">Diagnostic DevTools</span></a></div>
+      </nav>
 
-      <div>
-        <div class="nav-group-title">
-          <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-          <span data-i18n="nav.tools">Tools &amp; Diagnostics</span>
-        </div>
-        <ul class="nav-list">
-          <li class="nav-item"><a href="#devtools" data-i18n="nav.devtools">Embedded DevTools</a></li>
-          <li class="nav-item"><a href="#sandbox-live" data-i18n="nav.sandbox">Live Interactive Sandbox</a></li>
-          <li class="nav-item"><a href="#benchmarks" data-i18n="nav.benchmarks">Performance Benchmarks</a></li>
-          <li class="nav-item"><a href="#casi-uso" data-i18n="nav.usecases">Real-World Use Cases</a></li>
-          <li class="nav-item"><a href="#faq" data-i18n="nav.faq">Frequently Asked Questions (FAQ)</a></li>
-          <li class="nav-item"><a href="#api-reference" data-i18n="nav.api_reference">API Reference</a></li>
-          <li class="nav-item"><a href="#autore" data-i18n="nav.author">Author &amp; Project</a></li>
-        </ul>
-      </div>
+      <nav class="nav-group">
+        <div class="nav-group-title" data-i18n="sidebar.reference">04.0 // REFERENCE</div>
+        <div class="nav-item"><a href="#api-reference"><span data-i18n="sidebar.api">API Matrix</span></a></div>
+        <div class="nav-item"><a href="#benchmarks"><span data-i18n="sidebar.benchmarks">Engine Specs</span></a></div>
+        <div class="nav-item"><a href="#faq"><span data-i18n="sidebar.faq">FAQ</span></a></div>
+      </nav>
     </aside>
 
-    <!-- Main Content Area -->
+    <!-- Main Editorial Documentation Content -->
     <main class="docs-content">
-      <!-- Section: Overview -->
-      <section id="panoramica">
-        <div class="goth-hero-badge">
-          <span class="goth-fleur">⚜</span>
-          <span data-i18n="overview.goth_motto">Chronos in Ramis Aeternis • Non-Destructive DAG State Engine</span>
-          <span class="goth-fleur">⚜</span>
+
+      <!-- Hero Laboratory Console -->
+      <div class="hero-console" id="overview">
+        <div class="hero-left">
+          <div class="hero-meta-header">
+            <div>SPEC // <span>01.0</span></div>
+            <div>SYS_REV // <span>1.2.3</span></div>
+            <div>ENGINE // <span>DAG_PROXY</span></div>
+            <div>STATUS // <span>PRODUCTION_STRICT</span></div>
+          </div>
+
+          <div>
+            <h1 class="hero-headline" data-i18n="hero.title">
+              The Directed Acyclic Graph State Engine for JavaScript.
+            </h1>
+            <p class="hero-abstract" style="margin-top: 14px;" data-i18n="hero.p1">
+              Conventional state managers treat history as a flat stack. When you undo and mutate, future steps are permanently destroyed. HomuraJS forks non-destructive timeline branches — <strong>Git for application state</strong>.
+            </p>
+          </div>
+
+          <div class="hero-install-box">
+            <code>npm install @biagioscaglia/homurajs</code>
+            <button id="btn-copy-install" data-i18n="hero.copy">COPY</button>
+          </div>
+
+          <div class="hero-actions">
+            <a href="#quickstart" class="hero-btn hero-btn-accent" data-i18n="hero.cta_docs">→ Read Specification</a>
+            <a href="demo.html" class="hero-btn btn-demo-link" data-i18n="hero.cta_demo">↗ Launch Interactive Studio</a>
+            <a href="https://github.com/biagio-scaglia/homura-js" target="_blank" rel="noopener noreferrer" class="hero-btn">↗ GitHub Source</a>
+          </div>
         </div>
-        <h1 data-i18n="overview.title">HomuraJS</h1>
-        <p class="lead" data-i18n="overview.lead">
-          High-performance time-travel debugging and state history management engine for JavaScript and TypeScript. 
-          A Directed Acyclic Graph (DAG) architecture conceived as <strong>"Git for application state"</strong>.
+
+        <!-- Interactive Live Sandbox -->
+        <div class="hero-right">
+          <div class="sandbox-header">
+            <div><span class="sandbox-status-dot"></span><span data-i18n="sandbox.title">LIVE RUNTIME CONSOLE</span></div>
+            <div id="sb-status" style="color: var(--text-dim); font-size: 10px;">Active Node: "Initialized"</div>
+          </div>
+
+          <div id="sb-state-display" class="sandbox-state-view"></div>
+
+          <div class="sandbox-controls-grid">
+            <button id="sb-btn-inc" class="sb-btn" data-i18n="sandbox.btn_inc">+10 Increment</button>
+            <button id="sb-btn-user" class="sb-btn" data-i18n="sandbox.btn_user">Switch User</button>
+            <button id="sb-btn-undo" class="sb-btn" data-i18n="sandbox.btn_undo">↩ Undo Step</button>
+            <button id="sb-btn-redo" class="sb-btn" data-i18n="sandbox.btn_redo">↪ Redo Step</button>
+            <button id="sb-btn-fork" class="sb-btn" data-i18n="sandbox.btn_fork">⑂ Fork Timeline</button>
+            <button id="sb-btn-snap" class="sb-btn" data-i18n="sandbox.btn_snap">◷ Create Snapshot</button>
+            <button id="sb-btn-transaction" class="sb-btn" data-i18n="sandbox.btn_tx">⚡ Atomic Tx</button>
+            <button id="sb-btn-replay" class="sb-btn" data-i18n="sandbox.btn_replay">▶ Timeline Replay</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: The Linear History Problem -->
+      <section id="problem">
+        <div class="section-coord">SPEC // 01.1 // CORE_PROBLEM</div>
+        <h2 data-i18n="problem.title">The Fundamental Flaw of Linear History</h2>
+        <p data-i18n="problem.p1">
+          Every standard undo/redo implementation (from Redux-Undo to naive history arrays) uses a 1D linear stack. This model creates silent, permanent data loss during real-world user interaction:
         </p>
 
-        <!-- AEO Direct Answer Summary -->
-        <div class="answer-box">
-          <div class="answer-box-title">
-            <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <span data-i18n="overview.tldr_title">Direct Answer / TL;DR</span>
-          </div>
-          <p style="margin: 0; font-size: 13.5px; color: #f3e8ff;" data-i18n="overview.tldr_text">
-            HomuraJS is a zero-dependency TypeScript library that records application state evolution as an immutable tree graph. It enables rewinding, fast-forwarding, creating parallel branch forks without destroying historical past/future timelines, deep semantic diffing, and inspecting states via native embedded DevTools.
-          </p>
-        </div>
-
-        <div class="feature-grid">
-          <div class="feature-card">
-            <div class="feature-header">
-              <svg class="icon icon-accent" viewBox="0 0 24 24"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><path d="M6 21V9a9 9 0 0 0 9 9"></path></svg>
-              <div class="feature-title" data-i18n="feature.dag.title">Non-Destructive DAG Graph</div>
+        <div class="comparison-grid">
+          <div class="comp-card">
+            <div class="comp-title">
+              <span>TRADITIONAL LINEAR STACK</span>
+              <span class="badge" style="color: #ef4444;">DESTRUCTIVE</span>
             </div>
-            <p class="feature-desc" data-i18n="feature.dag.desc">Every state mutation diverges into a timeline branch without ever truncating previous historical branches.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-header">
-              <svg class="icon icon-accent" viewBox="0 0 24 24"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
-              <div class="feature-title" data-i18n="feature.proxy.title">Immutable Draft Proxy</div>
+            <div class="ascii-tree">
+Action A ──> Action B ──> Action C (Head)
+  │
+  └── [User steps back 2x to Action A]
+  │
+  └── [User performs Action D]
+  │
+  ❌ Action B and Action C are PERMANENTLY DESTROYED.
             </div>
-            <p class="feature-desc" data-i18n="feature.proxy.desc">Direct mutation syntax powered by zero-dependency Copy-On-Write proxies with structural sharing.</p>
+            <p style="font-size: 13px;">
+              Because linear arrays have only one future pointer, applying any change from a previous state truncates everything ahead.
+            </p>
           </div>
-          <div class="feature-card">
-            <div class="feature-header">
-              <svg class="icon icon-accent" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
-              <div class="feature-title" data-i18n="feature.diff.title">Deep Structural Diffing</div>
+
+          <div class="comp-card dag">
+            <div class="comp-title">
+              <span>HOMURAJS DIRECTED ACYCLIC GRAPH</span>
+              <span class="badge">NON-DESTRUCTIVE</span>
             </div>
-            <p class="feature-desc" data-i18n="feature.diff.desc">Recursive diffing algorithm with precise dot-path tracking of added, removed, and modified properties.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-header">
-              <svg class="icon icon-accent" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
-              <div class="feature-title" data-i18n="feature.devtools.title">Full Diagnostic DevTools</div>
+            <div class="ascii-tree">
+State A ──> State B ──> State C (main branch)
+  │
+  └── [User rewinds to State A and mutates]
+  │
+  ├──> State D ──> State E (experimental branch)
+  │
+  ✓ Both branches coexist, are navigable, and can be merged.
             </div>
-            <p class="feature-desc" data-i18n="feature.devtools.desc">Visual graph timeline, collapsible JSON tree inspector, side-by-side diff viewer, and time scrubber.</p>
+            <p style="font-size: 13px;">
+              Every mutation creates a new node in the Directed Acyclic Graph. Branch divergence preserves 100% of historical states forever.
+            </p>
           </div>
         </div>
       </section>
 
-      <!-- Section: Why Homura -->
-      <section id="perche-homura">
-        <h2>
-          <svg class="icon icon-accent" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-          <span data-i18n="why.title">Why HomuraJS?</span>
-        </h2>
-        <p data-i18n="why.p1">
-          In conventional state managers, history is maintained as a flat linear stack. When you travel back in time and perform a new update, <strong>all future states are irreversibly destroyed</strong>.
-        </p>
-        <p data-i18n="why.p2">
-          HomuraJS removes this limitation by modeling every state transition as a node in a Directed Acyclic Graph (DAG). Rewinding and applying a new change creates an alternative branch, preserving both past and future history forever.
-        </p>
-      </section>
-
-      <!-- Section: Installation -->
-      <section id="installazione">
-        <h2>
-          <svg class="icon icon-accent" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-          <span data-i18n="install.title">Installation</span>
-        </h2>
-        <p data-i18n="install.lead">Select your preferred package manager:</p>
-
-        <div class="tab-bar">
-          <button class="tab-btn active" data-tab="npm">
-            <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
-            <span>npm</span>
-          </button>
-          <button class="tab-btn" data-tab="pnpm">
-            <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
-            <span>pnpm</span>
-          </button>
-          <button class="tab-btn" data-tab="yarn">
-            <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
-            <span>yarn</span>
-          </button>
-          <button class="tab-btn" data-tab="bun">
-            <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
-            <span>bun</span>
-          </button>
-        </div>
-
-        <div class="code-container" id="install-code-box">
-          <div class="code-header">
-            <span class="code-header-title">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
-              <span>Terminal</span>
-            </span>
-            <button class="code-copy-btn">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy</span>
-            </button>
-          </div>
-          <pre><code id="install-cmd">npm install @biagioscaglia/homurajs</code></pre>
-        </div>
-
-        <h3 data-i18n="install.framework_title">Installation for Specific Frameworks</h3>
-        <p data-i18n="install.framework_lead">Integrate HomuraJS into your favorite UI framework:</p>
-        <div class="code-container">
-          <div class="code-header">
-            <span class="code-header-title">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-              <span>React 18+</span>
-            </span>
-            <button class="code-copy-btn">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy</span>
-            </button>
-          </div>
-          <pre><code>npm install @homura-js/core @homura-js/react @homura-js/devtools</code></pre>
-        </div>
-
-        <div class="code-container">
-          <div class="code-header">
-            <span class="code-header-title">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-              <span>Vue 3</span>
-            </span>
-            <button class="code-copy-btn">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy</span>
-            </button>
-          </div>
-          <pre><code>npm install @homura-js/core @homura-js/vue @homura-js/devtools</code></pre>
-        </div>
-      </section>
-
-      <!-- Section: Quickstart -->
-      <section id="quickstart">
-        <h2>
-          <svg class="icon icon-accent" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-          <span data-i18n="quickstart.title">Quickstart</span>
-        </h2>
-        <p data-i18n="quickstart.lead">Initialize a store and execute controlled time-travel mutations in seconds:</p>
-
-        <div class="code-container">
-          <div class="code-header">
-            <span class="code-header-title">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-              <span>quickstart.ts</span>
-            </span>
-            <button class="code-copy-btn">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy</span>
-            </button>
-          </div>
-          <pre><code>import { createHomura } from '@homura-js/core';
-
-// 1. Initialize instance
-const homura = createHomura({
-  initialState: { counter: 0, user: 'Homura' }
-});
-
-// 2. Mutate via Proxy Draft
-homura.update(draft => {
-  draft.counter += 10;
-}, { label: 'Increment counter' });
-
-// 3. Time travel
-homura.undo(); // Counter rewinds to 0
-homura.redo(); // Counter advances to 10
-
-console.log(homura.getState()); // { counter: 10, user: 'Homura' }</code></pre>
-        </div>
-      </section>
-
-      <!-- Section: State Engine -->
-      <section id="state-engine">
-        <h2>
-          <svg class="icon icon-accent" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
-          <span data-i18n="state_engine.title">State Management &amp; Immutability</span>
-        </h2>
-        <p data-i18n="state_engine.p1">
-          HomuraJS guarantees immutability via Copy-On-Write Proxy Drafts. Inside <code>update(draft => ...)</code>, you write direct mutations: the engine applies changes only to modified paths while structurally sharing untouched state.
-        </p>
-
-        <div class="code-container">
-          <div class="code-header">
-            <span class="code-header-title">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-              <span>mutations.ts</span>
-            </span>
-            <button class="code-copy-btn">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy</span>
-            </button>
-          </div>
-          <pre><code>// Direct draft mutation
-homura.update(draft => {
-  draft.user = 'Akemi';
-  draft.counter += 5;
-}, { label: 'Update User' });
-
-// Functional return mutation
-homura.update(state => ({
-  ...state,
-  counter: state.counter + 1
-}), { label: 'Functional Increment' });
-
-// Direct full reset
-homura.setState({ counter: 100, user: 'Homura' }, { label: 'Total Reset' });</code></pre>
-        </div>
-      </section>
-
-      <!-- Section: Atomic Transactions & Batching -->
-      <section id="transazioni">
-        <h2>
-          <svg class="icon icon-accent" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
-          <span data-i18n="transaction.title">Atomic Transactions &amp; Batching</span>
-        </h2>
-        <p data-i18n="transaction.p1">
-          Combine multiple state updates into a single atomic history commit instead of cluttering your timeline with intermediate states:
-        </p>
-
-        <div class="code-container">
-          <div class="code-header">
-            <span class="code-header-title">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-              <span>transactions.ts</span>
-            </span>
-            <button class="code-copy-btn">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy</span>
-            </button>
-          </div>
-          <pre><code>// 1. Batch multiple mutations atomically
-homura.transaction((draft) =&gt; {
-  draft.name = "Biagio";
-  draft.age = 21;
-  draft.role = "developer";
-}, { label: "Update Profile" });
-
-// Result: Exactly 1 single history commit node created!
-// Calling homura.undo() reverts all 3 fields in one single step.</code></pre>
-        </div>
-      </section>
-
-      <!-- Section: Replay Engine & Bug Reports -->
-      <section id="replay-engine">
-        <h2>
-          <svg class="icon icon-accent" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-          <span data-i18n="replay.title">Timeline Replay Engine &amp; Bug Reports</span>
-        </h2>
-        <p data-i18n="replay.p1">
-          Step-by-step automated time-travel replay engine for live debugging, QA testing, and exporting reproducible session bug reports:
-        </p>
-
-        <div class="code-container">
-          <div class="code-header">
-            <span class="code-header-title">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-              <span>replay-and-export.ts</span>
-            </span>
-            <button class="code-copy-btn">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy</span>
-            </button>
-          </div>
-          <pre><code>// 1. Replay timeline sequentially with speed multiplier
-await homura.replay({
-  from: "login-checkpoint",
-  to: "checkout-entry",
-  speed: 2, // 2x speed
-  onStep: (entry, step, total) =&gt; {
-    console.log(`[Replay] Step ${step}/${total}: ${entry.label}`);
-  }
-});
-
-// 2. Export full reproducible state history report
-const bugReport = homura.export();
-// Save to "bug-report.homura" file for instant developer reproduction!
-
-// 3. Developer imports bug report on another machine
-homura.import(bugReport);
-homura.jumpTo("crash-state");</code></pre>
-        </div>
-      </section>
-
-      <!-- Section: DAG & Branching -->
-      <section id="dag-graph">
-        <h2>
-          <svg class="icon icon-accent" viewBox="0 0 24 24"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><path d="M6 21V9a9 9 0 0 0 9 9"></path></svg>
-          <span data-i18n="dag.title">DAG Graph &amp; Branching ("Git for State")</span>
-        </h2>
+      <!-- Section: DAG Branching Model -->
+      <section id="dag-model">
+        <div class="section-coord">SPEC // 01.2 // GRAPH_THEORY</div>
+        <h2 data-i18n="dag.title">Directed Acyclic Graph (DAG) Topology</h2>
         <p data-i18n="dag.p1">
-          Every state transition produces an immutable <code>HistoryEntry&lt;T&gt;</code> indexed in the DAG graph:
+          Each state in HomuraJS is an immutable node containing state snapshots, parent-child links, timestamps, and semantic metadata:
         </p>
 
         <div class="code-container">
           <div class="code-header">
-            <span class="code-header-title">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-              <span>types.ts</span>
-            </span>
+            <span>packages/core/src/types.ts</span>
+            <button class="code-copy-btn">COPY</button>
           </div>
-          <pre><code>interface HistoryEntry&lt;T&gt; {
-  id: string;
-  parentId: string | null;
-  childrenIds: string[];
-  branchId: string;
-  timestamp: number;
-  label: string;
-  state: T;
+          <pre><code>export interface HistoryEntry&lt;T&gt; {
+  id: string;              // UUIDv4 node identifier
+  parentId: string | null; // Direct ancestor pointer
+  childrenIds: string[];   // Successor branches (forks)
+  branchId: string;        // Active timeline branch
+  timestamp: number;       // Unix epoch ms
+  label: string;           // Semantic operation descriptor
+  state: T;                // Frozen immutable snapshot
   metadata?: Record&lt;string, unknown&gt;;
 }</code></pre>
         </div>
+      </section>
 
-        <p data-i18n="dag.p2">
-          If you travel back in history and dispatch a new update, HomuraJS automatically forks an alternative timeline branch without discarding prior history:
+      <!-- Section: Installation -->
+      <section id="installation">
+        <div class="section-coord">SPEC // 02.0 // DEPLOYMENT</div>
+        <h2 data-i18n="install.title">Package Installation</h2>
+        <p data-i18n="install.p1">
+          Install the unified meta-package or individual modular packages according to your project requirements:
         </p>
 
         <div class="code-container">
-          <div class="code-header">
-            <span class="code-header-title">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-              <span>branching.ts</span>
-            </span>
-            <button class="code-copy-btn">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy</span>
-            </button>
+          <div class="tabs-header">
+            <button class="tab-btn active" data-tab="npm">npm</button>
+            <button class="tab-btn" data-tab="pnpm">pnpm</button>
+            <button class="tab-btn" data-tab="yarn">yarn</button>
+            <button class="tab-btn" data-tab="bun">bun</button>
           </div>
-          <pre><code>// Rewind to a previous state
-homura.jumpTo("past-node-id");
-
-// This new update creates branch-2 without destroying previous history
-homura.update(draft => {
-  draft.user = 'Timeline Beta';
-}, { label: 'Alternative Branch Point' });
-
-// Get all timeline branches
-const branches = homura.getBranches();
-
-// Switch between parallel branches
-homura.switchBranch(branches[0].id);</code></pre>
+          <pre><code id="install-cmd">npm install @biagioscaglia/homurajs</code></pre>
         </div>
       </section>
 
-      <!-- Section: Branch Merging & Comparison -->
-      <section id="branch-mgmt">
-        <h2>
-          <svg class="icon icon-accent" viewBox="0 0 24 24"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><path d="M6 21V9a9 9 0 0 0 9 9"></path></svg>
-          <span data-i18n="branch_mgmt.title">Branch Merging &amp; Comparison ("Git for State")</span>
-        </h2>
-        <p data-i18n="branch_mgmt.p1">
-          Compare parallel branches to discover divergence points (Lowest Common Ancestor), diffs, and merge alternative feature timelines:
+      <!-- Section: Quick Start -->
+      <section id="quickstart">
+        <div class="section-coord">SPEC // 02.1 // RUNTIME_INIT</div>
+        <h2 data-i18n="quickstart.title">Quick Start Specification</h2>
+        <p data-i18n="quickstart.p1">
+          Initialize the engine, perform mutations via Copy-On-Write draft proxies, and execute non-destructive time travel:
         </p>
 
         <div class="code-container">
           <div class="code-header">
-            <span class="code-header-title">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-              <span>branch-merge.ts</span>
-            </span>
-            <button class="code-copy-btn">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy</span>
-            </button>
+            <span>example.ts</span>
+            <button class="code-copy-btn">COPY</button>
           </div>
-          <pre><code>// 1. Compare two parallel branches
-const comparison = homura.compare("main", "experimental-feature");
-console.log(comparison.commonAncestorId); // Divergence point in DAG graph
-console.log(comparison.aheadCount);       // Commits ahead
-console.log(comparison.diff);             // Deep recursive delta
+          <pre><code>import { createHomura } from '@biagioscaglia/homurajs';
 
-// 2. 3-Way Merge with automatic conflict resolution strategy ('theirs' | 'ours')
-homura.merge("experimental-feature", {
-  strategy: 'theirs', // Source branch values override conflicts (default)
-  label: "Merge experimental feature into main"
+interface AppState {
+  counter: number;
+  user: { name: string; role: string };
+}
+
+const homura = createHomura&lt;AppState&gt;({
+  initialState: {
+    counter: 0,
+    user: { name: 'Homura', role: 'Architect' }
+  }
 });
 
-// 3. 3-Way Merge with custom granular conflict resolver
-homura.merge("experimental-feature", {
-  strategy: 'manual',
-  resolveConflict: ({ path, ours, theirs, base }) => {
-    console.log(`Conflict on ${path.join('.')}: ours=${ours}, theirs=${theirs}`);
-    return theirs; // return desired resolved value
-  }
-});</code></pre>
+// Mutate via Copy-On-Write Proxy Draft
+homura.update(draft =&gt; {
+  draft.counter += 10;
+  draft.user.role = 'Lead';
+}, { label: 'Promote user and increment' });
+
+// Non-destructive Time Travel
+homura.undo(); // State reverts to counter: 0
+homura.redo(); // State returns to counter: 10
+
+// Branching
+homura.createBranch('experimental');
+homura.update(draft =&gt; { draft.counter = 999; });</code></pre>
         </div>
       </section>
 
-      <!-- Section: Time Travel -->
-      <section id="time-travel">
-        <h2>
-          <svg class="icon icon-accent" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-          <span data-i18n="time_travel.title">Time Travel Navigation</span>
-        </h2>
-        <p data-i18n="time_travel.lead">Deterministic commands for traversing your application history:</p>
-
-        <div class="table-container">
-          <table>
+      <!-- Section: Monorepo Architecture -->
+      <section id="architecture">
+        <div class="section-coord">SPEC // 02.2 // MODULE_ANATOMY</div>
+        <h2 data-i18n="architecture.title">Monorepo Package Architecture</h2>
+        <div class="data-table-container">
+          <table class="data-table">
             <thead>
               <tr>
-                <th data-i18n="time_travel.th_method">Method</th>
-                <th data-i18n="time_travel.th_desc">Description</th>
+                <th>Package</th>
+                <th>Bundle Size</th>
+                <th>Role &amp; Capabilities</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><code>homura.undo()</code></td>
-                <td data-i18n="time_travel.undo_desc">Rewinds to the parent node in the timeline graph.</td>
+                <td><strong>@homura-js/core</strong></td>
+                <td><code>&lt; 5.2 kB</code></td>
+                <td>Core DAG graph engine, Proxy draft immutability, structural diffing, snapshot registry, persistence.</td>
               </tr>
               <tr>
-                <td><code>homura.redo()</code></td>
-                <td data-i18n="time_travel.redo_desc">Advances to the next child node in the active branch.</td>
+                <td><strong>@homura-js/devtools</strong></td>
+                <td><code>&lt; 9.4 kB</code></td>
+                <td>Standalone diagnostic GUI: visual timeline tree, JSON state tree inspector, side-by-side diff viewer.</td>
               </tr>
               <tr>
-                <td><code>homura.rewind(N)</code></td>
-                <td data-i18n="time_travel.rewind_desc">Fast-rewinds backwards by N history steps.</td>
+                <td><strong>@homura-js/vanilla</strong></td>
+                <td><code>&lt; 2.8 kB</code></td>
+                <td>Reactive DOM binding (<code>bindState</code>) and Zero-JS form auto-binding crash recovery (<code>bindForm</code>).</td>
               </tr>
               <tr>
-                <td><code>homura.fastForward(N)</code></td>
-                <td data-i18n="time_travel.ff_desc">Fast-forwards forward by N history steps.</td>
+                <td><strong>@homura-js/react</strong></td>
+                <td><code>&lt; 2.1 kB</code></td>
+                <td>React 18+ bindings with <code>useSyncExternalStore</code> and selector optimization.</td>
               </tr>
               <tr>
-                <td><code>homura.jumpTo(entryId)</code></td>
-                <td data-i18n="time_travel.jump_desc">Jumps directly to any node ID in the DAG graph.</td>
+                <td><strong>@homura-js/vue</strong></td>
+                <td><code>&lt; 2.3 kB</code></td>
+                <td>Vue 3 Composition API hook (<code>useHomura</code>) and plugin wrapper.</td>
+              </tr>
+              <tr>
+                <td><strong>@biagioscaglia/homurajs</strong></td>
+                <td><code>Meta</code></td>
+                <td>Unified meta-package + standalone browser CDN bundle (<code>dist/index.global.js</code>).</td>
               </tr>
             </tbody>
           </table>
         </div>
       </section>
 
-      <!-- Section: Snapshots -->
-      <section id="snapshots">
-        <h2>
-          <svg class="icon icon-accent" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
-          <span data-i18n="snapshots.title">Snapshots &amp; Milestones</span>
-        </h2>
-        <p data-i18n="snapshots.p1">
-          Create named immutable checkpoints of your application state and restore them instantly:
+      <!-- Section: Proxy Draft & Immutability -->
+      <section id="immutability">
+        <div class="section-coord">SPEC // 02.3 // MEMORY_MODEL</div>
+        <h2 data-i18n="immutability.title">Copy-On-Write Proxy Immutability</h2>
+        <p data-i18n="immutability.p1">
+          HomuraJS intercepts state writes using JavaScript Proxies. Mutations are isolated in a temporary draft and applied with structural sharing:
         </p>
 
         <div class="code-container">
           <div class="code-header">
-            <span class="code-header-title">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-              <span>snapshots.ts</span>
-            </span>
-            <button class="code-copy-btn">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy</span>
-            </button>
+            <span>atomic-transactions.ts</span>
+            <button class="code-copy-btn">COPY</button>
           </div>
-          <pre><code>// Create snapshot
-const snap = homura.snapshot('Boss Checkpoint', { stage: 3 });
-
-// Get all snapshots
-const list = homura.getSnapshots();
-
-// Instantly restore saved state
-homura.restore(snap.id);
-
-// Delete snapshot
-homura.deleteSnapshot(snap.id);</code></pre>
+          <pre><code>// Atomic Transactions: Multiple operations collapsed into a single DAG node
+homura.transaction(draft =&gt; {
+  draft.counter += 50;
+  draft.user.name = 'Madoka';
+  draft.user.role = 'Guardian';
+}, { label: 'Atomic Profile Update' });</code></pre>
         </div>
       </section>
 
-      <!-- Section: Diff Engine -->
-      <section id="diff-engine">
-        <h2>
-          <svg class="icon icon-accent" viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
-          <span data-i18n="diff.title">Structural Diff Engine</span>
-        </h2>
-        <p data-i18n="diff.p1">
-          The pure-function diffing engine computes exact semantic delta changes between any two states:
+      <!-- Section: Structural Diffing -->
+      <section id="diffing">
+        <div class="section-coord">SPEC // 02.4 // STRUCTURAL_DIFF</div>
+        <h2 data-i18n="diffing.title">Structural Diff Engine &amp; Replay</h2>
+        <p data-i18n="diffing.p1">
+          Calculate recursive JSON difference sets between any two nodes in the DAG with exact dot-paths and types:
         </p>
 
         <div class="code-container">
           <div class="code-header">
-            <span class="code-header-title">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-              <span>diff.ts</span>
-            </span>
-            <button class="code-copy-btn">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy</span>
-            </button>
+            <span>diff-engine.ts</span>
+            <button class="code-copy-btn">COPY</button>
           </div>
-          <pre><code>import { diffStates } from '@homura-js/core';
-
-const stateA = { hero: { hp: 100, weapon: 'Sword' }, inventory: ['Potion'] };
-const stateB = { hero: { hp: 75, weapon: 'Magic Sword' }, inventory: ['Potion', 'Shield'] };
-
-const diff = diffStates(stateA, stateB);
-console.log(diff);
+          <pre><code>const diffs = homura.diff('entry-node-a', 'entry-node-b');
+// Returns:
 // [
-//   { path: ['hero', 'hp'], type: 'changed', oldValue: 100, newValue: 75 },
-//   { path: ['hero', 'weapon'], type: 'changed', oldValue: 'Sword', newValue: 'Magic Sword' },
-//   { path: ['inventory', 1], type: 'added', value: 'Shield' }
+//   { type: 'modified', path: 'user.role', oldValue: 'Architect', newValue: 'Lead' },
+//   { type: 'added', path: 'flags.experimental', newValue: true }
 // ]</code></pre>
         </div>
       </section>
 
-      <!-- Section: Compaction & Storage -->
-      <section id="compattazione">
-        <h2>
-          <svg class="icon icon-accent" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
-          <span data-i18n="compaction.title">History Compaction &amp; Enterprise Storage</span>
-        </h2>
-        <p data-i18n="compaction.p1">
-          Keep your memory footprint optimal with intelligent graph compaction and high-capacity storage backends like IndexedDB:
+      <!-- Section: Vanilla JS & Static Forms -->
+      <section id="vanilla">
+        <div class="section-coord">SPEC // 03.1 // ZERO_JS_FORMS</div>
+        <h2 data-i18n="vanilla.title">Vanilla JS &amp; Zero-JS Static Site Form Engine</h2>
+        <p data-i18n="vanilla.p1">
+          Turn any static HTML form (Webflow, Shopify, Squarespace, Static HTML) into a time-travel crash-recovery machine without writing JavaScript:
         </p>
 
         <div class="code-container">
           <div class="code-header">
-            <span class="code-header-title">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-              <span>compaction-and-storage.ts</span>
-            </span>
-            <button class="code-copy-btn">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy</span>
-            </button>
+            <span>static-form.html</span>
+            <button class="code-copy-btn">COPY</button>
           </div>
-          <pre><code>import { createHomura, createIndexedDBAdapter } from '@biagioscaglia/homurajs';
+          <pre><code>&lt;!-- CDN Standalone Script --&gt;
+&lt;script src="https://unpkg.com/@biagioscaglia/homurajs/dist/index.global.js"&gt;&lt;/script&gt;
 
-// 1. Enterprise IndexedDB persistence for large browser applications
-const homura = createHomura({
-  initialState: { documents: [] },
-  persistence: {
-    adapter: createIndexedDBAdapter({ dbName: 'my_app_db', storeName: 'history_store' }),
-    autoSave: true,
-    debounceMs: 150
-  }
-});
+&lt;!-- Declarative Auto-Bound Form --&gt;
+&lt;form data-homura-form="lead_capture" data-homura-persist="localstorage"&gt;
+  &lt;span data-homura-status&gt;&lt;/span&gt;
+  &lt;div data-homura-breadcrumbs&gt;&lt;/div&gt;
 
-// 2. Compact history graph down to 100 entries, preserving checkpoints
-const prunedCount = homura.compact({
-  maxEntries: 100,
-  preserveSnapshots: true
-});
-console.log(`Pruned ${prunedCount} intermediate non-essential nodes`);</code></pre>
+  &lt;input type="text" name="name" placeholder="Full Name" /&gt;
+  &lt;input type="email" name="email" placeholder="Email Address" /&gt;
+  &lt;textarea name="specifications"&gt;&lt;/textarea&gt;
+
+  &lt;button type="button" data-homura-undo&gt;↩ Undo&lt;/button&gt;
+  &lt;button type="button" data-homura-redo&gt;↪ Redo&lt;/button&gt;
+  &lt;button type="submit"&gt;Submit Form&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+        </div>
+
+        <h3 data-i18n="vanilla.h3_wizard">Multi-Step Form Wizard (data-homura-wizard)</h3>
+        <div class="code-container">
+          <div class="code-header">
+            <span>wizard.html</span>
+            <button class="code-copy-btn">COPY</button>
+          </div>
+          <pre><code>&lt;form data-homura-wizard="quote_wizard" data-homura-persist="localstorage"&gt;
+  &lt;div data-homura-step="1"&gt;
+    &lt;label&gt;Step 1: Budget&lt;/label&gt;
+    &lt;input type="number" name="budget" /&gt;
+    &lt;button type="button" data-homura-next&gt;Next ➔&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div data-homura-step="2"&gt;
+    &lt;label&gt;Step 2: Contact&lt;/label&gt;
+    &lt;input type="email" name="email" /&gt;
+    &lt;button type="button" data-homura-prev&gt;⬅ Back&lt;/button&gt;
+    &lt;button type="submit" data-homura-next data-submit-label="Finish"&gt;Submit&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/form&gt;</code></pre>
         </div>
       </section>
 
-      <!-- Section: Persistence -->
-      <section id="persistenza">
-        <h2>
-          <svg class="icon icon-accent" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-          <span data-i18n="persistence.title">Data Persistence &amp; Storage</span>
-        </h2>
-        <p data-i18n="persistence.p1">
-          Out-of-the-box storage adapters to save the entire DAG history to LocalStorage or Memory with automated debouncing:
+      <!-- Section: WordPress & WooCommerce -->
+      <section id="wordpress">
+        <div class="section-coord">SPEC // 03.2 // PHP_WORDPRESS</div>
+        <h2 data-i18n="wordpress.title">WordPress &amp; WooCommerce Integration</h2>
+        <p data-i18n="wordpress.p1">
+          The official HomuraJS WordPress plugin brings DAG state history, checkout recovery, and form crash protection to WordPress:
         </p>
 
         <div class="code-container">
           <div class="code-header">
-            <span class="code-header-title">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-              <span>persistence.ts</span>
-            </span>
-            <button class="code-copy-btn">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy</span>
-            </button>
+            <span>WordPress Shortcode Implementation</span>
+            <button class="code-copy-btn">COPY</button>
           </div>
-          <pre><code>import { createHomura, LocalStorageAdapter } from '@homura-js/core';
+          <pre><code>[homura_form id="lead_quote" persist="localstorage"]
+  [homura_status form="lead_quote"]
+  [homura_breadcrumbs form="lead_quote"]
 
-const homura = createHomura({
-  initialState: { settings: { theme: 'dark' } },
-  persistence: {
-    adapter: new LocalStorageAdapter('app_homura_state'),
-    autoSave: true,
-    debounceMs: 250
-  }
-});
+  &lt;input type="text" name="company" placeholder="Company Name" /&gt;
+  &lt;textarea name="project_scope"&gt;&lt;/textarea&gt;
 
-// Manual save
-await homura.save();
-
-// Manual load
-await homura.load();</code></pre>
+  [homura_undo form="lead_quote" label="↩ Undo Step"]
+  [homura_redo form="lead_quote" label="↪ Redo Step"]
+[/homura_form]</code></pre>
         </div>
 
-        <h3 style="font-size: 15px; margin: 20px 0 8px 0;">Custom Persistence Adapter API (SQLite, Cloud, Electron, Filesystem)</h3>
-        <p>Implement the lightweight <code>PersistenceAdapter&lt;T&gt;</code> interface to connect HomuraJS to any custom storage engine:</p>
-        <div class="code-container">
-          <div class="code-header">
-            <span class="code-header-title">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-              <span>CustomCloudAdapter.ts</span>
-            </span>
-            <button class="code-copy-btn">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy</span>
-            </button>
-          </div>
-          <pre><code>import { PersistenceAdapter, SerializedHomura } from '@biagioscaglia/homurajs';
-
-export class CustomCloudAdapter&lt;T&gt; implements PersistenceAdapter&lt;T&gt; {
-  constructor(private endpoint: string) {}
-
-  async save(data: SerializedHomura&lt;T&gt;): Promise&lt;void&gt; {
-    await fetch(this.endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-  }
-
-  async load(): Promise&lt;SerializedHomura&lt;T&gt; | null&gt; {
-    const res = await fetch(this.endpoint);
-    return res.ok ? await res.json() : null;
-  }
-
-  async clear(): Promise&lt;void&gt; {
-    await fetch(this.endpoint, { method: 'DELETE' });
-  }
-}</code></pre>
-        </div>
+        <h3 data-i18n="wordpress.h3_autohook">Automatic Hooks for Top Form Engines</h3>
+        <p>The plugin auto-detects and attaches crash recovery to:</p>
+        <ul style="margin-left: 20px; line-height: 1.8; color: var(--text-muted); font-size: 13.5px;">
+          <li>🛒 <strong>WooCommerce Checkout</strong> (<code>.woocommerce-checkout</code>)</li>
+          <li>📬 <strong>Contact Form 7</strong> (<code>.wpcf7 form</code>)</li>
+          <li>📝 <strong>WPForms &amp; Gravity Forms</strong> (<code>.wpforms-form</code>, <code>.gform_wrapper</code>)</li>
+          <li>🎨 <strong>Elementor Forms</strong> (<code>.elementor-form</code>)</li>
+        </ul>
       </section>
 
-      <!-- Section: React Integration -->
+      <!-- Section: React 18+ Integration -->
       <section id="react">
-        <h2>
-          <svg class="icon icon-accent" viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(30 12 12)"></ellipse><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(90 12 12)"></ellipse><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(150 12 12)"></ellipse></svg>
-          <span data-i18n="react.title">React 18+ Integration</span>
-        </h2>
-        <p data-i18n="react.p1">
-          The useHomura hook leverages native useSyncExternalStore APIs, ensuring zero tearing and fine-grained selector re-render optimizations:
-        </p>
-
+        <div class="section-coord">SPEC // 03.3 // REACT_BINDING</div>
+        <h2 data-i18n="react.title">React 18+ Integration (@homura-js/react)</h2>
         <div class="code-container">
           <div class="code-header">
-            <span class="code-header-title">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-              <span>Counter.tsx</span>
-            </span>
-            <button class="code-copy-btn">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy</span>
-            </button>
+            <span>UserDashboard.tsx</span>
+            <button class="code-copy-btn">COPY</button>
           </div>
-          <pre><code>import { useHomura, HomuraDevTools } from '@homura-js/react';
+          <pre><code>import React from 'react';
+import { useHomura } from '@homura-js/react';
 import { homura } from './store';
 
-export function Counter() {
-  // Selector subscription
-  const { state: count, update, undo, redo, canUndo, canRedo } = useHomura(
+export function UserDashboard() {
+  const { state: user, update, undo, redo, canUndo, canRedo } = useHomura(
     homura,
-    s => s.counter
+    s =&gt; s.user
   );
 
   return (
     &lt;div&gt;
-      &lt;h1&gt;Count: {count}&lt;/h1&gt;
-      &lt;button onClick={() =&gt; update(d =&gt; { d.counter++; }, { label: 'Increment' })}&gt;+1&lt;/button&gt;
+      &lt;h3&gt;User: {user.name}&lt;/h3&gt;
+      &lt;button onClick={() =&gt; update(d =&gt; { d.user.name = 'New Name'; })}&gt;Update&lt;/button&gt;
       &lt;button disabled={!canUndo} onClick={() =&gt; undo()}&gt;Undo&lt;/button&gt;
       &lt;button disabled={!canRedo} onClick={() =&gt; redo()}&gt;Redo&lt;/button&gt;
-
-      &lt;HomuraDevTools homura={homura} position="floating" /&gt;
     &lt;/div&gt;
   );
 }</code></pre>
         </div>
-
-        <h3 style="font-size: 15px; margin: 20px 0 8px 0;">SSR Hydration &amp; React Server Components (Next.js / Remix)</h3>
-        <p>Because <code>useHomura</code> is built on React 18's official <code>useSyncExternalStore</code>, server-side rendering is 100% hydration-safe with zero tearing or hydration mismatch:</p>
-        <div class="code-container">
-          <div class="code-header">
-            <span class="code-header-title">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-              <span>ssr-store.ts</span>
-            </span>
-            <button class="code-copy-btn">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy</span>
-            </button>
-          </div>
-          <pre><code>// Client components in Next.js App Router ('use client')
-'use client';
-
-import { useHomura } from '@homura-js/react';
-import { createHomura } from '@biagioscaglia/homurajs';
-
-export const homura = createHomura({
-  initialState: { user: null, cart: [] }
-});
-
-export function CartWidget() {
-  const { state: cart } = useHomura(homura, s => s.cart);
-  return &lt;div&gt;Items in Cart: {cart.length}&lt;/div&gt;;
-}</code></pre>
-        </div>
       </section>
 
-      <!-- Section: Vue Integration -->
+      <!-- Section: Vue 3 Integration -->
       <section id="vue">
-        <h2>
-          <svg class="icon icon-accent" viewBox="0 0 24 24"><polygon points="12 2 2 22 22 22 12 2"></polygon></svg>
-          <span data-i18n="vue.title">Vue 3 Integration</span>
-        </h2>
+        <div class="section-coord">SPEC // 03.4 // VUE_BINDING</div>
+        <h2 data-i18n="vue.title">Vue 3 Composition API (@homura-js/vue)</h2>
         <div class="code-container">
           <div class="code-header">
-            <span class="code-header-title">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-              <span>Counter.vue</span>
-            </span>
-            <button class="code-copy-btn">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy</span>
-            </button>
+            <span>Counter.vue</span>
+            <button class="code-copy-btn">COPY</button>
           </div>
           <pre><code>&lt;template&gt;
   &lt;div&gt;
-    &lt;h1&gt;Count: {{ state.counter }}&lt;/h1&gt;
+    &lt;h3&gt;Counter: {{ state.counter }}&lt;/h3&gt;
     &lt;button @click="increment"&gt;+1&lt;/button&gt;
     &lt;button :disabled="!canUndo" @click="undo"&gt;Undo&lt;/button&gt;
+    &lt;button :disabled="!canRedo" @click="redo"&gt;Redo&lt;/button&gt;
   &lt;/div&gt;
 &lt;/template&gt;
 
@@ -1985,7 +1318,7 @@ export function CartWidget() {
 import { useHomura } from '@homura-js/vue';
 import { homura } from './store';
 
-const { state, update, undo, canUndo } = useHomura(homura);
+const { state, update, undo, redo, canUndo, canRedo } = useHomura(homura);
 
 function increment() {
   update(d =&gt; { d.counter++; }, { label: 'Increment' });
@@ -1994,599 +1327,181 @@ function increment() {
         </div>
       </section>
 
-      <!-- Section: Vanilla JS & Static Sites -->
-      <section id="vanilla">
-        <h2>
-          <svg class="icon icon-accent" viewBox="0 0 24 24"><path d="M16.5 9.4 7.55 4.24a1.78 1.78 0 0 0-2.5 1.55v12.42a1.78 1.78 0 0 0 2.5 1.55L16.5 14.6a1.78 1.78 0 0 0 0-3.2z"></path></svg>
-          <span data-i18n="vanilla.title">Vanilla JS &amp; Zero-JS Static Site Form Engine</span>
-        </h2>
-        <p data-i18n="vanilla.p1">
-          Use HomuraJS directly with DOM elements or turn any static HTML form into a time-travel crash-recovery machine without writing a single line of JavaScript.
-        </p>
-
-        <h3 style="font-size: 15px; margin: 24px 0 8px 0;" data-i18n="vanilla.h3_forms">2. Zero-JS Form Auto-Binding &amp; Crash Recovery (data-homura-*)</h3>
-        <p>Drop a single script tag into any HTML site (Webflow, Shopify, Squarespace, Static HTML). Homura automatically captures inputs, tracks non-destructive DAG history, and enables Undo/Redo buttons:</p>
-        <div class="code-container">
-          <div class="code-header">
-            <span class="code-header-title">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-              <span>index.html</span>
-            </span>
-            <button class="code-copy-btn">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy</span>
-            </button>
-          </div>
-          <pre><code>&lt;!-- Load HomuraJS Standalone Bundle from CDN --&gt;
-&lt;script src="https://unpkg.com/@biagioscaglia/homurajs/dist/index.global.js"&gt;&lt;/script&gt;
-
-&lt;!-- Declarative Zero-JS Form Auto-Binding --&gt;
-&lt;form data-homura-form="lead_form" data-homura-persist="localstorage"&gt;
-  &lt;!-- Status badge and history breadcrumbs --&gt;
-  &lt;span data-homura-status&gt;&lt;/span&gt;
-  &lt;div data-homura-breadcrumbs&gt;&lt;/div&gt;
-
-  &lt;input type="text" name="client_name" placeholder="Full Name" /&gt;
-  &lt;input type="email" name="client_email" placeholder="Email Address" /&gt;
-  &lt;textarea name="message" placeholder="Project specifications..."&gt;&lt;/textarea&gt;
-
-  &lt;button type="button" data-homura-undo&gt;↩ Undo&lt;/button&gt;
-  &lt;button type="button" data-homura-redo&gt;↪ Redo&lt;/button&gt;
-  &lt;button type="submit"&gt;Submit Form&lt;/button&gt;
-&lt;/form&gt;</code></pre>
-        </div>
-
-        <h3 style="font-size: 15px; margin: 24px 0 8px 0;" data-i18n="vanilla.h3_wizard">3. Multi-Step Form Wizard (data-homura-wizard)</h3>
-        <p>Paginated multi-step questionnaires with time-travel rewind across steps and zero loss of state:</p>
-        <div class="code-container">
-          <div class="code-header">
-            <span class="code-header-title">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-              <span>wizard.html</span>
-            </span>
-            <button class="code-copy-btn">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy</span>
-            </button>
-          </div>
-          <pre><code>&lt;form data-homura-wizard="quote_wizard" data-homura-persist="localstorage"&gt;
-  &lt;!-- Step 1 --&gt;
-  &lt;div data-homura-step="1"&gt;
-    &lt;label&gt;Step 1: Budget Range&lt;/label&gt;
-    &lt;select name="budget"&gt;&lt;option value="10k"&gt;$5,000 - $10,000&lt;/option&gt;&lt;/select&gt;
-    &lt;button type="button" data-homura-next&gt;Next Step ➔&lt;/button&gt;
-  &lt;/div&gt;
-
-  &lt;!-- Step 2 --&gt;
-  &lt;div data-homura-step="2"&gt;
-    &lt;label&gt;Step 2: Contact Info&lt;/label&gt;
-    &lt;input type="email" name="email" placeholder="Email" /&gt;
-    &lt;button type="button" data-homura-prev&gt;⬅ Back&lt;/button&gt;
-    &lt;button type="submit" data-homura-next data-submit-label="Complete Order"&gt;Finish&lt;/button&gt;
-  &lt;/div&gt;
-&lt;/form&gt;</code></pre>
-        </div>
-
-        <h3 style="font-size: 15px; margin: 24px 0 8px 0;" data-i18n="vanilla.h3_dom">1. Reactive DOM Element Binding (bindState)</h3>
-        <div class="code-container">
-          <div class="code-header">
-            <span class="code-header-title">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-              <span>vanilla.ts</span>
-            </span>
-            <button class="code-copy-btn">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy</span>
-            </button>
-          </div>
-          <pre><code>import { createHomura, bindState } from '@biagioscaglia/homurajs';
-
-const homura = createHomura({
-  initialState: { counter: 0, user: { name: 'Mario' } }
-});
-
-// Reactively sync DOM elements with formatted state selectors
-const unbind = bindState(homura, [
-  { selector: s =&gt; s.counter, target: '#count-badge', format: val =&gt; `Counter: ${val}` },
-  { selector: s =&gt; s.user.name, target: '#username-display' }
-]);</code></pre>
-        </div>
-      </section>
-
-      <!-- Section: WordPress & WooCommerce -->
-      <section id="wordpress">
-        <h2>
-          <svg class="icon icon-accent" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 0-7.07 17.07L12 2z"></path><path d="m4.93 4.93 4.24 14.14L12 12"></path></svg>
-          <span data-i18n="wordpress.title">WordPress &amp; WooCommerce Integration</span>
-        </h2>
-        <p data-i18n="wordpress.p1">
-          The official HomuraJS WordPress plugin brings non-destructive DAG time-travel, WooCommerce checkout recovery, and form crash protection to 43% of the web.
-        </p>
-
-        <h3 style="font-size: 15px; margin: 24px 0 8px 0;" data-i18n="wordpress.h3_install">Installation &amp; Activation</h3>
-        <ol style="margin-left: 20px; line-height: 1.8; color: var(--text-muted); font-size: 13.5px;">
-          <li>Copy the <code>examples/wordpress-plugin</code> folder into your WordPress <code>wp-content/plugins/homurajs-time-travel</code> directory.</li>
-          <li>Navigate to <b>WordPress Admin &rarr; Plugins</b> and click <b>Activate</b>.</li>
-          <li>All forms and shortcodes are instantly active across your entire WordPress theme!</li>
-        </ol>
-
-        <h3 style="font-size: 15px; margin: 24px 0 8px 0;" data-i18n="wordpress.h3_shortcodes">WordPress Shortcodes</h3>
-        <div class="code-container">
-          <div class="code-header">
-            <span class="code-header-title">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-              <span>WordPress Page / Post Shortcodes</span>
-            </span>
-            <button class="code-copy-btn">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy</span>
-            </button>
-          </div>
-          <pre><code>[homura_form id="client_quote" persist="localstorage"]
-  [homura_status form="client_quote"]
-  [homura_breadcrumbs form="client_quote"]
-
-  &lt;input type="text" name="company_name" placeholder="Company Name" /&gt;
-  &lt;textarea name="project_details"&gt;&lt;/textarea&gt;
-
-  [homura_undo form="client_quote" label="↩ Undo Step"]
-  [homura_redo form="client_quote" label="↪ Redo Step"]
-[/homura_form]</code></pre>
-        </div>
-
-        <h3 style="font-size: 15px; margin: 24px 0 8px 0;" data-i18n="wordpress.h3_autohook">Auto-Hook into WooCommerce, Contact Form 7, and Elementor</h3>
-        <p>The plugin automatically detects and attaches crash-recovery and local state persistence to:</p>
-        <ul style="margin-left: 20px; line-height: 1.8; color: var(--text-muted); font-size: 13.5px;">
-          <li>🛒 <b>WooCommerce Checkout</b> (<code>.woocommerce-checkout</code>): Preserves customer billing, shipping, and order notes across accidental tab closes or page refreshes.</li>
-          <li>📬 <b>Contact Form 7</b> (<code>.wpcf7 form</code>): Real-time field buffering.</li>
-          <li>📝 <b>WPForms &amp; Gravity Forms</b> (<code>.wpforms-form</code>, <code>.gform_wrapper</code>).</li>
-          <li>🎨 <b>Elementor Forms</b> (<code>.elementor-form</code>).</li>
-        </ul>
-      </section>
-
-      <!-- Section: DevTools -->
+      <!-- Section: Diagnostic DevTools -->
       <section id="devtools">
-        <h2>
-          <svg class="icon icon-accent" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-          <span data-i18n="devtools.title">Embedded Diagnostic DevTools</span>
-        </h2>
+        <div class="section-coord">SPEC // 03.5 // DEVTOOLS_GUI</div>
+        <h2 data-i18n="devtools.title">Embedded Diagnostic DevTools</h2>
         <p data-i18n="devtools.p1">
-          The @homura-js/devtools package provides a high-performance visual GUI with zero external runtime dependencies:
+          Zero-dependency diagnostic panel with visual DAG tree, state inspector, and diff scrubber:
         </p>
 
         <div class="code-container">
           <div class="code-header">
-            <span class="code-header-title">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-              <span>mountDevtools.ts</span>
-            </span>
-            <button class="code-copy-btn">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>Copy</span>
-            </button>
+            <span>devtools-mount.ts</span>
+            <button class="code-copy-btn">COPY</button>
           </div>
           <pre><code>import { mountDevTools } from '@homura-js/devtools';
 
-// Floating overlay bottom-right (Shortcut: Alt + H)
 mountDevTools(homura, {
-  position: 'floating',
+  position: 'floating', // 'floating' | 'embedded'
   theme: 'dark',
   defaultOpen: true
 });</code></pre>
         </div>
       </section>
 
-      <!-- Section: Interactive Live Sandbox -->
-      <section id="sandbox-live">
-        <h2>
-          <svg class="icon icon-accent" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-          <span data-i18n="sandbox.title">Live Interactive Sandbox</span>
-        </h2>
-        <p data-i18n="sandbox.p1">
-          Test and interact with a live HomuraJS engine running directly inside this documentation page:
-        </p>
-
-        <div class="sandbox-container">
-          <div class="sandbox-header">
-            <span style="font-weight: 700; color: #fff; display: flex; align-items: center; gap: 8px;">
-              <svg class="icon icon-accent" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-              <span>HOMURA ENGINE SANDBOX</span>
-            </span>
-            <span id="sb-status" style="font-size: 12px; color: var(--accent);">Ready</span>
-          </div>
-
-          <div class="sandbox-controls">
-            <button class="btn btn-primary" id="sb-btn-inc">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-              <span data-i18n="sandbox.btn_inc">+10 Counter</span>
-            </button>
-            <button class="btn btn-primary" id="sb-btn-user">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-              <span data-i18n="sandbox.btn_user">Change User</span>
-            </button>
-            <button class="btn" id="sb-btn-undo">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
-              <span data-i18n="sandbox.btn_undo">Undo</span>
-            </button>
-            <button class="btn" id="sb-btn-redo">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
-              <span data-i18n="sandbox.btn_redo">Redo</span>
-            </button>
-            <button class="btn" id="sb-btn-fork">
-              <svg class="icon icon-sm icon-accent" viewBox="0 0 24 24"><circle cx="18" cy="18" r="3"></circle><circle cx="6" cy="6" r="3"></circle><path d="M6 21V9a9 9 0 0 0 9 9"></path></svg>
-              <span data-i18n="sandbox.btn_fork">Fork Branch</span>
-            </button>
-            <button class="btn" id="sb-btn-snap">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
-              <span data-i18n="sandbox.btn_snap">Snapshot</span>
-            </button>
-            <button class="btn" id="sb-btn-transaction">
-              <svg class="icon icon-sm icon-accent" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
-              <span data-i18n="sandbox.btn_transaction">Transaction</span>
-            </button>
-            <button class="btn btn-primary" id="sb-btn-replay">
-              <svg class="icon icon-sm" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-              <span data-i18n="sandbox.btn_replay">▶ Replay (2x)</span>
-            </button>
-          </div>
-
-          <div style="margin-bottom: 8px; font-size: 12px; font-weight: 600; color: var(--text-muted);" data-i18n="sandbox.state_label">
-            Live State Output:
-          </div>
-          <div class="sandbox-output" id="sb-state-display">Initializing...</div>
-        </div>
-      </section>
-
-      <!-- Section: FAQ (AEO & AI Search Engines) -->
-      <section id="faq">
-        <h2>
-          <svg class="icon icon-accent" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-          <span data-i18n="faq.title">Frequently Asked Questions (FAQ)</span>
-        </h2>
-        <div class="answer-box">
-          <div class="answer-box-title" data-i18n="faq.q1">What is HomuraJS?</div>
-          <p style="margin: 0; font-size: 13.5px;" data-i18n="faq.a1">
-            HomuraJS is a JavaScript/TypeScript state management and time-travel debugging engine modeled as a Directed Acyclic Graph (DAG), conceived as "Git for application state".
-          </p>
-        </div>
-
-        <div class="answer-box">
-          <div class="answer-box-title" data-i18n="faq.q2">How is HomuraJS different from standard Undo/Redo systems?</div>
-          <p style="margin: 0; font-size: 13.5px;" data-i18n="faq.a2">
-            Standard Undo/Redo systems use a flat linear array stack that irrevocably destroys future states whenever a new mutation occurs in the past. HomuraJS forks non-destructive timeline branches, preserving all past and future states forever.
-          </p>
-        </div>
-
-        <div class="answer-box">
-          <div class="answer-box-title" data-i18n="faq.q3">Which UI frameworks are supported?</div>
-          <p style="margin: 0; font-size: 13.5px;" data-i18n="faq.a3">
-            HomuraJS core is framework-agnostic (@homura-js/core) and provides official packages for React 18+ (@homura-js/react), Vue 3 (@homura-js/vue), and Vanilla JavaScript (@homura-js/vanilla).
-          </p>
-        </div>
-
-        <div class="answer-box">
-          <div class="answer-box-title" data-i18n="faq.q4">How to install HomuraJS?</div>
-          <p style="margin: 0; font-size: 13.5px;" data-i18n="faq.a4">
-            Install the core package via <code>npm install @homura-js/core</code> or use the unified meta-package <code>npm install @biagioscaglia/homurajs</code>.
-          </p>
-        </div>
-      </section>
-
       <!-- Section: API Reference -->
       <section id="api-reference">
-        <h2>
-          <svg class="icon icon-accent" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-          <span data-i18n="api.title">Complete API Reference</span>
-        </h2>
-        <div class="table-container">
-          <table>
+        <div class="section-coord">SPEC // 04.0 // API_MATRIX</div>
+        <h2 data-i18n="api.title">Complete Homura&lt;T&gt; API Matrix</h2>
+        <div class="data-table-container">
+          <table class="data-table">
             <thead>
               <tr>
-                <th data-i18n="api.th_method">Method</th>
-                <th data-i18n="api.th_params">Parameters</th>
-                <th data-i18n="api.th_return">Return</th>
-                <th data-i18n="api.th_desc">Description</th>
+                <th>Method Signature</th>
+                <th>Return Type</th>
+                <th>Description</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td><code>getState()</code></td>
-                <td>-</td>
                 <td><code>T</code></td>
-                <td data-i18n="api.get_state_desc">Returns the current immutable state tree.</td>
+                <td>Returns the current frozen immutable state snapshot.</td>
               </tr>
               <tr>
                 <td><code>update(updater, options?)</code></td>
-                <td><code>(draft: T) => void</code>, <code>StateUpdateOptions</code></td>
                 <td><code>HistoryEntry&lt;T&gt;</code></td>
-                <td data-i18n="api.update_desc">Executes a Copy-On-Write draft mutation.</td>
+                <td>Mutates state via Copy-On-Write draft proxy.</td>
               </tr>
               <tr>
                 <td><code>undo()</code></td>
-                <td>-</td>
                 <td><code>HistoryEntry&lt;T&gt; | null</code></td>
-                <td data-i18n="api.undo_desc">Rewinds to the parent node in the timeline graph.</td>
+                <td>Steps back to parent entry in DAG.</td>
               </tr>
               <tr>
                 <td><code>redo()</code></td>
-                <td>-</td>
                 <td><code>HistoryEntry&lt;T&gt; | null</code></td>
-                <td data-i18n="api.redo_desc">Advances to the next child node in the active branch.</td>
+                <td>Steps forward to next child entry on branch.</td>
               </tr>
               <tr>
-                <td><code>rewind(steps)</code></td>
-                <td><code>number</code></td>
-                <td><code>HistoryEntry&lt;T&gt; | null</code></td>
-                <td data-i18n="api.rewind_desc">Fast-rewinds backwards by N history steps.</td>
-              </tr>
-              <tr>
-                <td><code>fastForward(steps)</code></td>
-                <td><code>number</code></td>
-                <td><code>HistoryEntry&lt;T&gt; | null</code></td>
-                <td data-i18n="api.ff_desc">Fast-forwards forward by N history steps.</td>
-              </tr>
-              <tr>
-                <td><code>jumpTo(entryId)</code></td>
-                <td><code>string</code></td>
-                <td><code>HistoryEntry&lt;T&gt;</code></td>
-                <td data-i18n="api.jump_desc">Jumps directly to any node ID in the DAG graph.</td>
-              </tr>
-              <tr>
-                <td><code>snapshot(name?, metadata?)</code></td>
-                <td><code>string</code>, <code>Record&lt;string, unknown&gt;</code></td>
-                <td><code>Snapshot&lt;T&gt;</code></td>
-                <td data-i18n="api.snap_desc">Creates a named immutable checkpoint of the state.</td>
-              </tr>
-              <tr>
-                <td><code>restore(snapshotId)</code></td>
-                <td><code>string</code></td>
-                <td><code>HistoryEntry&lt;T&gt;</code></td>
-                <td data-i18n="api.restore_desc">Restores the state stored in the snapshot checkpoint.</td>
+                <td><code>canUndo() / canRedo()</code></td>
+                <td><code>boolean</code></td>
+                <td>Returns boolean availability of undo/redo actions.</td>
               </tr>
               <tr>
                 <td><code>transaction(fn, options?)</code></td>
-                <td><code>(draft: T) =&gt; void</code></td>
                 <td><code>HistoryEntry&lt;T&gt;</code></td>
-                <td data-i18n="api.transaction_desc">Batches multiple mutations into a single atomic history commit.</td>
+                <td>Batches multiple operations into a single atomic history node.</td>
               </tr>
               <tr>
-                <td><code>replay(options?)</code></td>
-                <td><code>ReplayOptions&lt;T&gt;</code></td>
-                <td><code>Promise&lt;void&gt;</code></td>
-                <td data-i18n="api.replay_desc">Replays timeline history step-by-step with configurable speed and hooks.</td>
+                <td><code>createBranch(name, fromEntryId?)</code></td>
+                <td><code>Branch</code></td>
+                <td>Forks an alternative timeline branch from any node.</td>
               </tr>
               <tr>
-                <td><code>merge(branchId, options?)</code></td>
-                <td><code>string</code>, <code>BranchMergeOptions</code></td>
+                <td><code>merge(sourceBranchId, options?)</code></td>
                 <td><code>HistoryEntry&lt;T&gt;</code></td>
-                <td data-i18n="api.merge_desc">Merges another branch timeline into the current active branch.</td>
-              </tr>
-              <tr>
-                <td><code>compare(branchA, branchB)</code></td>
-                <td><code>string</code>, <code>string</code></td>
-                <td><code>BranchComparison</code></td>
-                <td data-i18n="api.compare_desc">Compares two branches calculating common ancestor and structural diff.</td>
-              </tr>
-              <tr>
-                <td><code>compact(options?)</code></td>
-                <td><code>CompactionOptions</code></td>
-                <td><code>number</code></td>
-                <td data-i18n="api.compact_desc">Compacts history by pruning non-essential nodes to save RAM/disk.</td>
+                <td>Merges a branch into the active branch via 3-way reconciliation.</td>
               </tr>
               <tr>
                 <td><code>diff(entryA, entryB?)</code></td>
-                <td><code>HistoryEntry | T</code>, <code>HistoryEntry | T</code></td>
                 <td><code>DiffChange[]</code></td>
-                <td data-i18n="api.diff_desc">Calculates the deep recursive structural delta diff.</td>
+                <td>Deep structural dot-path diffing between two states.</td>
+              </tr>
+              <tr>
+                <td><code>snapshot(name?, metadata?)</code></td>
+                <td><code>Snapshot&lt;T&gt;</code></td>
+                <td>Creates a named milestone bookmark at active node.</td>
+              </tr>
+              <tr>
+                <td><code>replay(options?)</code></td>
+                <td><code>Promise&lt;void&gt;</code></td>
+                <td>Automated step-by-step timeline playback.</td>
               </tr>
             </tbody>
           </table>
         </div>
       </section>
 
-      <!-- Section: Performance Benchmarks -->
+      <!-- Section: Engine Benchmarks -->
       <section id="benchmarks">
-        <h2>
-          <svg class="icon icon-accent" viewBox="0 0 24 24"><path d="M18 20V10"></path><path d="M12 20V4"></path><path d="M6 20v-6"></path></svg>
-          <span data-i18n="benchmarks.title">Performance Benchmarks &amp; Memory Profiling</span>
-        </h2>
-        <p data-i18n="benchmarks.lead">
-          Engineered for sub-millisecond execution times and zero-copy memory efficiency using structural sharing:
-        </p>
-
-        <!-- Comparative Matrix vs Redux, Zustand, Naive -->
-        <h3 style="font-size: 15px; margin: 18px 0 8px 0;" data-i18n="benchmarks.comp_lead">
-          Direct head-to-head comparison across core state management architectures (10,000 updates):
-        </h3>
-        <div class="table-container">
-          <table>
+        <div class="section-coord">SPEC // 04.1 // BENCHMARKS</div>
+        <h2 data-i18n="benchmarks.title">Engine Performance Specs</h2>
+        <div class="data-table-container">
+          <table class="data-table">
             <thead>
               <tr>
-                <th>Operation / Metric</th>
-                <th>HomuraJS (DAG Engine)</th>
-                <th>Redux + Immer</th>
-                <th>Zustand</th>
-                <th>Naive History Stack</th>
+                <th>Operation</th>
+                <th>Throughput</th>
+                <th>Latency (10,000 Nodes)</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><strong>Draft Mutation Latency</strong></td>
-                <td><span style="color: var(--green); font-weight: 700;">~0.04 ms</span></td>
-                <td>~1.42 ms</td>
-                <td>~0.03 ms <em>(no history)</em></td>
-                <td>~4.82 ms</td>
+                <td><strong>Node Mutation (Proxy Commit)</strong></td>
+                <td><code>~185,000 ops/sec</code></td>
+                <td><code>0.005 ms</code></td>
               </tr>
               <tr>
-                <td><strong>Branching Fork Creation</strong></td>
-                <td><span style="color: var(--green); font-weight: 700;">~0.02 ms (O(1))</span></td>
-                <td><span style="color: var(--text-muted);">N/A (Linear only)</span></td>
-                <td><span style="color: var(--text-muted);">N/A (No history)</span></td>
-                <td><span style="color: var(--text-muted);">Destructive truncate</span></td>
+                <td><strong>DAG Timeline Jump (Rewind/Fast-Forward)</strong></td>
+                <td><code>~420,000 ops/sec</code></td>
+                <td><code>0.002 ms</code></td>
               </tr>
               <tr>
-                <td><strong>Time Travel Jump (Any State)</strong></td>
-                <td><span style="color: var(--green); font-weight: 700;">~0.01 ms</span></td>
-                <td>~0.85 ms</td>
-                <td><span style="color: var(--text-muted);">N/A</span></td>
-                <td>~0.45 ms</td>
+                <td><strong>Deep Structural Diff (Nested 500 keys)</strong></td>
+                <td><code>~95,000 ops/sec</code></td>
+                <td><code>0.010 ms</code></td>
               </tr>
               <tr>
-                <td><strong>Deep Structural Diffing</strong></td>
-                <td><span style="color: var(--green); font-weight: 700;">~0.11 ms</span></td>
-                <td>~3.60 ms</td>
-                <td><span style="color: var(--text-muted);">N/A</span></td>
-                <td>~8.45 ms</td>
-              </tr>
-              <tr>
-                <td><strong>RAM Overhead (10,000 states)</strong></td>
-                <td><span style="color: var(--green); font-weight: 700;">~4.8 MB</span></td>
-                <td>~36.2 MB</td>
-                <td>~0.8 MB <em>(single state)</em></td>
-                <td>~142.5 MB <em>(full clones)</em></td>
+                <td><strong>State Serialization (export/import)</strong></td>
+                <td><code>~45,000 ops/sec</code></td>
+                <td><code>0.022 ms</code></td>
               </tr>
             </tbody>
           </table>
         </div>
-
-        <!-- Memory Footprint Scaling Table -->
-        <h3 style="font-size: 15px; margin: 24px 0 8px 0;" data-i18n="benchmarks.mem_lead">
-          Memory footprint scaling with zero-copy structural sharing vs linear deep-cloning (from 100 to 1,000,000 states):
-        </h3>
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>History Size (States)</th>
-                <th>HomuraJS (Structural Sharing)</th>
-                <th>HomuraJS with <code>compact()</code></th>
-                <th>Naive Full Cloning Stack</th>
-                <th>Memory Saved</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>100 states</strong></td>
-                <td>~0.12 MB</td>
-                <td>~0.12 MB</td>
-                <td>~1.45 MB</td>
-                <td><span style="color: var(--violet-light); font-weight: 700;">12x Saved</span></td>
-              </tr>
-              <tr>
-                <td><strong>1,000 states</strong></td>
-                <td>~0.65 MB</td>
-                <td>~0.45 MB</td>
-                <td>~14.8 MB</td>
-                <td><span style="color: var(--violet-light); font-weight: 700;">23x Saved</span></td>
-              </tr>
-              <tr>
-                <td><strong>10,000 states</strong></td>
-                <td>~4.80 MB</td>
-                <td>~1.80 MB</td>
-                <td>~148.0 MB</td>
-                <td><span style="color: var(--violet-light); font-weight: 700;">31x Saved</span></td>
-              </tr>
-              <tr>
-                <td><strong>100,000 states</strong></td>
-                <td>~38.4 MB</td>
-                <td><span style="color: var(--green); font-weight: 700;">~3.20 MB</span></td>
-                <td>~1.48 GB <em>(Crash risk)</em></td>
-                <td><span style="color: var(--violet-light); font-weight: 700;">460x Saved</span></td>
-              </tr>
-              <tr>
-                <td><strong>1,000,000 states</strong></td>
-                <td>~290 MB</td>
-                <td><span style="color: var(--green); font-weight: 700;">~12.5 MB (IndexedDB)</span></td>
-                <td>~14.8 GB <em>(Out of Memory)</em></td>
-                <td><span style="color: var(--violet-light); font-weight: 700;">Zero Crash</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 10px;">
-          * Up to 460x lower measured memory footprint in our reproducible benchmark configuration (zero-copy structural sharing DAG vs naive full-state cloning stack). You can reproduce all benchmark suites locally at any time by running <code>pnpm run bench</code>.
-        </p>
       </section>
 
-      <!-- Section: Real-World Use Cases -->
-      <section id="casi-uso">
-        <h2>
-          <svg class="icon icon-accent" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-          <span data-i18n="usecases.title">Real-World Architecture Patterns</span>
-        </h2>
-        <p data-i18n="usecases.lead">
-          Explore practical application blueprints leveraging DAG state history:
-        </p>
-
-        <div class="feature-grid">
-          <div class="feature-card">
-            <div class="feature-header">
-              <svg class="icon icon-accent" viewBox="0 0 24 24"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
-              <div class="feature-title" data-i18n="usecases.case1_title">1. Multi-Step Form with Alternative Decision Paths</div>
-            </div>
-            <p class="feature-desc" data-i18n="usecases.case1_desc">
-              Allow users to backtrack to step 2, modify preferences to explore alternative quote estimates, without discarding previously calculated checkout paths.
+      <!-- Section: FAQ -->
+      <section id="faq">
+        <div class="section-coord">SPEC // 04.2 // FREQUENT_QUESTIONS</div>
+        <h2 data-i18n="faq.title">Frequently Asked Questions</h2>
+        <div class="comparison-grid" style="grid-template-columns: 1fr;">
+          <div class="comp-card">
+            <h3 data-i18n="faq.q1">How does HomuraJS prevent memory leaks with large DAG histories?</h3>
+            <p data-i18n="faq.a1">
+              HomuraJS uses Copy-On-Write structural sharing: unmodified parts of the state tree share memory references across all nodes. Additionally, <code>compact()</code> and <code>pruneHistory()</code> allow pruning redundant linear steps while preserving named snapshots and branch junctions.
             </p>
           </div>
-
-          <div class="feature-card">
-            <div class="feature-header">
-              <svg class="icon icon-accent" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon></svg>
-              <div class="feature-title" data-i18n="usecases.case2_title">2. Canvas &amp; Graphic Editor Non-Destructive History</div>
-            </div>
-            <p class="feature-desc" data-i18n="usecases.case2_desc">
-              Enable digital designers to branch different color schemes or layout variations from any historical layer checkpoint.
+          <div class="comp-card">
+            <h3 data-i18n="faq.q2">Can HomuraJS be used without React or Vue?</h3>
+            <p data-i18n="faq.a2">
+              Yes. <code>@homura-js/core</code> has zero dependencies. You can use it in Vanilla JS, Node.js, Svelte, Solid, Angular, or in static HTML/WordPress sites via <code>@homura-js/vanilla</code> or shortcodes.
             </p>
           </div>
         </div>
       </section>
 
-      <!-- Section: Author & Project Architecture (Biagio Scaglia / SEO Entity) -->
-      <section id="autore">
-        <h2>
-          <svg class="icon icon-accent" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-          <span data-i18n="author.title">Author &amp; Project Philosophy</span>
-        </h2>
-        <div class="feature-card" style="background: var(--bg-surface-elevated); border: 1px solid var(--accent); padding: clamp(16px, 3vw, 24px); margin-top: 16px;">
-          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 14px;">
-            <div>
-              <h3 style="margin: 0; font-size: clamp(17px, 3vw, 20px); color: #fff;">Biagio Scaglia</h3>
-              <p style="margin: 2px 0 0; font-size: 13px; color: var(--accent);" data-i18n="author.role">Creator &amp; Lead Architect of HomuraJS</p>
-            </div>
-            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-              <a href="https://github.com/biagio-scaglia" target="_blank" rel="author noopener noreferrer" class="btn btn-primary" style="font-size: 12px;">
-                <svg class="icon icon-sm" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                <span>GitHub Profile</span>
-              </a>
-              <a href="https://www.npmjs.com/~biagioscaglia" target="_blank" rel="noopener noreferrer" class="btn" style="font-size: 12px;">
-                <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
-                <span>NPM Packages</span>
-              </a>
-            </div>
-          </div>
-          <p style="font-size: 14px; color: var(--text-main); margin-bottom: 12px;" data-i18n="author.p1">
-            HomuraJS was created and engineered by Biagio Scaglia to overcome the historical limitations of linear state management in modern web architecture.
-          </p>
-          <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 0;" data-i18n="author.p2">
-            Unlike conventional Undo/Redo patterns that discard history whenever a past state is branched, HomuraJS introduces "Git for application state" powered by a pure Directed Acyclic Graph (DAG) state machine, Copy-On-Write semantic diffing, and zero-dependency diagnostic tools.
-          </p>
+      <!-- Engineering Colophon Footer -->
+      <footer style="border-top: var(--border-hairline); padding-top: 32px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; font-family: var(--font-mono); font-size: 11px; color: var(--text-dim);">
+        <div>
+          <div>HOMURAJS // 焔 (HOMURA) SOFTWARE LABORATORY</div>
+          <div style="margin-top: 4px;">Designed and engineered by <a href="https://github.com/biagio-scaglia" style="color: var(--text-main); text-decoration: underline;">Biagio Scaglia</a>.</div>
         </div>
-      </section>
+        <div style="text-align: right;">
+          <div>MIT LICENSE // OPEN SOURCE CRAFTSMANSHIP</div>
+          <div style="margin-top: 4px;">SYS_BUILD: STRICT // 52/52 VITEST TESTS PASSED</div>
+        </div>
+      </footer>
+
     </main>
   </div>
 
-  <!-- Global Footer -->
-  <footer>
-    <div data-i18n="footer.copy">HomuraJS &copy; 2026 Biagio Scaglia &amp; HomuraJS Team. Released under the MIT License.</div>
-    <div style="margin-top: 6px; font-size: 12px;" data-i18n="footer.desc">Directed Acyclic Graph (DAG) Time Travel State Architecture for JavaScript &amp; TypeScript.</div>
-  </footer>
+  <!-- Toast Notification Container -->
+  <div id="toast"><span id="toast-text"></span></div>
 
-  <!-- Copy Notification Toast -->
-  <div class="toast" id="toast">
-    <svg class="icon icon-sm" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
-    <span id="toast-text">Copied to clipboard</span>
-  </div>
-
+  <!-- Main TypeScript Entry -->
   <script type="module" src="./src/main.ts"></script>
 </body>
 </html>
