@@ -36,23 +36,24 @@
 
   <style>
     :root {
-      --bg-base: #0b0a0d;
-      --bg-surface: #110f14;
-      --bg-elevated: #17151c;
-      --bg-inset: #070608;
-      --bg-hover: #1f1d26;
+      --bg-base: #07050a;
+      --bg-surface: #0e0917;
+      --bg-elevated: #160f24;
+      --bg-inset: #050308;
+      --bg-hover: #201533;
 
-      --text-main: #f4f0e8;
-      --text-muted: #b8b2a5;
-      --text-dim: #706b61;
+      --text-main: #f5f3ff;
+      --text-muted: #c4b5fd;
+      --text-dim: #8b7ca6;
 
-      --vermilion: #e0382b;
-      --vermilion-dim: #9e2318;
-      --vermilion-subtle: rgba(224, 56, 43, 0.08);
+      --accent: #a855f7;
+      --accent-hover: #c084fc;
+      --accent-dim: #7e22ce;
+      --accent-subtle: rgba(168, 85, 247, 0.12);
 
-      --border-hairline: 1px solid #1f1d24;
-      --border-strong: 1px solid #33303a;
-      --border-vermilion: 1px solid rgba(224, 56, 43, 0.4);
+      --border-hairline: 1px solid rgba(168, 85, 247, 0.18);
+      --border-strong: 1px solid rgba(168, 85, 247, 0.38);
+      --border-accent: 1px solid rgba(168, 85, 247, 0.55);
 
       --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-body: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -121,7 +122,7 @@
 
     .badge-live {
       background: var(--bg-elevated);
-      color: var(--vermilion);
+      color: var(--accent);
       border: var(--border-hairline);
       padding: 2px 6px;
       font-size: 10px;
@@ -134,7 +135,7 @@
     .badge-dot {
       width: 6px;
       height: 6px;
-      background: var(--vermilion);
+      background: var(--accent);
     }
 
     .header-actions {
@@ -164,8 +165,8 @@
       border-color: var(--border-strong);
     }
     .btn-accent {
-      background: var(--vermilion);
-      border-color: var(--vermilion);
+      background: var(--accent);
+      border-color: var(--accent);
       color: #fff;
     }
     .btn-accent:hover {
@@ -259,7 +260,7 @@
       gap: 8px;
     }
     .task-card:hover {
-      border-color: var(--vermilion);
+      border-color: var(--accent);
       background: var(--bg-elevated);
     }
 
@@ -283,7 +284,7 @@
       padding: 1px 4px;
       border: var(--border-hairline);
     }
-    .tag-priority-high { color: var(--vermilion); border-color: rgba(224, 56, 43, 0.4); }
+    .tag-priority-high { color: var(--accent); border-color: rgba(224, 56, 43, 0.4); }
     .tag-priority-med { color: #f59e0b; border-color: rgba(245, 158, 11, 0.4); }
     .tag-priority-low { color: #10b981; border-color: rgba(16, 185, 129, 0.4); }
 
@@ -339,7 +340,7 @@
       justify-content: space-between;
       padding: 4px 8px;
       background: var(--bg-surface);
-      border-left: 2px solid var(--vermilion);
+      border-left: 2px solid var(--accent);
     }
     .log-action {
       color: var(--text-main);
@@ -357,7 +358,7 @@
       right: 20px;
       background: var(--bg-elevated);
       border: var(--border-strong);
-      border-left: 3px solid var(--vermilion);
+      border-left: 3px solid var(--accent);
       color: var(--text-main);
       padding: 8px 14px;
       font-family: var(--font-mono);
@@ -394,7 +395,7 @@
   <header>
     <div style="display: flex; align-items: center; gap: 12px;">
       <a href="index.html" class="brand">
-        <svg class="icon icon-sm" viewBox="0 0 24 24" style="stroke: var(--vermilion);"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        <svg class="icon icon-sm" viewBox="0 0 24 24" style="stroke: var(--accent);"><polyline points="15 18 9 12 15 6"></polyline></svg>
         <span class="brand-title">HOMURAJS STUDIO</span>
       </a>
       <span class="badge-live"><span class="badge-dot"></span> 焔 DAG_ENGINE</span>
@@ -422,7 +423,7 @@
     <div class="panel-kanban">
       <div class="panel-header">
         <div>STATE_MODEL // <strong>KANBAN_MUTATOR</strong></div>
-        <div>BRANCH: <span id="active-branch-label" style="color: var(--vermilion); font-weight: 600;">main</span></div>
+        <div>BRANCH: <span id="active-branch-label" style="color: var(--accent); font-weight: 600;">main</span></div>
       </div>
 
       <div class="kanban-board">

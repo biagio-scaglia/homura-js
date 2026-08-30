@@ -81,23 +81,24 @@
 
   <style>
     :root {
-      --bg-base: #0b0a0d;
-      --bg-surface: #110f14;
-      --bg-elevated: #17151c;
-      --bg-inset: #070608;
-      --bg-hover: #1f1d26;
+      --bg-base: #07050a;
+      --bg-surface: #0e0917;
+      --bg-elevated: #160f24;
+      --bg-inset: #050308;
+      --bg-hover: #201533;
 
-      --text-main: #f4f0e8;
-      --text-muted: #b8b2a5;
-      --text-dim: #706b61;
+      --text-main: #f5f3ff;
+      --text-muted: #c4b5fd;
+      --text-dim: #8b7ca6;
 
-      --vermilion: #e0382b;
-      --vermilion-dim: #9e2318;
-      --vermilion-subtle: rgba(224, 56, 43, 0.08);
+      --accent: #a855f7;
+      --accent-hover: #c084fc;
+      --accent-dim: #7e22ce;
+      --accent-subtle: rgba(168, 85, 247, 0.12);
 
-      --border-hairline: 1px solid #1f1d24;
-      --border-strong: 1px solid #33303a;
-      --border-vermilion: 1px solid rgba(224, 56, 43, 0.4);
+      --border-hairline: 1px solid rgba(168, 85, 247, 0.18);
+      --border-strong: 1px solid rgba(168, 85, 247, 0.38);
+      --border-accent: 1px solid rgba(168, 85, 247, 0.55);
 
       --sidebar-width: 270px;
       --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -110,13 +111,13 @@
       margin: 0;
       padding: 0;
       scrollbar-width: thin;
-      scrollbar-color: #33303a #0b0a0d;
+      scrollbar-color: rgba(168, 85, 247, 0.35) #07050a;
     }
 
     ::-webkit-scrollbar { width: 5px; height: 5px; }
-    ::-webkit-scrollbar-track { background: #0b0a0d; }
-    ::-webkit-scrollbar-thumb { background: #26242e; }
-    ::-webkit-scrollbar-thumb:hover { background: #e0382b; }
+    ::-webkit-scrollbar-track { background: #07050a; }
+    ::-webkit-scrollbar-thumb { background: #26163d; border-radius: 2px; }
+    ::-webkit-scrollbar-thumb:hover { background: #a855f7; }
 
     html {
       scroll-behavior: smooth;
@@ -199,7 +200,7 @@
       padding: 2px 6px;
       background: var(--bg-elevated);
       border: var(--border-hairline);
-      color: var(--vermilion);
+      color: var(--accent);
       font-size: 10px;
       font-weight: 600;
       letter-spacing: 0.5px;
@@ -239,8 +240,8 @@
       transition: all 0.15s ease;
     }
     .lang-btn:hover {
-      border-color: var(--vermilion);
-      color: var(--vermilion);
+      border-color: var(--accent);
+      color: var(--accent);
     }
 
     .menu-toggle {
@@ -297,7 +298,7 @@
       transition: border-color 0.15s ease;
     }
     .search-input:focus {
-      border-color: var(--vermilion);
+      border-color: var(--accent);
     }
     .search-input::placeholder {
       color: var(--text-dim);
@@ -340,7 +341,7 @@
     .nav-item.active a {
       color: var(--text-main);
       background: var(--bg-surface);
-      border-left-color: var(--vermilion);
+      border-left-color: var(--accent);
       font-weight: 600;
     }
 
@@ -390,7 +391,7 @@
       letter-spacing: 0.5px;
     }
     .hero-meta-header span {
-      color: var(--vermilion);
+      color: var(--accent);
     }
 
     .hero-headline {
@@ -432,7 +433,7 @@
       transition: all 0.15s ease;
     }
     .hero-install-box button:hover {
-      border-color: var(--vermilion);
+      border-color: var(--accent);
       color: var(--text-main);
     }
 
@@ -459,8 +460,8 @@
       border-color: var(--border-strong);
     }
     .hero-btn-accent {
-      background: var(--vermilion);
-      border-color: var(--vermilion);
+      background: var(--accent);
+      border-color: var(--accent);
       color: #ffffff;
     }
     .hero-btn-accent:hover {
@@ -491,7 +492,7 @@
       display: inline-block;
       width: 6px;
       height: 6px;
-      background: var(--vermilion);
+      background: var(--accent);
       margin-right: 6px;
     }
 
@@ -529,7 +530,7 @@
     }
     .sb-btn:hover {
       background: var(--bg-hover);
-      border-color: var(--vermilion);
+      border-color: var(--accent);
     }
     .sb-btn:disabled {
       opacity: 0.35;
@@ -549,7 +550,7 @@
       font-family: var(--font-mono);
       font-size: 10.5px;
       font-weight: 600;
-      color: var(--vermilion);
+      color: var(--accent);
       letter-spacing: 1px;
       text-transform: uppercase;
     }
@@ -618,7 +619,7 @@
       border: var(--border-hairline);
     }
     .comp-card.dag .comp-title .badge {
-      color: var(--vermilion);
+      color: var(--accent);
       border-color: var(--border-vermilion);
     }
 
@@ -675,7 +676,7 @@
       color: var(--text-main);
     }
     .data-table td code {
-      color: var(--vermilion);
+      color: var(--accent);
       background: var(--bg-base);
       padding: 1px 4px;
       border: var(--border-hairline);
@@ -715,8 +716,8 @@
       transition: all 0.15s ease;
     }
     .code-copy-btn:hover {
-      border-color: var(--vermilion);
-      color: var(--vermilion);
+      border-color: var(--accent);
+      color: var(--accent);
     }
 
     pre {
@@ -754,7 +755,7 @@
     }
     .tab-btn.active {
       color: var(--text-main);
-      border-bottom-color: var(--vermilion);
+      border-bottom-color: var(--accent);
       background: var(--bg-elevated);
     }
 
@@ -765,7 +766,7 @@
       right: 20px;
       background: var(--bg-elevated);
       border: var(--border-strong);
-      border-left: 3px solid var(--vermilion);
+      border-left: 3px solid var(--accent);
       color: var(--text-main);
       padding: 8px 14px;
       font-family: var(--font-mono);
@@ -863,7 +864,7 @@
     </div>
 
     <div class="top-actions">
-      <a href="demo.html" class="top-link btn-demo-link" style="color: var(--vermilion); font-weight: 600;">
+      <a href="demo.html" class="top-link btn-demo-link" style="color: var(--accent); font-weight: 600;">
         <svg class="icon icon-sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="currentColor"></circle></svg>
         <span>LIVE STUDIO</span>
       </a>
@@ -1350,10 +1351,10 @@ homura.transaction(draft =&gt; {
         <h3 data-i18n="wordpress.h3_autohook">Automatic Hooks for Top Form Engines</h3>
         <p>The plugin auto-detects and attaches crash recovery to:</p>
         <ul style="margin-left: 20px; line-height: 1.8; color: var(--text-muted); font-size: 13px; list-style: none;">
-          <li><svg class="icon icon-sm" viewBox="0 0 24 24" style="margin-right: 6px; color: var(--vermilion);"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg> <strong>WooCommerce Checkout</strong> (<code>.woocommerce-checkout</code>)</li>
-          <li><svg class="icon icon-sm" viewBox="0 0 24 24" style="margin-right: 6px; color: var(--vermilion);"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> <strong>Contact Form 7</strong> (<code>.wpcf7 form</code>)</li>
-          <li><svg class="icon icon-sm" viewBox="0 0 24 24" style="margin-right: 6px; color: var(--vermilion);"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg> <strong>WPForms &amp; Gravity Forms</strong> (<code>.wpforms-form</code>, <code>.gform_wrapper</code>)</li>
-          <li><svg class="icon icon-sm" viewBox="0 0 24 24" style="margin-right: 6px; color: var(--vermilion);"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg> <strong>Elementor Forms</strong> (<code>.elementor-form</code>)</li>
+          <li><svg class="icon icon-sm" viewBox="0 0 24 24" style="margin-right: 6px; color: var(--accent);"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg> <strong>WooCommerce Checkout</strong> (<code>.woocommerce-checkout</code>)</li>
+          <li><svg class="icon icon-sm" viewBox="0 0 24 24" style="margin-right: 6px; color: var(--accent);"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg> <strong>Contact Form 7</strong> (<code>.wpcf7 form</code>)</li>
+          <li><svg class="icon icon-sm" viewBox="0 0 24 24" style="margin-right: 6px; color: var(--accent);"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg> <strong>WPForms &amp; Gravity Forms</strong> (<code>.wpforms-form</code>, <code>.gform_wrapper</code>)</li>
+          <li><svg class="icon icon-sm" viewBox="0 0 24 24" style="margin-right: 6px; color: var(--accent);"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg> <strong>Elementor Forms</strong> (<code>.elementor-form</code>)</li>
         </ul>
       </section>
 
