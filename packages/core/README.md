@@ -6,7 +6,7 @@
 **"Git for application state"**
 
 [![CI Tests](https://img.shields.io/badge/tests-49%2F49%20passed-7c3aed)](https://github.com/biagio-scaglia/homura-js)
-[![Version](https://img.shields.io/badge/version-v1.2.6-9333ea)](https://www.npmjs.com/package/@biagioscaglia/homurajs)
+[![Version](https://img.shields.io/badge/version-v1.2.7-9333ea)](https://www.npmjs.com/package/@biagioscaglia/homurajs)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict%20Mode-581c87)](https://www.typescriptlang.org/)
 [![License](https://img.shields.io/badge/license-MIT-3b0764)](LICENSE)
 [![NPM](https://img.shields.io/badge/npm-%40biagioscaglia%2Fhomurajs-a855f7)](https://www.npmjs.com/package/@biagioscaglia/homurajs)
