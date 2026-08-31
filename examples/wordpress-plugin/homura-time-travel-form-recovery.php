@@ -14,11 +14,18 @@
  */
 
 if (!defined('ABSPATH')) {
-    exit; // Exit if accessed directly
+    exit; // Exit if accessed directly.
 }
 
 class HomuraJSTimeTravelPlugin {
     const VERSION = '1.2.3';
+
+    /**
+     * Allowed values for the persist shortcode attribute.
+     *
+     * @var array
+     */
+    private static $allowed_persist = array('localstorage', 'sessionstorage', 'none');
 
     public function __construct() {
         add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
@@ -31,60 +38,61 @@ class HomuraJSTimeTravelPlugin {
     }
 
     /**
-     * Enqueue HomuraJS Standalone Bundle from local assets
+     * Enqueue HomuraJS Standalone Bundle from local assets.
      */
     public function enqueue_scripts() {
         wp_enqueue_script(
             'homurajs-bundle',
-            plugins_url('assets/js/homura.min.js', __FILE__),
+            esc_url(plugins_url('assets/js/homura.min.js', __FILE__)),
             array(),
             self::VERSION,
             true
         );
 
-        // Auto-Hook into WooCommerce & Top Form Plugins
-        $autoHookScript = "
-        document.addEventListener('DOMContentLoaded', function() {
-            // Auto-detect WooCommerce Checkout
-            var wooCheckout = document.querySelector('form.woocommerce-checkout');
-            if (wooCheckout && !wooCheckout.hasAttribute('data-homura-form')) {
-                wooCheckout.setAttribute('data-homura-form', 'woocommerce_checkout');
-                wooCheckout.setAttribute('data-homura-persist', 'localstorage');
-            }
+        // Auto-Hook into WooCommerce & Top Form Plugins.
+        // NOWDOC: no PHP interpolation — purely static JavaScript.
+        $auto_hook_script = <<<'JS'
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-detect WooCommerce Checkout
+    var wooCheckout = document.querySelector('form.woocommerce-checkout');
+    if (wooCheckout && !wooCheckout.hasAttribute('data-homura-form')) {
+        wooCheckout.setAttribute('data-homura-form', 'woocommerce_checkout');
+        wooCheckout.setAttribute('data-homura-persist', 'localstorage');
+    }
 
-            // Auto-detect Contact Form 7
-            document.querySelectorAll('.wpcf7 form').forEach(function(cf7, idx) {
-                if (!cf7.hasAttribute('data-homura-form')) {
-                    cf7.setAttribute('data-homura-form', 'wpcf7_' + idx);
-                    cf7.setAttribute('data-homura-persist', 'localstorage');
-                }
-            });
+    // Auto-detect Contact Form 7
+    document.querySelectorAll('.wpcf7 form').forEach(function(cf7, idx) {
+        if (!cf7.hasAttribute('data-homura-form')) {
+            cf7.setAttribute('data-homura-form', 'wpcf7_' + idx);
+            cf7.setAttribute('data-homura-persist', 'localstorage');
+        }
+    });
 
-            // Auto-detect WPForms
-            document.querySelectorAll('.wpforms-form').forEach(function(wpf, idx) {
-                if (!wpf.hasAttribute('data-homura-form')) {
-                    wpf.setAttribute('data-homura-form', 'wpforms_' + idx);
-                    wpf.setAttribute('data-homura-persist', 'localstorage');
-                }
-            });
+    // Auto-detect WPForms
+    document.querySelectorAll('.wpforms-form').forEach(function(wpf, idx) {
+        if (!wpf.hasAttribute('data-homura-form')) {
+            wpf.setAttribute('data-homura-form', 'wpforms_' + idx);
+            wpf.setAttribute('data-homura-persist', 'localstorage');
+        }
+    });
 
-            // Auto-detect Elementor Forms
-            document.querySelectorAll('.elementor-form').forEach(function(ef, idx) {
-                if (!ef.hasAttribute('data-homura-form')) {
-                    ef.setAttribute('data-homura-form', 'elementor_' + idx);
-                    ef.setAttribute('data-homura-persist', 'localstorage');
-                }
-            });
+    // Auto-detect Elementor Forms
+    document.querySelectorAll('.elementor-form').forEach(function(ef, idx) {
+        if (!ef.hasAttribute('data-homura-form')) {
+            ef.setAttribute('data-homura-form', 'elementor_' + idx);
+            ef.setAttribute('data-homura-persist', 'localstorage');
+        }
+    });
 
-            // Re-run auto initialization
-            if (window.Homura && window.Homura.autoInitForms) {
-                window.Homura.autoInitForms();
-            }
-        });
-        ";
-        wp_add_inline_script('homurajs-bundle', $autoHookScript);
+    // Re-run auto initialization
+    if (window.Homura && window.Homura.autoInitForms) {
+        window.Homura.autoInitForms();
+    }
+});
+JS;
+        wp_add_inline_script('homurajs-bundle', $auto_hook_script);
 
-        // Custom stylesheet for controls, status badges, and breadcrumbs
+        // Custom stylesheet for controls, status badges, and breadcrumbs.
         wp_add_inline_style('wp-block-library', '
             .homura-undo-btn, .homura-redo-btn {
                 display: inline-flex;
@@ -137,16 +145,30 @@ class HomuraJSTimeTravelPlugin {
     }
 
     /**
+     * Sanitize the persist attribute against a whitelist of allowed values.
+     *
+     * @param string $value The persist value to sanitize.
+     * @return string Sanitized persist value, defaults to 'localstorage'.
+     */
+    private function sanitize_persist($value) {
+        $value = strtolower(sanitize_key($value));
+        return in_array($value, self::$allowed_persist, true) ? $value : 'localstorage';
+    }
+
+    /**
      * Shortcode [homura_undo form="checkout"]
      */
     public function render_undo_button($atts) {
         $a = shortcode_atts(array(
-            'form' => '',
-            'label' => '↩ Undo'
+            'form'  => '',
+            'label' => '↩ Undo',
         ), $atts);
 
-        $formAttr = $a['form'] ? ' data-homura-undo="' . esc_attr($a['form']) . '"' : ' data-homura-undo=""';
-        return '<button type="button" class="homura-undo-btn"' . $formAttr . '>' . esc_html($a['label']) . '</button>';
+        $form_attr = $a['form']
+            ? ' data-homura-undo="' . esc_attr(sanitize_key($a['form'])) . '"'
+            : ' data-homura-undo=""';
+
+        return '<button type="button" class="homura-undo-btn"' . $form_attr . '>' . esc_html($a['label']) . '</button>';
     }
 
     /**
@@ -154,12 +176,15 @@ class HomuraJSTimeTravelPlugin {
      */
     public function render_redo_button($atts) {
         $a = shortcode_atts(array(
-            'form' => '',
-            'label' => '↪ Redo'
+            'form'  => '',
+            'label' => '↪ Redo',
         ), $atts);
 
-        $formAttr = $a['form'] ? ' data-homura-redo="' . esc_attr($a['form']) . '"' : ' data-homura-redo=""';
-        return '<button type="button" class="homura-redo-btn"' . $formAttr . '>' . esc_html($a['label']) . '</button>';
+        $form_attr = $a['form']
+            ? ' data-homura-redo="' . esc_attr(sanitize_key($a['form'])) . '"'
+            : ' data-homura-redo=""';
+
+        return '<button type="button" class="homura-redo-btn"' . $form_attr . '>' . esc_html($a['label']) . '</button>';
     }
 
     /**
@@ -167,12 +192,15 @@ class HomuraJSTimeTravelPlugin {
      */
     public function render_status_badge($atts) {
         $a = shortcode_atts(array(
-            'form' => '',
-            'default' => '💾 Ready'
+            'form'    => '',
+            'default' => '💾 Ready',
         ), $atts);
 
-        $formAttr = $a['form'] ? ' data-homura-status="' . esc_attr($a['form']) . '"' : ' data-homura-status=""';
-        return '<span class="homura-status-badge"' . $formAttr . '>' . esc_html($a['default']) . '</span>';
+        $form_attr = $a['form']
+            ? ' data-homura-status="' . esc_attr(sanitize_key($a['form'])) . '"'
+            : ' data-homura-status=""';
+
+        return '<span class="homura-status-badge"' . $form_attr . '>' . esc_html($a['default']) . '</span>';
     }
 
     /**
@@ -180,11 +208,14 @@ class HomuraJSTimeTravelPlugin {
      */
     public function render_breadcrumbs($atts) {
         $a = shortcode_atts(array(
-            'form' => ''
+            'form' => '',
         ), $atts);
 
-        $formAttr = $a['form'] ? ' data-homura-breadcrumbs="' . esc_attr($a['form']) . '"' : ' data-homura-breadcrumbs=""';
-        return '<div class="homura-breadcrumbs"' . $formAttr . '></div>';
+        $form_attr = $a['form']
+            ? ' data-homura-breadcrumbs="' . esc_attr(sanitize_key($a['form'])) . '"'
+            : ' data-homura-breadcrumbs=""';
+
+        return '<div class="homura-breadcrumbs"' . $form_attr . '></div>';
     }
 
     /**
@@ -192,17 +223,17 @@ class HomuraJSTimeTravelPlugin {
      */
     public function render_homura_form_wrapper($atts, $content = null) {
         $a = shortcode_atts(array(
-            'id' => 'wp_homura_form',
-            'persist' => 'localstorage',
-            'debounce' => '200'
+            'id'       => 'wp_homura_form',
+            'persist'  => 'localstorage',
+            'debounce' => '200',
         ), $atts);
 
         return sprintf(
             '<div data-homura-form="%s" data-homura-persist="%s" data-homura-debounce="%s">%s</div>',
-            esc_attr($a['id']),
-            esc_attr($a['persist']),
-            esc_attr($a['debounce']),
-            do_shortcode($content)
+            esc_attr(sanitize_key($a['id'])),
+            esc_attr($this->sanitize_persist($a['persist'])),
+            esc_attr(absint($a['debounce'])),
+            wp_kses_post(do_shortcode($content))
         );
     }
 
@@ -211,19 +242,31 @@ class HomuraJSTimeTravelPlugin {
      */
     public function render_homura_wizard_wrapper($atts, $content = null) {
         $a = shortcode_atts(array(
-            'id' => 'wp_homura_wizard',
-            'persist' => 'localstorage',
-            'debounce' => '200'
+            'id'       => 'wp_homura_wizard',
+            'persist'  => 'localstorage',
+            'debounce' => '200',
         ), $atts);
 
         return sprintf(
             '<div data-homura-wizard="%s" data-homura-persist="%s" data-homura-debounce="%s">%s</div>',
-            esc_attr($a['id']),
-            esc_attr($a['persist']),
-            esc_attr($a['debounce']),
-            do_shortcode($content)
+            esc_attr(sanitize_key($a['id'])),
+            esc_attr($this->sanitize_persist($a['persist'])),
+            esc_attr(absint($a['debounce'])),
+            wp_kses_post(do_shortcode($content))
         );
     }
 }
 
-new HomuraJSTimeTravelPlugin();
+/**
+ * Initialize the Homura Time Travel plugin.
+ *
+ * @return HomuraJSTimeTravelPlugin Plugin instance.
+ */
+function homura_time_travel_init() {
+    static $instance = null;
+    if (null === $instance) {
+        $instance = new HomuraJSTimeTravelPlugin();
+    }
+    return $instance;
+}
+homura_time_travel_init();
