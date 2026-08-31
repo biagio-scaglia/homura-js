@@ -6,8 +6,8 @@ Requires at least: 5.8
 Tested up to: 7.1
 Requires PHP: 7.4
 Stable tag: 1.2.3
-License: MIT
-License URI: https://opensource.org/licenses/MIT
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Real-time Directed Acyclic Graph (DAG) state history, form crash recovery, and non-destructive undo/redo for WordPress & WooCommerce forms.
 
@@ -26,7 +26,7 @@ Real-time Directed Acyclic Graph (DAG) state history, form crash recovery, and n
   * Gravity Forms (`.gform_wrapper`)
   * Elementor Forms (`.elementor-form`)
 * **Multi-Step Form Wizard**: Seamless support for multi-step questionnaires with state preservation across steps.
-* **100% Free & Open Source**: MIT licensed, zero remote executable code, zero third-party dependencies, and zero tracking.
+* **100% Free & Open Source**: GPLv2 licensed, zero remote executable code, zero third-party dependencies, and zero tracking.
 
 == Installation ==
 

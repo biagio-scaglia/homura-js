@@ -1,16 +1,16 @@
 <?php
 /**
- * Plugin Name: Homura Time Travel & Form Recovery
- * Plugin URI: https://biagio-scaglia.github.io/homura-js/
- * Description: Real-time DAG time-travel history engine, form crash recovery, and non-destructive undo/redo for WordPress & WooCommerce forms.
- * Version: 1.2.3
- * Author: Biagio Scaglia
- * Author URI: https://github.com/biagio-scaglia
- * License: MIT
- * License URI: https://opensource.org/licenses/MIT
- * Text Domain: homura-time-travel-form-recovery
+ * Plugin Name:       Homura Time Travel & Form Recovery
+ * Plugin URI:        https://biagio-scaglia.github.io/homura-js/
+ * Description:       Real-time DAG time-travel history engine, form crash recovery, and non-destructive undo/redo for WordPress and WooCommerce forms.
+ * Version:           1.2.3
  * Requires at least: 5.8
- * Requires PHP: 7.4
+ * Requires PHP:      7.4
+ * Author:            Biagio Scaglia
+ * Author URI:        https://github.com/biagio-scaglia
+ * License:           GPLv2 or later
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
+ * Text Domain:       homura-time-travel-form-recovery
  */
 
 if (!defined('ABSPATH')) {

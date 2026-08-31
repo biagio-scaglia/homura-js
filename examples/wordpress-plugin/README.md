@@ -53,4 +53,4 @@ Include a single `<script>` in any HTML file (Webflow, Squarespace, Shopify, Sta
 
 ## 📄 License
 
-MIT © Biagio Scaglia & HomuraJS Team
+GPLv2 or later © Biagio Scaglia & HomuraJS Team
