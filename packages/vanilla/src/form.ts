@@ -1,4 +1,4 @@
-import { createHomura, Homura, LocalStorageAdapter } from '@homura-js/core';
+import { createHomura, HistoryEntry, Homura, LocalStorageAdapter } from '@homura-js/core';
 
 export interface FormBindingOptions<T = Record<string, any>> {
   /** Initial form state if overriding DOM defaults */
@@ -157,7 +157,7 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
 
     containers.forEach(c => {
       c.innerHTML = '';
-      timeline.forEach((entry, idx) => {
+      timeline.forEach((entry: HistoryEntry<T>, idx) => {
         const item = document.createElement('button');
         item.type = 'button';
         item.className = `homura-breadcrumb-item ${entry.id === currentEntry.id ? 'active' : ''}`;
