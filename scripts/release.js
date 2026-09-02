@@ -79,6 +79,15 @@ for (const rel of readmeFiles) {
 // 3. Run Build & Tests
 console.log('\n🔨 Building packages and running tests...');
 execSync('pnpm build', { stdio: 'inherit', cwd: rootDir });
+
+// Copy bundle to WordPress plugin assets
+const distGlobal = path.join(rootDir, 'packages/homura-js/dist/index.global.js');
+const wpAssetJs = path.join(rootDir, 'examples/wordpress-plugin/assets/js/homura.min.js');
+if (fs.existsSync(distGlobal)) {
+  fs.copyFileSync(distGlobal, wpAssetJs);
+  console.log(`✓ Synchronized updated bundle to ${wpAssetJs}`);
+}
+
 execSync('pnpm test', { stdio: 'inherit', cwd: rootDir });
 execSync('pnpm --filter "@homura-js/docs" run build', { stdio: 'inherit', cwd: rootDir });
 
@@ -89,8 +98,11 @@ try {
     stdio: 'inherit',
     cwd: rootDir
   });
+  console.log('✅ Successfully published to NPM!');
 } catch (err) {
-  console.warn('⚠️ NPM publish encountered an issue or requires web auth confirmation in browser:', err.message);
+  console.warn('\n⚠️ NPM publish encountered an issue.');
+  console.warn('👉 Make sure you are logged into NPM by running: npm login');
+  console.warn('👉 Then you can retry publishing with: pnpm --filter "@biagioscaglia/homurajs" publish --access public --no-git-checks\n');
 }
 
 // 5. Git Commit & Push
