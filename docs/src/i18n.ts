@@ -259,13 +259,29 @@ export const translations: TranslationDictionary = {
     en: 'WordPress & WooCommerce Integration',
     it: 'Integrazione WordPress & WooCommerce'
   },
+  'wordpress.badge_approved': {
+    en: 'Official Plugin on WordPress.org (v1.2.4)',
+    it: 'Plugin Ufficiale su WordPress.org (v1.2.4)'
+  },
+  'wordpress.view_plugin': {
+    en: 'View on WordPress.org Plugin Directory',
+    it: 'Apri nella Directory dei Plugin di WordPress.org'
+  },
+  'wordpress.install_guide': {
+    en: 'Install directly from WordPress Admin via Plugins → Add New → Search "Homura Time Travel", or download from WordPress.org:',
+    it: 'Installa direttamente dalla bacheca di WordPress tramite Plugin → Aggiungi nuovo → Cerca "Homura Time Travel", oppure scarica da WordPress.org:'
+  },
   'wordpress.p1': {
-    en: 'The official HomuraJS WordPress plugin brings DAG state history, checkout recovery, and form crash protection to WordPress:',
-    it: 'Il plugin ufficiale di HomuraJS per WordPress porta la cronologia DAG, il recupero del carrello/checkout e la protezione da crash dei moduli su WordPress:'
+    en: 'The official HomuraJS WordPress plugin brings DAG state history, checkout recovery, and form crash protection to WordPress & WooCommerce forms with zero configuration:',
+    it: 'Il plugin ufficiale di HomuraJS per WordPress porta la cronologia DAG, il recupero del checkout e la protezione da crash dei moduli su WordPress & WooCommerce a configurazione zero:'
   },
   'wordpress.h3_autohook': {
     en: 'Automatic Hooks for Top Form Engines',
     it: 'Rilevamento Automatico per i Principali Form Engine'
+  },
+  'wordpress.h3_shortcodes': {
+    en: 'WordPress Shortcode Implementation',
+    it: 'Implementazione tramite Shortcode WordPress'
   },
 
   // Section 03.3: React
