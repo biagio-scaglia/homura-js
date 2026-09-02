@@ -3,49 +3,89 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HomuraJS — Zero-JS Form Recovery & Time Travel Demo</title>
+  <title>HomuraJS — Zero-JS Form Recovery & Time Travel Interactive Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #06030b;
       --card: #0f071a;
+      --card-inner: #150a24;
       --border: rgba(168, 85, 247, 0.25);
+      --border-glow: rgba(168, 85, 247, 0.5);
       --accent: #a855f7;
       --accent-hover: #c084fc;
+      --accent-rgb: 168, 85, 247;
+      --danger: #ef4444;
+      --danger-hover: #f87171;
       --text: #f5f3ff;
-      --muted: #c4b5fd;
+      --text-muted: #c4b5fd;
+      --text-dim: #8b5cf6;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background: var(--bg);
+      background-image: 
+        radial-gradient(circle at 20% 15%, rgba(168, 85, 247, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 80% 85%, rgba(124, 58, 237, 0.1) 0%, transparent 50%);
       color: var(--text);
-      font-family: 'Inter', sans-serif;
-      padding: 40px 20px;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      padding: 30px 20px 60px;
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
     }
     .container {
-      max-width: 600px;
+      max-width: 680px;
       width: 100%;
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 32px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 16px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(168, 85, 247, 0.08);
+      position: relative;
+    }
+    .badge-wp {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #e9d5ff;
+      text-decoration: none;
+      margin-bottom: 14px;
+      transition: all 0.2s ease;
+    }
+    .badge-wp:hover {
+      background: rgba(168, 85, 247, 0.25);
+      border-color: var(--accent);
+      transform: translateY(-1px);
     }
     h1 {
       font-family: 'Cinzel', serif;
+      color: #f5f3ff;
+      font-size: 26px;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    h1 span {
       color: var(--accent);
-      font-size: 24px;
-      margin-bottom: 8px;
+      text-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
     }
     p.subtitle {
-      color: var(--muted);
+      color: var(--text-muted);
       font-size: 13.5px;
       margin-bottom: 24px;
-      line-height: 1.5;
+      line-height: 1.6;
     }
     .form-group {
       margin-bottom: 18px;
@@ -57,115 +97,306 @@
       color: #e9d5ff;
       margin-bottom: 6px;
     }
-    input, textarea, select {
+    input[type="text"], input[type="email"], select, textarea {
       width: 100%;
       background: #190c2e;
       border: 1px solid rgba(168, 85, 247, 0.3);
-      border-radius: 6px;
-      padding: 10px 14px;
+      border-radius: 7px;
+      padding: 11px 14px;
       color: #fff;
       font-family: inherit;
       font-size: 13.5px;
       outline: none;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s;
     }
-    input:focus, textarea:focus, select:focus {
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2);
+    }
+    
+    /* Control Toolbar */
+    .controls-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 12px 14px;
+      background: var(--card-inner);
+      border: 1px solid rgba(168, 85, 247, 0.2);
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    .status-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    /* Breadcrumbs */
+    .homura-breadcrumbs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 10px 0 18px;
+      min-height: 24px;
+    }
+    .homura-breadcrumb-item {
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 4px 9px;
+      background: #190c2e;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 5px;
+      color: #e9d5ff;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .homura-breadcrumb-item:hover {
+      background: #2b1150;
       border-color: var(--accent);
     }
+    .homura-breadcrumb-item.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent-hover);
+      box-shadow: 0 0 10px rgba(168, 85, 247, 0.4);
+    }
+    
+    /* Buttons */
     .btn-row {
       display: flex;
+      align-items: center;
+      flex-wrap: wrap;
       gap: 10px;
       margin-top: 24px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(168, 85, 247, 0.15);
     }
-    button {
-      padding: 10px 18px;
+    button, .btn {
+      padding: 9px 16px;
       border-radius: 6px;
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
-      border: none;
-      transition: all 0.15s ease;
+      border: 1px solid transparent;
+      transition: all 0.18s ease;
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      font-family: inherit;
     }
     .btn-primary {
       background: var(--accent);
       color: #fff;
+      border-color: var(--accent);
     }
     .btn-primary:hover {
       background: var(--accent-hover);
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
     }
-    .btn-secondary {
-      background: #200f38;
-      border: 1px solid var(--border);
-      color: var(--muted);
+    .btn-secondary, .homura-undo-btn, .homura-redo-btn {
+      background: #190c2e;
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      color: #f5f3ff;
     }
-    .btn-secondary:hover:not(:disabled) {
-      background: #311654;
-      color: #fff;
+    .btn-secondary:hover:not(:disabled), .homura-undo-btn:hover:not(:disabled), .homura-redo-btn:hover:not(:disabled) {
+      background: #2b1150;
+      border-color: var(--accent);
     }
-    .btn-secondary:disabled {
+    .homura-undo-btn:disabled, .homura-redo-btn:disabled, button:disabled {
       opacity: 0.35;
       cursor: not-allowed;
+      border-color: rgba(255, 255, 255, 0.1);
     }
-    .info-badge {
-      margin-top: 24px;
-      background: rgba(168, 85, 247, 0.1);
-      border: 1px dashed rgba(168, 85, 247, 0.3);
-      padding: 12px 16px;
-      border-radius: 8px;
+    .btn-danger, .homura-clear-btn {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #fca5a5;
+    }
+    .btn-danger:hover:not(:disabled), .homura-clear-btn:hover:not(:disabled) {
+      background: rgba(239, 68, 68, 0.25);
+      border-color: var(--danger);
+      color: #fff;
+    }
+    .homura-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
       font-size: 12px;
-      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      color: #c4b5fd;
+      padding: 4px 10px;
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.25);
+      border-radius: 4px;
+    }
+
+    /* Live LocalStorage Inspector Card */
+    .inspector-card {
+      margin-top: 28px;
+      background: #090410;
+      border: 1px dashed rgba(168, 85, 247, 0.3);
+      border-radius: 10px;
+      padding: 16px 18px;
+    }
+    .inspector-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+    }
+    pre.code-preview {
+      background: #050208;
+      border: 1px solid rgba(168, 85, 247, 0.15);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      color: #a78bfa;
+      overflow-x: auto;
+      max-height: 140px;
       line-height: 1.5;
     }
+    .test-banner {
+      margin-top: 18px;
+      background: rgba(168, 85, 247, 0.08);
+      border: 1px solid rgba(168, 85, 247, 0.2);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .test-banner strong {
+      color: #fff;
+    }
   </style>
-  <!-- Load Local/CDN Standalone Bundle -->
-  <script src="../../packages/homura-js/dist/index.global.js"></script>
+
+  <!-- Load Local Bundle with Fallback -->
+  <script src="assets/js/homura.min.js" onerror="this.onerror=null;this.src='../../packages/homura-js/dist/index.global.js'"></script>
 </head>
 <body>
   <div class="container">
-    <h1>HOMURAJS</h1>
+    <a href="https://wordpress.org/plugins/homura-time-travel-form-recovery/" target="_blank" rel="noopener noreferrer" class="badge-wp">
+      🔌 Official WordPress Plugin (v1.2.4) &rarr;
+    </a>
+
+    <h1>HOMURA<span>JS</span> // FORM ENGINE</h1>
     <p class="subtitle">
-      Zero-JavaScript Static Form Time-Travel &amp; Crash Recovery. Type in the fields below, then test <b>Undo</b> and <b>Redo</b>, or refresh the page!
+      Zero-JavaScript Static Form Time-Travel &amp; Crash Recovery. Type in the fields below, click <b>Undo</b>, <b>Redo</b>, or test the <b>Simulate Crash (Refresh)</b> button!
     </p>
 
     <!-- Homura Form Auto-Binding -->
-    <form data-homura-form="quote_request" data-homura-persist="localstorage">
+    <form data-homura-form="quote_request" data-homura-persist="localstorage" data-homura-debounce="100">
+      
+      <!-- Live Status & Breadcrumb Navigation -->
+      <div class="controls-bar">
+        <div class="status-group">
+          <span class="homura-status-badge" data-homura-status="quote_request">💾 Ready</span>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button type="button" class="homura-undo-btn" data-homura-undo="quote_request">↩ Undo</button>
+          <button type="button" class="homura-redo-btn" data-homura-redo="quote_request">↪ Redo</button>
+          <button type="button" class="homura-clear-btn" data-homura-clear="quote_request" title="Clear saved draft from LocalStorage">🗑️ Clear Draft</button>
+        </div>
+      </div>
+
+      <!-- History Breadcrumbs Graph Nodes -->
+      <div class="homura-breadcrumbs" data-homura-breadcrumbs="quote_request"></div>
+
+      <!-- Form Inputs -->
       <div class="form-group">
         <label for="fullName">Full Name</label>
-        <input type="text" id="fullName" name="fullName" placeholder="e.g. Elena Rossi" />
+        <input type="text" id="fullName" name="fullName" placeholder="e.g. Elena Rossi" autocomplete="off" />
       </div>
 
       <div class="form-group">
         <label for="email">Email Address</label>
-        <input type="email" id="email" name="email" placeholder="elena@example.com" />
+        <input type="email" id="email" name="email" placeholder="elena@example.com" autocomplete="off" />
       </div>
 
       <div class="form-group">
         <label for="serviceType">Service Category</label>
         <select id="serviceType" name="serviceType">
-          <option value="ecommerce">WooCommerce Store</option>
+          <option value="ecommerce">WooCommerce Online Store</option>
           <option value="custom_app">Custom Web Application</option>
           <option value="landing">Static Landing Page</option>
+          <option value="consulting">Architecture Consulting</option>
         </select>
       </div>
 
       <div class="form-group">
-        <label for="message">Project Scope</label>
+        <label for="message">Project Scope &amp; Notes</label>
         <textarea id="message" name="message" rows="3" placeholder="Describe your project needs..."></textarea>
       </div>
 
       <div class="btn-row">
-        <button type="button" class="btn-secondary" data-homura-undo>↩ Undo</button>
-        <button type="button" class="btn-secondary" data-homura-redo>↪ Redo</button>
-        <button type="submit" class="btn-primary" style="margin-left: auto;">Submit Quote</button>
+        <button type="button" class="btn btn-secondary" onclick="simulateCrash()" title="Simulates a browser crash / accidental page reload">
+          💥 Simulate Accidental Refresh
+        </button>
+        <button type="submit" class="btn btn-primary" style="margin-left: auto;">
+          Submit Quote &rarr;
+        </button>
       </div>
     </form>
 
-    <div class="info-badge">
-      💡 <b>How it works:</b> No custom JS code is written on this page. The <code>data-homura-form</code> engine automatically tracks every keystroke into an immutable DAG graph, enables/disables the Undo/Redo buttons, and persists the draft in <code>LocalStorage</code>!
+    <!-- Live LocalStorage State Inspector -->
+    <div class="inspector-card">
+      <div class="inspector-header">
+        <span>⚡ LIVE BROWSER STORAGE INSPECTOR</span>
+        <span id="storage-status" style="color: #34d399;">● LOCALSTORAGE ACTIVE</span>
+      </div>
+      <pre class="code-preview" id="storage-preview">// Type in form fields to see live DAG state serialization...</pre>
+    </div>
+
+    <div class="test-banner">
+      💡 <b>How it works:</b> No custom JavaScript code is required. The <code>data-homura-form</code> engine captures keystrokes, builds an immutable DAG history graph, automatically activates/deactivates time-travel buttons, and restores form state across page reloads!
     </div>
   </div>
+
+  <script>
+    // Live inspector watcher
+    function updateInspector() {
+      var key = 'homura_form_quote_request';
+      var raw = localStorage.getItem(key);
+      var preview = document.getElementById('storage-preview');
+      if (raw) {
+        try {
+          var parsed = JSON.parse(raw);
+          preview.textContent = JSON.stringify(parsed, null, 2);
+        } catch (e) {
+          preview.textContent = raw;
+        }
+      } else {
+        preview.textContent = '// No draft saved yet. Type into any field above!';
+      }
+    }
+
+    // Refresh simulation
+    function simulateCrash() {
+      location.reload();
+    }
+
+    // Attach live inspector updates on input and state changes
+    window.addEventListener('DOMContentLoaded', function() {
+      updateInspector();
+      var form = document.querySelector('form[data-homura-form="quote_request"]');
+      if (form) {
+        form.addEventListener('input', function() {
+          setTimeout(updateInspector, 120);
+        });
+      }
+      document.querySelectorAll('[data-homura-undo], [data-homura-redo], [data-homura-clear]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          setTimeout(updateInspector, 120);
+        });
+      });
+    });
+  </script>
 </body>
 </html>
