@@ -107,6 +107,10 @@ export const translations: TranslationDictionary = {
   },
 
   // Hero Section
+  'hero.announcement_wp': {
+    en: '🚀 NEW: Homura Time Travel & Form Recovery is now officially live on WordPress.org (v1.2.5) →',
+    it: '🚀 NOVITÀ: Homura Time Travel & Form Recovery è ora ufficialmente disponibile su WordPress.org (v1.2.5) →'
+  },
   'hero.title': {
     en: 'The Directed Acyclic Graph State Engine for JavaScript.',
     it: 'Il motore di gestione dello stato a Grafo Aciclico Diretto (DAG) per JavaScript.'
@@ -126,6 +130,10 @@ export const translations: TranslationDictionary = {
   'hero.cta_demo': {
     en: 'Launch Interactive Studio',
     it: 'Apri lo Studio Interattivo'
+  },
+  'hero.cta_wp': {
+    en: 'WordPress Plugin',
+    it: 'Plugin WordPress'
   },
 
   // Live Runtime Sandbox

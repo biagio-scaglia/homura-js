@@ -1,6 +1,6 @@
 {
   "name": "@biagioscaglia/homurajs",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "description": "HomuraJS — Time Travel State & DAG History Engine for JavaScript (Git for application state)",
   "type": "module",
   "main": "./dist/index.cjs",
