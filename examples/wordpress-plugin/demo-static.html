@@ -283,7 +283,8 @@
 <body>
   <div class="container">
     <a href="https://wordpress.org/plugins/homura-time-travel-form-recovery/" target="_blank" rel="noopener noreferrer" class="badge-wp">
-      🔌 Official WordPress Plugin (v1.2.4) &rarr;
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent);"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+      Official WordPress Plugin (v1.2.5) &rarr;
     </a>
 
     <h1>HOMURA<span>JS</span> // FORM ENGINE</h1>
@@ -297,12 +298,24 @@
       <!-- Live Status & Breadcrumb Navigation -->
       <div class="controls-bar">
         <div class="status-group">
-          <span class="homura-status-badge" data-homura-status="quote_request">💾 Ready</span>
+          <span class="homura-status-badge" data-homura-status="quote_request">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+            Ready
+          </span>
         </div>
         <div style="display: flex; gap: 8px;">
-          <button type="button" class="homura-undo-btn" data-homura-undo="quote_request">↩ Undo</button>
-          <button type="button" class="homura-redo-btn" data-homura-redo="quote_request">↪ Redo</button>
-          <button type="button" class="homura-clear-btn" data-homura-clear="quote_request" title="Clear saved draft from LocalStorage">🗑️ Clear Draft</button>
+          <button type="button" class="homura-undo-btn" data-homura-undo="quote_request">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"></path><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"></path></svg>
+            Undo
+          </button>
+          <button type="button" class="homura-redo-btn" data-homura-redo="quote_request">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"></path><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"></path></svg>
+            Redo
+          </button>
+          <button type="button" class="homura-clear-btn" data-homura-clear="quote_request" title="Clear saved draft from LocalStorage">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            Clear Draft
+          </button>
         </div>
       </div>
 
@@ -337,7 +350,8 @@
 
       <div class="btn-row">
         <button type="button" class="btn btn-secondary" onclick="simulateCrash()" title="Simulates a browser crash / accidental page reload">
-          💥 Simulate Accidental Refresh
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 2px;"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path></svg>
+          Simulate Accidental Refresh
         </button>
         <button type="submit" class="btn btn-primary" style="margin-left: auto;">
           Submit Quote &rarr;
@@ -348,14 +362,21 @@
     <!-- Live LocalStorage State Inspector -->
     <div class="inspector-card">
       <div class="inspector-header">
-        <span>⚡ LIVE BROWSER STORAGE INSPECTOR</span>
+        <span style="display: inline-flex; align-items: center; gap: 6px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent);"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          LIVE BROWSER STORAGE INSPECTOR
+        </span>
         <span id="storage-status" style="color: #34d399;">● LOCALSTORAGE ACTIVE</span>
       </div>
       <pre class="code-preview" id="storage-preview">// Type in form fields to see live DAG state serialization...</pre>
     </div>
 
     <div class="test-banner">
-      💡 <b>How it works:</b> No custom JavaScript code is required. The <code>data-homura-form</code> engine captures keystrokes, builds an immutable DAG history graph, automatically activates/deactivates time-travel buttons, and restores form state across page reloads!
+      <strong style="display: inline-flex; align-items: center; gap: 5px; color: #fff;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent);"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+        How it works:
+      </strong>
+      No custom JavaScript code is required. The <code>data-homura-form</code> engine captures keystrokes, builds an immutable DAG history graph, automatically activates/deactivates time-travel buttons, and restores form state across page reloads!
     </div>
   </div>
 
