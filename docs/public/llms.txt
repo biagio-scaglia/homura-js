@@ -80,6 +80,7 @@ homura.update(draft => { draft.counter = 999; });
 
 ## Key Links
 
+- [Official WordPress.org Plugin Directory](https://wordpress.org/plugins/homura-time-travel-form-recovery/)
 - [Complete AI Reference (llms-full.txt)](https://biagio-scaglia.github.io/homura-js/llms-full.txt)
 - [Official Website](https://biagio-scaglia.github.io/homura-js/)
 - [GitHub Repository](https://github.com/biagio-scaglia/homura-js)
