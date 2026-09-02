@@ -5,7 +5,7 @@ Tags: time-travel, undo-redo, form-recovery, woocommerce, contact-form-7
 Requires at least: 5.8
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.2.4
+Stable tag: 1.2.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -59,6 +59,10 @@ Use the shortcode `[homura_clear form="my_form_id"]` or `[homura_reset form="my_
 2. History breadcrumbs and status indicators.
 
 == Changelog ==
+
+= 1.2.5 =
+* Fix: Fixed `[homura_clear]` / `[homura_reset]` click handler to immediately purge LocalStorage draft, reset form inputs, and clear history timeline.
+* Performance: Optimized draft reset synchronization without unnecessary page reload.
 
 = 1.2.4 =
 * Performance: Added deferred script loading strategy for WordPress 6.3+ (zero render blocking).

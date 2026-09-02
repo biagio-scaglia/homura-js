@@ -3,7 +3,7 @@
  * Plugin Name:       Homura Time Travel & Form Recovery
  * Plugin URI:        https://biagio-scaglia.github.io/homura-js/
  * Description:       High-performance DAG time-travel history engine, form crash recovery, and non-destructive undo/redo for WordPress & WooCommerce forms.
- * Version:           1.2.4
+ * Version:           1.2.5
  * Requires at least: 5.8
  * Requires PHP:      7.4
  * Author:            Biagio Scaglia
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
 }
 
 class HomuraJSTimeTravelPlugin {
-    const VERSION = '1.2.4';
+    const VERSION = '1.2.5';
 
     /**
      * Allowed values for the persist shortcode attribute.

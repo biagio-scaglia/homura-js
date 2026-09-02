@@ -1,7 +1,7 @@
 # Homura Time Travel & Form Recovery (WordPress Plugin) 🔌
 
 [![WordPress Plugin](https://img.shields.io/badge/WordPress.org-Plugin%20Directory-21759b?logo=wordpress&logoColor=white)](https://wordpress.org/plugins/homura-time-travel-form-recovery/)
-[![Version](https://img.shields.io/badge/version-v1.2.4-7c3aed)](https://wordpress.org/plugins/homura-time-travel-form-recovery/)
+[![Version](https://img.shields.io/badge/version-v1.2.5-7c3aed)](https://wordpress.org/plugins/homura-time-travel-form-recovery/)
 [![License](https://img.shields.io/badge/license-GPLv2-3b0764)](LICENSE)
 
 Bring time-travel debugging, non-destructive DAG state history, and zero-loss form recovery to **WordPress**, **WooCommerce**, and **Static Websites**.

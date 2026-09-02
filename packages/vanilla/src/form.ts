@@ -120,7 +120,7 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
   let isSyncingFromState = false;
   let debounceTimer: ReturnType<typeof setTimeout> | null = null;
 
-  // 1. Linked Undo/Redo/Reset Buttons
+  // 1. Linked Undo/Redo/Reset/Clear Buttons
   function getActionButtons() {
     const undoBtns = Array.from(document.querySelectorAll<HTMLButtonElement>(
       `[data-homura-undo="${formId}"], [data-homura-undo=""], form[data-homura-form="${formId}"] [data-homura-undo]`
@@ -128,7 +128,10 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
     const redoBtns = Array.from(document.querySelectorAll<HTMLButtonElement>(
       `[data-homura-redo="${formId}"], [data-homura-redo=""], form[data-homura-form="${formId}"] [data-homura-redo]`
     ));
-    return { undoBtns, redoBtns };
+    const clearBtns = Array.from(document.querySelectorAll<HTMLButtonElement>(
+      `[data-homura-clear="${formId}"], [data-homura-clear=""], [data-homura-reset="${formId}"], [data-homura-reset=""], form[data-homura-form="${formId}"] [data-homura-clear], form[data-homura-form="${formId}"] [data-homura-reset]`
+    ));
+    return { undoBtns, redoBtns, clearBtns };
   }
 
   // 2. Linked Status Badges
@@ -286,6 +289,8 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
       updateStatusBadges(`↩ Undone: ${entry.label}`, 'action');
     } else if (action === 'redo') {
       updateStatusBadges(`↪ Redone: ${entry.label}`, 'action');
+    } else if (action === 'clearHistory') {
+      updateStatusBadges('🗑️ Draft cleared', 'action');
     } else {
       updateStatusBadges('💾 Draft saved', 'saved');
     }
@@ -320,9 +325,29 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
     homura.redo();
   }
 
-  const { undoBtns, redoBtns } = getActionButtons();
+  function onClearClick(e: MouseEvent) {
+    e.preventDefault();
+    try {
+      form.reset();
+    } catch (_) {}
+    const emptyData = extractFormData(form) as T;
+    homura.clearHistory(false);
+    if (options.persist === 'localstorage' && typeof localStorage !== 'undefined') {
+      try {
+        localStorage.removeItem(storageKey);
+      } catch (_) {}
+    }
+    isSyncingFromState = true;
+    populateFormData(form, emptyData);
+    isSyncingFromState = false;
+    updateButtonsState();
+    updateStatusBadges('🗑️ Draft cleared', 'action');
+  }
+
+  const { undoBtns, redoBtns, clearBtns } = getActionButtons();
   undoBtns.forEach(btn => btn.addEventListener('click', onUndoClick));
   redoBtns.forEach(btn => btn.addEventListener('click', onRedoClick));
+  clearBtns.forEach(btn => btn.addEventListener('click', onClearClick));
 
   // Initial populate & button status
   updateButtonsState();
@@ -349,9 +374,7 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
     undo: () => { homura.undo(); },
     redo: () => { homura.redo(); },
     reset: () => {
-      homura.update(draft => {
-        Object.assign(draft, initialData);
-      }, { label: 'Reset Form to Initial' });
+      onClearClick(new MouseEvent('click'));
     },
     nextStep,
     prevStep,
@@ -361,6 +384,7 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
       form.removeEventListener('change', handleInput);
       undoBtns.forEach(btn => btn.removeEventListener('click', onUndoClick));
       redoBtns.forEach(btn => btn.removeEventListener('click', onRedoClick));
+      clearBtns.forEach(btn => btn.removeEventListener('click', onClearClick));
       nextBtns.forEach(b => b.removeEventListener('click', nextStep));
       prevBtns.forEach(b => b.removeEventListener('click', prevStep));
       unsubState();

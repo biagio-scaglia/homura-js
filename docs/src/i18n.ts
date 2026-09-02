@@ -260,8 +260,8 @@ export const translations: TranslationDictionary = {
     it: 'Integrazione WordPress & WooCommerce'
   },
   'wordpress.badge_approved': {
-    en: 'Official Plugin on WordPress.org (v1.2.4)',
-    it: 'Plugin Ufficiale su WordPress.org (v1.2.4)'
+    en: 'Official Plugin on WordPress.org (v1.2.5)',
+    it: 'Plugin Ufficiale su WordPress.org (v1.2.5)'
   },
   'wordpress.view_plugin': {
     en: 'View on WordPress.org Plugin Directory',
