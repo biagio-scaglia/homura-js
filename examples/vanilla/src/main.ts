@@ -1,4 +1,5 @@
-import { createHomura, bindState, mountDevTools } from '@homurajs/vanilla';
+import { createHomura, bindState } from '@homurajs/vanilla';
+import { mountDevTools } from '@homurajs/devtools';
 
 interface State {
   count: number;

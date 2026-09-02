@@ -47,11 +47,14 @@ Standalone diagnostic UI and scrubber:
 
 ### `@homura-js/vanilla` (< 2.8 kB gzipped)
 Framework-free reactive DOM and form crash recovery:
-- `bindState(homura, selector, element, renderFn)`: Reactive DOM binding without virtual DOM.
-- `bindForm(formElement, options)`: Zero-JS declarative form crash protection.
-- Auto-tracks input fields (`input`, `textarea`, `select`, `checkbox`, `radio`, `contenteditable`).
-- Restores form state on page refresh or browser crash.
-- Handles multi-step form wizards (`data-homura-wizard`, `data-homura-step`, `data-homura-next`, `data-homura-prev`).
+- `bindState(homura, targets)`: One-way reactive DOM binding without virtual DOM.
+- `bindForm(formElement, options)`: Form crash protection controller with undo/redo, smart recovery banner, and integrity verification.
+- `autoInitForms()`: Auto-discovers and initializes all declarative `[data-homura-form]` elements.
+- Utility functions: `extractFormData(form)`, `populateFormData(form, state)`, `isFieldSensitive(el)`, `maskPIIValue(key, val)`.
+- Smart Recovery: Visual state diff between DOM and saved drafts (`getDiffFromDom()`).
+- Sensitive Field Policy: Auto-filters passwords, CVVs, nonces, and `data-homura-sensitive="true"`.
+- AJAX Conflict Protection: `verifyIntegrityAndRestore()` detects and repairs fields wiped by asynchronous updates.
+- Handles multi-step form wizards (`data-homura-step`, `data-homura-next`, `data-homura-prev`).
 
 ### `@homura-js/react` (< 2.1 kB gzipped)
 React 18+ bindings:
