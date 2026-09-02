@@ -1,22 +1,45 @@
 # Homura Time Travel & Form Recovery (WordPress Plugin) 🔌
 
 [![WordPress Plugin](https://img.shields.io/badge/WordPress.org-Plugin%20Directory-21759b?logo=wordpress&logoColor=white)](https://wordpress.org/plugins/homura-time-travel-form-recovery/)
-[![Version](https://img.shields.io/badge/version-v1.2.5-7c3aed)](https://wordpress.org/plugins/homura-time-travel-form-recovery/)
+[![Version](https://img.shields.io/badge/version-v1.3.0-7c3aed)](https://wordpress.org/plugins/homura-time-travel-form-recovery/)
 [![License](https://img.shields.io/badge/license-GPLv2-3b0764)](LICENSE)
+[![PHP](https://img.shields.io/badge/PHP-7.4%2B-blue)](https://www.php.net/)
+[![WordPress](https://img.shields.io/badge/WordPress-5.8%20--%207.1-21759b)](https://wordpress.org/)
 
-Bring time-travel debugging, non-destructive DAG state history, and zero-loss form recovery to **WordPress**, **WooCommerce**, and **Static Websites**.
+Bring Git-like local state history, non-destructive DAG time-travel, AJAX conflict recovery, and zero-loss form crash protection to **WordPress**, **WooCommerce**, and **Static Websites**.
 
 🔗 **Official WordPress.org Plugin Directory**: [https://wordpress.org/plugins/homura-time-travel-form-recovery/](https://wordpress.org/plugins/homura-time-travel-form-recovery/)
 
 ---
 
-## 🌟 Features
+## 🌟 What's New in v1.3.0
 
-1. **Zero Data Loss / Form Crash Recovery**: Automatically saves user input into a local state DAG in real time. If the user accidentally closes the tab or refreshes the page, their progress is instantly restored.
-2. **Instant Undo & Redo**: Adds time-travel undo and redo buttons to any form with simple shortcodes or HTML attributes.
-3. **Auto-Hooks for Popular Form Engines**: Automatically detects and protects WooCommerce Checkout, Contact Form 7, WPForms, Gravity Forms, Elementor Forms, Fluent Forms, and Ninja Forms.
-4. **Performance Optimized**: Deferred script loading, passive event listeners, zero render blocking.
-5. **No Build Tools Required**: Works out of the box with zero external configuration.
+* 🧬 **State Diff Engine (`[homura_diff]`)**: Visual comparison of form changes between the current DOM inputs and any saved draft.
+* 🛡️ **WooCommerce AJAX Conflict Recovery**: Automatically detects when WooCommerce checkout recalculations (`update_order_review`, cart totals) wipe input values and instantly restores them without disrupting user flow.
+* 🔐 **Zero-Leak Sensitive Field Policy**: Strict exclusion of passwords, CVVs, credit cards, payment nonces, and elements with `data-homura-sensitive="true"` (PCI-DSS & GDPR safe).
+* 📦 **Smart Recovery Banner (`[homura_recovery_banner]`)**: Interactive prompt banner allowing visitors to restore drafts, inspect visual differences, or dismiss previous sessions.
+* 🔄 **Form Schema Versioning & Migration**: Protects user drafts from breaking when form fields are added, renamed, or removed by webmasters.
+* 🧩 **Conditional Field Memory**: Preserves user input for conditional fields when they are toggled or temporarily hidden by the form builder.
+* 🕵️ **Sanitized Debug Export (`[homura_debug_export]`)**: One-click debug JSON payload with masked PII (e.g. `m***@gmail.com`) for safe developer troubleshooting.
+
+---
+
+## 🚀 Key Features
+
+1. **Zero Data Loss / Form Crash Recovery**: Real-time client-side state tracking. If visitors accidentally close the tab or reload the page, their progress is instantly preserved and restored.
+2. **Instant Undo & Redo**: Time-travel buttons for any form via shortcodes or HTML attributes.
+3. **Auto-Hooks for Popular Form Engines & WooCommerce**:
+   * **WooCommerce Checkout** (`.woocommerce-checkout`)
+   * **Contact Form 7** (`.wpcf7 form`)
+   * **WPForms** (`.wpforms-form`)
+   * **Gravity Forms** (`.gform_wrapper`)
+   * **Elementor Forms** (`.elementor-form`)
+   * **Fluent Forms** (`.fluentform`)
+   * **Ninja Forms** (`.nf-form-content form`)
+   * **Formidable Forms** (`.frm-show-form`)
+   * **WS Form** (`.wsf-form`)
+4. **100% Client-Side Privacy**: All data resides strictly in visitor browser storage (LocalStorage/SessionStorage). Zero external server requests or remote tracking.
+5. **Performance First**: Deferred script loading, passive event listeners, idle callbacks, zero render blocking.
 
 ---
 
@@ -28,47 +51,105 @@ Bring time-travel debugging, non-destructive DAG state history, and zero-loss fo
 3. Click **Install Now** and then **Activate**.
 
 ### Method 2: Manual Upload
-1. Download the zip from [WordPress.org Plugin Directory](https://wordpress.org/plugins/homura-time-travel-form-recovery/).
-2. Upload to `/wp-content/plugins/` and activate.
+1. Download the plugin zip from the [WordPress.org Plugin Directory](https://wordpress.org/plugins/homura-time-travel-form-recovery/).
+2. Upload the folder to `/wp-content/plugins/` and activate it in the WordPress Admin.
 
 ---
 
-## 🚀 Shortcodes Usage
+## 🛠️ Complete Shortcodes Reference
 
-Use the shortcodes anywhere on pages, posts, or forms:
+| Shortcode | Parameters | Description |
+| :--- | :--- | :--- |
+| `[homura_form]` | `id`, `persist="localstorage"`, `debounce="200"`, `smart_recovery="false"` | Wraps any custom form with Homura state engine. |
+| `[homura_undo]` | `form`, `label="↩ Undo"`, `class` | Renders a live Undo button. |
+| `[homura_redo]` | `form`, `label="↪ Redo"`, `class` | Renders a live Redo button. |
+| `[homura_status]` | `form`, `class` | Displays live saving / editing / restored status badge. |
+| `[homura_breadcrumbs]` | `form`, `class` | Renders clickable timeline history breadcrumbs. |
+| `[homura_recovery_banner]`| `form`, `message`, `restore_label`, `diff_label`, `dismiss_label` | Renders the interactive Smart Recovery Banner. |
+| `[homura_diff]` | `form`, `label="🔍 View Changes"`, `class` | Opens modal showing visual diffs between DOM and draft. |
+| `[homura_clear]` / `[homura_reset]` | `form`, `label="🗑️ Clear Draft"`, `class` | Purges saved storage draft and clears timeline. |
+| `[homura_debug_export]` | `form`, `label="🛠️ Export Debug JSON"`, `class` | Downloads PII-masked debug payload for troubleshooting. |
+| `[homura_wizard]` | `id`, `persist="localstorage"` | Wraps a multi-step form wizard with history navigation. |
+
+---
+
+## 💡 Usage Examples
+
+### 1. Smart Recovery Form with Diff & Undo/Redo
 
 ```text
-[homura_form id="quote_request" persist="localstorage"]
-  [homura_status form="quote_request"]
-  [homura_breadcrumbs form="quote_request"]
+[homura_form id="lead_quote" persist="localstorage" smart_recovery="true"]
+  [homura_recovery_banner form="lead_quote"]
+  [homura_status form="lead_quote"]
+  [homura_breadcrumbs form="lead_quote"]
 
-  <!-- Your normal form fields here -->
-  <input type="text" name="client_name" placeholder="Name" />
-  <textarea name="project_details"></textarea>
+  <p>
+    <label>Name</label>
+    <input type="text" name="customer_name" required />
+  </p>
+  <p>
+    <label>Email</label>
+    <input type="email" name="customer_email" required />
+  </p>
+  <p>
+    <label>Project Details</label>
+    <textarea name="project_notes"></textarea>
+  </p>
 
-  [homura_undo form="quote_request" label="↩ Undo"]
-  [homura_redo form="quote_request" label="↪ Redo"]
-  [homura_clear form="quote_request" label="🗑️ Clear Draft"]
+  <div class="form-actions">
+    [homura_undo form="lead_quote" label="↩ Undo"]
+    [homura_redo form="lead_quote" label="↪ Redo"]
+    [homura_diff form="lead_quote" label="🔍 Inspect Changes"]
+    [homura_clear form="lead_quote" label="🗑️ Reset"]
+  </div>
 [/homura_form]
+```
+
+### 2. Multi-Step Form Wizard
+
+```text
+[homura_wizard id="checkout_wizard" persist="localstorage"]
+  <div data-homura-step="1">
+    <h3>Step 1: Contact Details</h3>
+    <input type="text" name="billing_first_name" />
+    <button type="button" data-homura-next>Next ➔</button>
+  </div>
+  <div data-homura-step="2">
+    <h3>Step 2: Shipping Preference</h3>
+    <input type="text" name="shipping_method" />
+    <button type="button" data-homura-prev>⬅ Back</button>
+    <button type="button" data-homura-next>Next ➔</button>
+  </div>
+  <div data-homura-step="3">
+    <h3>Step 3: Review</h3>
+    <button type="button" data-homura-prev>⬅ Back</button>
+    <input type="submit" value="Complete Order" />
+  </div>
+[/homura_wizard]
 ```
 
 ---
 
-## ⚡ Static Site / HTML Usage (Zero JS)
+## ⚡ Static Site / HTML Usage (Zero Build Tools)
 
-Include a single `<script>` in any HTML file (Webflow, Squarespace, Shopify, Static HTML):
+Add Homura to any non-WordPress site (Webflow, Shopify, Squarespace, Static HTML) via CDN:
 
 ```html
 <!-- Load HomuraJS Standalone Bundle from CDN -->
 <script src="https://unpkg.com/@biagioscaglia/homurajs/dist/index.global.js"></script>
 
-<!-- Add data-homura-form and data-homura-undo / data-homura-redo attributes -->
-<form data-homura-form="lead_form" data-homura-persist="localstorage">
-  <input type="text" name="username" placeholder="Username" />
-  <input type="email" name="email" placeholder="Email Address" />
+<!-- Add declarative data-homura attributes -->
+<form data-homura-form="contact_form" data-homura-persist="localstorage" data-homura-smart-recovery="true">
+  <span data-homura-status="contact_form"></span>
+  <input type="text" name="name" placeholder="Name" />
+  <input type="email" name="email" placeholder="Email" />
+  
+  <!-- Sensitive fields are automatically ignored -->
+  <input type="password" name="password" />
 
   <button type="button" data-homura-undo>↩ Undo</button>
   <button type="button" data-homura-redo>↪ Redo</button>
+  <button type="submit">Send</button>
 </form>
 ```
 
@@ -76,4 +157,4 @@ Include a single `<script>` in any HTML file (Webflow, Squarespace, Shopify, Sta
 
 ## 📄 License
 
-GPLv2 or later © Biagio Scaglia & HomuraJS Team
+GPLv2 or later © [Biagio Scaglia](https://github.com/biagio-scaglia) & HomuraJS Team

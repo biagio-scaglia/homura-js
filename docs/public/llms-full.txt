@@ -142,7 +142,38 @@ Any static website (Webflow, Squarespace, Shopify, Astro, Hugo, 11ty, Plain HTML
 
 ---
 
-## 5. TypeScript / JavaScript API Reference
+## 5. WordPress & WooCommerce Plugin Integration (v1.3.0)
+
+Official WordPress.org Plugin: `homura-time-travel-form-recovery` (https://wordpress.org/plugins/homura-time-travel-form-recovery/)
+
+### Capabilities & Architecture:
+- **Zero-Data-Loss Form Protection**: Real-time client-side DAG state tracking in LocalStorage / SessionStorage.
+- **WooCommerce AJAX Conflict Recovery**: Automatically listens for `update_order_review` and dynamic cart changes in WooCommerce Checkout (`.woocommerce-checkout`), restoring fields wiped by AJAX re-renders.
+- **State Diff Engine (`[homura_diff]`)**: Visual modal comparison between current form DOM values and saved drafts.
+- **Smart Recovery Banner (`[homura_recovery_banner]`)**: Interactive prompt allowing visitors to restore drafts, inspect differences, or dismiss previous sessions.
+- **Sensitive Field Policy**: Strict exclusion of passwords, CVVs, credit card numbers, payment nonces, and inputs tagged with `data-homura-sensitive="true"` or `data-homura-persist="false"` (GDPR and PCI-DSS compliant).
+- **Form Schema Versioning**: Prevents corruption when forms are updated or fields are modified by site administrators.
+- **PII-Masked Debug Export (`[homura_debug_export]`)**: Sanitized JSON diagnostic payload for troubleshooting.
+
+### Complete Shortcodes:
+- `[homura_form id="form_id" persist="localstorage" debounce="200" smart_recovery="true"]...[/homura_form]`
+- `[homura_undo form="form_id" label="↩ Undo"]`
+- `[homura_redo form="form_id" label="↪ Redo"]`
+- `[homura_status form="form_id"]`
+- `[homura_breadcrumbs form="form_id"]`
+- `[homura_recovery_banner form="form_id"]`
+- `[homura_diff form="form_id" label="🔍 View Changes"]`
+- `[homura_clear form="form_id" label="🗑️ Clear Draft"]`
+- `[homura_reset form="form_id" label="🗑️ Reset"]`
+- `[homura_debug_export form="form_id" label="🛠️ Export Debug JSON"]`
+- `[homura_wizard id="wizard_id" persist="localstorage"]`
+
+### Auto-Hooked Form Engines:
+WooCommerce Checkout (`.woocommerce-checkout`), Contact Form 7 (`.wpcf7 form`), WPForms (`.wpforms-form`), Gravity Forms (`.gform_wrapper`), Elementor Forms (`.elementor-form`), Fluent Forms (`.fluentform`), Ninja Forms (`.nf-form-content form`), Formidable Forms (`.frm-show-form`), and WS Form (`.wsf-form`).
+
+---
+
+## 6. TypeScript / JavaScript API Reference
 
 ### Core Type Definitions
 ```ts

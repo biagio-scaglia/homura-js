@@ -228,19 +228,28 @@ Turn any static HTML form (Webflow, Shopify, Squarespace, Static HTML) into a cr
 
 ---
 
-## 9. WordPress & WooCommerce Integration
+## 9. WordPress & WooCommerce Integration (v1.3.0)
 
-HomuraJS provides an official WordPress plugin located in [`examples/wordpress-plugin`](examples/wordpress-plugin/):
+HomuraJS provides an official WordPress plugin located in [`examples/wordpress-plugin`](examples/wordpress-plugin/) and hosted on the [WordPress.org Plugin Directory](https://wordpress.org/plugins/homura-time-travel-form-recovery/):
 
-* **Zero Data Loss**: Prevents form abandonment across page refreshes and tab closures.
-* **Auto-Hooks**: Automatically protects WooCommerce Checkout (`.woocommerce-checkout`), Contact Form 7 (`.wpcf7 form`), WPForms (`.wpforms-form`), Gravity Forms (`.gform_wrapper`), and Elementor Forms (`.elementor-form`).
+* **Zero Data Loss**: Prevents form abandonment across page refreshes, browser crashes, and tab closures.
+* **WooCommerce AJAX Conflict Recovery**: Automatically detects when checkout recalculations (`update_order_review`, cart totals) wipe input values and instantly restores them without disrupting user flow.
+* **State Diff Engine**: Visual comparison of form changes between the current DOM and any saved draft (`[homura_diff]`).
+* **Smart Recovery Banner**: Prompt users with a non-intrusive recovery banner (`[homura_recovery_banner]`) to restore, inspect differences, or dismiss previous drafts.
+* **Zero-Leak Sensitive Field Policy**: Passwords, CVVs, credit card numbers, payment nonces, and inputs tagged with `data-homura-sensitive="true"` are strictly excluded from state storage (PCI-DSS & GDPR safe).
+* **Auto-Hooks**: Automatically protects WooCommerce Checkout (`.woocommerce-checkout`), Contact Form 7 (`.wpcf7 form`), WPForms (`.wpforms-form`), Gravity Forms (`.gform_wrapper`), Elementor Forms (`.elementor-form`), Fluent Forms (`.fluentform`), Ninja Forms (`.nf-form-content form`), Formidable Forms (`.frm-show-form`), and WS Form (`.wsf-form`).
 * **Shortcodes**:
-  * `[homura_form id="my_form" persist="localstorage"] ... [/homura_form]`
+  * `[homura_form id="my_form" persist="localstorage" smart_recovery="true"] ... [/homura_form]`
   * `[homura_undo form="my_form" label="↩ Undo"]`
   * `[homura_redo form="my_form" label="↪ Redo"]`
   * `[homura_status form="my_form"]`
   * `[homura_breadcrumbs form="my_form"]`
+  * `[homura_recovery_banner form="my_form"]`
+  * `[homura_diff form="my_form" label="🔍 View Changes"]`
+  * `[homura_clear form="my_form" label="🗑️ Clear Draft"]`
+  * `[homura_debug_export form="my_form" label="🛠️ Export Debug JSON"]`
   * `[homura_wizard id="my_wizard"]`
+
 
 ---
 

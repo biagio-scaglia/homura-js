@@ -31,12 +31,15 @@ Key capabilities:
 - `@homura-js/vue`: Vue 3 Composition API hook (`useHomura`) and plugin.
 - `@homura-js/db`: Versioned embedded database state (SQLite/In-Memory) & Full-Stack forensic correlation between client UI states (#184), network traces, and DB transactions (#52).
 
-## WordPress & WooCommerce Integration
+## WordPress & WooCommerce Integration (v1.3.0)
 
 HomuraJS provides an official WordPress plugin (`homura-time-travel-form-recovery`) for form crash recovery and time-travel:
-- **Shortcodes**: `[homura_form]`, `[homura_undo]`, `[homura_redo]`, `[homura_status]`, `[homura_breadcrumbs]`.
-- **Auto-Hooks**: Automatically detects and protects WooCommerce Checkout (`.woocommerce-checkout`), Contact Form 7 (`.wpcf7 form`), WPForms (`.wpforms-form`), Gravity Forms (`.gform_wrapper`), and Elementor Forms (`.elementor-form`).
-- **Client-Side Privacy**: 100% client-side storage (LocalStorage). No external servers or tracking.
+- **Shortcodes**: `[homura_form]`, `[homura_undo]`, `[homura_redo]`, `[homura_status]`, `[homura_breadcrumbs]`, `[homura_recovery_banner]`, `[homura_diff]`, `[homura_debug_export]`, `[homura_clear]`, `[homura_reset]`, `[homura_wizard]`.
+- **Auto-Hooks**: Automatically detects and protects WooCommerce Checkout (`.woocommerce-checkout`), Contact Form 7 (`.wpcf7 form`), WPForms (`.wpforms-form`), Gravity Forms (`.gform_wrapper`), Elementor Forms (`.elementor-form`), Fluent Forms (`.fluentform`), Ninja Forms (`.nf-form-content form`), Formidable Forms (`.frm-show-form`), and WS Form (`.wsf-form`).
+- **AJAX Conflict Recovery**: Protects WooCommerce Checkout from `update_order_review` and dynamic cart recalculation resets.
+- **Sensitive Field Policy**: Strict exclusion of passwords, CVVs, nonces, and `data-homura-sensitive="true"` (PCI-DSS & GDPR safe).
+- **Client-Side Privacy**: 100% client-side storage (LocalStorage/SessionStorage). No external servers or tracking.
+
 
 ## Zero-JS Static Site Form Usage
 
