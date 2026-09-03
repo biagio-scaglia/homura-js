@@ -2,8 +2,8 @@
 /**
  * Plugin Name:       Homura Time Travel & Form Recovery
  * Plugin URI:        https://biagio-scaglia.github.io/homura-js/
- * Description:       High-performance DAG time-travel history engine, form crash recovery, conflict integrity monitor, and non-destructive undo/redo for WordPress & WooCommerce forms.
- * Version:           1.3.0
+ * Description:       High-performance DAG time-travel history engine, multidevice QR handoff, sensory Ghost Assist, zero-knowledge WebCrypto vault, visual copywriting diff, and non-destructive undo/redo for WordPress & WooCommerce forms.
+ * Version:           1.4.0
  * Requires at least: 5.8
  * Requires PHP:      7.4
  * Author:            Biagio Scaglia
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
 }
 
 class HomuraJSTimeTravelPlugin {
-    const VERSION = '1.3.0';
+    const VERSION = '1.4.0';
 
     /**
      * Allowed values for the persist shortcode attribute.
@@ -39,6 +39,9 @@ class HomuraJSTimeTravelPlugin {
         add_shortcode('homura_recovery_banner', array($this, 'render_recovery_banner'));
         add_shortcode('homura_diff', array($this, 'render_diff_button'));
         add_shortcode('homura_debug_export', array($this, 'render_debug_export_button'));
+        add_shortcode('homura_handoff', array($this, 'render_handoff_button'));
+        add_shortcode('homura_ghost_assist', array($this, 'render_ghost_assist_tag'));
+        add_shortcode('homura_visual_diff', array($this, 'render_visual_diff_button'));
         add_shortcode('homura_form', array($this, 'render_homura_form_wrapper'));
         add_shortcode('homura_wizard', array($this, 'render_homura_wizard_wrapper'));
         add_shortcode('homura_clear', array($this, 'render_clear_button'));
@@ -550,6 +553,60 @@ JS,
     }
 
     /**
+     * Shortcode [homura_handoff form="checkout" label="📱 Continue on Mobile"]
+     */
+    public function render_handoff_button($atts) {
+        $a = shortcode_atts(array(
+            'form'  => '',
+            'label' => __('📱 Continue on Mobile', 'homura-time-travel-form-recovery'),
+            'class' => '',
+        ), $atts);
+
+        $form_attr = $a['form']
+            ? ' data-homura-handoff="' . esc_attr(sanitize_key($a['form'])) . '"'
+            : ' data-homura-handoff=""';
+
+        $classes = 'homura-handoff-btn' . ($a['class'] ? ' ' . esc_attr(sanitize_html_class($a['class'])) : '');
+
+        return '<button type="button" class="' . $classes . '"' . $form_attr . '>' . esc_html($a['label']) . '</button>';
+    }
+
+    /**
+     * Shortcode [homura_visual_diff form="post_content" field="post_content" label="📝 Visual Diff"]
+     */
+    public function render_visual_diff_button($atts) {
+        $a = shortcode_atts(array(
+            'form'  => '',
+            'field' => 'content',
+            'label' => __('📝 Visual Diff', 'homura-time-travel-form-recovery'),
+            'class' => '',
+        ), $atts);
+
+        $form_attr = $a['form']
+            ? ' data-homura-visual-diff="' . esc_attr(sanitize_key($a['field'])) . '" data-form="' . esc_attr(sanitize_key($a['form'])) . '"'
+            : ' data-homura-visual-diff="' . esc_attr(sanitize_key($a['field'])) . '"';
+
+        $classes = 'homura-visual-diff-btn' . ($a['class'] ? ' ' . esc_attr(sanitize_html_class($a['class'])) : '');
+
+        return '<button type="button" class="' . $classes . '"' . $form_attr . '>' . esc_html($a['label']) . '</button>';
+    }
+
+    /**
+     * Shortcode [homura_ghost_assist form="checkout"]
+     */
+    public function render_ghost_assist_tag($atts) {
+        $a = shortcode_atts(array(
+            'form' => '',
+        ), $atts);
+
+        $form_attr = $a['form']
+            ? ' data-homura-ghost-assist="' . esc_attr(sanitize_key($a['form'])) . '"'
+            : ' data-homura-ghost-assist="true"';
+
+        return '<span class="homura-ghost-assist-indicator"' . $form_attr . ' style="display:none;"></span>';
+    }
+
+    /**
      * Shortcode [homura_form id="lead-form"] ... [/homura_form]
      */
     public function render_homura_form_wrapper($atts, $content = null) {
@@ -558,16 +615,23 @@ JS,
             'persist'        => 'localstorage',
             'debounce'       => '200',
             'smart_recovery' => 'false',
-            'schema_version' => '1.3'
+            'schema_version' => '1.4',
+            'crypto'         => 'none',
+            'ghost_assist'   => 'true'
         ), $atts);
 
+        $crypto_attr = ($a['crypto'] === 'aes-gcm' || $a['crypto'] === 'true') ? ' data-homura-crypto="aes-gcm"' : '';
+        $ghost_attr = $a['ghost_assist'] === 'false' ? ' data-homura-ghost-assist="false"' : ' data-homura-ghost-assist="true"';
+
         return sprintf(
-            '<div data-homura-form="%s" data-homura-persist="%s" data-homura-debounce="%s" data-homura-smart-recovery="%s" data-homura-schema-version="%s">%s</div>',
+            '<div data-homura-form="%s" data-homura-persist="%s" data-homura-debounce="%s" data-homura-smart-recovery="%s" data-homura-schema-version="%s"%s%s>%s</div>',
             esc_attr(sanitize_key($a['id'])),
             esc_attr($this->sanitize_persist($a['persist'])),
             esc_attr(absint($a['debounce'])),
             esc_attr($a['smart_recovery'] === 'true' ? 'true' : 'false'),
             esc_attr(sanitize_text_field($a['schema_version'])),
+            $crypto_attr,
+            $ghost_attr,
             wp_kses_post(do_shortcode($content))
         );
     }
@@ -581,16 +645,23 @@ JS,
             'persist'        => 'localstorage',
             'debounce'       => '200',
             'smart_recovery' => 'false',
-            'schema_version' => '1.3'
+            'schema_version' => '1.4',
+            'crypto'         => 'none',
+            'ghost_assist'   => 'true'
         ), $atts);
 
+        $crypto_attr = ($a['crypto'] === 'aes-gcm' || $a['crypto'] === 'true') ? ' data-homura-crypto="aes-gcm"' : '';
+        $ghost_attr = $a['ghost_assist'] === 'false' ? ' data-homura-ghost-assist="false"' : ' data-homura-ghost-assist="true"';
+
         return sprintf(
-            '<div data-homura-wizard="%s" data-homura-persist="%s" data-homura-debounce="%s" data-homura-smart-recovery="%s" data-homura-schema-version="%s">%s</div>',
+            '<div data-homura-wizard="%s" data-homura-persist="%s" data-homura-debounce="%s" data-homura-smart-recovery="%s" data-homura-schema-version="%s"%s%s>%s</div>',
             esc_attr(sanitize_key($a['id'])),
             esc_attr($this->sanitize_persist($a['persist'])),
             esc_attr(absint($a['debounce'])),
             esc_attr($a['smart_recovery'] === 'true' ? 'true' : 'false'),
             esc_attr(sanitize_text_field($a['schema_version'])),
+            $crypto_attr,
+            $ghost_attr,
             wp_kses_post(do_shortcode($content))
         );
     }

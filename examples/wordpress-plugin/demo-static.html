@@ -284,26 +284,26 @@
   <div class="container">
     <a href="https://wordpress.org/plugins/homura-time-travel-form-recovery/" target="_blank" rel="noopener noreferrer" class="badge-wp">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--accent);"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
-      Official WordPress Plugin (v1.2.5) &rarr;
+      Official WordPress Plugin (v1.4.0) &rarr;
     </a>
 
     <h1>HOMURA<span>JS</span> // FORM ENGINE</h1>
     <p class="subtitle">
-      Zero-JavaScript Static Form Time-Travel &amp; Crash Recovery. Type in the fields below, click <b>Undo</b>, <b>Redo</b>, or test the <b>Simulate Crash (Refresh)</b> button!
+      Zero-JavaScript Static Form Time-Travel, QR Mobile Handoff, Ghost Assist &amp; WebCrypto 256-bit Vault.
     </p>
 
-    <!-- Homura Form Auto-Binding -->
-    <form data-homura-form="quote_request" data-homura-persist="localstorage" data-homura-debounce="100">
+    <!-- Homura Form Auto-Binding with WebCrypto AES-GCM Vault -->
+    <form data-homura-form="quote_request" data-homura-persist="localstorage" data-homura-debounce="100" data-homura-crypto="aes-gcm">
       
       <!-- Live Status & Breadcrumb Navigation -->
       <div class="controls-bar">
         <div class="status-group">
           <span class="homura-status-badge" data-homura-status="quote_request">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
-            Ready
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            Zero-Knowledge Vault Active
           </span>
         </div>
-        <div style="display: flex; gap: 8px;">
+        <div style="display: flex; gap: 6px; flex-wrap: wrap;">
           <button type="button" class="homura-undo-btn" data-homura-undo="quote_request">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7v6h6"></path><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"></path></svg>
             Undo
@@ -312,9 +312,17 @@
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 7v6h-6"></path><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"></path></svg>
             Redo
           </button>
+          <button type="button" class="homura-handoff-btn" data-homura-handoff="quote_request" title="Generate QR Code to continue on mobile">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+            QR Handoff
+          </button>
+          <button type="button" class="homura-diff-btn" data-homura-visual-diff="message" title="Visual Copywriting Git Diff">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+            Diff Scope
+          </button>
           <button type="button" class="homura-clear-btn" data-homura-clear="quote_request" title="Clear saved draft from LocalStorage">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-            Clear Draft
+            Clear
           </button>
         </div>
       </div>

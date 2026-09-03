@@ -2,10 +2,15 @@ import {
   createHomura,
   diffStates,
   DiffChange,
-  HistoryEntry,
   Homura,
-  LocalStorageAdapter
+  LocalStorageAdapter,
+  PersistenceAdapter,
+  SerializedHomura
 } from '@homura-js/core';
+import { encryptPayload, decryptPayload } from './crypto';
+import { buildHandoffUrl, extractHandoffFromLocation, generateQrSvg } from './qr';
+import { GhostAssistMonitor } from './ghost';
+import { createVisualDiffViewer } from './textdiff';
 
 export interface FormBindingOptions<T = Record<string, any>> {
   /** Initial form state if overriding DOM defaults */
@@ -14,6 +19,8 @@ export interface FormBindingOptions<T = Record<string, any>> {
   storageKey?: string;
   /** Persistence type */
   persist?: 'localstorage' | 'sessionstorage' | 'none';
+  /** Privacy-First WebCrypto AES-GCM 256-bit encryption (default: false or 'aes-gcm') */
+  crypto?: 'aes-gcm' | 'none' | boolean;
   /** Input change debounce delay in ms (default: 200) */
   debounceMs?: number;
   /** Max history entries (default: 200) */
@@ -28,6 +35,8 @@ export interface FormBindingOptions<T = Record<string, any>> {
   onChange?: (state: T, entryId: string) => void;
   /** Enable smart recovery prompt banner instead of immediate blind restore */
   smartRecovery?: boolean;
+  /** Enable Behavioral / Rage-Detection Ghost Assist (default: true) */
+  enableGhostAssist?: boolean;
 }
 
 export interface FormDiffItem {
@@ -56,6 +65,12 @@ export interface FormBindingController<T = Record<string, any>> {
   verifyIntegrityAndRestore: () => { restoredFields: string[]; hadConflict: boolean };
   /** Export sanitized JSON debug payload with masked PII for troubleshooting */
   exportDebugSnapshot: (options?: { maskPII?: boolean }) => Record<string, any>;
+  /** Generates cross-device handoff URL and SVG QR code modal */
+  openHandoffModal: () => void;
+  /** Opens visual copywriting word diff viewer for a specific field */
+  openVisualDiff: (fieldName: string) => void;
+  /** Ghost Assist behavioral monitor instance */
+  ghostAssist?: GhostAssistMonitor;
 }
 
 const SENSITIVE_NAME_PATTERNS = /(password|passwd|pwd|cvv|cvc|card[_-]?number|credit[_-]?card|cc[_-]?num|expir|secret|nonce|token|stripe|auth[_-]?token)/i;
@@ -158,30 +173,74 @@ export function populateFormData(
 /**
  * Masks Personally Identifiable Information for safe debugging exports.
  */
-export function maskPIIValue(key: string, val: any): any {
-  if (val === null || val === undefined || typeof val === 'boolean' || typeof val === 'number') {
-    return val;
-  }
-  const str = String(val);
-  if (!str) return str;
+export function maskPIIValue(_key: string, val: unknown): unknown {
+  if (typeof val !== 'string') return val;
+  const str = val.trim();
+  if (str.length === 0) return '';
 
-  const lowerKey = key.toLowerCase();
-  if (lowerKey.includes('email') || str.includes('@')) {
-    const parts = str.split('@');
-    if (parts.length === 2) {
-      const name = parts[0] || '';
-      const domain = parts[1] || '';
-      const domainExt = domain.split('.').pop() || 'com';
-      return `${name.charAt(0)}***@${domain.charAt(0)}***.${domainExt}`;
+  if (str.includes('@')) {
+    const [local, domain] = str.split('@');
+    if (!local || !domain) return '***@***';
+    const domainParts = domain.split('.');
+    if (domainParts.length > 1) {
+      const dName = domainParts[0] || '';
+      const dExt = domainParts.slice(1).join('.');
+      return `${local.charAt(0)}***@${dName.charAt(0)}***.${dExt}`;
     }
+    return `${local.charAt(0)}***@${domain}`;
   }
 
-  if (lowerKey.includes('phone') || lowerKey.includes('tel') || /^\+?[0-9\s-]{6,}$/.test(str)) {
+  if (/^[\d+\-\s()]{7,}$/.test(str)) {
     return str.slice(0, 3) + ' **** ' + str.slice(-2);
   }
 
   if (str.length <= 3) return '***';
   return str.charAt(0) + '*'.repeat(Math.min(str.length - 2, 6)) + str.slice(-1);
+}
+
+/**
+ * Encrypted WebCrypto LocalStorage Adapter for Zero-Knowledge Local Vault.
+ */
+class EncryptedLocalStorageAdapter<T> implements PersistenceAdapter<T> {
+  private key: string;
+  private useCrypto: boolean;
+
+  constructor(key: string, useCrypto = true) {
+    this.key = key;
+    this.useCrypto = useCrypto;
+  }
+
+  async save(data: SerializedHomura<T>): Promise<void> {
+    if (typeof localStorage === 'undefined') return;
+    const raw = JSON.stringify(data);
+    const payload = this.useCrypto ? await encryptPayload(raw) : raw;
+    try {
+      localStorage.setItem(this.key, payload);
+    } catch (e) {
+      console.warn('[HomuraJS] Storage save warning:', e);
+    }
+  }
+
+  async load(): Promise<SerializedHomura<T> | null> {
+    if (typeof localStorage === 'undefined') return null;
+    const raw = localStorage.getItem(this.key);
+    if (!raw) return null;
+
+    try {
+      const decrypted = this.useCrypto ? await decryptPayload(raw) : raw;
+      if (!decrypted) return null;
+      return JSON.parse(decrypted);
+    } catch {
+      return null;
+    }
+  }
+
+  async clear(): Promise<void> {
+    if (typeof localStorage === 'undefined') return;
+    try {
+      localStorage.removeItem(this.key);
+    } catch (_) {}
+  }
 }
 
 /**
@@ -202,12 +261,14 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
   const debounceMs = options.debounceMs ?? 200;
   const customExclusions = options.excludeFields || [];
   const schemaVersion = options.schemaVersion ?? (form.getAttribute('data-homura-schema-version') || 1);
+  const useCrypto = options.crypto === true || options.crypto === 'aes-gcm' || form.getAttribute('data-homura-crypto') === 'aes-gcm';
+  const enableGhost = options.enableGhostAssist ?? form.getAttribute('data-homura-ghost-assist') !== 'false';
 
   const initialData = (options.initialState ?? extractFormData(form, customExclusions)) as T;
 
   const persistenceConfig = options.persist === 'localstorage' || (options.persist !== 'none' && options.persist !== 'sessionstorage')
     ? {
-        adapter: new LocalStorageAdapter<T>(storageKey),
+        adapter: useCrypto ? new EncryptedLocalStorageAdapter<T>(storageKey, true) : new LocalStorageAdapter<T>(storageKey),
         autoSave: true,
         debounceMs: 300
       }
@@ -234,7 +295,14 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
     const clearBtns = Array.from(document.querySelectorAll<HTMLButtonElement>(
       `[data-homura-clear="${formId}"], [data-homura-clear=""], [data-homura-reset="${formId}"], [data-homura-reset=""], form[data-homura-form="${formId}"] [data-homura-clear], form[data-homura-form="${formId}"] [data-homura-reset]`
     ));
-    return { undoBtns, redoBtns, clearBtns };
+    const handoffBtns = Array.from(document.querySelectorAll<HTMLButtonElement>(
+      `[data-homura-handoff="${formId}"], [data-homura-handoff=""], form[data-homura-form="${formId}"] [data-homura-handoff]`
+    ));
+    const visualDiffBtns = Array.from(document.querySelectorAll<HTMLButtonElement>(
+      `[data-homura-visual-diff="${formId}"], [data-homura-visual-diff=""], form[data-homura-form="${formId}"] [data-homura-visual-diff]`
+    ));
+
+    return { undoBtns, redoBtns, clearBtns, handoffBtns, visualDiffBtns };
   }
 
   // 2. Status Badges
@@ -260,7 +328,7 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
 
     containers.forEach(c => {
       c.innerHTML = '';
-      timeline.forEach((entry: HistoryEntry<T>, idx) => {
+      timeline.forEach((entry, idx) => {
         const item = document.createElement('button');
         item.type = 'button';
         item.className = `homura-breadcrumb-item ${entry.id === currentEntry.id ? 'active' : ''}`;
@@ -331,6 +399,7 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
   const prevBtns = form.querySelectorAll<HTMLButtonElement>('[data-homura-prev]');
   nextBtns.forEach(b => b.addEventListener('click', nextStep));
   prevBtns.forEach(b => b.addEventListener('click', prevStep));
+
   renderWizardStep();
 
   function updateButtonsState() {
@@ -350,7 +419,7 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
     updateBreadcrumbs();
   }
 
-  // 5. Input Event Handling with Conditional Memory
+  // 5. Input Handler
   function handleInput(e: Event) {
     if (isSyncingFromState) return;
     const targetEl = e.target as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
@@ -360,9 +429,9 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
     if (debounceTimer) clearTimeout(debounceTimer);
 
     debounceTimer = setTimeout(() => {
-      const currentDomValues = extractFormData(form, customExclusions);
+      const currentFormValues = extractFormData(form, customExclusions);
       homura.update(draft => {
-        Object.assign(draft, currentDomValues);
+        Object.assign(draft, currentFormValues);
         (draft as Record<string, any>).__schemaVersion = schemaVersion;
       }, { label: `Field: ${targetEl.name}` });
 
@@ -374,7 +443,7 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
   form.addEventListener('input', handleInput);
   form.addEventListener('change', handleInput);
 
-  // 6. DOM Sync & Event Subscriptions
+  // 6. Sync state changes to Form DOM
   const unsubState = homura.on('state:change', ({ state, entry, action }) => {
     isSyncingFromState = true;
     populateFormData(form, state, customExclusions);
@@ -393,7 +462,7 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
     } else if (action === 'clearHistory') {
       updateStatusBadges('🗑️ Draft cleared', 'action');
     } else {
-      updateStatusBadges('💾 Draft saved', 'saved');
+      updateStatusBadges(useCrypto ? '🔒 Encrypted draft saved' : '💾 Draft saved', 'saved');
     }
 
     options.onChange?.(state, entry.id);
@@ -445,12 +514,105 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
     updateStatusBadges('🗑️ Draft cleared', 'action');
   }
 
-  const { undoBtns, redoBtns, clearBtns } = getActionButtons();
+  // 8. Handoff Modal
+  function openHandoffModal() {
+    const serialized = JSON.stringify(homura.export());
+    const handoffUrl = buildHandoffUrl(serialized);
+    const qrSvg = generateQrSvg(handoffUrl, 200);
+
+    const modal = document.createElement('div');
+    modal.className = 'homura-handoff-modal';
+    modal.style.cssText = `
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 999999; padding: 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    `;
+
+    modal.innerHTML = `
+      <div style="background: #0f071a; border: 1px solid rgba(168, 85, 247, 0.4); border-radius: 12px; width: 100%; max-width: 440px; padding: 24px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.8);">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+          <strong style="color: #f5f3ff; font-size: 16px;">📱 Continue on Mobile</strong>
+          <button type="button" id="homura-modal-close" style="background: none; border: none; color: #c4b5fd; font-size: 20px; cursor: pointer;">&times;</button>
+        </div>
+        <p style="font-size: 13px; color: #c4b5fd; line-height: 1.5; margin-bottom: 20px;">
+          Scan this QR code with your phone's camera to instantly resume this form with its exact timeline history!
+        </p>
+        <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+          ${qrSvg}
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button type="button" id="homura-copy-handoff-btn" style="flex: 1; background: #a855f7; color: #fff; border: none; padding: 10px 14px; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer;">
+            📋 Copy Handoff Link
+          </button>
+          <button type="button" id="homura-dismiss-handoff-btn" style="background: rgba(255,255,255,0.08); color: #c4b5fd; border: 1px solid rgba(255,255,255,0.15); padding: 10px 14px; border-radius: 6px; font-size: 13px; cursor: pointer;">
+            Close
+          </button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    modal.querySelector('#homura-modal-close')?.addEventListener('click', () => modal.remove());
+    modal.querySelector('#homura-dismiss-handoff-btn')?.addEventListener('click', () => modal.remove());
+    modal.querySelector('#homura-copy-handoff-btn')?.addEventListener('click', () => {
+      navigator.clipboard.writeText(handoffUrl).then(() => {
+        const btn = modal.querySelector('#homura-copy-handoff-btn') as HTMLButtonElement;
+        if (btn) btn.textContent = '✅ Copied to Clipboard!';
+      });
+    });
+  }
+
+  // 9. Visual Copywriting Diff Viewer
+  function openVisualDiff(fieldName: string) {
+    const history = homura.getHistory();
+    const historyEntries = history.map((e, idx) => ({
+      id: e.id,
+      timestamp: e.timestamp,
+      label: e.label || `Step ${idx + 1}`,
+      text: String((e.state as Record<string, any>)[fieldName] || '')
+    }));
+
+    const currentText = String((homura.getState() as Record<string, any>)[fieldName] || '');
+    createVisualDiffViewer({
+      fieldName,
+      historyEntries,
+      currentText,
+      onJumpToEntry: (id) => {
+        homura.jumpTo(id);
+      }
+    });
+  }
+
+  const { undoBtns, redoBtns, clearBtns, handoffBtns, visualDiffBtns } = getActionButtons();
   undoBtns.forEach(btn => btn.addEventListener('click', onUndoClick));
   redoBtns.forEach(btn => btn.addEventListener('click', onRedoClick));
   clearBtns.forEach(btn => btn.addEventListener('click', onClearClick));
+  handoffBtns.forEach(btn => btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    openHandoffModal();
+  }));
 
-  // 8. Diff Engine helpers
+  visualDiffBtns.forEach(btn => btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const fieldName = btn.getAttribute('data-homura-visual-diff') || btn.getAttribute('data-field') || 'message';
+    openVisualDiff(fieldName);
+  }));
+
+  // 10. Ghost Assist Behavioral Monitor
+  let ghostAssist: GhostAssistMonitor | undefined;
+  if (enableGhost) {
+    ghostAssist = new GhostAssistMonitor(form, {
+      formName: formId,
+      onRestoreSnapshot: () => {
+        homura.undo();
+        updateStatusBadges('👻 Ghost Assist restored previous state', 'action');
+      }
+    });
+  }
+
+  // 11. Diff Engine helpers
   function getDiff(fromEntryId?: string, toEntryId?: string): DiffChange[] {
     const history = homura.getHistory();
     if (history.length === 0) return [];
@@ -490,7 +652,7 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
       .trim();
   }
 
-  // 9. Conflict Recovery & DOM-State Integrity Check
+  // 12. Conflict Recovery & DOM-State Integrity Check
   function verifyIntegrityAndRestore(): { restoredFields: string[]; hadConflict: boolean } {
     const state = homura.getState();
     const domValues = extractFormData(form, customExclusions);
@@ -498,16 +660,17 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
 
     for (const [key, stateVal] of Object.entries(state)) {
       if (key.startsWith('__') || stateVal === '' || stateVal === null || stateVal === undefined) continue;
-      const domVal = domValues[key];
-      if (domVal === '' || domVal === null || domVal === undefined) {
-        const input = form.querySelector(`[name="${key}"]`) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
-        if (input && !isFieldSensitive(input, customExclusions)) {
-          if (input instanceof HTMLInputElement && input.type === 'checkbox') {
-            input.checked = Boolean(stateVal);
-          } else if (input instanceof HTMLInputElement && input.type === 'radio') {
-            input.checked = input.value === String(stateVal);
-          } else {
-            input.value = String(stateVal);
+      const currentDomVal = domValues[key];
+
+      if (currentDomVal === '' || currentDomVal === null || currentDomVal === undefined) {
+        const el = form.elements.namedItem(key);
+        if (el && !isFieldSensitive(el as any, customExclusions)) {
+          if (el instanceof HTMLInputElement) {
+            if (el.type === 'checkbox') el.checked = Boolean(stateVal);
+            else if (el.type === 'radio') el.checked = el.value === String(stateVal);
+            else el.value = String(stateVal);
+          } else if (el instanceof HTMLSelectElement || el instanceof HTMLTextAreaElement) {
+            el.value = String(stateVal);
           }
           restoredFields.push(key);
         }
@@ -515,160 +678,115 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
     }
 
     if (restoredFields.length > 0) {
-      updateStatusBadges(`🛡️ Recovered ${restoredFields.length} field(s) after refresh`, 'action');
+      updateStatusBadges(`🛡️ Recovered ${restoredFields.length} field(s) from AJAX conflict`, 'restored');
     }
-    return { restoredFields, hadConflict: restoredFields.length > 0 };
-  }
-
-  // 10. Sanitized Debug Snapshot Export
-  function exportDebugSnapshot(debugOptions: { maskPII?: boolean } = { maskPII: true }): Record<string, any> {
-    const history = homura.getHistory();
-    const currentState = homura.getState();
-    const mask = debugOptions.maskPII !== false;
-
-    const sanitizeState = (st: Record<string, any>) => {
-      const out: Record<string, any> = {};
-      for (const [k, v] of Object.entries(st)) {
-        out[k] = mask ? maskPIIValue(k, v) : v;
-      }
-      return out;
-    };
 
     return {
-      formId,
-      schemaVersion,
-      timestamp: Date.now(),
-      historyLength: history.length,
-      currentState: sanitizeState(currentState),
-      timeline: history.map(h => ({
-        id: h.id,
-        label: h.label,
-        timestamp: h.timestamp,
-        state: sanitizeState(h.state)
-      }))
+      restoredFields,
+      hadConflict: restoredFields.length > 0
     };
   }
 
-  // 11. Smart Recovery Banner Handlers
-  function setupSmartRecoveryBanner(savedState: T) {
-    const banners = document.querySelectorAll<HTMLElement>(
-      `[data-homura-banner="${formId}"], [data-homura-banner=""], form[data-homura-form="${formId}"] [data-homura-banner]`
-    );
-    if (banners.length === 0) return;
+  // 13. WooCommerce AJAX Mutation Observer
+  function setupWooCommerceAjaxObserver() {
+    const isWooCheckout = form.classList.contains('woocommerce-checkout') || form.id === 'woocommerce-checkout' || formId.includes('woocommerce');
+    if (!isWooCheckout || typeof MutationObserver === 'undefined') return;
 
-    banners.forEach(banner => {
-      banner.style.display = '';
-      banner.classList.add('homura-banner-visible');
-
-      const restoreBtns = banner.querySelectorAll<HTMLButtonElement>('[data-homura-restore]');
-      const diffBtns = banner.querySelectorAll<HTMLButtonElement>('[data-homura-diff]');
-      const dismissBtns = banner.querySelectorAll<HTMLButtonElement>('[data-homura-dismiss]');
-
-      restoreBtns.forEach(btn => {
-        btn.onclick = () => {
-          isSyncingFromState = true;
-          populateFormData(form, savedState, customExclusions);
-          isSyncingFromState = false;
-          banner.style.display = 'none';
-          updateButtonsState();
-          updateStatusBadges('📦 Restored draft', 'restored');
-        };
-      });
-
-      diffBtns.forEach(btn => {
-        btn.onclick = () => {
-          const diffs = getDiffFromDom(savedState);
-          renderDiffModal(diffs, savedState, banner);
-        };
-      });
-
-      dismissBtns.forEach(btn => {
-        btn.onclick = () => {
-          banner.style.display = 'none';
-          updateStatusBadges('💾 New session', 'saved');
-        };
-      });
+    let ajaxDebounce: ReturnType<typeof setTimeout> | null = null;
+    const observer = new MutationObserver(() => {
+      if (isSyncingFromState) return;
+      if (ajaxDebounce) clearTimeout(ajaxDebounce);
+      ajaxDebounce = setTimeout(() => {
+        verifyIntegrityAndRestore();
+      }, 150);
     });
+
+    observer.observe(form, { childList: true, subtree: true });
+    const jq = typeof window !== 'undefined' ? (window as any).jQuery : undefined;
+    if (typeof jq !== 'undefined') {
+      try {
+        jq(document.body).on('updated_checkout updated_shipping_method payment_method_selected', () => {
+          setTimeout(() => verifyIntegrityAndRestore(), 100);
+        });
+      } catch (_) {}
+    }
   }
 
-  function renderDiffModal(diffs: FormDiffItem[], savedState: T, bannerEl: HTMLElement) {
-    let modal = document.querySelector<HTMLElement>('.homura-diff-modal');
-    if (!modal) {
-      modal = document.createElement('div');
-      modal.className = 'homura-diff-modal';
-      document.body.appendChild(modal);
+  setupWooCommerceAjaxObserver();
+
+  // 14. Export Debug Snapshot with PII Masking
+  function exportDebugSnapshot(debugOptions: { maskPII?: boolean } = {}): Record<string, any> {
+    const shouldMask = debugOptions.maskPII !== false;
+    const currentState = homura.getState();
+    const history = homura.getHistory();
+
+    const sanitizedState: Record<string, any> = {};
+    for (const [k, v] of Object.entries(currentState)) {
+      sanitizedState[k] = shouldMask ? maskPIIValue(k, v) : v;
     }
 
-    const rows = diffs.map(d => `
-      <tr>
-        <td><strong>${d.label}</strong></td>
-        <td class="homura-diff-old">${d.oldValue === undefined || d.oldValue === '' ? '<em>(empty)</em>' : String(d.oldValue)}</td>
-        <td class="homura-diff-new">${d.newValue === undefined || d.newValue === '' ? '<em>(empty)</em>' : String(d.newValue)}</td>
-      </tr>
-    `).join('');
-
-    modal.innerHTML = `
-      <div class="homura-diff-backdrop"></div>
-      <div class="homura-diff-content">
-        <h3>🧬 State Diff — Changes Found in Saved Draft</h3>
-        <table class="homura-diff-table">
-          <thead>
-            <tr><th>Field</th><th>Current DOM</th><th>Saved Draft</th></tr>
-          </thead>
-          <tbody>${rows.length > 0 ? rows : '<tr><td colspan="3">No differences found.</td></tr>'}</tbody>
-        </table>
-        <div class="homura-diff-footer">
-          <button type="button" class="homura-btn-modal-restore">Apply Saved Draft</button>
-          <button type="button" class="homura-btn-modal-close">Close</button>
-        </div>
-      </div>
-    `;
-
-    const closeBtn = modal.querySelector('.homura-btn-modal-close');
-    const restoreBtn = modal.querySelector('.homura-btn-modal-restore');
-    const backdrop = modal.querySelector('.homura-diff-backdrop');
-
-    const closeModal = () => modal?.remove();
-    closeBtn?.addEventListener('click', closeModal);
-    backdrop?.addEventListener('click', closeModal);
-
-    restoreBtn?.addEventListener('click', () => {
-      isSyncingFromState = true;
-      populateFormData(form, savedState, customExclusions);
-      isSyncingFromState = false;
-      bannerEl.style.display = 'none';
-      closeModal();
-      updateButtonsState();
-      updateStatusBadges('📦 Restored draft from Diff', 'restored');
+    const sanitizedHistory = history.map(entry => {
+      const entryState: Record<string, any> = {};
+      for (const [k, v] of Object.entries(entry.state as Record<string, any>)) {
+        entryState[k] = shouldMask ? maskPIIValue(k, v) : v;
+      }
+      return {
+        id: entry.id,
+        label: entry.label,
+        timestamp: entry.timestamp,
+        branchId: entry.branchId,
+        state: entryState
+      };
     });
+
+    return {
+      version: 1,
+      formId,
+      schemaVersion,
+      exportedAt: new Date().toISOString(),
+      piiMasked: shouldMask,
+      activeBranch: homura.getCurrentBranch().name,
+      currentState: sanitizedState,
+      history: sanitizedHistory
+    };
+  }
+
+  // 15. Check incoming Multidevice Handoff URL token
+  const incomingHandoff = extractHandoffFromLocation();
+  if (incomingHandoff) {
+    try {
+      const parsed = JSON.parse(incomingHandoff);
+      homura.import(parsed);
+      isSyncingFromState = true;
+      populateFormData(form, homura.getState(), customExclusions);
+      isSyncingFromState = false;
+      updateButtonsState();
+      updateStatusBadges('📱 Handoff state transferred from mobile/device', 'restored');
+      // Clear hash safely
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
+    } catch (e) {
+      console.warn('[HomuraJS] Failed to restore handoff token:', e);
+    }
   }
 
   // Initial populate & button status
   updateButtonsState();
-  updateStatusBadges('💾 Ready', 'saved');
+  updateStatusBadges(useCrypto ? '🔒 Zero-Knowledge Vault Active' : '💾 Ready', 'saved');
 
-  // Load persistence and handle Schema Versioning & Smart Recovery
-  if (persistenceConfig) {
+  // Load persistence
+  if (persistenceConfig && !incomingHandoff) {
     homura.load().then(loaded => {
       if (loaded) {
         let loadedState = homura.getState();
         const savedSchemaVersion = (loadedState as Record<string, any>).__schemaVersion;
 
-        // Handle Schema Version mismatch
         if (savedSchemaVersion !== undefined && String(savedSchemaVersion) !== String(schemaVersion)) {
           if (options.onSchemaMismatch) {
             loadedState = options.onSchemaMismatch(savedSchemaVersion, schemaVersion, loadedState);
           } else {
             updateStatusBadges(`🔄 Migrated schema v${savedSchemaVersion} ➔ v${schemaVersion}`, 'action');
-          }
-        }
-
-        if (options.smartRecovery) {
-          const diffs = getDiffFromDom(loadedState);
-          if (diffs.length > 0) {
-            setupSmartRecoveryBanner(loadedState);
-            updateStatusBadges('📦 Saved draft available', 'restored');
-            return;
           }
         }
 
@@ -698,6 +816,9 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
     getDiffFromDom,
     verifyIntegrityAndRestore,
     exportDebugSnapshot,
+    openHandoffModal,
+    openVisualDiff,
+    ghostAssist,
     destroy: () => {
       form.removeEventListener('input', handleInput);
       form.removeEventListener('change', handleInput);
@@ -706,6 +827,7 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
       clearBtns.forEach(btn => btn.removeEventListener('click', onClearClick));
       nextBtns.forEach(b => b.removeEventListener('click', nextStep));
       prevBtns.forEach(b => b.removeEventListener('click', prevStep));
+      ghostAssist?.destroy();
       unsubState();
       unsubBranch();
       if (debounceTimer) clearTimeout(debounceTimer);
@@ -727,12 +849,16 @@ export function autoInitForms(): FormBindingController[] {
     const debounceMs = debounceAttr ? parseInt(debounceAttr, 10) : 200;
     const smartRecovery = form.getAttribute('data-homura-smart-recovery') === 'true';
     const schemaVersion = form.getAttribute('data-homura-schema-version') || 1;
+    const crypto = form.getAttribute('data-homura-crypto') === 'aes-gcm';
+    const enableGhostAssist = form.getAttribute('data-homura-ghost-assist') !== 'false';
 
     return bindForm(form, {
       persist,
       debounceMs,
       smartRecovery,
-      schemaVersion
+      schemaVersion,
+      crypto,
+      enableGhostAssist
     });
   });
 }

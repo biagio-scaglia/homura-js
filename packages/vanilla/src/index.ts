@@ -22,3 +22,31 @@ export type {
   FormBindingController,
   FormDiffItem
 } from './form';
+
+export {
+  encryptPayload,
+  decryptPayload
+} from './crypto';
+
+export {
+  compressToUrlToken,
+  decompressFromUrlToken,
+  generateQrSvg,
+  buildHandoffUrl,
+  extractHandoffFromLocation
+} from './qr';
+
+export {
+  GhostAssistMonitor
+} from './ghost';
+export type {
+  GhostAssistOptions
+} from './ghost';
+
+export {
+  computeWordDiff,
+  createVisualDiffViewer
+} from './textdiff';
+export type {
+  TextDiffResult
+} from './textdiff';

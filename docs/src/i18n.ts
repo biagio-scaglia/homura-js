@@ -108,8 +108,8 @@ export const translations: TranslationDictionary = {
 
   // Hero Section
   'hero.announcement_wp': {
-    en: 'NEW: Homura Time Travel & Form Recovery is now officially live on WordPress.org (v1.2.5) →',
-    it: 'NOVITÀ: Homura Time Travel & Form Recovery è ora ufficialmente disponibile su WordPress.org (v1.2.5) →'
+    en: 'NEW: Homura Time Travel & Form Recovery v1.4.0 is now live with QR Mobile Handoff, Ghost Assist & WebCrypto Vault →',
+    it: 'NOVITÀ: Homura Time Travel & Form Recovery v1.4.0 è ora disponibile con QR Mobile Handoff, Ghost Assist & WebCrypto Vault →'
   },
   'hero.title': {
     en: 'The Directed Acyclic Graph State Engine for JavaScript.',
@@ -132,8 +132,8 @@ export const translations: TranslationDictionary = {
     it: 'Apri lo Studio Interattivo'
   },
   'hero.cta_wp': {
-    en: 'WordPress Plugin',
-    it: 'Plugin WordPress'
+    en: 'WordPress Plugin (v1.4.0)',
+    it: 'Plugin WordPress (v1.4.0)'
   },
 
   // Live Runtime Sandbox
@@ -268,8 +268,8 @@ export const translations: TranslationDictionary = {
     it: 'Integrazione WordPress & WooCommerce'
   },
   'wordpress.badge_approved': {
-    en: 'Official Plugin on WordPress.org (v1.2.5)',
-    it: 'Plugin Ufficiale su WordPress.org (v1.2.5)'
+    en: 'Official Plugin on WordPress.org (v1.4.0)',
+    it: 'Plugin Ufficiale su WordPress.org (v1.4.0)'
   },
   'wordpress.view_plugin': {
     en: 'View on WordPress.org Plugin Directory',
