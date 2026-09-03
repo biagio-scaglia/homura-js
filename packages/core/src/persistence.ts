@@ -22,7 +22,100 @@ export class MemoryAdapter<T> implements PersistenceAdapter<T> {
 }
 
 /**
- * LocalStorage persistence adapter for browser environments.
+ * Recursively encodes rich JavaScript objects (Date, Set, Map, RegExp, BigInt, Uint8Array) into JSON-safe representations.
+ */
+export function serializeRichState(value: unknown): unknown {
+  if (value === null || typeof value !== 'object') {
+    if (typeof value === 'bigint') {
+      return { __homura_type__: 'BigInt', value: value.toString() };
+    }
+    return value;
+  }
+
+  if (value instanceof Date) {
+    return { __homura_type__: 'Date', value: value.toISOString() };
+  }
+
+  if (value instanceof RegExp) {
+    return { __homura_type__: 'RegExp', source: value.source, flags: value.flags };
+  }
+
+  if (value instanceof Set) {
+    const items: unknown[] = [];
+    for (const item of value) {
+      items.push(serializeRichState(item));
+    }
+    return { __homura_type__: 'Set', value: items };
+  }
+
+  if (value instanceof Map) {
+    const entries: [unknown, unknown][] = [];
+    for (const [k, v] of value) {
+      entries.push([serializeRichState(k), serializeRichState(v)]);
+    }
+    return { __homura_type__: 'Map', value: entries };
+  }
+
+  if (value instanceof Uint8Array) {
+    return { __homura_type__: 'Uint8Array', value: Array.from(value) };
+  }
+
+  if (Array.isArray(value)) {
+    return value.map(serializeRichState);
+  }
+
+  const result: Record<string, unknown> = {};
+  for (const key of Object.keys(value)) {
+    result[key] = serializeRichState((value as Record<string, unknown>)[key]);
+  }
+  return result;
+}
+
+/**
+ * Recursively restores rich JavaScript objects (Date, Set, Map, RegExp, BigInt, Uint8Array) from JSON representations.
+ */
+export function deserializeRichState(value: unknown): unknown {
+  if (value === null || typeof value !== 'object') {
+    return value;
+  }
+
+  if (Array.isArray(value)) {
+    return value.map(deserializeRichState);
+  }
+
+  const obj = value as Record<string, any>;
+  if (obj.__homura_type__ === 'Date' && typeof obj.value === 'string') {
+    return new Date(obj.value);
+  }
+  if (obj.__homura_type__ === 'RegExp' && typeof obj.source === 'string') {
+    return new RegExp(obj.source, obj.flags || '');
+  }
+  if (obj.__homura_type__ === 'BigInt' && typeof obj.value === 'string') {
+    return BigInt(obj.value);
+  }
+  if (obj.__homura_type__ === 'Set' && Array.isArray(obj.value)) {
+    return new Set(obj.value.map(deserializeRichState));
+  }
+  if (obj.__homura_type__ === 'Map' && Array.isArray(obj.value)) {
+    const map = new Map();
+    for (const [k, v] of obj.value) {
+      map.set(deserializeRichState(k), deserializeRichState(v));
+    }
+    return map;
+  }
+  if (obj.__homura_type__ === 'Uint8Array' && Array.isArray(obj.value)) {
+    return new Uint8Array(obj.value);
+  }
+
+  const result: Record<string, unknown> = {};
+  for (const key of Object.keys(obj)) {
+    result[key] = deserializeRichState(obj[key]);
+  }
+  return result;
+}
+
+/**
+ * LocalStorage persistence adapter for browser environments with rich type support.
  */
 export class LocalStorageAdapter<T> implements PersistenceAdapter<T> {
   private key: string;
@@ -43,7 +136,8 @@ export class LocalStorageAdapter<T> implements PersistenceAdapter<T> {
       return;
     }
     try {
-      const json = JSON.stringify(data);
+      const encoded = serializeRichState(data);
+      const json = JSON.stringify(encoded);
       window.localStorage.setItem(this.key, json);
     } catch (err) {
       throw new HomuraPersistenceError(
@@ -60,7 +154,8 @@ export class LocalStorageAdapter<T> implements PersistenceAdapter<T> {
     try {
       const json = window.localStorage.getItem(this.key);
       if (!json) return null;
-      return JSON.parse(json) as SerializedHomura<T>;
+      const parsed = JSON.parse(json);
+      return deserializeRichState(parsed) as SerializedHomura<T>;
     } catch (err) {
       throw new HomuraPersistenceError(
         `Failed to load state from localStorage key "${this.key}"`,
