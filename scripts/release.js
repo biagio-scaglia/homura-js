@@ -50,33 +50,50 @@ for (const rel of pkgPaths) {
   }
 }
 
-// 2. Update HTML & README version tags
-const htmlFiles = ['docs/index.html', 'playground/index.html'];
+// 2. Update WordPress Plugin files
+const wpPhpPath = path.join(rootDir, 'examples/wordpress-plugin/homura-time-travel-form-recovery.php');
+if (fs.existsSync(wpPhpPath)) {
+  let php = fs.readFileSync(wpPhpPath, 'utf8');
+  php = php.replace(/Version:\s*\d+\.\d+\.\d+/g, `Version:           ${nextVersion}`);
+  php = php.replace(/const VERSION = '\d+\.\d+\.\d+';/g, `const VERSION = '${nextVersion}';`);
+  fs.writeFileSync(wpPhpPath, php);
+  console.log(`✓ Updated WordPress plugin PHP to v${nextVersion}`);
+}
+
+const wpTxtPath = path.join(rootDir, 'examples/wordpress-plugin/readme.txt');
+if (fs.existsSync(wpTxtPath)) {
+  let txt = fs.readFileSync(wpTxtPath, 'utf8');
+  txt = txt.replace(/Stable tag:\s*\d+\.\d+\.\d+/g, `Stable tag: ${nextVersion}`);
+  fs.writeFileSync(wpTxtPath, txt);
+  console.log(`✓ Updated WordPress plugin readme.txt to v${nextVersion}`);
+}
+
+// 3. Update HTML & README version tags
+const htmlFiles = ['docs/index.html', 'playground/index.html', 'examples/wordpress-plugin/demo-static.html'];
 for (const rel of htmlFiles) {
   const full = path.join(rootDir, rel);
   if (fs.existsSync(full)) {
     let content = fs.readFileSync(full, 'utf8');
-    content = content.replace(
-      /(class="version-tag">v|\bclass="badge">v)\d+\.\d+\.\d+/g,
-      `$1${nextVersion}`
-    );
+    content = content.replace(/(class="version-tag">v|\bclass="badge">v|WP_PLUGIN \/\/ <span>v?)\d+\.\d+\.\d+/g, (match, prefix) => `${prefix}${nextVersion}`);
+    content = content.replace(/softwareVersion": "\d+\.\d+\.\d+"/g, `softwareVersion": "${nextVersion}"`);
     fs.writeFileSync(full, content);
-    console.log(`✓ Updated ${rel} badge to v${nextVersion}`);
+    console.log(`✓ Updated ${rel} tags to v${nextVersion}`);
   }
 }
 
-const readmeFiles = ['README.md', 'packages/homura-js/README.md', 'packages/core/README.md'];
+const readmeFiles = ['README.md', 'packages/homura-js/README.md', 'packages/core/README.md', 'examples/wordpress-plugin/README.md'];
 for (const rel of readmeFiles) {
   const full = path.join(rootDir, rel);
   if (fs.existsSync(full)) {
     let content = fs.readFileSync(full, 'utf8');
     content = content.replace(/version-v\d+\.\d+\.\d+/g, `version-v${nextVersion}`);
+    content = content.replace(/Plugin%20v\d+\.\d+\.\d+/g, `Plugin%20v${nextVersion}`);
     fs.writeFileSync(full, content);
     console.log(`✓ Updated ${rel} badge to v${nextVersion}`);
   }
 }
 
-// 3. Run Build & Tests
+// 4. Run Build & Tests
 console.log('\n🔨 Building packages and running tests...');
 execSync('pnpm build', { stdio: 'inherit', cwd: rootDir });
 
@@ -91,7 +108,29 @@ if (fs.existsSync(distGlobal)) {
 execSync('pnpm test', { stdio: 'inherit', cwd: rootDir });
 execSync('pnpm --filter "@homura-js/docs" run build', { stdio: 'inherit', cwd: rootDir });
 
-// 4. Publish to NPM
+// 5. Package zip
+console.log('\n📦 Rebuilding WordPress plugin ZIP archive...');
+const zipScript = `
+$src = "${path.join(rootDir, 'examples/wordpress-plugin')}"
+$tmp = "${path.join(rootDir, 'wp-plugin-tmp/homura-time-travel-form-recovery')}"
+New-Item -ItemType Directory -Path $tmp -Force | Out-Null
+Copy-Item "$src\\homura-time-travel-form-recovery.php" "$tmp\\" -Force
+Copy-Item "$src\\readme.txt" "$tmp\\" -Force
+Copy-Item "$src\\LICENSE" "$tmp\\" -Force
+New-Item -ItemType Directory -Path "$tmp\\assets\\js" -Force | Out-Null
+Copy-Item "$src\\assets\\js\\homura.min.js" "$tmp\\assets\\js\\" -Force
+Remove-Item "${path.join(rootDir, 'homura-time-travel-form-recovery.zip')}" -Force -ErrorAction SilentlyContinue
+Compress-Archive -Path $tmp -DestinationPath "${path.join(rootDir, 'homura-time-travel-form-recovery.zip')}" -CompressionLevel Optimal
+Remove-Item "${path.join(rootDir, 'wp-plugin-tmp')}" -Recurse -Force
+`;
+try {
+  execSync(`powershell -Command "${zipScript.replace(/\n/g, '; ')}"`, { stdio: 'inherit', cwd: rootDir });
+  console.log('✓ Rebuilt homura-time-travel-form-recovery.zip');
+} catch (e) {
+  console.warn('⚠️ Zip packaging note:', e.message);
+}
+
+// 6. Publish to NPM
 console.log('\n📦 Publishing @biagioscaglia/homurajs to NPM...');
 try {
   execSync('pnpm --filter "@biagioscaglia/homurajs" publish --access public --no-git-checks', {
@@ -100,12 +139,11 @@ try {
   });
   console.log('✅ Successfully published to NPM!');
 } catch (err) {
-  console.warn('\n⚠️ NPM publish encountered an issue.');
-  console.warn('👉 Make sure you are logged into NPM by running: npm login');
-  console.warn('👉 Then you can retry publishing with: pnpm --filter "@biagioscaglia/homurajs" publish --access public --no-git-checks\n');
+  console.warn('\n⚠️ NPM publish note: if not logged in, run: npm login');
+  console.warn('👉 Command to publish: pnpm --filter "@biagioscaglia/homurajs" publish --access public --no-git-checks\n');
 }
 
-// 5. Git Commit & Push
+// 7. Git Commit & Push
 console.log('\n🌿 Committing and pushing to Git...');
 try {
   execSync('git add .', { stdio: 'inherit', cwd: rootDir });
@@ -115,4 +153,4 @@ try {
   console.warn('⚠️ Git commit/push note:', err.message);
 }
 
-console.log(`\n🎉 Process completed for HomuraJS v${nextVersion}!\n`);
+console.log(`\n🎉 Process completed successfully for HomuraJS v${nextVersion}!\n`);

@@ -1,26 +1,28 @@
-# Homura Time Travel & Form Recovery (WordPress Plugin) 🔌
+# Homura Time Travel & Form Recovery (WordPress Plugin)
 
 [![WordPress Plugin](https://img.shields.io/badge/WordPress.org-Plugin%20Directory-21759b?logo=wordpress&logoColor=white)](https://wordpress.org/plugins/homura-time-travel-form-recovery/)
-[![Version](https://img.shields.io/badge/version-v1.3.0-7c3aed)](https://wordpress.org/plugins/homura-time-travel-form-recovery/)
+[![Version](https://img.shields.io/badge/version-v1.4.0-7c3aed)](https://wordpress.org/plugins/homura-time-travel-form-recovery/)
 [![License](https://img.shields.io/badge/license-GPLv2-3b0764)](LICENSE)
 [![PHP](https://img.shields.io/badge/PHP-7.4%2B-blue)](https://www.php.net/)
 [![WordPress](https://img.shields.io/badge/WordPress-5.8%20--%207.1-21759b)](https://wordpress.org/)
 
-Bring Git-like local state history, non-destructive DAG time-travel, AJAX conflict recovery, and zero-loss form crash protection to **WordPress**, **WooCommerce**, and **Static Websites**.
+Bring Git-like local state history, multidevice QR handoff, sensory Ghost Assist, zero-knowledge WebCrypto vault, and non-destructive DAG time-travel to **WordPress**, **WooCommerce**, and **Static Websites**.
 
 🔗 **Official WordPress.org Plugin Directory**: [https://wordpress.org/plugins/homura-time-travel-form-recovery/](https://wordpress.org/plugins/homura-time-travel-form-recovery/)
 
 ---
 
-## 🌟 What's New in v1.3.0
+## 🌟 What's New in v1.4.0
 
+* 📱 **Multidevice Time-Travel ("Passaggio di Testimone" `[homura_handoff]`)**: Generate dynamic client-side SVG QR codes allowing visitors to scan on desktop and immediately continue typing on mobile with the identical history timeline without registering an account.
+* 👻 **Behavioral "Ghost Assist" (Sensory UX `[homura_ghost_assist]`)**: Proactively detects mass accidental deletions (>50% of paragraph) and rage-clicks, displaying a non-intrusive recovery toast with 1-click restore.
+* 🔒 **Privacy-First Zero-Knowledge Local Vault (`crypto="aes-gcm"`)**: Native 256-bit AES-GCM encryption using browser WebCrypto API. Raw LocalStorage bytes are encrypted and unreadable by rogue third-party browser extensions.
+* 📝 **Visual Copywriting Git Diff & Scrubber (`[homura_visual_diff]`)**: Real-time word-level difference inspector with historical slider for long textareas, articles, and forum posts.
 * 🧬 **State Diff Engine (`[homura_diff]`)**: Visual comparison of form changes between the current DOM inputs and any saved draft.
 * 🛡️ **WooCommerce AJAX Conflict Recovery**: Automatically detects when WooCommerce checkout recalculations (`update_order_review`, cart totals) wipe input values and instantly restores them without disrupting user flow.
 * 🔐 **Zero-Leak Sensitive Field Policy**: Strict exclusion of passwords, CVVs, credit cards, payment nonces, and elements with `data-homura-sensitive="true"` (PCI-DSS & GDPR safe).
 * 📦 **Smart Recovery Banner (`[homura_recovery_banner]`)**: Interactive prompt banner allowing visitors to restore drafts, inspect visual differences, or dismiss previous sessions.
 * 🔄 **Form Schema Versioning & Migration**: Protects user drafts from breaking when form fields are added, renamed, or removed by webmasters.
-* 🧩 **Conditional Field Memory**: Preserves user input for conditional fields when they are toggled or temporarily hidden by the form builder.
-* 🕵️ **Sanitized Debug Export (`[homura_debug_export]`)**: One-click debug JSON payload with masked PII (e.g. `m***@gmail.com`) for safe developer troubleshooting.
 
 ---
 
