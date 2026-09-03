@@ -43,7 +43,9 @@ export {
   createLocalStorageAdapter,
   createIndexedDBAdapter,
   createMemoryAdapter,
-  PersistenceController
+  PersistenceController,
+  serializeRichState,
+  deserializeRichState
 } from './persistence';
 
 export {
@@ -60,6 +62,7 @@ export {
   isObject,
   isPlainObject
 } from './immutability';
+
 
 export { HistoryGraph } from './history';
 export { SnapshotManager } from './snapshots';
