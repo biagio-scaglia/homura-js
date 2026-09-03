@@ -190,7 +190,8 @@ export function maskPIIValue(_key: string, val: unknown): unknown {
     return `${local.charAt(0)}***@${domain}`;
   }
 
-  if (/^[\d+\-\s()]{7,}$/.test(str)) {
+  const digitsOnly = str.replace(/\D/g, '');
+  if (digitsOnly.length >= 7 && digitsOnly.length <= 16 && /^[\d+\-\s().ext]+$/i.test(str)) {
     return str.slice(0, 3) + ' **** ' + str.slice(-2);
   }
 

@@ -1,7 +1,7 @@
 # Homura Time Travel & Form Recovery (WordPress Plugin)
 
 [![WordPress Plugin](https://img.shields.io/badge/WordPress.org-Plugin%20Directory-21759b?logo=wordpress&logoColor=white)](https://wordpress.org/plugins/homura-time-travel-form-recovery/)
-[![Version](https://img.shields.io/badge/version-v1.4.0-7c3aed)](https://wordpress.org/plugins/homura-time-travel-form-recovery/)
+[![Version](https://img.shields.io/badge/version-v1.2.11-7c3aed)](https://wordpress.org/plugins/homura-time-travel-form-recovery/)
 [![License](https://img.shields.io/badge/license-GPLv2-3b0764)](LICENSE)
 [![PHP](https://img.shields.io/badge/PHP-7.4%2B-blue)](https://www.php.net/)
 [![WordPress](https://img.shields.io/badge/WordPress-5.8%20--%207.1-21759b)](https://wordpress.org/)

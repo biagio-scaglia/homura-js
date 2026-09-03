@@ -268,7 +268,7 @@ export class HistoryGraph<T> {
       branchId: targetBranchId,
       timestamp: Date.now(),
       label,
-      state: deepClone(state),
+      state: Object.isFrozen(state) ? state : deepClone(state),
       metadata: metadata ? { ...metadata } : undefined
     };
 
