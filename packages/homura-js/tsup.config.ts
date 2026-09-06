@@ -16,6 +16,6 @@ export default defineConfig([
     globalName: 'Homura',
     sourcemap: true,
     target: 'es2020',
-    noExternal: ['@homura-js/core', '@homura-js/devtools', '@homura-js/vanilla']
+    noExternal: ['@homura-js/core', '@homura-js/devtools', '@homura-js/vanilla', '@homura-js/db', 'uqr']
   }
 ]);

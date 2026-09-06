@@ -71,12 +71,46 @@ export class HomuraInstance<T> implements Homura<T> {
     const currentEntry = this.history.getCurrentEntry();
 
     let targetNextState = nextState;
-    let targetLabel = options?.label ?? 'Set state';
+    const targetLabel = options?.label ?? 'Set state';
     let targetMetadata = options?.metadata ? { ...options.metadata } : {};
+    let resultEntry = currentEntry;
 
-    let cancelled = false;
+    const apply = () => {
+      if (options?.silent) {
+        const entry = this.history.replaceCurrentState(targetNextState);
+        this.events.emit('state:change', {
+          state: entry.state,
+          prevState: currentState,
+          entry,
+          action: 'setState'
+        });
+        this.persistence.scheduleAutoSave(() => this.export());
+        resultEntry = entry;
+        return;
+      }
 
-    // Run middleware pipeline
+      const { entry, newBranchCreated } = this.history.addEntry(
+        targetNextState,
+        targetLabel,
+        targetMetadata
+      );
+
+      if (newBranchCreated) {
+        this.events.emit('branch:create', { branch: newBranchCreated });
+      }
+
+      this.events.emit('history:add', { entry });
+      this.events.emit('state:change', {
+        state: entry.state,
+        prevState: currentState,
+        entry,
+        action: 'setState'
+      });
+
+      this.persistence.scheduleAutoSave(() => this.export());
+      resultEntry = entry;
+    };
+
     const middlewareRan = this.middleware.run(
       {
         action: 'setState',
@@ -85,9 +119,7 @@ export class HomuraInstance<T> implements Homura<T> {
         label: targetLabel,
         metadata: targetMetadata,
         currentEntry,
-        cancel: () => {
-          cancelled = true;
-        },
+        cancel: () => {},
         setNextState: s => {
           targetNextState = s;
         },
@@ -95,47 +127,91 @@ export class HomuraInstance<T> implements Homura<T> {
           targetMetadata = { ...targetMetadata, ...m };
         }
       },
-      () => {
-        // Proceed with state change
-      }
+      apply
     );
 
-    if (cancelled || !middlewareRan) {
+    if (!middlewareRan) {
       return currentEntry;
     }
 
-    if (options?.silent) {
-      const entry = this.history.replaceCurrentState(targetNextState);
+    return resultEntry;
+  }
+
+  /**
+   * Async variant of {@link setState} that awaits Promise-returning middleware.
+   */
+  public async setStateAsync(
+    nextState: T,
+    options?: StateUpdateOptions
+  ): Promise<HistoryEntry<T>> {
+    const currentState = this.getState();
+    const currentEntry = this.history.getCurrentEntry();
+
+    let targetNextState = nextState;
+    const targetLabel = options?.label ?? 'Set state';
+    let targetMetadata = options?.metadata ? { ...options.metadata } : {};
+    let resultEntry = currentEntry;
+
+    const apply = () => {
+      if (options?.silent) {
+        const entry = this.history.replaceCurrentState(targetNextState);
+        this.events.emit('state:change', {
+          state: entry.state,
+          prevState: currentState,
+          entry,
+          action: 'setState'
+        });
+        this.persistence.scheduleAutoSave(() => this.export());
+        resultEntry = entry;
+        return;
+      }
+
+      const { entry, newBranchCreated } = this.history.addEntry(
+        targetNextState,
+        targetLabel,
+        targetMetadata
+      );
+
+      if (newBranchCreated) {
+        this.events.emit('branch:create', { branch: newBranchCreated });
+      }
+
+      this.events.emit('history:add', { entry });
       this.events.emit('state:change', {
         state: entry.state,
         prevState: currentState,
         entry,
         action: 'setState'
       });
-      this.persistence.scheduleAutoSave(() => this.export());
-      return entry;
-    }
 
-    const { entry, newBranchCreated } = this.history.addEntry(
-      targetNextState,
-      targetLabel,
-      targetMetadata
+      this.persistence.scheduleAutoSave(() => this.export());
+      resultEntry = entry;
+    };
+
+    const middlewareRan = await this.middleware.runAsync(
+      {
+        action: 'setState',
+        currentState,
+        nextState: targetNextState,
+        label: targetLabel,
+        metadata: targetMetadata,
+        currentEntry,
+        cancel: () => {},
+        setNextState: s => {
+          targetNextState = s;
+        },
+        setMetadata: m => {
+          targetMetadata = { ...targetMetadata, ...m };
+        }
+      },
+      apply
     );
 
-    if (newBranchCreated) {
-      this.events.emit('branch:create', { branch: newBranchCreated });
+    if (!middlewareRan) {
+      return currentEntry;
     }
 
-    this.events.emit('history:add', { entry });
-    this.events.emit('state:change', {
-      state: entry.state,
-      prevState: currentState,
-      entry,
-      action: 'setState'
-    });
-
-    this.persistence.scheduleAutoSave(() => this.export());
-    return entry;
+    return resultEntry;
   }
 
   /**

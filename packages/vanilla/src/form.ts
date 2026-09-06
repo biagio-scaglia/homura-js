@@ -9,7 +9,7 @@ import {
   SerializedHomura
 } from '@homura-js/core';
 import { encryptPayload, decryptPayload } from './crypto';
-import { buildHandoffUrl, extractHandoffFromLocation, generateQrSvg } from './qr';
+import { buildHandoffUrl, extractHandoffFromLocation, generateQrSvg, generateQrSvgDetailed } from './qr';
 import { GhostAssistMonitor } from './ghost';
 import { createVisualDiffViewer } from './textdiff';
 
@@ -546,7 +546,11 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
   function openHandoffModal() {
     const serialized = JSON.stringify(homura.export());
     const handoffUrl = buildHandoffUrl(serialized);
-    const qrSvg = generateQrSvg(handoffUrl, 200);
+    const qr = generateQrSvgDetailed(handoffUrl, 200);
+    const qrMarkup = qr.svg ?? generateQrSvg(handoffUrl, 200);
+    const helperText = qr.tooLarge
+      ? 'This session is too large for a QR code. Copy the handoff link and open it on your phone instead.'
+      : 'Scan this QR code with your phone\'s camera to instantly resume this form with its exact timeline history!';
 
     const modal = document.createElement('div');
     modal.className = 'homura-handoff-modal';
@@ -564,10 +568,10 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
           <button type="button" id="homura-modal-close" style="background: none; border: none; color: #c4b5fd; font-size: 20px; cursor: pointer;">&times;</button>
         </div>
         <p style="font-size: 13px; color: #c4b5fd; line-height: 1.5; margin-bottom: 20px;">
-          Scan this QR code with your phone's camera to instantly resume this form with its exact timeline history!
+          ${helperText}
         </p>
         <div style="display: flex; justify-content: center; margin-bottom: 20px;">
-          ${qrSvg}
+          ${qrMarkup}
         </div>
         <div style="display: flex; gap: 8px;">
           <button type="button" id="homura-copy-handoff-btn" style="flex: 1; background: #a855f7; color: #fff; border: none; padding: 10px 14px; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer;">
@@ -737,27 +741,52 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
   }
 
   // 13. WooCommerce AJAX Mutation Observer
+  let wooObserver: MutationObserver | null = null;
+  let wooAjaxDebounce: ReturnType<typeof setTimeout> | null = null;
+  let wooJqueryHandler: (() => void) | null = null;
+  const wooJqueryEvents = 'updated_checkout updated_shipping_method payment_method_selected';
+
   function setupWooCommerceAjaxObserver() {
     const isWooCheckout = form.classList.contains('woocommerce-checkout') || form.id === 'woocommerce-checkout' || formId.includes('woocommerce');
     if (!isWooCheckout || typeof MutationObserver === 'undefined') return;
 
-    let ajaxDebounce: ReturnType<typeof setTimeout> | null = null;
-    const observer = new MutationObserver(() => {
+    wooObserver = new MutationObserver(() => {
       if (isSyncingFromState) return;
-      if (ajaxDebounce) clearTimeout(ajaxDebounce);
-      ajaxDebounce = setTimeout(() => {
+      if (wooAjaxDebounce) clearTimeout(wooAjaxDebounce);
+      wooAjaxDebounce = setTimeout(() => {
         verifyIntegrityAndRestore();
       }, 150);
     });
 
-    observer.observe(form, { childList: true, subtree: true });
+    wooObserver.observe(form, { childList: true, subtree: true });
     const jq = typeof window !== 'undefined' ? (window as any).jQuery : undefined;
     if (typeof jq !== 'undefined') {
       try {
-        jq(document.body).on('updated_checkout updated_shipping_method payment_method_selected', () => {
+        wooJqueryHandler = () => {
           setTimeout(() => verifyIntegrityAndRestore(), 100);
-        });
+        };
+        jq(document.body).on(wooJqueryEvents, wooJqueryHandler);
       } catch (_) {}
+    }
+  }
+
+  function teardownWooCommerceAjaxObserver() {
+    if (wooAjaxDebounce) {
+      clearTimeout(wooAjaxDebounce);
+      wooAjaxDebounce = null;
+    }
+    if (wooObserver) {
+      wooObserver.disconnect();
+      wooObserver = null;
+    }
+    if (wooJqueryHandler) {
+      const jq = typeof window !== 'undefined' ? (window as any).jQuery : undefined;
+      if (typeof jq !== 'undefined') {
+        try {
+          jq(document.body).off(wooJqueryEvents, wooJqueryHandler);
+        } catch (_) {}
+      }
+      wooJqueryHandler = null;
     }
   }
 
@@ -882,6 +911,7 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
       visualDiffBtns.forEach(btn => btn.removeEventListener('click', onVisualDiffClick));
       nextBtns.forEach(b => b.removeEventListener('click', nextStep));
       prevBtns.forEach(b => b.removeEventListener('click', prevStep));
+      teardownWooCommerceAjaxObserver();
       ghostAssist?.destroy();
       unsubState();
       unsubBranch();

@@ -78,12 +78,14 @@ export function mountDevTools<T>(
     if (floatingWrapper) {
       floatingWrapper.classList.remove('minimized');
     }
+    panel.setShortcutsEnabled(true);
   }
 
   function close(): void {
     if (floatingWrapper) {
       floatingWrapper.classList.add('minimized');
     }
+    panel.setShortcutsEnabled(false);
   }
 
   function toggle(): void {
@@ -93,14 +95,18 @@ export function mountDevTools<T>(
       } else {
         close();
       }
+    } else {
+      // Embedded mode: toggling focuses/enables shortcuts
+      panel.setShortcutsEnabled(true);
     }
   }
 
-  // Keyboard shortcut listener: Alt+H (toggle), Escape (close), and Arrow time-travel controls
+  // Keyboard shortcut listener: Alt+H (toggle), Escape (close), Alt/Shift+Arrow time-travel
+  // Only while the floating panel is open (embedded: Alt+H still toggles focus helpers)
   const keyHandler = (e: KeyboardEvent) => {
-    // Ignore keystrokes in active input fields
     const activeTag = (document.activeElement?.tagName || '').toLowerCase();
     if (activeTag === 'input' || activeTag === 'textarea') return;
+    if ((document.activeElement as HTMLElement)?.isContentEditable) return;
 
     if ((e.altKey && e.code === 'KeyH') || (e.ctrlKey && e.shiftKey && e.code === 'KeyH')) {
       e.preventDefault();
@@ -108,27 +114,35 @@ export function mountDevTools<T>(
       return;
     }
 
-    if (floatingWrapper && !floatingWrapper.classList.contains('minimized')) {
-      if (e.key === 'Escape') {
-        e.preventDefault();
-        close();
-      } else if (e.shiftKey && e.key === 'ArrowLeft') {
-        e.preventDefault();
-        homura.rewind(5);
-      } else if (e.shiftKey && e.key === 'ArrowRight') {
-        e.preventDefault();
-        homura.fastForward(5);
-      } else if (e.altKey && e.key === 'ArrowLeft') {
-        e.preventDefault();
-        homura.undo();
-      } else if (e.altKey && e.key === 'ArrowRight') {
-        e.preventDefault();
-        homura.redo();
-      }
+    const panelOpen =
+      !floatingWrapper || !floatingWrapper.classList.contains('minimized');
+
+    if (!panelOpen) return;
+
+    if (e.key === 'Escape' && floatingWrapper) {
+      e.preventDefault();
+      close();
+    } else if (e.shiftKey && e.key === 'ArrowLeft') {
+      e.preventDefault();
+      homura.rewind(5);
+    } else if (e.shiftKey && e.key === 'ArrowRight') {
+      e.preventDefault();
+      homura.fastForward(5);
+    } else if (e.altKey && e.key === 'ArrowLeft') {
+      e.preventDefault();
+      homura.undo();
+    } else if (e.altKey && e.key === 'ArrowRight') {
+      e.preventDefault();
+      homura.redo();
     }
   };
 
   window.addEventListener('keydown', keyHandler);
+
+  // Embedded panels start with shortcuts enabled; floating starts minimized unless defaultOpen
+  if (!isFloating || options.defaultOpen) {
+    panel.setShortcutsEnabled(true);
+  }
 
   function unmount(): void {
     window.removeEventListener('keydown', keyHandler);

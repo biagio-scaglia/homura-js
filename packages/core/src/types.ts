@@ -370,6 +370,9 @@ export interface Homura<T> {
   /** Replaces state and commits new history entry */
   setState(nextState: T, options?: StateUpdateOptions): HistoryEntry<T>;
 
+  /** Async setState that awaits Promise-returning middleware */
+  setStateAsync(nextState: T, options?: StateUpdateOptions): Promise<HistoryEntry<T>>;
+
   /** Updates state via draft or returned state and commits */
   update(updater: StateUpdater<T>, options?: StateUpdateOptions): HistoryEntry<T>;
 

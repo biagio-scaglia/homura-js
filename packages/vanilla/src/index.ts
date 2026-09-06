@@ -32,9 +32,12 @@ export {
   compressToUrlToken,
   decompressFromUrlToken,
   generateQrSvg,
+  generateQrSvgDetailed,
   buildHandoffUrl,
-  extractHandoffFromLocation
+  extractHandoffFromLocation,
+  QR_MAX_PAYLOAD_BYTES
 } from './qr';
+export type { QrRenderResult } from './qr';
 
 export {
   GhostAssistMonitor

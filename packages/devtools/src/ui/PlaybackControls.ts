@@ -1,3 +1,4 @@
+import { HistoryEntry } from '@homura-js/core';
 import { DevToolsBridge } from '../types';
 
 export class PlaybackControls {
@@ -6,6 +7,7 @@ export class PlaybackControls {
   private isPlaying = false;
   private playTimer: any = null;
   private playSpeedMs = 600;
+  private shortcutsEnabled = false;
 
   private keydownHandler: ((e: KeyboardEvent) => void) | null = null;
 
@@ -13,6 +15,7 @@ export class PlaybackControls {
     this.bridge = bridge;
     this.element = document.createElement('div');
     this.element.className = 'homura-playback-bar';
+    this.element.tabIndex = -1;
 
     this.setupKeyboardShortcuts();
     this.render();
@@ -20,6 +23,14 @@ export class PlaybackControls {
 
   public getElement(): HTMLElement {
     return this.element;
+  }
+
+  /**
+   * Enables/disables global playback shortcuts.
+   * Call with true only while the DevTools panel is open and interactive.
+   */
+  public setShortcutsEnabled(enabled: boolean): void {
+    this.shortcutsEnabled = enabled;
   }
 
   public update(): void {
@@ -34,14 +45,60 @@ export class PlaybackControls {
     }
   }
 
+  private isPanelOpen(): boolean {
+    const root = this.element.closest('.homura-devtools-root, .homura-floating-container');
+    if (!root) return this.shortcutsEnabled;
+    return !root.classList.contains('minimized');
+  }
+
+  private isShortcutContextActive(): boolean {
+    if (!this.isPanelOpen() && !this.shortcutsEnabled) return false;
+
+    const active = document.activeElement as HTMLElement | null;
+    const activeTag = active?.tagName?.toLowerCase();
+    if (activeTag === 'input' || activeTag === 'textarea' || active?.isContentEditable) {
+      return false;
+    }
+
+    // Explicitly enabled by mount/open (panel is interactive)
+    if (this.shortcutsEnabled && this.isPanelOpen()) {
+      return true;
+    }
+
+    const root = this.element.closest('.homura-devtools-root, .homura-floating-container');
+    if (root && active && root.contains(active)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /** Active-branch linear timeline from root to branch head (not only to current cursor). */
+  private getTimelineEntries(): HistoryEntry<any>[] {
+    const homura = this.bridge.homura;
+    const headId = homura.getCurrentBranch().headEntryId;
+    const byId = new Map(
+      homura.getHistory({ allBranches: true }).map(e => [e.id, e] as const)
+    );
+
+    const timeline: HistoryEntry<any>[] = [];
+    let cur = byId.get(headId);
+    const guard = new Set<string>();
+    while (cur && !guard.has(cur.id)) {
+      guard.add(cur.id);
+      timeline.unshift(cur);
+      cur = cur.parentId ? byId.get(cur.parentId) : undefined;
+    }
+    return timeline;
+  }
+
   private setupKeyboardShortcuts(): void {
     if (typeof window === 'undefined') return;
 
     this.keydownHandler = (e: KeyboardEvent) => {
-      const activeTag = document.activeElement?.tagName?.toLowerCase();
-      if (activeTag === 'input' || activeTag === 'textarea' || (document.activeElement as HTMLElement)?.isContentEditable) {
-        return;
-      }
+      if (!this.isShortcutContextActive()) return;
+
+      const timeline = this.getTimelineEntries();
 
       if (e.key === 'ArrowLeft') {
         e.preventDefault();
@@ -57,16 +114,14 @@ export class PlaybackControls {
           this.startPlayback();
         }
       } else if (e.key === 'Home') {
-        const snap = this.bridge.getSnapshot();
-        if (snap.entries.length > 0) {
+        if (timeline.length > 0) {
           e.preventDefault();
-          this.bridge.jumpTo(snap.entries[0]!.id);
+          this.bridge.jumpTo(timeline[0]!.id);
         }
       } else if (e.key === 'End') {
-        const snap = this.bridge.getSnapshot();
-        if (snap.entries.length > 0) {
+        if (timeline.length > 0) {
           e.preventDefault();
-          this.bridge.jumpTo(snap.entries[snap.entries.length - 1]!.id);
+          this.bridge.jumpTo(timeline[timeline.length - 1]!.id);
         }
       }
     };
@@ -78,22 +133,24 @@ export class PlaybackControls {
     this.isPlaying = true;
     this.updatePlayBtnState();
 
+    const entries = this.getTimelineEntries();
     const snapshot = this.bridge.getSnapshot();
-    const entries = snapshot.entries;
     const curIdx = entries.findIndex(e => e.id === snapshot.currentEntry.id);
 
-    // If at the end, jump to beginning first
+    // If at the end, jump to beginning of active timeline first
     if (curIdx >= entries.length - 1 && entries.length > 1) {
       this.bridge.jumpTo(entries[0]!.id);
     }
 
     this.playTimer = setInterval(() => {
       const snap = this.bridge.getSnapshot();
-      const currentEntries = snap.entries;
+      const currentEntries = this.getTimelineEntries();
       const index = currentEntries.findIndex(e => e.id === snap.currentEntry.id);
 
-      if (index < currentEntries.length - 1) {
+      if (index >= 0 && index < currentEntries.length - 1) {
         this.bridge.jumpTo(currentEntries[index + 1]!.id);
+      } else if (this.bridge.homura.canRedo()) {
+        this.bridge.redo();
       } else {
         this.stopPlayback();
       }
@@ -123,7 +180,7 @@ export class PlaybackControls {
 
   private render(): void {
     const snapshot = this.bridge.getSnapshot();
-    const entries = snapshot.entries;
+    const entries = this.getTimelineEntries();
     const curIdx = entries.findIndex(e => e.id === snapshot.currentEntry.id);
     const maxIdx = Math.max(0, entries.length - 1);
     const currentPos = curIdx >= 0 ? curIdx : 0;
@@ -158,7 +215,6 @@ export class PlaybackControls {
       </div>
     `;
 
-    // Hook events
     const startBtn = this.element.querySelector('.hm-btn-start');
     startBtn?.addEventListener('click', () => {
       if (entries.length > 0) this.bridge.jumpTo(entries[0]!.id);

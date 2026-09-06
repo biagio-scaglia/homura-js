@@ -7,5 +7,6 @@ export default defineConfig({
   clean: true,
   sourcemap: true,
   treeshake: true,
-  splitting: false
+  splitting: false,
+  noExternal: ['uqr']
 });

@@ -57,6 +57,11 @@ export class DevToolsPanel {
     return this.element;
   }
 
+  /** Enable/disable playback keyboard shortcuts (Arrow/Space/Home/End). */
+  public setShortcutsEnabled(enabled: boolean): void {
+    this.playbackControls.setShortcutsEnabled(enabled);
+  }
+
   public static injectStyles(): void {
     const styleId = 'homura-devtools-styles';
     if (!document.getElementById(styleId)) {

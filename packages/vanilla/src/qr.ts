@@ -1,7 +1,9 @@
 /**
  * HomuraJS — Multidevice Handoff & Client-Side SVG QR Code Generator
- * Compresses state DAG history and generates an instant QR code for mobile handoff.
+ * Compresses state DAG history and generates a real scannable QR code for mobile handoff.
  */
+
+import { encode, renderSVG } from 'uqr';
 
 /**
  * Basic fast LZW string compressor for URL tokens (100% zero-dependency).
@@ -36,92 +38,68 @@ export function decompressFromUrlToken(token: string): string | null {
   }
 }
 
+/** Max payload length we attempt to QR-encode (approx. QR v40 byte capacity at ECC L). */
+export const QR_MAX_PAYLOAD_BYTES = 2500;
+
+export interface QrRenderResult {
+  /** SVG markup when encoding succeeded */
+  svg: string | null;
+  /** Whether the payload was too large for a scannable QR */
+  tooLarge: boolean;
+  /** Encoded QR version when successful */
+  version?: number;
+}
+
 /**
- * Generates an SVG representation of a QR Code or QR-like matrix for handoff.
- * Uses an elegant SVG QR rendering algorithm with standard error-correction styling.
+ * Generates a real scannable QR Code SVG for the given URL/payload.
+ * Returns `{ svg: null, tooLarge: true }` when the payload exceeds QR capacity.
  */
 export function generateQrSvg(url: string, size = 220): string {
-  // We use an SVG grid matrix visual representation for client-side rendering
-  // Encode string into pseudo-random deterministic bit-matrix
-  const length = url.length;
-  const matrixSize = 25; // standard Version 2 QR matrix size (25x25)
-  const matrix: boolean[][] = Array.from({ length: matrixSize }, () => Array(matrixSize).fill(false));
+  const result = generateQrSvgDetailed(url, size);
+  if (result.svg) return result.svg;
 
-  // 1. Draw Position Finder Patterns (Top-Left, Top-Right, Bottom-Left)
-  function drawFinder(r: number, c: number) {
-    for (let i = 0; i < 7; i++) {
-      for (let j = 0; j < 7; j++) {
-        if (
-          i === 0 || i === 6 || j === 0 || j === 6 ||
-          (i >= 2 && i <= 4 && j >= 2 && j <= 4)
-        ) {
-          if (r + i < matrixSize && c + j < matrixSize) {
-            const row = matrix[r + i];
-            if (row) row[c + j] = true;
-          }
-        }
-      }
-    }
-  }
-
-  drawFinder(0, 0);
-  drawFinder(0, matrixSize - 7);
-  drawFinder(matrixSize - 7, 0);
-
-  // 2. Draw Timing Patterns
-  for (let i = 8; i < matrixSize - 8; i++) {
-    const row6 = matrix[6];
-    if (row6) row6[i] = i % 2 === 0;
-    const rowI = matrix[i];
-    if (rowI) rowI[6] = i % 2 === 0;
-  }
-
-  // 3. Hash content deterministic data fill
-  let hash = 0x811c9dc5;
-  for (let i = 0; i < length; i++) {
-    hash ^= url.charCodeAt(i);
-    hash = (hash * 0x01000193) >>> 0;
-  }
-
-  for (let r = 0; r < matrixSize; r++) {
-    const row = matrix[r];
-    if (!row) continue;
-    for (let c = 0; c < matrixSize; c++) {
-      // Skip finder zones
-      if (
-        (r < 8 && c < 8) ||
-        (r < 8 && c >= matrixSize - 8) ||
-        (r >= matrixSize - 8 && c < 8) ||
-        (r === 6 || c === 6)
-      ) {
-        continue;
-      }
-      const seed = ((r * 31 + c * 17 + hash) ^ (url.charCodeAt((r + c) % length) || 0)) % 100;
-      row[c] = seed < 48;
-    }
-  }
-
-  // 4. Build SVG Rectangles
-  const cellSize = size / matrixSize;
-  let rects = '';
-  for (let r = 0; r < matrixSize; r++) {
-    const row = matrix[r];
-    if (!row) continue;
-    for (let c = 0; c < matrixSize; c++) {
-      if (row[c]) {
-        const x = (c * cellSize).toFixed(2);
-        const y = (r * cellSize).toFixed(2);
-        const w = (cellSize + 0.1).toFixed(2);
-        rects += `<rect x="${x}" y="${y}" width="${w}" height="${w}" fill="#f5f3ff" rx="1" />`;
-      }
-    }
-  }
-
+  // Fallback placeholder when payload is too large — copy-link remains the path
   return `
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" style="background: #0f071a; border-radius: 8px; padding: 12px; border: 1px solid rgba(168, 85, 247, 0.4); box-shadow: 0 4px 25px rgba(0,0,0,0.5);">
-      ${rects}
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" style="background: #0f071a; border-radius: 8px; border: 1px dashed rgba(168, 85, 247, 0.5);">
+      <text x="50%" y="46%" text-anchor="middle" fill="#c4b5fd" font-size="12" font-family="sans-serif">QR too large</text>
+      <text x="50%" y="58%" text-anchor="middle" fill="#a78bfa" font-size="11" font-family="sans-serif">Use Copy Link</text>
     </svg>
   `.trim();
+}
+
+/**
+ * Detailed QR generation with capacity metadata.
+ */
+export function generateQrSvgDetailed(url: string, size = 220): QrRenderResult {
+  if (!url) {
+    return { svg: null, tooLarge: true };
+  }
+
+  const byteLength = new TextEncoder().encode(url).length;
+  if (byteLength > QR_MAX_PAYLOAD_BYTES) {
+    return { svg: null, tooLarge: true };
+  }
+
+  try {
+    const encoded = encode(url, { ecc: 'L' });
+    const pixelSize = Math.max(2, Math.floor(size / Math.max(encoded.size, 1)));
+    const svg = renderSVG(url, {
+      ecc: 'L',
+      pixelSize,
+      whiteColor: '#0f071a',
+      blackColor: '#f5f3ff'
+    });
+
+    // Normalize outer size for modal layout
+    const sized = svg.replace(
+      /<svg([^>]*)>/,
+      `<svg$1 width="${size}" height="${size}" style="border-radius: 8px; padding: 8px; border: 1px solid rgba(168, 85, 247, 0.4); box-shadow: 0 4px 25px rgba(0,0,0,0.5); box-sizing: content-box;">`
+    );
+
+    return { svg: sized, tooLarge: false, version: encoded.version };
+  } catch {
+    return { svg: null, tooLarge: true };
+  }
 }
 
 /**

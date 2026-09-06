@@ -9,8 +9,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "typecheck": "pnpm --filter \"./packages/**\" run typecheck",
-    "lint": "eslint packages/*/src/**/*.ts",
+    "typecheck": "pnpm --filter \"./packages/**\" --filter \"!@biagioscaglia/homurajs\" run typecheck && pnpm --filter \"./packages/**\" --filter \"!@biagioscaglia/homurajs\" run build && pnpm --filter @biagioscaglia/homurajs run typecheck",
+    "lint": "eslint \"packages/*/src/**/*.{ts,tsx}\" \"packages/*/tests/**/*.{ts,tsx}\"",
+    "typecheck:fast": "pnpm --filter \"./packages/**\" --filter \"!@biagioscaglia/homurajs\" run typecheck",
     "format": "prettier --write \"packages/*/src/**/*.{ts,tsx}\" \"examples/**/*.{ts,tsx,vue,html,css}\"",
     "clean": "pnpm --filter \"./packages/**\" run clean",
     "bench": "npx tsx benchmarks/run-benchmarks.ts",
@@ -20,15 +21,18 @@
     "release:major": "node scripts/release.js major"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
     "@resvg/resvg-js": "^2.6.2",
     "@types/node": "^22.13.0",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
     "eslint": "^9.20.1",
+    "globals": "^17.12.0",
     "jsdom": "^26.0.0",
     "prettier": "^3.5.1",
     "tsup": "^8.3.6",
     "typescript": "^5.7.3",
+    "typescript-eslint": "^8.69.0",
     "vitest": "^3.0.5"
   },
   "engines": {

@@ -16,8 +16,13 @@ describe('DevTools Visual Time Machine & Session Explorer', () => {
 
     const bridge = createDevtoolsBridge(homura);
     const controls = new PlaybackControls(bridge);
+    controls.setShortcutsEnabled(true);
 
-    expect(homura.getState().count).toBe(3);
+    // Attach to an open panel root so shortcut gating treats DevTools as active
+    const root = document.createElement('div');
+    root.className = 'homura-devtools-root';
+    root.appendChild(controls.getElement());
+    document.body.appendChild(root);
 
     // Simulate ArrowLeft (Undo)
     window.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft' }));
@@ -38,6 +43,7 @@ describe('DevTools Visual Time Machine & Session Explorer', () => {
     expect(homura.getState().count).toBe(3);
 
     controls.destroy();
+    root.remove();
   });
 
   it('mounts DevToolsPanel with drag-and-drop session file support', () => {

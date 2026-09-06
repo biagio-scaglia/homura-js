@@ -45,9 +45,11 @@ describe('HomuraJS Next-Gen Revolutionary Features', () => {
     it('generates valid SVG QR code markup without external libraries', () => {
       const svg = generateQrSvg('https://example.com/#homura_handoff=abc123xyz', 200);
       expect(svg).toContain('<svg');
-      expect(svg).toContain('viewBox="0 0 200 200"');
-      expect(svg).toContain('<rect');
+      expect(svg).toMatch(/viewBox="0 0 \d+ \d+"/);
+      expect(svg).toMatch(/width="200"/);
+      expect(svg).toContain('<path');
       expect(svg).toContain('</svg>');
+      expect(svg).not.toContain('QR too large');
     });
   });
 
