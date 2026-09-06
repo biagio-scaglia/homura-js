@@ -110,21 +110,22 @@ execSync('pnpm --filter "@homura-js/docs" run build', { stdio: 'inherit', cwd: r
 
 // 5. Package zip
 console.log('\n📦 Rebuilding WordPress plugin ZIP archive...');
-const zipScript = `
-$src = "${path.join(rootDir, 'examples/wordpress-plugin')}"
-$tmp = "${path.join(rootDir, 'wp-plugin-tmp/homura-time-travel-form-recovery')}"
-New-Item -ItemType Directory -Path $tmp -Force | Out-Null
-Copy-Item "$src\\homura-time-travel-form-recovery.php" "$tmp\\" -Force
-Copy-Item "$src\\readme.txt" "$tmp\\" -Force
-Copy-Item "$src\\LICENSE" "$tmp\\" -Force
-New-Item -ItemType Directory -Path "$tmp\\assets\\js" -Force | Out-Null
-Copy-Item "$src\\assets\\js\\homura.min.js" "$tmp\\assets\\js\\" -Force
-Remove-Item "${path.join(rootDir, 'homura-time-travel-form-recovery.zip')}" -Force -ErrorAction SilentlyContinue
-Compress-Archive -Path $tmp -DestinationPath "${path.join(rootDir, 'homura-time-travel-form-recovery.zip')}" -CompressionLevel Optimal
-Remove-Item "${path.join(rootDir, 'wp-plugin-tmp')}" -Recurse -Force
-`;
 try {
-  execSync(`powershell -Command "${zipScript.replace(/\n/g, '; ')}"`, { stdio: 'inherit', cwd: rootDir });
+  const wpSrcDir = path.join(rootDir, 'examples/wordpress-plugin');
+  const wpTmpDir = path.join(rootDir, 'wp-plugin-tmp', 'homura-time-travel-form-recovery');
+  const zipDest = path.join(rootDir, 'homura-time-travel-form-recovery.zip');
+
+  if (fs.existsSync(wpTmpDir)) fs.rmSync(path.join(rootDir, 'wp-plugin-tmp'), { recursive: true, force: true });
+  fs.mkdirSync(path.join(wpTmpDir, 'assets', 'js'), { recursive: true });
+
+  fs.copyFileSync(path.join(wpSrcDir, 'homura-time-travel-form-recovery.php'), path.join(wpTmpDir, 'homura-time-travel-form-recovery.php'));
+  fs.copyFileSync(path.join(wpSrcDir, 'readme.txt'), path.join(wpTmpDir, 'readme.txt'));
+  fs.copyFileSync(path.join(wpSrcDir, 'LICENSE'), path.join(wpTmpDir, 'LICENSE'));
+  fs.copyFileSync(path.join(wpSrcDir, 'assets', 'js', 'homura.min.js'), path.join(wpTmpDir, 'assets', 'js', 'homura.min.js'));
+
+  if (fs.existsSync(zipDest)) fs.unlinkSync(zipDest);
+  execSync(`powershell -NoProfile -Command "Compress-Archive -Path '${wpTmpDir}' -DestinationPath '${zipDest}' -CompressionLevel Optimal"`, { stdio: 'inherit', cwd: rootDir });
+  fs.rmSync(path.join(rootDir, 'wp-plugin-tmp'), { recursive: true, force: true });
   console.log('✓ Rebuilt homura-time-travel-form-recovery.zip');
 } catch (e) {
   console.warn('⚠️ Zip packaging note:', e.message);
