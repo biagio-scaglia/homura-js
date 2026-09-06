@@ -56,6 +56,13 @@ export {
 } from './diff';
 
 export {
+  diffStatesAsync,
+  createAsyncDiffer,
+  AsyncDiffer
+} from './diff-worker';
+export type { AsyncDiffOptions } from './diff-worker';
+
+export {
   deepClone,
   deepEqual,
   createDraft,

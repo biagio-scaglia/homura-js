@@ -194,6 +194,35 @@ export class DevToolsPanel {
       }
     });
 
+    // Drag and drop .homura session file support
+    this.element.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      this.element.style.outline = '2px dashed var(--hm-primary)';
+      this.element.style.outlineOffset = '-4px';
+    });
+
+    this.element.addEventListener('dragleave', () => {
+      this.element.style.outline = 'none';
+    });
+
+    this.element.addEventListener('drop', (e) => {
+      e.preventDefault();
+      this.element.style.outline = 'none';
+      const file = e.dataTransfer?.files?.[0];
+      if (file && (file.name.endsWith('.json') || file.name.endsWith('.homura'))) {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          try {
+            const json = JSON.parse(ev.target?.result as string);
+            this.bridge.importData(json);
+          } catch (err) {
+            alert('Failed to parse .homura session file: ' + err);
+          }
+        };
+        reader.readAsText(file);
+      }
+    });
+
     this.mountActiveTab();
   }
 

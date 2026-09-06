@@ -7,11 +7,14 @@ export class PlaybackControls {
   private playTimer: any = null;
   private playSpeedMs = 600;
 
+  private keydownHandler: ((e: KeyboardEvent) => void) | null = null;
+
   constructor(bridge: DevToolsBridge) {
     this.bridge = bridge;
     this.element = document.createElement('div');
     this.element.className = 'homura-playback-bar';
 
+    this.setupKeyboardShortcuts();
     this.render();
   }
 
@@ -25,6 +28,50 @@ export class PlaybackControls {
 
   public destroy(): void {
     this.stopPlayback();
+    if (this.keydownHandler && typeof window !== 'undefined') {
+      window.removeEventListener('keydown', this.keydownHandler);
+      this.keydownHandler = null;
+    }
+  }
+
+  private setupKeyboardShortcuts(): void {
+    if (typeof window === 'undefined') return;
+
+    this.keydownHandler = (e: KeyboardEvent) => {
+      const activeTag = document.activeElement?.tagName?.toLowerCase();
+      if (activeTag === 'input' || activeTag === 'textarea' || (document.activeElement as HTMLElement)?.isContentEditable) {
+        return;
+      }
+
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        this.bridge.undo();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        this.bridge.redo();
+      } else if (e.code === 'Space') {
+        e.preventDefault();
+        if (this.isPlaying) {
+          this.stopPlayback();
+        } else {
+          this.startPlayback();
+        }
+      } else if (e.key === 'Home') {
+        const snap = this.bridge.getSnapshot();
+        if (snap.entries.length > 0) {
+          e.preventDefault();
+          this.bridge.jumpTo(snap.entries[0]!.id);
+        }
+      } else if (e.key === 'End') {
+        const snap = this.bridge.getSnapshot();
+        if (snap.entries.length > 0) {
+          e.preventDefault();
+          this.bridge.jumpTo(snap.entries[snap.entries.length - 1]!.id);
+        }
+      }
+    };
+
+    window.addEventListener('keydown', this.keydownHandler);
   }
 
   private startPlayback(): void {
@@ -83,10 +130,10 @@ export class PlaybackControls {
 
     this.element.innerHTML = `
       <div class="homura-controls-group">
-        <button class="hm-btn hm-btn-icon hm-btn-start" title="Rewind to start">⏮</button>
+        <button class="hm-btn hm-btn-icon hm-btn-start" title="Rewind to start (Home)">⏮</button>
         <button class="hm-btn hm-btn-icon hm-btn-rewind-10" title="Rewind 10 steps">-10</button>
         <button class="hm-btn hm-btn-icon hm-btn-rewind-5" title="Rewind 5 steps">-5</button>
-        <button class="hm-btn hm-btn-icon hm-btn-undo" title="Undo 1 step">◀ Undo</button>
+        <button class="hm-btn hm-btn-icon hm-btn-undo" title="Undo 1 step (←)">◀ Undo</button>
       </div>
 
       <div style="flex: 1; display: flex; align-items: center; gap: 10px; margin: 0 10px;">
@@ -97,11 +144,17 @@ export class PlaybackControls {
       </div>
 
       <div class="homura-controls-group">
-        <button class="hm-btn hm-btn-play">${this.isPlaying ? '⏸ Pause' : '▶ Play'}</button>
-        <button class="hm-btn hm-btn-icon hm-btn-redo" title="Redo 1 step">Redo ▶</button>
+        <button class="hm-btn hm-btn-play" title="Play/Pause (Space)">${this.isPlaying ? '⏸ Pause' : '▶ Play'}</button>
+        <select class="hm-select-speed" style="background: var(--hm-bg-card); color: var(--hm-text-primary); border: 1px solid var(--hm-border); border-radius: 4px; font-size: 11px; padding: 2px 4px;">
+          <option value="1200"${this.playSpeedMs === 1200 ? ' selected' : ''}>0.5x</option>
+          <option value="600"${this.playSpeedMs === 600 ? ' selected' : ''}>1x</option>
+          <option value="300"${this.playSpeedMs === 300 ? ' selected' : ''}>2x</option>
+          <option value="150"${this.playSpeedMs === 150 ? ' selected' : ''}>4x</option>
+        </select>
+        <button class="hm-btn hm-btn-icon hm-btn-redo" title="Redo 1 step (→)">Redo ▶</button>
         <button class="hm-btn hm-btn-icon hm-btn-ff-5" title="Forward 5 steps">+5</button>
         <button class="hm-btn hm-btn-icon hm-btn-ff-10" title="Forward 10 steps">+10</button>
-        <button class="hm-btn hm-btn-icon hm-btn-end" title="Fast-forward to latest">⏭</button>
+        <button class="hm-btn hm-btn-icon hm-btn-end" title="Fast-forward to latest (End)">⏭</button>
       </div>
     `;
 
@@ -125,6 +178,15 @@ export class PlaybackControls {
       if (this.isPlaying) {
         this.stopPlayback();
       } else {
+        this.startPlayback();
+      }
+    });
+
+    const speedSelect = this.element.querySelector('.hm-select-speed') as HTMLSelectElement;
+    speedSelect?.addEventListener('change', (e) => {
+      this.playSpeedMs = parseInt((e.target as HTMLSelectElement).value, 10);
+      if (this.isPlaying) {
+        this.stopPlayback();
         this.startPlayback();
       }
     });
