@@ -50,4 +50,31 @@ describe('@homurajs/react - useHomura Hook', () => {
 
     expect(homura.getState().count).toBe(0);
   });
+
+  it('refreshes metadata when selector state is unchanged (snapshots/branches)', () => {
+    const homura = createHomura({ initialState: { count: 0 } });
+    let hookResult: any;
+
+    function TestHook() {
+      hookResult = useHomura(homura, (s: { count: number }) => s.count);
+      return (
+        <div>
+          {hookResult.state}:{hookResult.snapshots.length}:{hookResult.branches.length}
+        </div>
+      );
+    }
+
+    renderToString(<TestHook />);
+    expect(hookResult.snapshots).toHaveLength(0);
+    expect(hookResult.branches).toHaveLength(1);
+
+    act(() => {
+      hookResult.snapshot('checkpoint');
+      hookResult.homura.createBranch('feature');
+    });
+
+    renderToString(<TestHook />);
+    expect(hookResult.snapshots.length).toBeGreaterThanOrEqual(1);
+    expect(hookResult.branches.length).toBeGreaterThanOrEqual(2);
+  });
 });

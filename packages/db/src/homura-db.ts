@@ -93,8 +93,8 @@ export class HomuraDB {
     tableName: string,
     row: T,
     options: MutationOptions = {}
-  ): T & { id: PrimaryKey } {
-    let insertedRecord: (T & { id: PrimaryKey }) | null = null;
+  ): T {
+    let insertedRecord: T | null = null;
 
     this.homura.update(draft => {
       let table = draft.tables[tableName];
@@ -132,6 +132,11 @@ export class HomuraDB {
     updates: Partial<T>,
     options: MutationOptions = {}
   ): number {
+    const existing = this.homura.getState().tables[tableName];
+    if (!existing) {
+      return 0;
+    }
+
     let updatedCount = 0;
 
     this.homura.update(draft => {
@@ -166,6 +171,11 @@ export class HomuraDB {
     filterOrId: PrimaryKey | QueryFilter<T>,
     options: MutationOptions = {}
   ): number {
+    const existing = this.homura.getState().tables[tableName];
+    if (!existing) {
+      return 0;
+    }
+
     let deletedCount = 0;
 
     this.homura.update(draft => {
@@ -241,7 +251,7 @@ export class HomuraDB {
         },
         insertMany: <T extends DBRecord>(tableName: string, rows: T[]) => {
           let currentTable: TableState = draft.tables[tableName] ?? createTableState(tableName);
-          const inserted: (T & { id: PrimaryKey })[] = [];
+          const inserted: T[] = [];
           for (const r of rows) {
             const res = insertRow<T>(currentTable as any, r);
             currentTable = res.table as any;

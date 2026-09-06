@@ -18,7 +18,7 @@ export function createTableState(name: string, primaryKey = 'id'): TableState {
 export function insertRow<T extends DBRecord>(
   table: TableState<T>,
   row: T
-): { table: TableState<T>; inserted: T & { id: PrimaryKey } } {
+): { table: TableState<T>; inserted: T } {
   let id = row[table.primaryKey as keyof T] as PrimaryKey | undefined;
 
   let nextAutoInc = table.autoIncrement;
@@ -27,6 +27,12 @@ export function insertRow<T extends DBRecord>(
     nextAutoInc += 1;
   } else if (typeof id === 'number' && id >= nextAutoInc) {
     nextAutoInc = id + 1;
+  } else if (typeof id === 'string' && /^\d+$/.test(id)) {
+    // Numeric string PKs share the String(n) row key space with autoIncrement numbers
+    const numericId = Number(id);
+    if (numericId >= nextAutoInc) {
+      nextAutoInc = numericId + 1;
+    }
   }
 
   const stringId = String(id);
@@ -37,7 +43,7 @@ export function insertRow<T extends DBRecord>(
   const recordWithId = {
     ...row,
     [table.primaryKey]: id
-  } as T & { id: PrimaryKey };
+  } as T;
 
   const updatedRows = {
     ...table.rows,

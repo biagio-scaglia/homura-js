@@ -48,8 +48,8 @@ export interface MutationOptions {
 }
 
 export interface DBTransactionContext {
-  insert<T extends DBRecord = DBRecord>(tableName: string, row: T): T & { id: PrimaryKey };
-  insertMany<T extends DBRecord = DBRecord>(tableName: string, rows: T[]): (T & { id: PrimaryKey })[];
+  insert<T extends DBRecord = DBRecord>(tableName: string, row: T): T;
+  insertMany<T extends DBRecord = DBRecord>(tableName: string, rows: T[]): T[];
   update<T extends DBRecord = DBRecord>(tableName: string, filterOrId: PrimaryKey | QueryFilter<T>, updates: Partial<T>): number;
   delete<T extends DBRecord = DBRecord>(tableName: string, filterOrId: PrimaryKey | QueryFilter<T>): number;
   find<T extends DBRecord = DBRecord>(tableName: string, filter?: QueryFilter<T>, options?: QueryOptions<T>): T[];

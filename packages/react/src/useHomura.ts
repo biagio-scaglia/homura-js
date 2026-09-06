@@ -47,6 +47,18 @@ export interface UseHomuraReturn<T, S = T> {
   canRedo: boolean;
 }
 
+interface HomuraStoreSnapshot<T, S> {
+  state: S;
+  currentEntry: HistoryEntry<T>;
+  snapshots: Snapshot<T>[];
+  branches: Branch[];
+  currentBranch: Branch;
+  canUndo: boolean;
+  canRedo: boolean;
+  /** Opaque revision so metadata-only changes still invalidate the store */
+  revision: string;
+}
+
 /**
  * Custom React hook for subscribing to Homura state and time-travel operations.
  *
@@ -65,52 +77,87 @@ export function useHomura<T, S = T>(
   const equalityFnRef = useRef(equalityFn);
   equalityFnRef.current = equalityFn;
 
-  const lastSelectedStateRef = useRef<S | undefined>(undefined);
-  const lastRawStateRef = useRef<T | undefined>(undefined);
+  const cacheRef = useRef<HomuraStoreSnapshot<T, S> | null>(null);
+  const lastSelectedRef = useRef<S | undefined>(undefined);
 
-  const getSnapshot = useCallback(() => {
+  const buildSnapshot = useCallback((): HomuraStoreSnapshot<T, S> => {
     const currentState = homura.getState();
+    const currentEntry = homura.getCurrentEntry();
+    const snapshots = homura.getSnapshots();
+    const branches = homura.getBranches();
+    const currentBranch = homura.getCurrentBranch();
+    const canUndo = homura.canUndo();
+    const canRedo = homura.canRedo();
 
+    let selected: S;
     if (!selectorRef.current) {
-      return currentState as unknown as S;
+      selected = currentState as unknown as S;
+    } else {
+      const nextSelected = selectorRef.current(currentState);
+      if (
+        lastSelectedRef.current !== undefined &&
+        equalityFnRef.current(lastSelectedRef.current, nextSelected)
+      ) {
+        selected = lastSelectedRef.current;
+      } else {
+        selected = nextSelected;
+        lastSelectedRef.current = nextSelected;
+      }
     }
 
-    if (currentState === lastRawStateRef.current && lastSelectedStateRef.current !== undefined) {
-      return lastSelectedStateRef.current;
-    }
+    const revision = [
+      currentEntry.id,
+      snapshots.length,
+      branches.map(b => `${b.id}:${b.headEntryId}`).join(','),
+      currentBranch.id,
+      canUndo ? '1' : '0',
+      canRedo ? '1' : '0'
+    ].join('|');
 
-    const nextSelected = selectorRef.current(currentState);
+    const prev = cacheRef.current;
     if (
-      lastSelectedStateRef.current !== undefined &&
-      equalityFnRef.current(lastSelectedStateRef.current, nextSelected)
+      prev &&
+      prev.revision === revision &&
+      equalityFnRef.current(prev.state, selected)
     ) {
-      return lastSelectedStateRef.current;
+      return prev;
     }
 
-    lastRawStateRef.current = currentState;
-    lastSelectedStateRef.current = nextSelected;
-    return nextSelected;
+    const next: HomuraStoreSnapshot<T, S> = {
+      state: selected,
+      currentEntry,
+      snapshots,
+      branches,
+      currentBranch,
+      canUndo,
+      canRedo,
+      revision
+    };
+    cacheRef.current = next;
+    return next;
   }, [homura]);
 
   const subscribe = useCallback(
     (onStoreChange: () => void) => {
-      const unsubState = homura.on('state:change', () => onStoreChange());
-      const unsubBranch = homura.on('branch:switch', () => onStoreChange());
-      const unsubSnap = homura.on('snapshot:create', () => onStoreChange());
-      const unsubSnapDel = homura.on('snapshot:delete', () => onStoreChange());
+      const unsubs = [
+        homura.on('state:change', onStoreChange),
+        homura.on('branch:switch', onStoreChange),
+        homura.on('branch:create', onStoreChange),
+        homura.on('branch:delete', onStoreChange),
+        homura.on('branch:merge', onStoreChange),
+        homura.on('snapshot:create', onStoreChange),
+        homura.on('snapshot:delete', onStoreChange),
+        homura.on('snapshot:restore', onStoreChange)
+      ];
 
       return () => {
-        unsubState();
-        unsubBranch();
-        unsubSnap();
-        unsubSnapDel();
+        for (const unsub of unsubs) unsub();
       };
     },
     [homura]
   );
 
-  const selectedState = useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
-  const currentEntry = homura.getCurrentEntry();
+  const store = useSyncExternalStore(subscribe, buildSnapshot, buildSnapshot);
 
   const update = useCallback(
     (updater: StateUpdater<T>, options?: StateUpdateOptions) => homura.update(updater, options),
@@ -138,12 +185,9 @@ export function useHomura<T, S = T>(
   );
   const restore = useCallback((snapshotId: string) => homura.restore(snapshotId), [homura]);
 
-  const canUndo = currentEntry.parentId !== null;
-  const canRedo = currentEntry.childrenIds.length > 0;
-
   return {
-    state: selectedState,
-    currentEntry,
+    state: store.state,
+    currentEntry: store.currentEntry,
     update,
     setState,
     commit,
@@ -154,11 +198,11 @@ export function useHomura<T, S = T>(
     jumpTo,
     snapshot,
     restore,
-    snapshots: homura.getSnapshots(),
-    branches: homura.getBranches(),
-    currentBranch: homura.getCurrentBranch(),
+    snapshots: store.snapshots,
+    branches: store.branches,
+    currentBranch: store.currentBranch,
     homura,
-    canUndo,
-    canRedo
+    canUndo: store.canUndo,
+    canRedo: store.canRedo
   };
 }

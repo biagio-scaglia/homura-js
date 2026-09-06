@@ -106,6 +106,36 @@ export function deepEqual(a: unknown, b: unknown): boolean {
     return a.source === b.source && a.flags === b.flags;
   }
 
+  if (a instanceof Set && b instanceof Set) {
+    if (a.size !== b.size) return false;
+    for (const item of a) {
+      let found = false;
+      for (const other of b) {
+        if (deepEqual(item, other)) {
+          found = true;
+          break;
+        }
+      }
+      if (!found) return false;
+    }
+    return true;
+  }
+
+  if (a instanceof Map && b instanceof Map) {
+    if (a.size !== b.size) return false;
+    for (const [key, value] of a) {
+      let found = false;
+      for (const [otherKey, otherValue] of b) {
+        if (deepEqual(key, otherKey) && deepEqual(value, otherValue)) {
+          found = true;
+          break;
+        }
+      }
+      if (!found) return false;
+    }
+    return true;
+  }
+
   const keysA = Object.keys(a as object);
   const keysB = Object.keys(b as object);
 
@@ -120,6 +150,43 @@ export function deepEqual(a: unknown, b: unknown): boolean {
   }
 
   return true;
+}
+
+/**
+ * Recursively freezes a value to prevent accidental mutation of published state.
+ */
+export function deepFreeze<T>(value: T): T {
+  if (value === null || typeof value !== 'object' || Object.isFrozen(value)) {
+    return value;
+  }
+
+  if (value instanceof Date || value instanceof RegExp) {
+    return Object.freeze(value);
+  }
+
+  if (value instanceof Set) {
+    for (const item of value) {
+      deepFreeze(item);
+    }
+    return Object.freeze(value);
+  }
+
+  if (value instanceof Map) {
+    for (const [k, v] of value) {
+      deepFreeze(k);
+      deepFreeze(v);
+    }
+    return Object.freeze(value);
+  }
+
+  if (Array.isArray(value) || isPlainObject(value)) {
+    const record = value as Record<string | number, unknown>;
+    for (const key of Object.keys(record)) {
+      deepFreeze(record[key]);
+    }
+  }
+
+  return Object.freeze(value);
 }
 
 /**
@@ -152,6 +219,11 @@ export function createDraft<T>(baseState: T): {
       finishDraft: () => ({ nextState: scalarValue, modified: false })
     };
   }
+
+  // Frozen published state cannot be used as a Proxy target (invariant violations on get/set).
+  // Draft against a mutable clone while still returning the original reference when unmodified.
+  const publishedBase = baseState;
+  const workingBase = Object.isFrozen(baseState) ? deepClone(baseState) : baseState;
 
   function markModified(state: ProxyState): void {
     if (!state.modified) {
@@ -241,14 +313,17 @@ export function createDraft<T>(baseState: T): {
 
       getOwnPropertyDescriptor(target, prop) {
         const source = state.modified && state.copy ? state.copy : target;
-        return Reflect.getOwnPropertyDescriptor(source, prop);
+        const desc = Reflect.getOwnPropertyDescriptor(source, prop);
+        if (!desc) return desc;
+        // Draft descriptors must remain configurable so Proxy invariants hold
+        return { ...desc, configurable: true, writable: true };
       }
     });
 
     return proxy as O;
   }
 
-  const rootProxy = createProxy(baseState as unknown as object, null, null);
+  const rootProxy = createProxy(workingBase as unknown as object, null, null);
   const rootState = (rootProxy as any)[DRAFT_STATE] as ProxyState;
 
   function finalizeState(state: ProxyState): any {
@@ -271,8 +346,10 @@ export function createDraft<T>(baseState: T): {
     draft: rootProxy as T,
     finishDraft: () => {
       const modified = rootState.modified;
-      const nextState = modified ? finalizeState(rootState) : baseState;
-      return { nextState, modified };
+      if (!modified) {
+        return { nextState: publishedBase, modified: false };
+      }
+      return { nextState: finalizeState(rootState) as T, modified: true };
     }
   };
 }

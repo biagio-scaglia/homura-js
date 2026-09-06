@@ -39,8 +39,10 @@ export {
 export {
   MemoryAdapter,
   LocalStorageAdapter,
+  SessionStorageAdapter,
   IndexedDBAdapter,
   createLocalStorageAdapter,
+  createSessionStorageAdapter,
   createIndexedDBAdapter,
   createMemoryAdapter,
   PersistenceController,
@@ -65,6 +67,7 @@ export type { AsyncDiffOptions } from './diff-worker';
 export {
   deepClone,
   deepEqual,
+  deepFreeze,
   createDraft,
   isObject,
   isPlainObject

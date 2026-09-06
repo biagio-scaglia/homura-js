@@ -6,6 +6,19 @@
 const SALT_STORAGE_KEY = 'homura_vault_salt';
 
 /**
+ * Converts bytes to base64 without spreading into fromCharCode (avoids call-stack limits).
+ */
+function bytesToBase64(bytes: Uint8Array): string {
+  const chunkSize = 0x8000;
+  let binary = '';
+  for (let i = 0; i < bytes.length; i += chunkSize) {
+    const chunk = bytes.subarray(i, i + chunkSize);
+    binary += String.fromCharCode(...chunk);
+  }
+  return btoa(binary);
+}
+
+/**
  * Gets or creates a local persistent salt/seed for key derivation.
  */
 function getLocalSalt(): Uint8Array {
@@ -83,8 +96,8 @@ export async function encryptPayload(plaintext: string, passphrase?: string): Pr
       enc.encode(plaintext)
     );
 
-    const ivB64 = btoa(String.fromCharCode(...iv));
-    const cipherB64 = btoa(String.fromCharCode(...new Uint8Array(encrypted)));
+    const ivB64 = bytesToBase64(iv);
+    const cipherB64 = bytesToBase64(new Uint8Array(encrypted));
     return `enc:v1:${ivB64}:${cipherB64}`;
   } catch (err) {
     console.warn('[HomuraJS] WebCrypto encryption fallback:', err);

@@ -4,6 +4,7 @@ import {
   DiffChange,
   Homura,
   LocalStorageAdapter,
+  SessionStorageAdapter,
   PersistenceAdapter,
   SerializedHomura
 } from '@homura-js/core';
@@ -200,31 +201,38 @@ export function maskPIIValue(_key: string, val: unknown): unknown {
 }
 
 /**
- * Encrypted WebCrypto LocalStorage Adapter for Zero-Knowledge Local Vault.
+ * Encrypted WebCrypto storage adapter for Zero-Knowledge Local/Session Vault.
  */
-class EncryptedLocalStorageAdapter<T> implements PersistenceAdapter<T> {
+class EncryptedWebStorageAdapter<T> implements PersistenceAdapter<T> {
   private key: string;
   private useCrypto: boolean;
+  private storage: Storage | null;
 
-  constructor(key: string, useCrypto = true) {
+  constructor(key: string, useCrypto = true, storage: 'local' | 'session' = 'local') {
     this.key = key;
     this.useCrypto = useCrypto;
+    this.storage =
+      typeof window === 'undefined'
+        ? null
+        : storage === 'session'
+          ? window.sessionStorage
+          : window.localStorage;
   }
 
   async save(data: SerializedHomura<T>): Promise<void> {
-    if (typeof localStorage === 'undefined') return;
+    if (!this.storage) return;
     const raw = JSON.stringify(data);
     const payload = this.useCrypto ? await encryptPayload(raw) : raw;
     try {
-      localStorage.setItem(this.key, payload);
+      this.storage.setItem(this.key, payload);
     } catch (e) {
       console.warn('[HomuraJS] Storage save warning:', e);
     }
   }
 
   async load(): Promise<SerializedHomura<T> | null> {
-    if (typeof localStorage === 'undefined') return null;
-    const raw = localStorage.getItem(this.key);
+    if (!this.storage) return null;
+    const raw = this.storage.getItem(this.key);
     if (!raw) return null;
 
     try {
@@ -237,9 +245,9 @@ class EncryptedLocalStorageAdapter<T> implements PersistenceAdapter<T> {
   }
 
   async clear(): Promise<void> {
-    if (typeof localStorage === 'undefined') return;
+    if (!this.storage) return;
     try {
-      localStorage.removeItem(this.key);
+      this.storage.removeItem(this.key);
     } catch (_) {}
   }
 }
@@ -267,13 +275,32 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
 
   const initialData = (options.initialState ?? extractFormData(form, customExclusions)) as T;
 
-  const persistenceConfig = options.persist === 'localstorage' || (options.persist !== 'none' && options.persist !== 'sessionstorage')
-    ? {
-        adapter: useCrypto ? new EncryptedLocalStorageAdapter<T>(storageKey, true) : new LocalStorageAdapter<T>(storageKey),
-        autoSave: true,
-        debounceMs: 300
+  const persistMode = options.persist ?? 'localstorage';
+  let persistenceConfig:
+    | {
+        adapter: PersistenceAdapter<T>;
+        autoSave: boolean;
+        debounceMs: number;
       }
-    : undefined;
+    | undefined;
+
+  if (persistMode === 'localstorage') {
+    persistenceConfig = {
+      adapter: useCrypto
+        ? new EncryptedWebStorageAdapter<T>(storageKey, true, 'local')
+        : new LocalStorageAdapter<T>(storageKey),
+      autoSave: true,
+      debounceMs: 300
+    };
+  } else if (persistMode === 'sessionstorage') {
+    persistenceConfig = {
+      adapter: useCrypto
+        ? new EncryptedWebStorageAdapter<T>(storageKey, true, 'session')
+        : new SessionStorageAdapter<T>(storageKey),
+      autoSave: true,
+      debounceMs: 300
+    };
+  }
 
   const homura = createHomura<T>({
     initialState: initialData,
@@ -587,19 +614,22 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
   }
 
   const { undoBtns, redoBtns, clearBtns, handoffBtns, visualDiffBtns } = getActionButtons();
+  const onHandoffClick = (e: Event) => {
+    e.preventDefault();
+    openHandoffModal();
+  };
+  const onVisualDiffClick = (e: Event) => {
+    e.preventDefault();
+    const btn = e.currentTarget as HTMLButtonElement;
+    const fieldName = btn.getAttribute('data-homura-visual-diff') || btn.getAttribute('data-field') || 'message';
+    openVisualDiff(fieldName);
+  };
+
   undoBtns.forEach(btn => btn.addEventListener('click', onUndoClick));
   redoBtns.forEach(btn => btn.addEventListener('click', onRedoClick));
   clearBtns.forEach(btn => btn.addEventListener('click', onClearClick));
-  handoffBtns.forEach(btn => btn.addEventListener('click', (e) => {
-    e.preventDefault();
-    openHandoffModal();
-  }));
-
-  visualDiffBtns.forEach(btn => btn.addEventListener('click', (e) => {
-    e.preventDefault();
-    const fieldName = btn.getAttribute('data-homura-visual-diff') || btn.getAttribute('data-field') || 'message';
-    openVisualDiff(fieldName);
-  }));
+  handoffBtns.forEach(btn => btn.addEventListener('click', onHandoffClick));
+  visualDiffBtns.forEach(btn => btn.addEventListener('click', onVisualDiffClick));
 
   // 10. Ghost Assist Behavioral Monitor
   let ghostAssist: GhostAssistMonitor | undefined;
@@ -665,14 +695,32 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
 
       if (currentDomVal === '' || currentDomVal === null || currentDomVal === undefined) {
         const el = form.elements.namedItem(key);
-        if (el && !isFieldSensitive(el as any, customExclusions)) {
-          if (el instanceof HTMLInputElement) {
-            if (el.type === 'checkbox') el.checked = Boolean(stateVal);
-            else if (el.type === 'radio') el.checked = el.value === String(stateVal);
-            else el.value = String(stateVal);
-          } else if (el instanceof HTMLSelectElement || el instanceof HTMLTextAreaElement) {
-            el.value = String(stateVal);
+        if (!el) continue;
+
+        if (typeof RadioNodeList !== 'undefined' && el instanceof RadioNodeList) {
+          const first = el[0] as HTMLInputElement | undefined;
+          if (first && isFieldSensitive(first, customExclusions)) continue;
+          let restored = false;
+          for (let i = 0; i < el.length; i++) {
+            const radio = el[i];
+            if (radio instanceof HTMLInputElement && radio.type === 'radio') {
+              radio.checked = radio.value === String(stateVal);
+              restored = true;
+            }
           }
+          if (restored) restoredFields.push(key);
+          continue;
+        }
+
+        if (isFieldSensitive(el as any, customExclusions)) continue;
+
+        if (el instanceof HTMLInputElement) {
+          if (el.type === 'checkbox') el.checked = Boolean(stateVal);
+          else if (el.type === 'radio') el.checked = el.value === String(stateVal);
+          else el.value = String(stateVal);
+          restoredFields.push(key);
+        } else if (el instanceof HTMLSelectElement || el instanceof HTMLTextAreaElement) {
+          el.value = String(stateVal);
           restoredFields.push(key);
         }
       }
@@ -786,6 +834,10 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
         if (savedSchemaVersion !== undefined && String(savedSchemaVersion) !== String(schemaVersion)) {
           if (options.onSchemaMismatch) {
             loadedState = options.onSchemaMismatch(savedSchemaVersion, schemaVersion, loadedState);
+            homura.setState(loadedState, {
+              label: `Schema migration v${savedSchemaVersion} → v${schemaVersion}`,
+              metadata: { schemaMigration: true }
+            });
           } else {
             updateStatusBadges(`🔄 Migrated schema v${savedSchemaVersion} ➔ v${schemaVersion}`, 'action');
           }
@@ -826,6 +878,8 @@ export function bindForm<T extends Record<string, any> = Record<string, any>>(
       undoBtns.forEach(btn => btn.removeEventListener('click', onUndoClick));
       redoBtns.forEach(btn => btn.removeEventListener('click', onRedoClick));
       clearBtns.forEach(btn => btn.removeEventListener('click', onClearClick));
+      handoffBtns.forEach(btn => btn.removeEventListener('click', onHandoffClick));
+      visualDiffBtns.forEach(btn => btn.removeEventListener('click', onVisualDiffClick));
       nextBtns.forEach(b => b.removeEventListener('click', nextStep));
       prevBtns.forEach(b => b.removeEventListener('click', prevStep));
       ghostAssist?.destroy();

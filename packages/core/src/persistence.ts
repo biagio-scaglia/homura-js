@@ -180,6 +180,71 @@ export class LocalStorageAdapter<T> implements PersistenceAdapter<T> {
 }
 
 /**
+ * SessionStorage persistence adapter for browser environments with rich type support.
+ */
+export class SessionStorageAdapter<T> implements PersistenceAdapter<T> {
+  private key: string;
+
+  constructor(key: string = 'homura_state_history') {
+    this.key = key;
+  }
+
+  private isAvailable(): boolean {
+    return (
+      typeof window !== 'undefined' &&
+      typeof window.sessionStorage !== 'undefined'
+    );
+  }
+
+  public save(data: SerializedHomura<T>): void {
+    if (!this.isAvailable()) {
+      return;
+    }
+    try {
+      const encoded = serializeRichState(data);
+      const json = JSON.stringify(encoded);
+      window.sessionStorage.setItem(this.key, json);
+    } catch (err) {
+      throw new HomuraPersistenceError(
+        `Failed to save state to sessionStorage key "${this.key}"`,
+        err
+      );
+    }
+  }
+
+  public load(): SerializedHomura<T> | null {
+    if (!this.isAvailable()) {
+      return null;
+    }
+    try {
+      const json = window.sessionStorage.getItem(this.key);
+      if (!json) return null;
+      const parsed = JSON.parse(json);
+      return deserializeRichState(parsed) as SerializedHomura<T>;
+    } catch (err) {
+      throw new HomuraPersistenceError(
+        `Failed to load state from sessionStorage key "${this.key}"`,
+        err
+      );
+    }
+  }
+
+  public clear(): void {
+    if (!this.isAvailable()) {
+      return;
+    }
+    try {
+      window.sessionStorage.removeItem(this.key);
+    } catch (err) {
+      throw new HomuraPersistenceError(
+        `Failed to clear sessionStorage key "${this.key}"`,
+        err
+      );
+    }
+  }
+}
+
+/**
  * IndexedDB persistence adapter for large-scale enterprise web applications.
  */
 export class IndexedDBAdapter<T> implements PersistenceAdapter<T> {
@@ -219,49 +284,61 @@ export class IndexedDBAdapter<T> implements PersistenceAdapter<T> {
 
   public async save(data: SerializedHomura<T>): Promise<void> {
     if (!this.isAvailable()) return;
+    let db: IDBDatabase | null = null;
     try {
-      const db = await this.getDB();
-      return new Promise((resolve, reject) => {
-        const tx = db.transaction(this.storeName, 'readwrite');
+      db = await this.getDB();
+      await new Promise<void>((resolve, reject) => {
+        const tx = db!.transaction(this.storeName, 'readwrite');
         const store = tx.objectStore(this.storeName);
         const req = store.put(data, this.key);
         req.onsuccess = () => resolve();
-        req.onerror = () => reject(new HomuraPersistenceError(`Failed to save to IndexedDB [${this.dbName}]`, req.error));
+        req.onerror = () =>
+          reject(new HomuraPersistenceError(`Failed to save to IndexedDB [${this.dbName}]`, req.error));
       });
     } catch (err) {
       throw new HomuraPersistenceError(`IndexedDB save failed for key "${this.key}"`, err);
+    } finally {
+      db?.close();
     }
   }
 
   public async load(): Promise<SerializedHomura<T> | null> {
     if (!this.isAvailable()) return null;
+    let db: IDBDatabase | null = null;
     try {
-      const db = await this.getDB();
-      return new Promise((resolve, reject) => {
-        const tx = db.transaction(this.storeName, 'readonly');
+      db = await this.getDB();
+      return await new Promise<SerializedHomura<T> | null>((resolve, reject) => {
+        const tx = db!.transaction(this.storeName, 'readonly');
         const store = tx.objectStore(this.storeName);
         const req = store.get(this.key);
         req.onsuccess = () => resolve(req.result ?? null);
-        req.onerror = () => reject(new HomuraPersistenceError(`Failed to load from IndexedDB [${this.dbName}]`, req.error));
+        req.onerror = () =>
+          reject(new HomuraPersistenceError(`Failed to load from IndexedDB [${this.dbName}]`, req.error));
       });
     } catch (err) {
       throw new HomuraPersistenceError(`IndexedDB load failed for key "${this.key}"`, err);
+    } finally {
+      db?.close();
     }
   }
 
   public async clear(): Promise<void> {
     if (!this.isAvailable()) return;
+    let db: IDBDatabase | null = null;
     try {
-      const db = await this.getDB();
-      return new Promise((resolve, reject) => {
-        const tx = db.transaction(this.storeName, 'readwrite');
+      db = await this.getDB();
+      await new Promise<void>((resolve, reject) => {
+        const tx = db!.transaction(this.storeName, 'readwrite');
         const store = tx.objectStore(this.storeName);
         const req = store.delete(this.key);
         req.onsuccess = () => resolve();
-        req.onerror = () => reject(new HomuraPersistenceError(`Failed to clear IndexedDB [${this.dbName}]`, req.error));
+        req.onerror = () =>
+          reject(new HomuraPersistenceError(`Failed to clear IndexedDB [${this.dbName}]`, req.error));
       });
     } catch (err) {
       throw new HomuraPersistenceError(`IndexedDB clear failed for key "${this.key}"`, err);
+    } finally {
+      db?.close();
     }
   }
 }
@@ -271,6 +348,13 @@ export class IndexedDBAdapter<T> implements PersistenceAdapter<T> {
  */
 export function createLocalStorageAdapter<T>(key?: string): LocalStorageAdapter<T> {
   return new LocalStorageAdapter<T>(key);
+}
+
+/**
+ * Factory helper to create a SessionStorage persistence adapter.
+ */
+export function createSessionStorageAdapter<T>(key?: string): SessionStorageAdapter<T> {
+  return new SessionStorageAdapter<T>(key);
 }
 
 /**
@@ -330,18 +414,27 @@ export class PersistenceController<T> {
   }
 
   public async save(data: SerializedHomura<T>): Promise<void> {
-    try {
-      await this.adapter.save(data);
-    } catch (err) {
-      console.error('[HomuraJS] Persistence save error:', err);
-    }
+    await this.adapter.save(data);
   }
 
   public scheduleAutoSave(getData: () => SerializedHomura<T>): void {
     if (!this.autoSave) return;
 
+    const run = () => {
+      try {
+        const result = this.save(getData());
+        if (result && typeof (result as Promise<void>).then === 'function') {
+          void (result as Promise<void>).catch(err => {
+            console.error('[HomuraJS] Persistence auto-save error:', err);
+          });
+        }
+      } catch (err) {
+        console.error('[HomuraJS] Persistence auto-save error:', err);
+      }
+    };
+
     if (this.debounceMs <= 0) {
-      void this.save(getData());
+      run();
       return;
     }
 
@@ -351,24 +444,15 @@ export class PersistenceController<T> {
 
     this.timer = setTimeout(() => {
       this.timer = null;
-      void this.save(getData());
+      run();
     }, this.debounceMs);
   }
 
   public async load(): Promise<SerializedHomura<T> | null> {
-    try {
-      return await this.adapter.load();
-    } catch (err) {
-      console.error('[HomuraJS] Persistence load error:', err);
-      return null;
-    }
+    return await this.adapter.load();
   }
 
   public async clear(): Promise<void> {
-    try {
-      await this.adapter.clear();
-    } catch (err) {
-      console.error('[HomuraJS] Persistence clear error:', err);
-    }
+    await this.adapter.clear();
   }
 }

@@ -125,7 +125,33 @@ export function applyDiff<T>(baseState: T, diffs: DiffChange[]): T {
 
   const result = deepClone(baseState);
 
-  for (const change of diffs) {
+  // Apply array removals from highest index to lowest to avoid splice shift corruption
+  const ordered = [...diffs].sort((a, b) => {
+    const aIsArrayRemove =
+      a.type === 'removed' && typeof a.path[a.path.length - 1] === 'number';
+    const bIsArrayRemove =
+      b.type === 'removed' && typeof b.path[b.path.length - 1] === 'number';
+
+    if (aIsArrayRemove && bIsArrayRemove) {
+      const aPath = a.path.map(String).join('\0');
+      const bPath = b.path.map(String).join('\0');
+      const aParent = a.path.slice(0, -1).map(String).join('\0');
+      const bParent = b.path.slice(0, -1).map(String).join('\0');
+      if (aParent === bParent) {
+        return (b.path[b.path.length - 1] as number) - (a.path[a.path.length - 1] as number);
+      }
+      return aPath < bPath ? -1 : aPath > bPath ? 1 : 0;
+    }
+
+    if (aIsArrayRemove !== bIsArrayRemove) {
+      // Non-removals first, then removals (descending)
+      return aIsArrayRemove ? 1 : -1;
+    }
+
+    return 0;
+  });
+
+  for (const change of ordered) {
     if (change.path.length === 0) {
       if (change.type === 'changed') {
         return deepClone(change.newValue as T);

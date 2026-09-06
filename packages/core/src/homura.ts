@@ -47,7 +47,8 @@ export class HomuraInstance<T> implements Homura<T> {
     this.config = config;
     this.history = new HistoryGraph<T>(config.initialState, {
       maxHistory: config.maxHistory ?? 1000,
-      autoBranchOnDivergence: config.autoBranchOnDivergence ?? true
+      autoBranchOnDivergence:
+        config.autoBranchOnDivergence ?? config.enableBranches ?? true
     });
     this.snapshots = new SnapshotManager<T>();
     this.events = new EventEmitter<T>();
@@ -103,6 +104,18 @@ export class HomuraInstance<T> implements Homura<T> {
       return currentEntry;
     }
 
+    if (options?.silent) {
+      const entry = this.history.replaceCurrentState(targetNextState);
+      this.events.emit('state:change', {
+        state: entry.state,
+        prevState: currentState,
+        entry,
+        action: 'setState'
+      });
+      this.persistence.scheduleAutoSave(() => this.export());
+      return entry;
+    }
+
     const { entry, newBranchCreated } = this.history.addEntry(
       targetNextState,
       targetLabel,
@@ -137,16 +150,24 @@ export class HomuraInstance<T> implements Homura<T> {
       const returnedValue = updater(draft);
 
       let nextState: T;
-      if (returnedValue !== undefined) {
+      let modified = true;
+      if (returnedValue !== undefined && returnedValue !== draft) {
         nextState = returnedValue;
       } else {
-        const { nextState: draftNextState } = finishDraft();
-        nextState = draftNextState;
+        const finished = finishDraft();
+        nextState = finished.nextState;
+        modified = finished.modified;
+      }
+
+      // Unmodified draft updates must not pollute history
+      if (!modified && (returnedValue === undefined || returnedValue === draft)) {
+        return this.history.getCurrentEntry();
       }
 
       return this.setState(nextState, {
         label: options?.label ?? 'Update state',
-        metadata: options?.metadata
+        metadata: options?.metadata,
+        silent: options?.silent
       });
     }
 
@@ -156,7 +177,8 @@ export class HomuraInstance<T> implements Homura<T> {
 
     return this.setState(nextState, {
       label: options?.label ?? 'Update state',
-      metadata: options?.metadata
+      metadata: options?.metadata,
+      silent: options?.silent
     });
   }
 
@@ -168,11 +190,16 @@ export class HomuraInstance<T> implements Homura<T> {
     options?: StateUpdateOptions
   ): HistoryEntry<T> {
     const currentState = this.getState();
+    const beforeEntry = this.history.getCurrentEntry();
 
     if (isObject(currentState)) {
       const { draft, finishDraft } = createDraft<T>(currentState);
       fn(draft);
-      const { nextState } = finishDraft();
+      const { nextState, modified } = finishDraft();
+
+      if (!modified) {
+        return beforeEntry;
+      }
 
       const label = options?.label ?? 'Transaction';
       const entry = this.setState(nextState, {
@@ -181,7 +208,11 @@ export class HomuraInstance<T> implements Homura<T> {
         metadata: { ...options?.metadata, transaction: true }
       });
 
-      this.events.emit('transaction:commit', { entry, label });
+      // Only emit commit when the transaction actually landed (not middleware-cancelled)
+      if (entry.id !== beforeEntry.id || entry.state !== beforeEntry.state) {
+        this.events.emit('transaction:commit', { entry, label });
+      }
+
       return entry;
     }
 
@@ -199,7 +230,10 @@ export class HomuraInstance<T> implements Homura<T> {
       metadata: { ...options?.metadata, transaction: true }
     });
 
-    this.events.emit('transaction:commit', { entry, label });
+    if (entry.id !== beforeEntry.id || entry.state !== beforeEntry.state) {
+      this.events.emit('transaction:commit', { entry, label });
+    }
+
     return entry;
   }
 
@@ -613,6 +647,7 @@ export class HomuraInstance<T> implements Homura<T> {
    */
   public merge(sourceBranchId: string, options?: BranchMergeOptions): HistoryEntry<T> {
     const targetBranch = this.history.getCurrentBranch();
+    const prevState = this.getState();
     const mergedEntry = this.history.mergeBranch(sourceBranchId, options);
     this.events.emit('branch:merge', {
       sourceBranchId,
@@ -621,7 +656,7 @@ export class HomuraInstance<T> implements Homura<T> {
     });
     this.events.emit('state:change', {
       state: mergedEntry.state,
-      prevState: this.getState(),
+      prevState,
       entry: mergedEntry,
       action: 'merge'
     });

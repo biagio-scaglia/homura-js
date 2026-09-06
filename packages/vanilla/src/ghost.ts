@@ -18,6 +18,9 @@ export class GhostAssistMonitor {
   private lastFieldValues: Map<string, { value: string; timestamp: number }> = new Map();
   private isToastVisible = false;
   private toastElement: HTMLElement | null = null;
+  private boundKeyDown: ((e: KeyboardEvent) => void) | null = null;
+  private boundInput: ((e: Event) => void) | null = null;
+  private boundClick: ((e: MouseEvent) => void) | null = null;
 
   constructor(form: HTMLFormElement, options: GhostAssistOptions = {}) {
     this.form = form;
@@ -33,12 +36,15 @@ export class GhostAssistMonitor {
 
   private bindEvents(): void {
     if (this.options.enableMassErasure) {
-      this.form.addEventListener('keydown', this.handleKeyDown.bind(this), { passive: true });
-      this.form.addEventListener('input', this.handleInput.bind(this), { passive: true });
+      this.boundKeyDown = this.handleKeyDown.bind(this);
+      this.boundInput = this.handleInput.bind(this);
+      this.form.addEventListener('keydown', this.boundKeyDown, { passive: true });
+      this.form.addEventListener('input', this.boundInput, { passive: true });
     }
 
     if (this.options.enableRageClicks) {
-      this.form.addEventListener('click', this.handleClick.bind(this), { passive: true });
+      this.boundClick = this.handleClick.bind(this);
+      this.form.addEventListener('click', this.boundClick, { passive: true });
     }
   }
 
@@ -177,6 +183,18 @@ export class GhostAssistMonitor {
   }
 
   public destroy(): void {
+    if (this.boundKeyDown) {
+      this.form.removeEventListener('keydown', this.boundKeyDown);
+      this.boundKeyDown = null;
+    }
+    if (this.boundInput) {
+      this.form.removeEventListener('input', this.boundInput);
+      this.boundInput = null;
+    }
+    if (this.boundClick) {
+      this.form.removeEventListener('click', this.boundClick);
+      this.boundClick = null;
+    }
     this.dismiss();
   }
 }
