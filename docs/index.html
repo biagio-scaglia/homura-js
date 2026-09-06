@@ -1890,9 +1890,9 @@ function increment() {
       <!-- Section: Diagnostic DevTools -->
       <section id="devtools">
         <div class="section-coord">SPEC // 03.5 // DEVTOOLS_GUI</div>
-        <h2 data-i18n="devtools.title">Embedded Diagnostic DevTools</h2>
+        <h2 data-i18n="devtools.title">Embedded Diagnostic DevTools &amp; Visual Time Machine</h2>
         <p data-i18n="devtools.p1">
-          Zero-dependency diagnostic panel with visual DAG tree, state inspector, and diff scrubber:
+          Zero-dependency diagnostic panel with interactive DAG visual tree, keyboard navigation (←/→/Space), speed controls, drag-and-drop .homura session replay, and diff scrubber:
         </p>
 
         <div class="code-container">
@@ -1905,11 +1905,39 @@ function increment() {
           </div>
           <pre><code>import { mountDevTools } from '@homura-js/devtools';
 
+// Mount interactive Visual Time Machine
 mountDevTools(homura, {
   position: 'floating', // 'floating' | 'embedded'
   theme: 'dark',
   defaultOpen: true
-});</code></pre>
+});
+
+// Keyboard Navigation Active:
+// [← / Undo]  [→ / Redo]  [Space / Play-Pause]  [Home / Rewind]  [End / Latest]</code></pre>
+        </div>
+
+        <!-- Section: Web Worker Async Diffing -->
+        <h3 style="margin-top: 24px;" data-i18n="asyncdiff.title">Web Worker Off-Thread Async Diffing Engine</h3>
+        <p data-i18n="asyncdiff.p1">
+          Compute massive state differences without blocking the UI thread (120 FPS guaranteed) using Web Worker async diffing with zero separate assets and automatic Node/SSR fallback:
+        </p>
+
+        <div class="code-container">
+          <div class="code-header">
+            <span>async-diff-worker.ts</span>
+            <button class="code-copy-btn">
+              <svg class="icon icon-sm" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+              <span>COPY</span>
+            </button>
+          </div>
+          <pre><code>import { diffStatesAsync, createAsyncDiffer } from '@biagioscaglia/homurajs';
+
+// Offload heavy structural diffing to background Web Worker thread
+const changes = await diffStatesAsync(largeDataSetA, largeDataSetB, {
+  timeoutMs: 3000
+});
+
+console.log('Detected diffs off-thread:', changes);</code></pre>
         </div>
       </section>
 

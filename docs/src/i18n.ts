@@ -306,12 +306,22 @@ export const translations: TranslationDictionary = {
 
   // Section 03.5: DevTools
   'devtools.title': {
-    en: 'Embedded Diagnostic DevTools',
-    it: 'DevTools Diagnostiche Integrate'
+    en: 'Embedded Diagnostic DevTools & Visual Time Machine',
+    it: 'DevTools Diagnostiche Integrate & Visual Time Machine'
   },
   'devtools.p1': {
-    en: 'Zero-dependency diagnostic panel with visual DAG tree, state inspector, and diff scrubber:',
-    it: "Pannello diagnostico a zero dipendenze con albero DAG visivo, ispettore di stato e scrubber di differenze:"
+    en: 'Zero-dependency diagnostic panel with interactive DAG visual tree, keyboard navigation (←/→/Space), speed controls, drag-and-drop .homura session replay, and diff scrubber:',
+    it: "Pannello diagnostico a zero dipendenze con albero visivo DAG interattivo, navigazione da tastiera (←/→/Spazio), controllo di velocità, riproduzione sessioni .homura drag-and-drop e scrubber di differenze:"
+  },
+
+  // Section 03.5b: Web Worker Async Diffing
+  'asyncdiff.title': {
+    en: 'Web Worker Off-Thread Async Diffing Engine',
+    it: 'Motore di Diffing Asincrono Off-Thread con Web Worker'
+  },
+  'asyncdiff.p1': {
+    en: 'Compute massive state differences without blocking the UI thread (120 FPS guaranteed) using Web Worker async diffing with zero separate assets and automatic Node/SSR fallback:',
+    it: 'Calcola differenze su stati di grandi dimensioni senza bloccare il thread della UI (120 FPS garantiti) sfruttando il diffing asincrono con Web Worker a zero asset esterni e fallback automatico per Node/SSR:'
   },
 
   // Section 03.6: Forensic Bug Reporting
