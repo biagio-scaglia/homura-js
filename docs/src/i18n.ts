@@ -108,8 +108,8 @@ export const translations: TranslationDictionary = {
 
   // Hero Section
   'hero.announcement_wp': {
-    en: 'NEW: Homura Time Travel & Form Recovery v1.4.0 is now live with QR Mobile Handoff, Ghost Assist & WebCrypto Vault →',
-    it: 'NOVITÀ: Homura Time Travel & Form Recovery v1.4.0 è ora disponibile con QR Mobile Handoff, Ghost Assist & WebCrypto Vault →'
+    en: 'NEW: HomuraJS v1.5.1 — frozen history, real QR handoff, sessionStorage drafts & async middleware →',
+    it: 'NOVITÀ: HomuraJS v1.5.1 — cronologia frozen, QR handoff reale, bozze sessionStorage e middleware async →'
   },
   'hero.title': {
     en: 'The Directed Acyclic Graph State Engine for JavaScript.',
@@ -132,8 +132,8 @@ export const translations: TranslationDictionary = {
     it: 'Apri lo Studio Interattivo'
   },
   'hero.cta_wp': {
-    en: 'WordPress Plugin (v1.4.0)',
-    it: 'Plugin WordPress (v1.4.0)'
+    en: 'WordPress Plugin (v1.5.1)',
+    it: 'Plugin WordPress (v1.5.1)'
   },
 
   // Live Runtime Sandbox
@@ -268,8 +268,8 @@ export const translations: TranslationDictionary = {
     it: 'Integrazione WordPress & WooCommerce'
   },
   'wordpress.badge_approved': {
-    en: 'Official Plugin on WordPress.org (v1.4.0)',
-    it: 'Plugin Ufficiale su WordPress.org (v1.4.0)'
+    en: 'Official Plugin on WordPress.org (v1.5.1)',
+    it: 'Plugin Ufficiale su WordPress.org (v1.5.1)'
   },
   'wordpress.view_plugin': {
     en: 'View on WordPress.org Plugin Directory',
@@ -310,8 +310,8 @@ export const translations: TranslationDictionary = {
     it: 'DevTools Diagnostiche Integrate & Visual Time Machine'
   },
   'devtools.p1': {
-    en: 'Zero-dependency diagnostic panel with interactive DAG visual tree, keyboard navigation (←/→/Space), speed controls, drag-and-drop .homura session replay, and diff scrubber:',
-    it: "Pannello diagnostico a zero dipendenze con albero visivo DAG interattivo, navigazione da tastiera (←/→/Spazio), controllo di velocità, riproduzione sessioni .homura drag-and-drop e scrubber di differenze:"
+    en: 'Zero-dependency diagnostic panel with interactive DAG visual tree, keyboard navigation when the panel is open (←/→/Space), branch-head playback, speed controls, drag-and-drop .homura session replay, and diff scrubber:',
+    it: "Pannello diagnostico a zero dipendenze con albero visivo DAG interattivo, navigazione da tastiera solo a pannello aperto (←/→/Spazio), playback sulla testa di branch, controllo di velocità, riproduzione sessioni .homura drag-and-drop e scrubber di differenze:"
   },
 
   // Section 03.5b: Web Worker Async Diffing
@@ -404,16 +404,24 @@ export const translations: TranslationDictionary = {
     it: 'Come protegge HomuraJS il checkout di WooCommerce e i moduli WordPress?'
   },
   'faq.a3': {
-    en: 'The official WordPress plugin auto-hooks into .woocommerce-checkout, .wpcf7, .wpforms-form, .gform_wrapper, and .elementor-form, saving input to LocalStorage in real-time. If the browser crashes, refreshes, or loses connection, customer input is seamlessly recovered.',
-    it: 'Il plugin ufficiale per WordPress si aggancia automaticamente a .woocommerce-checkout, .wpcf7, .wpforms-form, .gform_wrapper ed .elementor-form, salvando i dati inseriti in LocalStorage in tempo reale. In caso di crash, ricaricamento o chiusura della scheda, tutti i campi vengono ripristinati istantaneamente.'
+    en: 'The official WordPress plugin auto-hooks into .woocommerce-checkout, .wpcf7, .wpforms-form, .gform_wrapper, and .elementor-form, saving input to LocalStorage or SessionStorage in real-time. Real QR handoff, Ghost Assist, and WooCommerce AJAX recovery restore drafts after crash, refresh, or cart recalculation.',
+    it: 'Il plugin ufficiale per WordPress si aggancia automaticamente a .woocommerce-checkout, .wpcf7, .wpforms-form, .gform_wrapper ed .elementor-form, salvando i dati in LocalStorage o SessionStorage in tempo reale. QR handoff reale, Ghost Assist e recovery AJAX WooCommerce ripristinano le bozze dopo crash, refresh o ricalcolo carrello.'
   },
   'faq.q4': {
     en: 'Can HomuraJS be used on static sites without npm (CDN)?',
     it: 'HomuraJS puo essere usato su siti statici senza npm tramite CDN?'
   },
   'faq.a4': {
-    en: 'Yes. Include unpkg.com/@biagioscaglia/homurajs/dist/index.global.js via script tag and declare data-homura-form="form_id" data-homura-persist="localstorage" on your HTML forms.',
-    it: 'Si. Basta includere unpkg.com/@biagioscaglia/homurajs/dist/index.global.js tramite tag script e inserire gli attributi data-homura-form="form_id" data-homura-persist="localstorage" nei tuoi form HTML.'
+    en: 'Yes. Include unpkg.com/@biagioscaglia/homurajs/dist/index.global.js via script tag and declare data-homura-form="form_id" data-homura-persist="localstorage" or "sessionstorage" on your HTML forms.',
+    it: 'Si. Basta includere unpkg.com/@biagioscaglia/homurajs/dist/index.global.js tramite tag script e inserire gli attributi data-homura-form="form_id" data-homura-persist="localstorage" o "sessionstorage" nei tuoi form HTML.'
+  },
+  'faq.q5': {
+    en: 'Is published state frozen, and how do I use async middleware?',
+    it: 'Lo stato pubblicato e frozen e come uso middleware asincroni?'
+  },
+  'faq.a5': {
+    en: 'Yes. getState() returns a deep-frozen snapshot. Use update(..., { silent: true }) for in-place changes without a history node, and setStateAsync when middleware returns a Promise (sync setState throws if middleware is async).',
+    it: 'Si. getState() restituisce uno snapshot deep-frozen. Usa update(..., { silent: true }) per modifiche in-place senza nodo di cronologia, e setStateAsync quando il middleware restituisce una Promise (setState sincrono lancia errore se il middleware e async).'
   },
 
   // Toasts

@@ -17,7 +17,15 @@ Git-like local state history, multidevice QR handoff, sensory Ghost Assist, zero
 
 Rather than acting as a simple, destructive key-value autosave, Homura acts as an agnostic **client-side state history layer** built on top of your existing form builders. It tracks an immutable timeline of states, allowing users to undo/redo changes, recover from browser crashes or accidental refreshes, and seamlessly transfer their form progress across devices via QR codes.
 
-### 🌟 Revolutionary Features (v1.4.0)
+### 🌟 Core Reliability (v1.5.1)
+
+* **Frozen immutable snapshots**: published state is deep-frozen; accidental mutation of `getState()` cannot corrupt DAG history.
+* **Real scannable QR handoff**: QR codes are generated with a real encoder; oversized payloads fall back to copy-link UX.
+* **SessionStorage drafts**: `persist="sessionstorage"` / `data-homura-persist="sessionstorage"` for tab-scoped recovery.
+* **WooCommerce destroy cleanup**: MutationObservers and jQuery hooks are disconnected on form destroy (no listener leaks).
+* **DevTools shortcut gating**: ←/→/Space only while the diagnostic panel is open; playback follows branch-head timeline.
+
+### 🌟 Revolutionary Features (v1.4.0+)
 
 * **📱 Multidevice Time-Travel ("Passaggio di Testimone")**: Generate dynamic QR codes (`[homura_handoff]`) allowing users to scan on desktop and immediately continue typing on mobile with the identical history timeline without registering an account.
 * **👻 Behavioral "Ghost Assist" (Sensory UX)**: Proactively detects mass accidental deletions (>50% of paragraph) and rage-clicks, displaying a non-intrusive recovery toast with 1-click restore.
@@ -69,6 +77,10 @@ Yes! It automatically detects the WooCommerce checkout form, protects against AJ
 4. Visual Copywriting Git Diff and history scrubber.
 
 == Changelog ==
+
+= 1.5.1 =
+* Reliability: frozen immutable snapshots, real QR encoder handoff, sessionStorage drafts, WooCommerce destroy cleanup.
+* Engine: async middleware (`setStateAsync`), silent updates, topology-safe prune, fast-forward merge, DevTools shortcut gating.
 
 = 1.4.0 =
 * Added Multidevice Time-Travel QR Code Handoff (`[homura_handoff]`).

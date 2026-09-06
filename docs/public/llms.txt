@@ -8,54 +8,53 @@ Documentation: https://biagio-scaglia.github.io/homura-js/
 Full AI Knowledge Base: https://biagio-scaglia.github.io/homura-js/llms-full.txt
 npm: https://www.npmjs.com/package/@biagioscaglia/homurajs
 License: MIT
+Version: 1.5.1
 
 ## Overview
 
 HomuraJS is an open-source state management and time-travel history engine that replaces conventional 1D linear undo/redo stacks with a Directed Acyclic Graph (DAG). When a user steps back in history and makes a new modification, HomuraJS preserves all timeline branches instead of permanently destroying future states.
 
 Key capabilities:
-- **Non-Destructive DAG Branching**: Fork alternative timelines, navigate historical states, and reconcile branches via 3-way merge.
-- **Copy-On-Write Proxy Immutability**: Mutate states directly in draft proxies with structural memory sharing.
-- **Deep Structural Diffing**: Calculate exact recursive dot-path differences between any two states in the DAG.
-- **Zero-JS Static Forms & WordPress Crash Recovery**: Auto-bind HTML and WordPress forms to browser storage (LocalStorage/SessionStorage) with zero configuration.
-- **Embedded Diagnostic DevTools**: Standalone GUI with interactive timeline graph, JSON state inspector, and step scrubber.
-- **Zero Dependencies**: Core engine weighs < 5.2 kB gzip.
+- **Non-Destructive DAG Branching**: Fork alternative timelines, navigate historical states, and reconcile branches via 3-way / fast-forward merge.
+- **Frozen Copy-On-Write Immutability**: Mutate drafts via proxies; published snapshots are deep-frozen so `getState()` mutation cannot corrupt history. `silent: true` updates in place without a history node.
+- **Async Middleware**: `setStateAsync` awaits Promise middleware; sync `setState` throws if middleware returns a Promise.
+- **Deep Structural Diffing**: Exact recursive dot-path differences between any two DAG states.
+- **Zero-JS Static Forms & WordPress Crash Recovery**: Auto-bind HTML/WordPress forms to LocalStorage or SessionStorage with real scannable QR handoff.
+- **Embedded Diagnostic DevTools**: Timeline graph, JSON inspector, branch-head playback; keyboard shortcuts only when the panel is open.
+- **Core size**: < 5.2 kB gzip.
 
 ## Monorepo Packages
 
-- `@biagioscaglia/homurajs`: Unified meta-package bundle + standalone browser CDN (`dist/index.global.js`).
-- `@homura-js/core`: Core DAG graph engine, Proxy draft immutability, structural diffing, snapshot registry, persistence, and middleware.
-- `@homura-js/devtools`: Embedded diagnostic UI with visual timeline tree, JSON state inspector, diff viewer, and playback controls.
-- `@homura-js/vanilla`: Frameworkless reactive DOM bindings (`bindState`) and Zero-JS form auto-recovery engine (`bindForm`, `data-homura-form`).
-- `@homura-js/react`: React 18+ hook (`useHomura`) powered by `useSyncExternalStore` with selector optimization.
-- `@homura-js/vue`: Vue 3 Composition API hook (`useHomura`) and plugin.
-- `@homura-js/db`: Versioned embedded database state (SQLite/In-Memory) & Full-Stack forensic correlation between client UI states (#184), network traces, and DB transactions (#52).
+- `@biagioscaglia/homurajs`: Unified meta-package + standalone browser CDN (`dist/index.global.js`).
+- `@homura-js/core`: Core DAG engine, Proxy drafts, deepFreeze, structural diffing, SessionStorageAdapter, middleware (`runAsync`), snapshots.
+- `@homura-js/devtools`: Diagnostic UI with visual timeline, JSON inspector, gated shortcuts, branch-head playback.
+- `@homura-js/vanilla`: `bindState`, `bindForm`, real QR (`uqr`), Ghost Assist, WebCrypto vault, WooCommerce destroy cleanup.
+- `@homura-js/react`: React 18+ `useHomura` via `useSyncExternalStore` (revisioned snapshots for metadata).
+- `@homura-js/vue`: Vue 3 Composition API `useHomura` and plugin.
+- `@homura-js/db`: Versioned SQLite/memory DB state & full-stack forensic correlation.
 
-## WordPress & WooCommerce Integration (v1.3.0)
+## WordPress & WooCommerce Integration (v1.5.1)
 
-HomuraJS provides an official WordPress plugin (`homura-time-travel-form-recovery`) for form crash recovery and time-travel:
-- **Shortcodes**: `[homura_form]`, `[homura_undo]`, `[homura_redo]`, `[homura_status]`, `[homura_breadcrumbs]`, `[homura_recovery_banner]`, `[homura_diff]`, `[homura_debug_export]`, `[homura_clear]`, `[homura_reset]`, `[homura_wizard]`.
-- **Auto-Hooks**: Automatically detects and protects WooCommerce Checkout (`.woocommerce-checkout`), Contact Form 7 (`.wpcf7 form`), WPForms (`.wpforms-form`), Gravity Forms (`.gform_wrapper`), Elementor Forms (`.elementor-form`), Fluent Forms (`.fluentform`), Ninja Forms (`.nf-form-content form`), Formidable Forms (`.frm-show-form`), and WS Form (`.wsf-form`).
-- **AJAX Conflict Recovery**: Protects WooCommerce Checkout from `update_order_review` and dynamic cart recalculation resets.
-- **Sensitive Field Policy**: Strict exclusion of passwords, CVVs, nonces, and `data-homura-sensitive="true"` (PCI-DSS & GDPR safe).
-- **Client-Side Privacy**: 100% client-side storage (LocalStorage/SessionStorage). No external servers or tracking.
-
+Official plugin: `homura-time-travel-form-recovery` on WordPress.org.
+- Shortcodes: `[homura_form]`, `[homura_undo]`, `[homura_redo]`, `[homura_status]`, `[homura_breadcrumbs]`, `[homura_recovery_banner]`, `[homura_diff]`, `[homura_handoff]`, `[homura_ghost_assist]`, `[homura_visual_diff]`, `[homura_debug_export]`, `[homura_clear]`, `[homura_reset]`, `[homura_wizard]`.
+- Auto-hooks: WooCommerce Checkout, Contact Form 7, WPForms, Gravity Forms, Elementor, Fluent Forms, Ninja Forms, Formidable, WS Form.
+- Real QR handoff, Ghost Assist, AES-GCM vault, sessionStorage drafts, WooCommerce AJAX conflict recovery.
+- Sensitive fields excluded (passwords, CVVs, nonces, `data-homura-sensitive`).
 
 ## Zero-JS Static Site Form Usage
 
 ```html
-<!-- Load HomuraJS from CDN -->
 <script src="https://unpkg.com/@biagioscaglia/homurajs/dist/index.global.js"></script>
-
-<!-- Auto-bound form with crash recovery and undo/redo -->
 <form data-homura-form="lead_quote" data-homura-persist="localstorage">
   <span data-homura-status></span>
-  <input type="text" name="name" placeholder="Name" />
-  <input type="email" name="email" placeholder="Email" />
+  <input type="text" name="name" />
+  <input type="email" name="email" />
   <button type="button" data-homura-undo>Undo</button>
   <button type="button" data-homura-redo>Redo</button>
 </form>
 ```
+
+Use `data-homura-persist="sessionstorage"` for tab-scoped drafts.
 
 ## TypeScript Quick Start
 
@@ -66,24 +65,25 @@ const homura = createHomura({
   initialState: { counter: 0, user: { name: 'Homura', role: 'Architect' } }
 });
 
-// Mutate via Copy-On-Write draft proxy
 homura.update(draft => {
   draft.counter += 10;
   draft.user.role = 'Lead';
 }, { label: 'Increment and promote' });
 
-// Time-travel navigation
-homura.undo(); // State reverts to counter: 0
-homura.redo(); // State returns to counter: 10
+// Silent in-place update (no history node)
+homura.update(draft => { draft.counter = 10; }, { silent: true });
 
-// Branching
+// Async middleware path
+await homura.setStateAsync({ counter: 0, user: { name: 'Homura', role: 'Architect' } });
+
+homura.undo();
+homura.redo();
 homura.createBranch('experimental');
-homura.update(draft => { draft.counter = 999; });
 ```
 
 ## Key Links
 
-- [Official WordPress.org Plugin Directory](https://wordpress.org/plugins/homura-time-travel-form-recovery/)
+- [Official WordPress.org Plugin](https://wordpress.org/plugins/homura-time-travel-form-recovery/)
 - [Complete AI Reference (llms-full.txt)](https://biagio-scaglia.github.io/homura-js/llms-full.txt)
 - [Official Website](https://biagio-scaglia.github.io/homura-js/)
 - [GitHub Repository](https://github.com/biagio-scaglia/homura-js)

@@ -12,7 +12,14 @@ Bring Git-like local state history, multidevice QR handoff, sensory Ghost Assist
 
 ---
 
-## 🌟 What's New in v1.4.0
+## 🌟 What's New in v1.5.1
+
+* 🧊 **Frozen immutable history**: published form state cannot be mutated accidentally through shared references.
+* 📱 **Real QR handoff**: scannable QR codes (with copy-link fallback for oversized tokens).
+* 💾 **SessionStorage drafts**: tab-scoped persistence via `persist="sessionstorage"`.
+* 🧹 **WooCommerce destroy cleanup**: no leaked MutationObservers / jQuery hooks after form teardown.
+
+### Also in v1.4.0+
 
 * 📱 **Multidevice Time-Travel ("Passaggio di Testimone" `[homura_handoff]`)**: Generate dynamic client-side SVG QR codes allowing visitors to scan on desktop and immediately continue typing on mobile with the identical history timeline without registering an account.
 * 👻 **Behavioral "Ghost Assist" (Sensory UX `[homura_ghost_assist]`)**: Proactively detects mass accidental deletions (>50% of paragraph) and rage-clicks, displaying a non-intrusive recovery toast with 1-click restore.

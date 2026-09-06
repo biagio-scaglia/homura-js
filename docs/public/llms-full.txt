@@ -2,6 +2,7 @@
 
 > Full Technical Specification, Architecture, Ecosystem Guides, WordPress & Zero-JS Integrations, and API Reference.
 > Engineered by Biagio Scaglia & the HomuraJS Core Team.
+> Version: 1.5.1 (production-hardened)
 > Documentation: https://biagio-scaglia.github.io/homura-js/
 > Source Repository: https://github.com/biagio-scaglia/homura-js
 > Package Registry: https://www.npmjs.com/package/@biagioscaglia/homurajs
@@ -17,7 +18,9 @@ In conventional state libraries (e.g., Redux-Undo, simple undo arrays, browser h
 HomuraJS models application history as a **Directed Acyclic Graph (DAG)** of immutable state snapshots:
 - Every mutation creates a new node in the graph with parent and child links.
 - Rewinding to an earlier state and applying a change creates an **alternative timeline branch** without erasing any existing timeline.
-- Branches can be switched, compared, inspected, and merged via 3-way reconciliation algorithms.
+- Branches can be switched, compared, inspected, and merged via 3-way or fast-forward reconciliation.
+- Published snapshots are **deep-frozen**; accidental mutation of `getState()` throws instead of corrupting history.
+- `update(..., { silent: true })` applies in-place without a history node; `setStateAsync` awaits Promise middleware.
 - Memory usage is minimized using **Copy-On-Write structural sharing** via JavaScript Proxies.
 
 ---
@@ -30,12 +33,15 @@ HomuraJS is structured as a high-performance monorepo:
 The zero-dependency core engine:
 - Graph node registry and DAG traversal algorithms (ancestors, descendants, branch heads).
 - Copy-On-Write draft proxy engine for intuitive mutable syntax (`update(draft => { draft.x = 1; })`).
-- Deep recursive structural diff engine (`diff(nodeA, nodeB)`).
+- Deep-frozen published snapshots (`deepFreeze`); draft creation is safe against frozen bases.
+- Silent updates (`silent: true`) and async middleware via `setStateAsync` / `MiddlewarePipeline.runAsync`.
+- Deep recursive structural diff engine (`diff(nodeA, nodeB)`); array removals apply high→low indexes.
 - Snapshot registry and milestone bookmarking.
-- Persistence adapters (LocalStorage, SessionStorage, IndexedDB, Custom).
-- Event emitter (`state:change`, `node:add`, `branch:create`, `branch:switch`, `branch:merge`, `undo`, `redo`).
-- History compaction and node pruning (`compact()`, `pruneHistory()`).
+- Persistence adapters (LocalStorage, SessionStorage, IndexedDB, Custom); persistence errors rethrow (auto-save catches locally).
+- Event emitter (`state:change`, `node:add`, `branch:create`, `branch:switch`, `branch:merge`, `undo`, `redo`); cancelled transactions do not emit `transaction:commit`.
+- History compaction and topology-safe prune (`compact()`, `prune()`).
 - Step-by-step automated timeline playback (`replay()`).
+- Fast-forward and manual merge with required resolver when conflicts exist.
 
 ### `@homura-js/devtools` (< 9.4 kB gzipped)
 Standalone diagnostic UI and scrubber:
@@ -142,13 +148,15 @@ Any static website (Webflow, Squarespace, Shopify, Astro, Hugo, 11ty, Plain HTML
 
 ---
 
-## 5. WordPress & WooCommerce Plugin Integration (v1.3.0)
+## 5. WordPress & WooCommerce Plugin Integration (v1.5.1)
 
 Official WordPress.org Plugin: `homura-time-travel-form-recovery` (https://wordpress.org/plugins/homura-time-travel-form-recovery/)
 
 ### Capabilities & Architecture:
 - **Zero-Data-Loss Form Protection**: Real-time client-side DAG state tracking in LocalStorage / SessionStorage.
-- **WooCommerce AJAX Conflict Recovery**: Automatically listens for `update_order_review` and dynamic cart changes in WooCommerce Checkout (`.woocommerce-checkout`), restoring fields wiped by AJAX re-renders.
+- **Real QR Mobile Handoff**: Scannable QR via `uqr`; oversized tokens fall back to copy-link UX (`[homura_handoff]`).
+- **Ghost Assist & AES-GCM Vault**: Sensory mass-delete recovery and optional WebCrypto encryption.
+- **WooCommerce AJAX Conflict Recovery**: Restores fields wiped by `update_order_review` / cart recalculation; destroy cleans MutationObservers and jQuery hooks.
 - **State Diff Engine (`[homura_diff]`)**: Visual modal comparison between current form DOM values and saved drafts.
 - **Smart Recovery Banner (`[homura_recovery_banner]`)**: Interactive prompt allowing visitors to restore drafts, inspect differences, or dismiss previous sessions.
 - **Sensitive Field Policy**: Strict exclusion of passwords, CVVs, credit card numbers, payment nonces, and inputs tagged with `data-homura-sensitive="true"` or `data-homura-persist="false"` (GDPR and PCI-DSS compliant).
@@ -163,6 +171,9 @@ Official WordPress.org Plugin: `homura-time-travel-form-recovery` (https://wordp
 - `[homura_breadcrumbs form="form_id"]`
 - `[homura_recovery_banner form="form_id"]`
 - `[homura_diff form="form_id" label="🔍 View Changes"]`
+- `[homura_handoff form="form_id"]`
+- `[homura_ghost_assist form="form_id"]`
+- `[homura_visual_diff form="form_id"]`
 - `[homura_clear form="form_id" label="🗑️ Clear Draft"]`
 - `[homura_reset form="form_id" label="🗑️ Reset"]`
 - `[homura_debug_export form="form_id" label="🛠️ Export Debug JSON"]`

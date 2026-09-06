@@ -4,7 +4,7 @@
   <img src="https://raw.githubusercontent.com/biagio-scaglia/homura-js/main/assets/homura-banner.png" alt="HomuraJS — Reproducible State History Across the Full Stack" width="100%" />
 </p>
 
-[![CI Tests](https://img.shields.io/badge/tests-72%2F72%20passed-7c3aed)](https://github.com/biagio-scaglia/homura-js)
+[![CI Tests](https://img.shields.io/badge/tests-111%2F111%20passed-7c3aed)](https://github.com/biagio-scaglia/homura-js)
 [![Version](https://img.shields.io/badge/version-v1.5.1-9333ea)](https://www.npmjs.com/package/@biagioscaglia/homurajs)
 [![WordPress](https://img.shields.io/badge/WordPress.org-Plugin%20v1.5.1-3858e9)](https://wordpress.org/plugins/homura-time-travel-form-recovery/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Strict%20Mode-581c87)](https://www.typescriptlang.org/)
@@ -12,7 +12,7 @@
 [![NPM](https://img.shields.io/badge/npm-%40biagioscaglia%2Fhomurajs-a855f7)](https://www.npmjs.com/package/@biagioscaglia/homurajs)
 
 **Reproducible state history across the full stack.**
-Non-destructive DAG branching, multidevice QR handoff, sensory Ghost Assist, WebCrypto 256-bit vault, visual copywriting diff, forensic bug reporting (`.homura`), zero-JS form recovery, and versioned database state.
+Production-hardened DAG branching, frozen immutable snapshots, real QR mobile handoff, sessionStorage drafts, async middleware (`setStateAsync`), sensory Ghost Assist, WebCrypto 256-bit vault, forensic bug reporting (`.homura`), zero-JS form recovery, and versioned database state.
 
 [Documentation Portal](https://biagio-scaglia.github.io/homura-js/) &nbsp;•&nbsp; [GitHub Repository](https://github.com/biagio-scaglia/homura-js) &nbsp;•&nbsp; [Official WordPress Plugin](https://wordpress.org/plugins/homura-time-travel-form-recovery/)
 
@@ -127,6 +127,13 @@ homura.update(draft => {
   draft.counter += 10;
 }, { label: 'Increment counter by 10' });
 
+// Frozen snapshots: mutating getState() throws
+// Silent in-place update (no DAG node):
+homura.update(draft => { draft.counter = 10; }, { silent: true });
+
+// Await async middleware:
+// await homura.setStateAsync({ counter: 0, user: 'Homura' });
+
 // Time travel
 homura.undo(); // Counter reverts to 0
 homura.redo(); // Counter returns to 10
@@ -227,9 +234,11 @@ Turn any static HTML form (Webflow, Shopify, Squarespace, Static HTML) into a cr
 </form>
 ```
 
+Prefer `data-homura-persist="sessionstorage"` when drafts should clear when the tab closes. QR handoff embeds a real scannable QR (`uqr`); oversized payloads fall back to copy-link UX.
+
 ---
 
-## 9. WordPress & WooCommerce Integration (v1.3.0)
+## 9. WordPress & WooCommerce Integration (v1.5.1)
 
 HomuraJS provides an official WordPress plugin located in [`examples/wordpress-plugin`](examples/wordpress-plugin/) and hosted on the [WordPress.org Plugin Directory](https://wordpress.org/plugins/homura-time-travel-form-recovery/):
 

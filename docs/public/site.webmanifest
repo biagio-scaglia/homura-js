@@ -1,7 +1,7 @@
 {
   "name": "HomuraJS — Time Travel State Engine",
   "short_name": "HomuraJS",
-  "description": "Time Travel State & DAG History Engine for JavaScript",
+  "description": "Production-hardened Time Travel State & DAG History Engine for JavaScript, React, Vue, and WordPress",
   "start_url": "/homura-js/",
   "scope": "/homura-js/",
   "display": "standalone",
